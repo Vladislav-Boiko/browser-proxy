@@ -13,6 +13,10 @@ build() {
     mkdir -p dist
     cp -r build/* dist
 
+    sed '/PLACEHOLDER/{
+        s/PLACEHOLDER//g
+        r dist/src/content_injected.js
+    }' src/content/content.template.js > dist/src/content.js
     mv dist/index.html dist/popup.html
 }
 
