@@ -3,9 +3,25 @@
   "name": "Browser Proxy",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "TODO: add description",
+  "description": "TODO: add a description",
   "browser_action": {
     "default_icon": "logo512.png",
     "default_popup": "popup.html"
-  }
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "all_frames" : true,
+      "match_about_blank": true,
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content.js"
+      ]
+    }
+  ]
 }

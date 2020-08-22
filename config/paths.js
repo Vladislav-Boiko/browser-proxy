@@ -8,6 +8,8 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const resolvePopup = relativePath => path.resolve(appDirectory, 'src', 'popup', relativePath);
+const resolveContent = relativePath => path.resolve(appDirectory, 'src', 'content', relativePath);
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -54,8 +56,9 @@ module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  popupHtml: resolveApp('public/index.html'),
+  popupIndexJs: resolveModule(resolvePopup, 'index'),
+  contentIndexJs: resolveModule(resolveContent, 'content'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
