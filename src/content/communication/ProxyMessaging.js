@@ -14,7 +14,7 @@ class ProxyCommunication extends Communication {
   }
 
   send(message) {
-    const destination = `${window.location.protocol}//${window.location.hostname}`;
+    const destination = `${window.location.origin}`;
     // TODO: a better way to distinguish messages
     window.postMessage(
       { ...message, sender: "browser-proxy-web-script" },

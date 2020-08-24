@@ -13,10 +13,10 @@ build() {
     mkdir -p dist
     cp -r build/* dist
 
-    sed '/PLACEHOLDER/{
-        s/PLACEHOLDER//g
-        r dist/src/content_injected.js
-    }' src/content/content.template.js > dist/src/content.js
+    # TODO: let wepack do all that.
+    sed -e "s/\"PLACEHOLDER\"/\`$(sed 's:[/\\&]:\\&:g' dist/src/injected.js)\`/" dist/src/content_template.js > dist/src/content.js
+    rm -f dist/src/content_template.js dist/src/injected.js
+
     mv dist/index.html dist/popup.html
 }
 
