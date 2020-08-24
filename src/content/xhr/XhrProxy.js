@@ -1,12 +1,37 @@
 import messaging from "../communication/ProxyMessaging";
+import { v4 as uuid } from "uuid";
 import EVENTS from "../communication/events";
+
+const trackXhr = (requestPayload, xhr) => {
+  const id = uuid();
+  messaging.emit(EVENTS.XHR_SENT, {
+    ...requestPayload,
+    id,
+  });
+  xhr.addEventListener("readystatechange", () => {
+    messaging.emit(EVENTS.XHR_STATE_CHANGED, {
+      id,
+      readyState: xhr.readyState,
+      response: xhr.response,
+      responseType: xhr.responseType,
+    });
+  });
+  xhr.addEventListener("loadend", () => {
+    messaging.emit(EVENTS.XHR_LOADED, {
+      id,
+      isLoaeded: true,
+    });
+  });
+  xhr.addEventListener("progress", ({ loaded, total }) => {
+    messaging.emit(EVENTS.XHR_PROGRESS, {
+      id,
+      progress: { loaded, total },
+    });
+  });
+};
 
 class XhrProxy {
   openArguments = null;
-
-  constructor(xhr) {
-    this.xhr = xhr;
-  }
 
   open(realOpen) {
     let self = this;
@@ -22,13 +47,10 @@ class XhrProxy {
   }
 
   send(realSend) {
-    let self = this;
+    const { openArguments } = this;
     return new Proxy(realSend, {
       apply(target, thisArg, argumentsList) {
-        messaging.emit(EVENTS.REQUEST, {
-          ...self.openArguments,
-          body: argumentsList[0],
-        });
+        trackXhr({ ...openArguments, body: argumentsList[0] }, thisArg);
         Reflect.apply(target, thisArg, argumentsList);
       },
     });
@@ -36,8 +58,7 @@ class XhrProxy {
 }
 
 const proxyXhr = (xhr) => {
-  const xhrProxy = new XhrProxy(xhr);
-  xhr.xhrProxy = xhrProxy;
+  const xhrProxy = new XhrProxy();
   return new Proxy(xhr, {
     get(target, property, receiver) {
       let value = Reflect.get(target, property);

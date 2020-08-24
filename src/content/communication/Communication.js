@@ -12,11 +12,19 @@ export default class Communication {
     }
   }
 
-  subscribe(eventType, listener) {
+  subscribeSingle(eventType, listener) {
     if (!this.listeners[eventType]) {
       this.listeners[eventType] = [];
     }
     this.listeners[eventType].push(listener);
+  }
+
+  subscribe(eventType, listener) {
+    if (Array.isArray(eventType)) {
+      eventType.forEach((event) => this.subscribeSingle(event, listener));
+    } else {
+      this.subscribeSingle(eventType, listener);
+    }
   }
 
   emit(eventType, payload) {
