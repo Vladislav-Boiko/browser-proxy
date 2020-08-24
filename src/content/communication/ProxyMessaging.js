@@ -8,7 +8,14 @@ class ProxyCommunication extends Communication {
     super();
     window.addEventListener(
       "message",
-      (event) => this.onMessage(event?.data),
+      (event) => {
+        if (
+          event?.data?.sender &&
+          event?.data?.sender === "browser-proxy-web-script"
+        ) {
+          this.onMessage(event.data);
+        }
+      },
       false
     );
   }

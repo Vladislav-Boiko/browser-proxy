@@ -6,7 +6,7 @@ export default class Communication {
 
   onMessage(message) {
     if (message?.type && message?.type in this.listeners) {
-      this.listeners[message?.type].array.forEach((callback) =>
+      this.listeners[message?.type].forEach((callback) =>
         callback(message?.payload)
       );
     }
