@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 //import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "./communication/withPage";
 
 function App() {
   return (
     <div className="App">
-     <h1>Browser Proxy!</h1>
+      <h1>Browser Proxy!</h1>
     </div>
   );
 }

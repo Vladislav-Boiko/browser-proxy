@@ -1,9 +1,9 @@
-import Communication from "./Communication";
+import Messaging from "../../common/communication/Messaging";
 
 // The injected js on the page, that has access to the wnidow xhr objects, has no
 // access to the chrome messaging api.
 // TODO: security
-class ProxyCommunication extends Communication {
+class ProxyMessaging extends Messaging {
   constructor() {
     super();
     window.addEventListener(
@@ -30,4 +30,4 @@ class ProxyCommunication extends Communication {
   }
 }
 
-export default new ProxyCommunication();
+export default new ProxyMessaging();

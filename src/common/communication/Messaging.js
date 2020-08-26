@@ -1,5 +1,5 @@
 // Abstract, needs sendMessage implemented.
-export default class Communication {
+export default class Messaging {
   listeners = {};
 
   sendMessage = null;

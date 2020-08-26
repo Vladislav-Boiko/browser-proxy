@@ -1,8 +1,6 @@
-import Communication from "./Communication";
+import Messaging from "./Messaging";
 
-import Communication from "./Communication";
-
-class PluginCommunication extends Communication {
+class PluginMessaging extends Messaging {
   constructor() {
     super();
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) =>
@@ -15,4 +13,4 @@ class PluginCommunication extends Communication {
   }
 }
 
-export default new PluginCommunication();
+export default new PluginMessaging();
