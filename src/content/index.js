@@ -4,7 +4,13 @@ import proxyMessaging from "./communication/ProxyMessaging";
 import pluginMessaging from "./communication/PluginMessaging";
 import { v4 as uuid } from "uuid";
 
-const { XHR_SENT, XHR_STATE_CHANGED, XHR_PROGRESS, XHR_LOADED } = PROXY_EVENTS;
+const {
+  XHR_SENT,
+  XHR_STATE_CHANGED,
+  XHR_PROGRESS,
+  XHR_LOADED,
+  FETCH_SENT,
+} = PROXY_EVENTS;
 const { REQUESTS_UPDATED, ASK_REQUESTS } = PLUGIN_EVENTS;
 
 const WINDOW_UUID = uuid();
@@ -13,7 +19,7 @@ const WINDOW_UUID = uuid();
 if (document.documentElement.nodeName === "HTML") {
   let requests = [];
 
-  proxyMessaging.subscribe(XHR_SENT, (message) => {
+  proxyMessaging.subscribe([XHR_SENT, FETCH_SENT], (message) => {
     requests.push(message);
     pluginMessaging.emit(REQUESTS_UPDATED, {
       [WINDOW_UUID]: requests,
