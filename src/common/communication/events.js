@@ -1,3 +1,4 @@
 export default {
   REQUESTS_UPDATED: "REQUESTS_UPDATED",
+  ASK_REQUESTS: "ASK_REQUESTS",
 };

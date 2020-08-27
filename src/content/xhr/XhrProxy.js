@@ -20,6 +20,7 @@ const trackXhr = (requestPayload, xhr) => {
     messaging.emit(EVENTS.XHR_LOADED, {
       id,
       isLoaeded: true,
+      status: xhr.status,
     });
   });
   xhr.addEventListener("progress", ({ loaded, total }) => {

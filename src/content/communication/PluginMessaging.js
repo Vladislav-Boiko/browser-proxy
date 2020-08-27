@@ -1,11 +1,11 @@
-import Messaging from "./Messaging";
+import Messaging from "../../common/communication/Messaging";
 
 class PluginMessaging extends Messaging {
   constructor() {
     super();
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) =>
-      this.onMessage(message)
-    );
+    chrome.runtime.onMessage.addListener((message) => {
+      this.onMessage(message);
+    });
   }
 
   send(message) {
