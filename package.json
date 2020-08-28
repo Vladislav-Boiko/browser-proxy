@@ -69,7 +69,9 @@
     "start": "node scripts/start.js",
     "build": "./scripts/build.sh",
     "clean": "rm -rf dist/ build/",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": [
@@ -145,5 +147,12 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.0.20",
+    "@storybook/addon-essentials": "^6.0.20",
+    "@storybook/addon-links": "^6.0.20",
+    "@storybook/react": "^6.0.20",
+    "react-is": "^16.13.1"
   }
 }
