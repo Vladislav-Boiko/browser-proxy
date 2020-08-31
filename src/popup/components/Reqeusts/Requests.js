@@ -3,7 +3,8 @@ import Request from "../Request/Request";
 import { connect } from "react-redux";
 import { getAllRequests } from "../../redux/selectors";
 
-const Requests = ({ requests }) => (
+import "./Requests.css";
+export const Requests = ({ requests }) => (
   <ul>
     {requests.map(({ method, url, status }) => (
       <li>

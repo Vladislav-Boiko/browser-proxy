@@ -1,0 +1,16 @@
+.request {
+  display: grid;
+  grid-template-columns: 5rem minmax(200px, 1fr) 5rem;
+  column-gap: 1rem;
+  font-size: 16px;
+}
+
+.url {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.status {
+  text-align: end;
+}
