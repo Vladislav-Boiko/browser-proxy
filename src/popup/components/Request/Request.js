@@ -1,4 +1,5 @@
 import React from "react";
+import { ReactComponent as Arrow } from "./arrow.svg";
 import "./Request.css";
 
 const formatUrlPreview = (url) => {
@@ -10,13 +11,14 @@ const formatUrlPreview = (url) => {
 };
 
 const Request = ({ method, url, status }) => (
-  <div className="request">
+  <button className="request">
     <span>{method && method.toUpperCase()}</span>
     <span title={url} className="url">
       {formatUrlPreview(url)}
     </span>
     <span className="status">{status}</span>
-  </div>
+    <Arrow className="arrow" />
+  </button>
 );
 
 export default Request;

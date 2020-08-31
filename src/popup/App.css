@@ -1,0 +1,8 @@
+.app {
+  min-width: 320px;
+  color: #fafafa;
+}
+
+.app h1 {
+  margin: 1rem;
+}
