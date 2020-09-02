@@ -5,7 +5,15 @@ import "./RequestResult.css";
 const Response = ({ response }) => {
   try {
     const asJson = JSON.parse(response);
-    return <ReactJson src={asJson} />;
+    return (
+      <ReactJson
+        src={asJson}
+        iconStyle="square"
+        collapseStringsAfterLength="15"
+        enableClipboard="true"
+        collapsed="true"
+      />
+    );
   } catch (e) {
     return <span className="response-text">{response}</span>;
   }
@@ -14,6 +22,7 @@ const Response = ({ response }) => {
 const RequestBody = ({ response }) => (
   <div className="request-body">
     <div className="request-content">
+      <h3>Response</h3>
       <div className="response">
         <Response response={response} />
       </div>

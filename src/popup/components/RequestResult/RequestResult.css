@@ -15,6 +15,9 @@
   margin-bottom: 1rem;
   display: inline-block;
   min-width: 40%;
+  font-family: monospace;
+  line-height: 1rem;
+  font-size: 1rem;
 }
 
 .override {
@@ -39,4 +42,10 @@
 .response-text {
   color: #000;
   word-break: break-all;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #000;
 }

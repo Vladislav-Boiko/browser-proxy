@@ -11,7 +11,8 @@ function App() {
   return (
     <Provider store={store}>
       <div className="app">
-        <h1>Browser Proxy</h1>
+        {/* TODO: menu */}
+        <h2>Requests</h2>
         <Requests />
       </div>
     </Provider>
