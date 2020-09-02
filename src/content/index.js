@@ -10,6 +10,7 @@ const {
   XHR_PROGRESS,
   XHR_LOADED,
   FETCH_SENT,
+  FETCH_STATE_CHANGED,
 } = PROXY_EVENTS;
 const { REQUESTS_UPDATED, ASK_REQUESTS } = PLUGIN_EVENTS;
 
@@ -27,7 +28,7 @@ if (document.documentElement.nodeName === "HTML") {
   });
 
   proxyMessaging.subscribe(
-    [XHR_STATE_CHANGED, XHR_PROGRESS, XHR_LOADED],
+    [XHR_STATE_CHANGED, XHR_PROGRESS, XHR_LOADED, FETCH_STATE_CHANGED],
     (message) => {
       const request = requests.find(({ id }) => id === message.id);
       if (request) {

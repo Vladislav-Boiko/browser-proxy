@@ -49,3 +49,7 @@ h3 {
   font-weight: normal;
   color: #000;
 }
+
+.empty-response {
+  color: #333;
+}

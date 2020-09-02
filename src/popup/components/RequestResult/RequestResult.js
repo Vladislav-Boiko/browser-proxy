@@ -3,8 +3,12 @@ import ReactJson from "react-json-view";
 import "./RequestResult.css";
 
 const Response = ({ response }) => {
+  if (!response) {
+    return <span className="empty-response">Empty response</span>;
+  }
   try {
     const asJson = JSON.parse(response);
+    console.log(asJson);
     return (
       <ReactJson
         src={asJson}
