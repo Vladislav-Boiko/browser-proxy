@@ -3,14 +3,21 @@
   grid-template-columns: 5rem minmax(200px, 1fr) 5rem 2rem;
   column-gap: 1rem;
   font-size: 16px;
-  background-color: #e1efe6;
+  background-color: #fff;
+  color: #000;
   border: none;
   font-family: "Nunito";
   cursor: pointer;
   padding: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem 0.75rem;
   border-radius: 5px;
+}
+
+.request.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: #e0ebf3;
 }
 
 .url {
@@ -26,4 +33,9 @@
 .arrow {
   align-self: center;
   width: 16px;
+  transition: all 0.3s;
+}
+
+.request.open .arrow {
+  transform: rotate(180deg);
 }

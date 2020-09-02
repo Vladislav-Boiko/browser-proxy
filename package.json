@@ -153,6 +153,8 @@
     "@storybook/addon-essentials": "^6.0.20",
     "@storybook/addon-links": "^6.0.20",
     "@storybook/react": "^6.0.20",
-    "react-is": "^16.13.1"
+    "classnames": "^2.2.6",
+    "react-is": "^16.13.1",
+    "react-json-view": "^1.19.1"
   }
 }

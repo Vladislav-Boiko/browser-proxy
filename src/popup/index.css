@@ -3,10 +3,15 @@
 
 body {
   margin: 0;
-  font-family: "Nunito";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000411;
+  background-color: #001f36;
+}
+
+body,
+button,
+a {
+  font-family: "Nunito";
 }
 
 code {

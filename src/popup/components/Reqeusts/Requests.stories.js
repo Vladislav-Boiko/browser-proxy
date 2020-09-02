@@ -15,11 +15,13 @@ const requests = [
     method: "GET",
     url: "http://yandex.ru",
     status: "200",
+    response: '{ "key": "value" }',
   },
   {
     method: "POST",
     url: "http://google.com",
     status: "200",
+    response: '[{"test":123},{"nested":{"child":"value"}}]',
   },
   {
     method: "PUT",
