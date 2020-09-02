@@ -8,18 +8,24 @@ const Response = ({ response }) => {
   }
   try {
     const asJson = JSON.parse(response);
-    console.log(asJson);
     return (
       <ReactJson
         src={asJson}
         iconStyle="square"
         collapseStringsAfterLength="15"
-        enableClipboard="true"
-        collapsed="true"
+        collapsed={true}
+        name={false}
       />
     );
   } catch (e) {
-    return <span className="response-text">{response}</span>;
+    // TODO: preview for array buffers and etc.
+    return (
+      <span className="response-text">
+        {typeof response === "string"
+          ? response
+          : "Not supported response type"}
+      </span>
+    );
   }
 };
 

@@ -33,6 +33,11 @@ const serializeRequest = ({
   bodyUsed,
 });
 
+const serializeOptions = (options = {}) => ({
+  ...options,
+  signal: null,
+});
+
 const startTracking = (argumentsList) => {
   const id = uuid();
   const payload =
@@ -45,7 +50,7 @@ const startTracking = (argumentsList) => {
   messaging.emit(EVENTS.FETCH_SENT, {
     id,
     ...payload,
-    ...(argumentsList[1] || {}),
+    ...serializeOptions(argumentsList[1]),
   });
   return id;
 };
