@@ -6,9 +6,10 @@ export default (window) => {
     apply(target, thisArg, argumentsList) {
       messaging.emit(EVENTS.FETCH_SENT, {
         url: argumentsList[0],
+        method: "GET",
         ...(argumentsList[1] || {}),
       });
-      return Reflect.apply(target, thisArg, argumentsList);
+      return Reflect.apply(target, window, argumentsList);
     },
   });
 };
