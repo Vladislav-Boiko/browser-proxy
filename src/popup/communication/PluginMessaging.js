@@ -7,9 +7,11 @@ class PluginMessaging extends Messaging {
   }
 
   send(message) {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) =>
-      chrome.tabs.sendMessage(tabs[0].id, message)
-    );
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (typeof chrome.app.isInstalled !== "undefined") {
+        chrome.tabs.sendMessage(tabs[0].id, message);
+      }
+    });
   }
 }
 
