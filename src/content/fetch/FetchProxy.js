@@ -55,13 +55,12 @@ const startTracking = (argumentsList) => {
   return id;
 };
 
-const finishTracking = async (id, response) => {
+const finishTracking = async (id, response) =>
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
     status: response.status,
     response: await response.text(),
   });
-};
 
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
@@ -71,7 +70,7 @@ export default (window) => {
       return new Promise((resolve, reject) => {
         fetchResponse
           .then((response) => {
-            finishTracking(id, response);
+            finishTracking(id, response.clone());
             return resolve(response);
           })
           .catch((error) => reject(error));
