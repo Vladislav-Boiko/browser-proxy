@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Requests } from "./Requests";
+import { RequestsList } from "./RequestsList";
 
 export default {
-  title: "Requests",
-  component: Requests,
+  title: "RequestsList",
+  component: RequestsList,
 };
 
-const Template = (args) => <Requests {...args} />;
+const Template = (args) => <RequestsList {...args} />;
 
 export const Story = Template.bind({});
 const requests = [

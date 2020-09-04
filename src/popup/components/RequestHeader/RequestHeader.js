@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { ReactComponent as Arrow } from "./arrow.svg";
-import "./Request.css";
+import "./RequestHeader.css";
 
 const formatUrlPreview = (url) => {
   const splitted = url.split("?");
@@ -9,7 +9,7 @@ const formatUrlPreview = (url) => {
   return splitted.join("");
 };
 
-const Request = ({ method, url, status, isOpen, open }) => (
+const RequestHeader = ({ method, url, status, isOpen, open }) => (
   <button className={cn("request", { open: isOpen })} onClick={open}>
     <span>{method && method.toUpperCase()}</span>
     <span title={url} className="url">
@@ -20,4 +20,4 @@ const Request = ({ method, url, status, isOpen, open }) => (
   </button>
 );
 
-export default Request;
+export default RequestHeader;

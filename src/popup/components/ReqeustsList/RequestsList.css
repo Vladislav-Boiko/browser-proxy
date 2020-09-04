@@ -1,0 +1,20 @@
+ul {
+  padding: 1rem;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+li + li {
+  margin-top: 1rem;
+}
+
+.no-content {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  color: #8888aa;
+  font-weight: 600;
+}

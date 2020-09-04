@@ -1,13 +1,13 @@
 import React from "react";
 
-import Request from "./Request";
+import RequestHeader from "./RequestHeader";
 
 export default {
-  title: "Request",
-  component: Request,
+  title: "RequestHeader",
+  component: RequestHeader,
 };
 
-const Template = (args) => <Request {...args} />;
+const Template = (args) => <RequestHeader {...args} />;
 
 export const Story = Template.bind({});
 Story.args = {

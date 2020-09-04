@@ -12,7 +12,7 @@ const {
   FETCH_SENT,
   FETCH_STATE_CHANGED,
 } = PROXY_EVENTS;
-const { REQUESTS_UPDATED, ASK_REQUESTS } = PLUGIN_EVENTS;
+const { REQUESTS_UPDATED, ASK_REQUESTS, UNLOAD_WINDOW } = PLUGIN_EVENTS;
 
 const WINDOW_UUID = uuid();
 
@@ -45,6 +45,12 @@ if (document.documentElement.nodeName === "HTML") {
       [WINDOW_UUID]: requests,
     })
   );
+
+  window.onbeforeunload = () => {
+    pluginMessaging.emit(UNLOAD_WINDOW, {
+      [WINDOW_UUID]: [],
+    });
+  };
 
   const code = "PLACEHOLDER";
   // We have to inject the code, as the content script cannot set the xhr of page window.

@@ -1,5 +1,6 @@
 .app {
-  min-width: 320px;
+  min-width: 480px;
+  min-height: 480px;
   color: #fafafa;
 }
 

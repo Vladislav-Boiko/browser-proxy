@@ -5,7 +5,7 @@ import "./App.css";
 import "./communication/withPage";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Requests from "./components/Reqeusts/Requests";
+import RequestsList from "./components/ReqeustsList/RequestsList";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <div className="app">
         {/* TODO: menu */}
         <h2>Requests</h2>
-        <Requests />
+        <RequestsList />
       </div>
     </Provider>
   );
