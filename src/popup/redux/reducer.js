@@ -4,6 +4,8 @@ import { TOGGLE_REQUEST } from "./actions";
 const initialState = {
   requests: {},
   requestsList: {},
+  overrides: {},
+  overridesOpen: {},
 };
 
 export default (state = initialState, action) => {

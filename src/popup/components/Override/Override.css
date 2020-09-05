@@ -1,0 +1,31 @@
+.override {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  color: #000;
+}
+
+.method {
+  grid-column: 1 / 2;
+  align-self: center;
+}
+
+.url-input {
+  grid-column: 2 / 7;
+  padding: 0.5rem;
+}
+
+.response-input {
+  grid-column: 1 / 7;
+  padding: 0.5rem;
+}
+
+.cancel-button {
+  grid-column: 5 / 6;
+}
+.save-button {
+  grid-column: 6 / 7;
+}

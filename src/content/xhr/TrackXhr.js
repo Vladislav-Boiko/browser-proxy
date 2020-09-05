@@ -4,10 +4,12 @@ import EVENTS from "../communication/events";
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();
+  const timestamp = Date.now();
 
   messaging.emit(EVENTS.XHR_SENT, {
     ...requestPayload,
     id,
+    timestamp,
   });
 
   xhr.addEventListener("readystatechange", () => {

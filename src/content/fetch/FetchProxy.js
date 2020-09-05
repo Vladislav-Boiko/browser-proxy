@@ -40,6 +40,7 @@ const serializeOptions = (options = {}) => ({
 
 const startTracking = (argumentsList) => {
   const id = uuid();
+  const timestamp = Date.now();
   const payload =
     typeof argumentsList[0] === "object"
       ? serializeRequest(argumentsList[0])
@@ -49,6 +50,7 @@ const startTracking = (argumentsList) => {
         };
   messaging.emit(EVENTS.FETCH_SENT, {
     id,
+    timestamp,
     ...payload,
     ...serializeOptions(argumentsList[1]),
   });

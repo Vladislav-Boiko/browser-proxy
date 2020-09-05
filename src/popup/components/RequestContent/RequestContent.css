@@ -20,7 +20,7 @@
   font-size: 1rem;
 }
 
-.override {
+.override-button {
   background-color: transparent;
   border: 2px solid #001f36;
   border-radius: 3px;
@@ -33,7 +33,7 @@
   float: right;
 }
 
-.override:hover {
+.override-button:hover {
   color: #fafafa;
   background-color: #001f36;
   border-color: #001f36;
@@ -45,8 +45,6 @@
 }
 
 h3 {
-  font-size: 20px;
-  font-weight: normal;
   color: #000;
 }
 
