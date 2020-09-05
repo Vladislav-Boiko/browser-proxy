@@ -1,6 +1,6 @@
-import messaging from "../communication/ProxyMessaging";
+import messaging from "../../common/communication/injected/ProxyMessaging";
 import { v4 as uuid } from "uuid";
-import EVENTS from "../communication/events";
+import EVENTS from "../../common/communication/injected/events";
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();

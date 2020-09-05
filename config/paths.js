@@ -12,6 +12,8 @@ const resolvePopup = (relativePath) =>
   path.resolve(appDirectory, "src", "popup", relativePath);
 const resolveContent = (relativePath) =>
   path.resolve(appDirectory, "src", "content", relativePath);
+const resolveInjected = (relativePath) =>
+  path.resolve(appDirectory, "src", "injected", relativePath);
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -60,7 +62,7 @@ module.exports = {
   appPublic: resolveApp("public"),
   popupHtml: resolveApp("public/index.html"),
   popupIndexJs: resolveModule(resolvePopup, "index"),
-  contentInjectedJs: resolveModule(resolveContent, "injected"),
+  injectedIndexJs: resolveModule(resolveInjected, "index"),
   contentIndexJs: resolveModule(resolveContent, "index"),
   appPackageJson: resolveApp("package.json"),
   appSrc: resolveApp("src"),

@@ -1,5 +1,6 @@
 import { evolve } from "immutableql";
-import { TOGGLE_REQUEST } from "./actions";
+import { TOGGLE_REQUEST, SAVE_OVERRIDE } from "./actions";
+import storage from "../../common/storage/OverridesStorage";
 
 const initialState = {
   requests: {},
@@ -10,6 +11,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SAVE_OVERRIDE: {
+      const { id, payload } = action.payload;
+      storage.update(id, payload);
+      return evolve(state, { overrides: { id: payload } });
+    }
     case TOGGLE_REQUEST: {
       return evolve(state, {
         requestsList: {

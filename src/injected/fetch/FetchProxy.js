@@ -1,5 +1,5 @@
-import messaging from "../communication/ProxyMessaging";
-import EVENTS from "../communication/events";
+import messaging from "../../common/communication/injected/ProxyMessaging";
+import EVENTS from "../../common/communication/injected/events";
 import { v4 as uuid } from "uuid";
 
 //TODO: change

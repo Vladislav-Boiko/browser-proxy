@@ -1,4 +1,4 @@
-import Messaging from "../../common/communication/Messaging";
+import Messaging from "../Messaging";
 
 // The injected js on the page, that has access to the wnidow xhr objects, has no
 // access to the chrome messaging api.
@@ -10,6 +10,7 @@ class ProxyMessaging extends Messaging {
       "message",
       (event) => {
         if (
+          event.origin === window.location.origin &&
           event?.data?.sender &&
           event?.data?.sender === "browser-proxy-web-script"
         ) {
@@ -20,13 +21,20 @@ class ProxyMessaging extends Messaging {
     );
   }
 
+  // TODO: a better way to distinguish messages
   send(message) {
-    const destination = `${window.location.origin}`;
-    // TODO: a better way to distinguish messages
-    window.postMessage(
-      { ...message, sender: "browser-proxy-web-script" },
-      destination
-    );
+    const destination = window.location.origin;
+    // TODO: test it works with file:// protocol
+    if (destination) {
+      try {
+        window.postMessage(
+          { ...message, sender: "browser-proxy-web-script" },
+          destination
+        );
+      } catch (e) {
+        // do nothing, we cannot override what we cannot track
+      }
+    }
   }
 }
 

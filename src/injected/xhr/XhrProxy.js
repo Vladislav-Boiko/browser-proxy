@@ -1,7 +1,10 @@
 import { trackXhr } from "./TrackXhr";
+import overridesStorage from "../overrides/Overrides";
+import Overrider from "./Overrider";
 
 class XhrProxy {
   openArguments = null;
+  override = null;
 
   open(realOpen) {
     let self = this;
@@ -16,24 +19,36 @@ class XhrProxy {
     });
   }
 
-  send(realSend) {
-    const { openArguments } = this;
+  send(realSend, xhrMock) {
+    const self = this;
     return new Proxy(realSend, {
       apply(target, thisArg, argumentsList) {
-        trackXhr({ ...openArguments, body: argumentsList[0] }, thisArg);
-        Reflect.apply(target, thisArg, argumentsList);
+        const body = argumentsList[0];
+        const xhrData = { ...self.openArguments, body };
+        trackXhr(xhrData, xhrMock);
+        const override = overridesStorage.findOverride(xhrData);
+        if (override) {
+          self.override = { mock: override, readyState: xhrMock.readyState };
+          const overrider = new Overrider(self, xhrMock, override);
+          overrider.doOverride(body, xhrMock.readyState);
+        } else {
+          Reflect.apply(target, thisArg, argumentsList);
+        }
       },
     });
   }
 }
 
 const proxyXhr = (xhr) => {
+  // TODO: better naming
   const xhrProxy = new XhrProxy();
-  return new Proxy(xhr, {
+  const xhrMock = new Proxy(xhr, {
     get(target, property) {
       let value = Reflect.get(target, property);
       if (property in xhrProxy) {
-        value = xhrProxy[property](value);
+        value = xhrProxy[property](value, xhrMock);
+      } else if (xhrProxy.override && property in xhrProxy.override) {
+        value = xhrProxy.override[property];
       }
       return typeof value === "function" ? value.bind(target) : value;
     },
@@ -41,6 +56,7 @@ const proxyXhr = (xhr) => {
       return Reflect.set(target, prop, value);
     },
   });
+  return xhrMock;
 };
 
 export default (window) => {

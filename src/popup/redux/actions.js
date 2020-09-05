@@ -26,8 +26,13 @@ export const SAVE_OVERRIDE = "SAVE_OVERRIDE";
 export const saveOverride = (id, payload) => ({
   type: SAVE_OVERRIDE,
   payload: {
-    overrides: {
-      [id]: payload,
-    },
+    id,
+    payload,
   },
+});
+
+export const LOAD_OVERRIDES = "LOAD_OVERRIDES";
+export const loadOverrides = (overrides) => ({
+  type: LOAD_OVERRIDES,
+  payload: { overrides },
 });
