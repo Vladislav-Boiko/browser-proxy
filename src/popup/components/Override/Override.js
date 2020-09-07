@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import "./Override.css";
-export default ({ url, method, response, cancel, save }) => {
+export default ({ url, method, response, cancel, save, domain }) => {
   const [urlValue, setUrl] = useState(url);
   const [responseValue, setResponse] = useState(response);
   return (
@@ -35,7 +35,7 @@ export default ({ url, method, response, cancel, save }) => {
         className="save-button"
         onClick={(e) => {
           e.preventDefault();
-          save({ url, response: responseValue });
+          save({ url: urlValue, response: responseValue, domain });
         }}
       >
         Save

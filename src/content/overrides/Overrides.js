@@ -18,7 +18,7 @@ class Overrides {
   }
 
   async updateOverrides() {
-    this.overrides = (await storage.getAll()) || {};
+    this.overrides = (await storage.getAllForDomain()) || {};
     proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
   }
 }

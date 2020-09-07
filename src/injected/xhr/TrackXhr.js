@@ -1,6 +1,7 @@
 import messaging from "../../common/communication/injected/ProxyMessaging";
 import { v4 as uuid } from "uuid";
 import EVENTS from "../../common/communication/injected/events";
+import { DOMAIN } from "../../content/constants";
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();
@@ -10,6 +11,7 @@ export const trackXhr = (requestPayload, xhr) => {
     ...requestPayload,
     id,
     timestamp,
+    domain: DOMAIN,
   });
 
   xhr.addEventListener("readystatechange", () => {

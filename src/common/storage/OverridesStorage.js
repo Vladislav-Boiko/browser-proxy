@@ -1,27 +1,51 @@
+import { DOMAIN } from "../../content/constants";
+import { evolve } from "immutableql";
+const APPLICATION_NAME = "browser-proxy";
+
 class OverridesStorage {
   getAll() {
     return new Promise((resolve) => {
-      chrome.storage.local.get("overrides", (result = {}) =>
-        resolve(result.overrides)
+      chrome.storage.local.get(APPLICATION_NAME, (result = {}) =>
+        resolve(result)
       );
     });
   }
 
-  async getSingle(id) {
+  async getAllForDomain(domain = DOMAIN) {
     const all = await this.getAll();
+    return all[APPLICATION_NAME]?.[domain]?.overrides || {};
+  }
+
+  async getSingle(id, domain = DOMAIN) {
+    const all = await this.getAllForDomain(domain);
     return all[id];
   }
 
-  async remove(id) {
-    let all = await this.getAll();
-    delete all[id];
-    chrome.storage.local.set("overrides", all);
+  async remove(id, domain = DOMAIN) {
+    let all = await this.getAllForDomain(domain);
+    if (all) {
+      delete all[id];
+      this.setOverridesForDomain(all, domain);
+    }
   }
 
-  async update(id, payload) {
-    let all = await this.getAll();
+  // TODO: manage serveral overrides matching the same rule.
+  async update(id, payload, domain = DOMAIN) {
+    let all = await this.getAllForDomain(domain);
     all[id] = payload;
-    chrome.storage.local.set({ overrides: all });
+    this.setOverridesForDomain(all, domain);
+  }
+
+  async setOverridesForDomain(overrides, domain = DOMAIN) {
+    const all = await this.getAll();
+    const updated = evolve(all, {
+      [APPLICATION_NAME]: {
+        [domain]: {
+          overrides,
+        },
+      },
+    });
+    chrome.storage.local.set(updated);
   }
 }
 

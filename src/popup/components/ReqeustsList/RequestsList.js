@@ -33,7 +33,7 @@ export const RequestsList = ({
   }
   return (
     <ul>
-      {requests.map(({ id, method, url, status, response }) => {
+      {requests.map(({ id, method, url, status, response, domain }) => {
         const isRequestOpen = requestsList?.[id]?.isOpen;
         return (
           <li key={id}>
@@ -56,6 +56,7 @@ export const RequestsList = ({
                     url={url}
                     method={method}
                     response={response}
+                    domain={domain}
                     cancel={() => closeOverride(id)}
                     save={(payload) => saveOverride(id, payload)}
                   />

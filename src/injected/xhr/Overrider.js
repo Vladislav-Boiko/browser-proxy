@@ -17,6 +17,7 @@ export default class Overrider {
   }
 
   doOverride(sentBody, state) {
+    // TODO: manage reopened requests.
     if (state !== READY_STATES.OPENED) {
       throw new DOMException(
         "Failed to execute 'send' on 'XMLHttpRequest': The object's state must be OPENED.",

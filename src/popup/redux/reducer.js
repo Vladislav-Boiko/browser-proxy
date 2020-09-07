@@ -13,7 +13,9 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SAVE_OVERRIDE: {
       const { id, payload } = action.payload;
-      storage.update(id, payload);
+      const domain = payload.domain;
+      delete payload.domain;
+      storage.update(id, payload, domain);
       return evolve(state, { overrides: { id: payload } });
     }
     case TOGGLE_REQUEST: {
