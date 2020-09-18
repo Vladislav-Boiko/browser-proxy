@@ -32,40 +32,43 @@ export const RequestsList = ({
     );
   }
   return (
-    <ul>
-      {requests.map(({ id, method, url, status, response, domain }) => {
-        const isRequestOpen = requestsList?.[id]?.isOpen;
-        return (
-          <li key={id}>
-            <React.Fragment>
-              <RequestHeader
-                url={url}
-                method={method}
-                status={status}
-                isOpen={isRequestOpen}
-                open={() => toggle(id)}
-              />
-              {isRequestOpen &&
-                (!overridesOpen[id] ? (
-                  <RequestContent
-                    response={response}
-                    doOverride={() => openOverride(id)}
-                  />
-                ) : (
-                  <Override
-                    url={url}
-                    method={method}
-                    response={response}
-                    domain={domain}
-                    cancel={() => closeOverride(id)}
-                    save={(payload) => saveOverride(id, payload)}
-                  />
-                ))}
-            </React.Fragment>
-          </li>
-        );
-      })}
-    </ul>
+    <React.Fragment>
+      <h2 className="requests-header">Requests</h2>
+      <ul className="requests-list">
+        {requests.map(({ id, method, url, status, response, domain }) => {
+          const isRequestOpen = requestsList?.[id]?.isOpen;
+          return (
+            <li key={id}>
+              <React.Fragment>
+                <RequestHeader
+                  url={url}
+                  method={method}
+                  status={status}
+                  isOpen={isRequestOpen}
+                  open={() => toggle(id)}
+                />
+                {isRequestOpen &&
+                  (!overridesOpen[id] ? (
+                    <RequestContent
+                      response={response}
+                      doOverride={() => openOverride(id)}
+                    />
+                  ) : (
+                    <Override
+                      url={url}
+                      method={method}
+                      response={response}
+                      domain={domain}
+                      cancel={() => closeOverride(id)}
+                      save={(override) => saveOverride(id, override)}
+                    />
+                  ))}
+              </React.Fragment>
+            </li>
+          );
+        })}
+      </ul>
+    </React.Fragment>
   );
 };
 

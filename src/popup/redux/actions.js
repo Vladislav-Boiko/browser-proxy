@@ -23,11 +23,11 @@ export const closeOverride = (id) => ({
 });
 
 export const SAVE_OVERRIDE = "SAVE_OVERRIDE";
-export const saveOverride = (id, payload) => ({
+export const saveOverride = (id, override) => ({
   type: SAVE_OVERRIDE,
   payload: {
     id,
-    payload,
+    override,
   },
 });
 
@@ -35,4 +35,10 @@ export const LOAD_OVERRIDES = "LOAD_OVERRIDES";
 export const loadOverrides = (overrides) => ({
   type: LOAD_OVERRIDES,
   payload: { overrides },
+});
+
+export const SET_TAB_DOMAIN = "SET_TAB_DOMAIN";
+export const setTabDomain = (tabDomain) => ({
+  type: SET_TAB_DOMAIN,
+  payload: { tabDomain },
 });

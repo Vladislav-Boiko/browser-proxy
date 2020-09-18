@@ -1,51 +1,50 @@
+import Storage from "./Storage";
 import { DOMAIN } from "../../content/constants";
-import { evolve } from "immutableql";
-const APPLICATION_NAME = "browser-proxy";
 
-class OverridesStorage {
-  getAll() {
-    return new Promise((resolve) => {
-      chrome.storage.local.get(APPLICATION_NAME, (result = {}) =>
-        resolve(result)
+class OverridesStorage extends Storage {
+  async getAllOverrides() {
+    return await this.load("overrides", []);
+  }
+
+  async saveOverrides(overrides) {
+    await this.save("overrides", overrides);
+  }
+
+  async getAllOverridesForDomain(domain = DOMAIN) {
+    const allOverrides = await this.getAllOverrides();
+    return (
+      allOverrides.find((forDomain) => forDomain.domain === domain) || {
+        domain,
+        overrides: [],
+      }
+    );
+  }
+
+  async getOverride(id, domain = DOMAIN) {
+    const allForDomain = await this.getAllOverridesForDomain(domain);
+    return allForDomain?.overrides?.find((forId) => forId === id) || null;
+  }
+
+  // TODO: simplify this logic
+  async updateOverride(id, override, domain = DOMAIN) {
+    let allOverrides = await this.getAllOverrides();
+    const domainIndex = allOverrides.findIndex(
+      (forDomain) => forDomain.domain === domain
+    );
+    if (domainIndex >= 0) {
+      const allOverridesForDomain = allOverrides[domainIndex]?.overrides;
+      const idIndex = allOverridesForDomain.findIndex(
+        (forId) => forId.id === id
       );
-    });
-  }
-
-  async getAllForDomain(domain = DOMAIN) {
-    const all = await this.getAll();
-    return all[APPLICATION_NAME]?.[domain]?.overrides || {};
-  }
-
-  async getSingle(id, domain = DOMAIN) {
-    const all = await this.getAllForDomain(domain);
-    return all[id];
-  }
-
-  async remove(id, domain = DOMAIN) {
-    let all = await this.getAllForDomain(domain);
-    if (all) {
-      delete all[id];
-      this.setOverridesForDomain(all, domain);
+      if (idIndex) {
+        allOverrides[domainIndex].overrides[idIndex] = { ...override, id };
+      } else {
+        allOverrides[domainIndex].overrides.push({ ...override, id });
+      }
+    } else {
+      allOverrides.push({ domain, overrides: [{ ...override, id }] });
     }
-  }
-
-  // TODO: manage serveral overrides matching the same rule.
-  async update(id, payload, domain = DOMAIN) {
-    let all = await this.getAllForDomain(domain);
-    all[id] = payload;
-    this.setOverridesForDomain(all, domain);
-  }
-
-  async setOverridesForDomain(overrides, domain = DOMAIN) {
-    const all = await this.getAll();
-    const updated = evolve(all, {
-      [APPLICATION_NAME]: {
-        [domain]: {
-          overrides,
-        },
-      },
-    });
-    chrome.storage.local.set(updated);
+    this.saveOverrides(allOverrides);
   }
 }
 

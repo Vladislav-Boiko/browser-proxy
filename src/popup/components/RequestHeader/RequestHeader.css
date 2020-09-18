@@ -1,8 +1,7 @@
-.request {
+.request-header {
   display: grid;
-  grid-template-columns: 5rem minmax(200px, 1fr) 5rem 2rem;
-  column-gap: 1rem;
-  font-size: 16px;
+  grid-template-columns: 4rem minmax(200px, 1fr) 4rem 2rem;
+  font-size: 0.8rem;
   background-color: #fff;
   color: #000;
   border: none;
@@ -10,32 +9,42 @@
   cursor: pointer;
   padding: 0;
   width: 100%;
-  padding: 1rem 0.75rem;
+  padding: 0.5rem 0;
   border-radius: 5px;
 }
 
-.request.open {
+.rrequest-header_open {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   background-color: #e0ebf3;
 }
 
-.url {
+.request-header__url {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.status {
+.request-header__method {
+  text-align: left;
+}
+
+.request-header__status {
   text-align: end;
 }
 
-.arrow {
-  align-self: center;
-  width: 16px;
-  transition: all 0.3s;
+.request-header:focus .request-header__arrow {
+  outline: none;
 }
 
-.request.open .arrow {
+.request-header__arrow {
+  fill: #555;
+  align-self: center;
+  width: 0.8rem;
+  transition: all 0.3s;
+  margin: 0 auto;
+}
+
+.request-header__arrow_open {
   transform: rotate(180deg);
 }

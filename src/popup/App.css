@@ -1,13 +1,18 @@
 .app {
-  min-width: 480px;
+  min-width: 600px;
   min-height: 480px;
-  color: #fafafa;
+  color: black;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
 }
 
-/* TODO: a menu */
-.app h2 {
-  margin: 1rem;
-  color: #fcde5c;
-  margin-left: 2rem;
-  cursor: pointer;
+.app-navigation {
+  grid-column: 1 / 5;
+  border-right: 1px solid #dedede;
+  padding: 1rem 0;
+}
+
+.app-main {
+  padding: 1rem;
+  grid-column: 5 / 13;
 }

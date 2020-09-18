@@ -5,3 +5,5 @@ export const getAllRequests = (store) =>
 
 export const getRequestsList = (store) => store.requestsList;
 export const getOverridesOpen = (store) => store.overridesOpen;
+
+export const getOverridesList = (store) => store.overrides;

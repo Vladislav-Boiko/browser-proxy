@@ -5,8 +5,8 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #001f36;
-  color: #fff;
+  background-color: #fff;
+  color: #333;
 }
 
 body,
@@ -26,6 +26,5 @@ h2 {
 }
 
 h3 {
-  font-size: 20px;
   font-weight: normal;
 }

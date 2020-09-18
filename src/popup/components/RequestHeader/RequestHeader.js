@@ -10,13 +10,22 @@ const formatUrlPreview = (url) => {
 };
 
 const RequestHeader = ({ method, url, status, isOpen, open }) => (
-  <button className={cn("request", { open: isOpen })} onClick={open}>
-    <span>{method && method.toUpperCase()}</span>
-    <span title={url} className="url">
+  <button
+    className={cn("request-header", { "request-header_open": isOpen })}
+    onClick={open}
+  >
+    <span className="request-header__method">
+      {method && method.toUpperCase()}
+    </span>
+    <span title={url} className="request-header__url">
       {formatUrlPreview(url)}
     </span>
-    <span className="status">{status}</span>
-    <Arrow className="arrow" />
+    <span className="request-header__status">{status}</span>
+    <Arrow
+      className={cn("request-header__arrow", {
+        "request-header__arrow_open": isOpen,
+      })}
+    />
   </button>
 );
 
