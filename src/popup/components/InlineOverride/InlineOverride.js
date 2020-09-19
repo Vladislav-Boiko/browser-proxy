@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./Override.css";
+import "./InlineOverride.css";
 export default ({ url, method, response, cancel, save, domain }) => {
   const [urlValue, setUrl] = useState(url);
   const [responseValue, setResponse] = useState(response);

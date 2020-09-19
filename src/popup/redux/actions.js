@@ -44,7 +44,7 @@ export const setTabDomain = (tabDomain) => ({
 });
 
 export const SET_SELECTED_NAVIGATION = "SET_SELECTED_NAVIGATION";
-export const selectNavigation = (id) => ({
+export const selectNavigation = (id, type) => ({
   type: SET_SELECTED_NAVIGATION,
-  payload: { selectedNavigation: id },
+  payload: { selectedNavigation: id, selectedNavigationType: type },
 });

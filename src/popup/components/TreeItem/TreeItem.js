@@ -10,9 +10,9 @@ const TreeItem = ({
   parent,
   select,
   selected,
+  type,
   isIniitiallyOpen = false,
 }) => {
-  // TODO: get initial parameter from props
   const [isOpen, setIsOpen] = useState(isIniitiallyOpen);
   return (
     <ul className={cn("tree__parent", { tree__parent_root: !parent })}>
@@ -22,7 +22,7 @@ const TreeItem = ({
         <button
           className={cn("tree__button", { "tree__button_no-arrow": !subNodes })}
           onClick={() => {
-            select(id);
+            select(id, type);
             subNodes && setIsOpen(!isOpen);
           }}
         >

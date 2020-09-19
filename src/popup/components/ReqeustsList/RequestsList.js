@@ -1,7 +1,7 @@
 import React from "react";
 import RequestHeader from "../RequestHeader/RequestHeader";
 import RequestContent from "../RequestContent/RequestContent";
-import Override from "../Override/Override";
+import InlineOverride from "../InlineOverride/InlineOverride";
 import { connect } from "react-redux";
 import {
   getAllRequests,
@@ -56,7 +56,7 @@ export const RequestsList = ({
                       doOverride={() => openOverride(id)}
                     />
                   ) : (
-                    <Override
+                    <InlineOverride
                       url={url}
                       method={method}
                       response={response}

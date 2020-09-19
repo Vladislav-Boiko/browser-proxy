@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TreeItem from "../TreeItem/TreeItem";
 import { connect } from "react-redux";
 import {
@@ -7,16 +7,19 @@ import {
   getSelectedNavigation,
 } from "../../redux/selectors";
 import { selectNavigation } from "../../redux/actions";
+import { NAV_TYPES } from "./NavigationTypes";
 
 const mapOverridesToNavigation = (allOVerrides) =>
   allOVerrides.map(({ domain, overrides }) => ({
     name: domain,
     id: domain,
     isIniitiallyOpen: false,
+    type: NAV_TYPES.DOMAIN,
     subNodes: overrides.map(({ url, id }) => ({
       name: url,
       id,
       isIniitiallyOpen: false,
+      type: NAV_TYPES.OVERRIDE,
     })),
   }));
 
@@ -30,8 +33,10 @@ const addAndSelectCurrent = (navigation, currentDomain) => {
       name: currentDomain,
       isSelected: true,
       isIniitiallyOpen: true,
+      type: NAV_TYPES.DOMAIN,
     });
   }
+  // putting current domain on top
   return navigation.sort(({ name }) => (name === currentDomain ? -1 : 1));
 };
 
@@ -54,6 +59,6 @@ export default connect(
     selected: getSelectedNavigation(state),
   }),
   (dispatch) => ({
-    select: (id) => dispatch(selectNavigation(id)),
+    select: (id, type) => dispatch(selectNavigation(id, type)),
   })
 )(Navigation);

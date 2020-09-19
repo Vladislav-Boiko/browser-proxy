@@ -9,6 +9,7 @@ const initialState = {
   overridesOpen: {},
   tabDomain: null,
   selectedNavigation: null,
+  selectedNavigationType: null,
 };
 
 export default (state = initialState, action) => {

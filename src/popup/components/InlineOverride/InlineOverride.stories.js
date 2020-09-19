@@ -1,13 +1,13 @@
 import React from "react";
 
-import Override from "./Override";
+import InlineOverride from "./InlineOverride";
 
 export default {
-  title: "Override",
-  component: Override,
+  title: "InlineOverride",
+  component: InlineOverride,
 };
 
-const Template = (args) => <Override {...args} />;
+const Template = (args) => <InlineOverride {...args} />;
 
 export const Story = Template.bind({});
 Story.args = {
