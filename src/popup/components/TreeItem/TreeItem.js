@@ -3,9 +3,17 @@ import cn from "classnames";
 import { ReactComponent as Arrow } from "./arrow.svg";
 
 import "./TreeItem.css";
-const TreeItem = ({ id, name, subNodes, parent, select, selected }) => {
+const TreeItem = ({
+  id,
+  name,
+  subNodes,
+  parent,
+  select,
+  selected,
+  isIniitiallyOpen = false,
+}) => {
   // TODO: get initial parameter from props
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(isIniitiallyOpen);
   return (
     <ul className={cn("tree__parent", { tree__parent_root: !parent })}>
       <li
