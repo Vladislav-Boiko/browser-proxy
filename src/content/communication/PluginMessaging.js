@@ -8,8 +8,14 @@ class PluginMessaging extends Messaging {
     });
   }
 
-  send(message) {
-    chrome.runtime.sendMessage(message);
+  sendMessage(message) {
+    if (
+      chrome?.runtime &&
+      chrome?.app &&
+      typeof chrome.app.isInstalled !== "undefined"
+    ) {
+      chrome.runtime.sendMessage(message);
+    }
   }
 }
 

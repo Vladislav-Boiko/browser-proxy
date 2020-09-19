@@ -7,6 +7,7 @@ import {
   getAllRequests,
   getRequestsList,
   getOverridesOpen,
+  getCurrentDomain,
 } from "../../redux/selectors";
 import {
   toggleRequest,
@@ -25,6 +26,7 @@ export const RequestsList = ({
   openOverride,
   closeOverride,
   saveOverride,
+  domain,
 }) => {
   if (!requests.length) {
     return (
@@ -35,7 +37,7 @@ export const RequestsList = ({
     <React.Fragment>
       <h2 className="requests-header">Requests</h2>
       <ul className="requests-list">
-        {requests.map(({ id, method, url, status, response, domain }) => {
+        {requests.map(({ id, method, url, status, response }) => {
           const isRequestOpen = requestsList?.[id]?.isOpen;
           return (
             <li key={id}>
@@ -77,6 +79,7 @@ export default connect(
     requests: getAllRequests(state),
     requestsList: getRequestsList(state),
     overridesOpen: getOverridesOpen(state),
+    domain: getCurrentDomain(state),
   }),
   (dispatch) => ({
     toggle: (id) => dispatch(toggleRequest(id)),

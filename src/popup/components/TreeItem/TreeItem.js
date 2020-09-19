@@ -3,15 +3,20 @@ import cn from "classnames";
 import { ReactComponent as Arrow } from "./arrow.svg";
 
 import "./TreeItem.css";
-const Item = ({ name, subNodes, parent, isSelected }) => {
+const TreeItem = ({ id, name, subNodes, parent, select, selected }) => {
   // TODO: get initial parameter from props
   const [isOpen, setIsOpen] = useState(true);
   return (
     <ul className={cn("tree__parent", { tree__parent_root: !parent })}>
-      <li className={cn("tree__child", { tree__child_selected: isSelected })}>
+      <li
+        className={cn("tree__child", { tree__child_selected: selected === id })}
+      >
         <button
           className={cn("tree__button", { "tree__button_no-arrow": !subNodes })}
-          onClick={() => subNodes && setIsOpen(!isOpen)}
+          onClick={() => {
+            select(id);
+            subNodes && setIsOpen(!isOpen);
+          }}
         >
           {subNodes && (
             <Arrow
@@ -25,11 +30,16 @@ const Item = ({ name, subNodes, parent, isSelected }) => {
         isOpen &&
         subNodes.map((child, index) => (
           <li className="tree__child" key={index}>
-            <Item {...child} parent={true} />
+            <TreeItem
+              {...child}
+              parent={true}
+              select={select}
+              selected={selected}
+            />
           </li>
         ))}
     </ul>
   );
 };
 
-export default Item;
+export default TreeItem;

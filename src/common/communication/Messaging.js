@@ -1,8 +1,6 @@
-// Abstract, needs sendMessage implemented.
+// Abstract, needs sendMessage method to be implemented.
 export default class Messaging {
   listeners = {};
-
-  sendMessage = null;
 
   onMessage(message) {
     if (message?.type && message?.type in this.listeners) {
@@ -28,6 +26,6 @@ export default class Messaging {
   }
 
   emit(eventType, payload) {
-    this.send({ type: eventType, payload });
+    this.sendMessage({ type: eventType, payload });
   }
 }

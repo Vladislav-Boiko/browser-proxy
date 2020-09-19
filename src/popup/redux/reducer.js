@@ -8,6 +8,7 @@ const initialState = {
   overrides: [],
   overridesOpen: {},
   tabDomain: null,
+  selectedNavigation: null,
 };
 
 export default (state = initialState, action) => {
@@ -29,6 +30,8 @@ export default (state = initialState, action) => {
       });
     }
     default:
-      return evolve(state, action.payload);
+      const result = evolve(state, action.payload);
+      console.log("updated store: ", result);
+      return result;
   }
 };

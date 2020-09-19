@@ -1,6 +1,6 @@
 ul.tree__parent {
   padding: 0;
-  --child-base-size: 1.2rem;
+  --child-base-size: 1rem;
   margin: 0;
 }
 
@@ -24,7 +24,7 @@ ul.tree__parent {
 }
 
 .tree__arrow {
-  width: calc(var(--child-base-size) * 0.7);
+  min-width: calc(var(--child-base-size) * 0.7);
   padding-right: calc(var(--child-base-size) * 0.4);
   align-self: center;
   fill: #555;
@@ -37,28 +37,30 @@ ul.tree__parent {
   transform: rotate(-90deg);
 }
 
-.tree__button:hover,
-.tree__button:focus {
+.tree__button:hover {
   background-color: rgba(90, 90, 90, 0.3);
 }
 
-.tree__child_selected,
+.tree__child_selected .tree__button,
 .tree__button:focus {
   outline: rgba(120, 120, 120, 0.3);
-}
-
-.tree__button:focus {
-  background-color: rgb(3 92 156 / 92%);
+  background-color: rgb(74 84 94 / 94%);
   color: white;
   font-weight: 600;
 }
 
+.tree__child_selected .tree__button {
+  background-color: rgb(3 92 156 / 92%);
+}
+
+.tree__child_selected .tree__button .tree__arrow,
 .tree__button:focus .tree__arrow {
   fill: white;
 }
 
 .tree__child-title {
   align-self: center;
+  word-break: break-all;
 }
 
 .tree__button_no-arrow {

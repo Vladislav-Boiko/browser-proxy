@@ -40,5 +40,11 @@ export const loadOverrides = (overrides) => ({
 export const SET_TAB_DOMAIN = "SET_TAB_DOMAIN";
 export const setTabDomain = (tabDomain) => ({
   type: SET_TAB_DOMAIN,
-  payload: { tabDomain },
+  payload: { tabDomain, selectedNavigation: tabDomain },
+});
+
+export const SET_SELECTED_NAVIGATION = "SET_SELECTED_NAVIGATION";
+export const selectNavigation = (id) => ({
+  type: SET_SELECTED_NAVIGATION,
+  payload: { selectedNavigation: id },
 });

@@ -1,42 +1,58 @@
 import React, { useState } from "react";
 import TreeItem from "../TreeItem/TreeItem";
+import { connect } from "react-redux";
+import {
+  getOverridesList,
+  getCurrentDomain,
+  getSelectedNavigation,
+} from "../../redux/selectors";
+import { selectNavigation } from "../../redux/actions";
 
-const Navigation = ({ className }) => {
-  const [domain, setDomain] = useState("");
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    const url = new URL(tab.url);
-    setDomain(url.hostname);
-  });
+const mapOverridesToNavigation = (allOVerrides) =>
+  allOVerrides.map(({ domain, overrides }) => ({
+    name: domain,
+    id: domain,
+    subNodes: overrides.map(({ url, id }) => ({
+      name: url,
+      id,
+    })),
+  }));
+
+const addAndSelectCurrent = (navigation, currentDomain) => {
+  const index = navigation.findIndex(({ name }) => name === currentDomain);
+  if (index >= 0) {
+    navigation[index].isSelected = true;
+  } else {
+    navigation.unshift({
+      id: currentDomain,
+      name: currentDomain,
+      isSelected: true,
+    });
+  }
+  return navigation;
+};
+
+const Navigation = ({ className, overrides, domain, select, selected }) => {
+  const mappedOverrides = mapOverridesToNavigation(overrides);
+  const navigation = addAndSelectCurrent(mappedOverrides, domain);
+  console.log("Selected is: ", selected);
+  console.log("Navigation is: ", navigation);
   return (
     <nav className={className}>
-      <TreeItem
-        id="a"
-        name={domain}
-        isSelected={true}
-        subNodes={[
-          {
-            name: "overrides",
-            id: "b",
-            subNodes: [
-              {
-                name: "/de/Ajax/Search",
-                id: "c",
-              },
-              {
-                name: "/en/Ajax/Search",
-                id: "d",
-              },
-              {
-                name: "/ru/Ajax/Search",
-                id: "e",
-              },
-            ],
-          },
-        ]}
-      />
+      {navigation.map((navItem) => (
+        <TreeItem {...navItem} select={select} selected={selected} />
+      ))}
     </nav>
   );
 };
 
-export default Navigation;
+export default connect(
+  (state) => ({
+    overrides: getOverridesList(state),
+    domain: getCurrentDomain(state),
+    selected: getSelectedNavigation(state),
+  }),
+  (dispatch) => ({
+    select: (id) => dispatch(selectNavigation(id)),
+  })
+)(Navigation);

@@ -22,7 +22,7 @@ class ProxyMessaging extends Messaging {
   }
 
   // TODO: a better way to distinguish messages
-  send(message) {
+  sendMessage(message) {
     const destination = window.location.origin;
     // TODO: test it works with file:// protocol
     if (destination) {

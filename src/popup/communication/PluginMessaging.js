@@ -6,9 +6,9 @@ class PluginMessaging extends Messaging {
     chrome.runtime.onMessage.addListener((message) => this.onMessage(message));
   }
 
-  send(message) {
+  sendMessage(message) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (typeof chrome.app.isInstalled !== "undefined") {
+      if (typeof chrome.app.isInstalled !== "undefined" && chrome?.tabs) {
         chrome.tabs.sendMessage(tabs[0].id, message);
       }
     });
