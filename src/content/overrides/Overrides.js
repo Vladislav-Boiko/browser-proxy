@@ -19,7 +19,6 @@ class Overrides {
 
   async updateOverrides() {
     this.overrides = (await storage.getAllOverridesForDomain()) || {};
-    console.log("Will update overrides", proxyMessaging);
     proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
   }
 }

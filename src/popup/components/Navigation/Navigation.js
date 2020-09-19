@@ -35,8 +35,6 @@ const addAndSelectCurrent = (navigation, currentDomain) => {
 const Navigation = ({ className, overrides, domain, select, selected }) => {
   const mappedOverrides = mapOverridesToNavigation(overrides);
   const navigation = addAndSelectCurrent(mappedOverrides, domain);
-  console.log("Selected is: ", selected);
-  console.log("Navigation is: ", navigation);
   return (
     <nav className={className}>
       {navigation.map((navItem) => (

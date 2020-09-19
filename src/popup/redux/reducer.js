@@ -30,8 +30,6 @@ export default (state = initialState, action) => {
       });
     }
     default:
-      const result = evolve(state, action.payload);
-      console.log("updated store: ", result);
-      return result;
+      return evolve(state, action.payload);
   }
 };
