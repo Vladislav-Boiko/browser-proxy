@@ -1,0 +1,26 @@
+.menu {
+  display: flex;
+  flex-flow: row;
+  padding: 0;
+}
+
+.menu__button {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+}
+
+.menu_button_selected {
+  border-bottom: 3px solid black;
+}
+
+.menu__button:focus {
+  border-bottom: 3px solid grey;
+  outline: none;
+}
+
+.menu__item + .menu__item {
+  margin-left: 1rem;
+}

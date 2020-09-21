@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { getSelectedOverride } from "../../redux/selectors";
 
 const SelectedOverride = ({ override }) => {
-  console.log("Selected override is:", override);
   // TODO: actuall implementation
   return override ? <InlineOverride {...override} /> : "";
 };

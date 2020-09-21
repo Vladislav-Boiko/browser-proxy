@@ -1,3 +1,5 @@
+import { NAV_TYPES } from "../components/Navigation/NavigationTypes";
+
 export const ADD_REQUESTS = "ADD_REQUESTS";
 export const addRequests = (requests) => ({
   type: ADD_REQUESTS,
@@ -40,11 +42,14 @@ export const loadOverrides = (overrides) => ({
 export const SET_TAB_DOMAIN = "SET_TAB_DOMAIN";
 export const setTabDomain = (tabDomain) => ({
   type: SET_TAB_DOMAIN,
-  payload: { tabDomain, selectedNavigation: tabDomain },
+  payload: {
+    tabDomain,
+    selectedNavigation: { id: tabDomain, type: NAV_TYPES.DOMAIN },
+  },
 });
 
 export const SET_SELECTED_NAVIGATION = "SET_SELECTED_NAVIGATION";
 export const selectNavigation = (id, type) => ({
   type: SET_SELECTED_NAVIGATION,
-  payload: { selectedNavigation: id, selectedNavigationType: type },
+  payload: { selectedNavigation: { id, type } },
 });

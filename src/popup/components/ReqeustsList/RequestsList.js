@@ -40,7 +40,7 @@ export const RequestsList = ({
         {requests.map(({ id, method, url, status, response }) => {
           const isRequestOpen = requestsList?.[id]?.isOpen;
           return (
-            <li key={id}>
+            <li key={id} className="requests-list__row">
               <React.Fragment>
                 <RequestHeader
                   url={url}

@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 
 import "./InlineOverride.css";
-export default ({ url, method, response, cancel, save, domain }) => {
+export default ({ id, url, method, response, cancel, save, domain }) => {
+  const [idValue, setId] = useState(id);
   const [urlValue, setUrl] = useState(url);
   const [responseValue, setResponse] = useState(response);
+  // TODO: better implementation of initial values
+  if (idValue !== id) {
+    setId(id);
+    setUrl(url);
+    setResponse(response);
+  }
   return (
     <form className="override">
       <span className="method">{method}</span>
@@ -35,7 +42,7 @@ export default ({ url, method, response, cancel, save, domain }) => {
         className="save-button"
         onClick={(e) => {
           e.preventDefault();
-          save({ url: urlValue, response: responseValue, domain });
+          save({ url: urlValue, response: responseValue, method, domain });
         }}
       >
         Save

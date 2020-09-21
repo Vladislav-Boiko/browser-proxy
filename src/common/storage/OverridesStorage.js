@@ -36,7 +36,7 @@ class OverridesStorage extends Storage {
       const idIndex = allOverridesForDomain.findIndex(
         (forId) => forId.id === id
       );
-      if (idIndex) {
+      if (idIndex >= 0) {
         allOverrides[domainIndex].overrides[idIndex] = { ...override, id };
       } else {
         allOverrides[domainIndex].overrides.push({ ...override, id });

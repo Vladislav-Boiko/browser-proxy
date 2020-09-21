@@ -1,4 +1,4 @@
-import { evolve, spread } from "immutableql";
+import { evolve, spread, where } from "immutableql";
 import { TOGGLE_REQUEST, SAVE_OVERRIDE } from "./actions";
 import storage from "../../common/storage/OverridesStorage";
 
@@ -8,8 +8,10 @@ const initialState = {
   overrides: [],
   overridesOpen: {},
   tabDomain: null,
-  selectedNavigation: null,
-  selectedNavigationType: null,
+  selectedNavigation: {
+    id: null,
+    type: null,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -19,7 +21,13 @@ export default (state = initialState, action) => {
       const domain = override.domain;
       delete override.domain;
       storage.updateOverride(id, override, domain);
-      return evolve(state, { overrides: [spread(override)] });
+      return evolve(state, {
+        overrides: {
+          [where({ domain })]: {
+            overrides: spread([{ id, ...override }]),
+          },
+        },
+      });
     }
     case TOGGLE_REQUEST: {
       return evolve(state, {
