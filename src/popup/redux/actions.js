@@ -33,6 +33,14 @@ export const saveOverride = (id, override) => ({
   },
 });
 
+export const REMOVE_OVERRIDE = "REMOVE_OVERRIDE";
+export const removeOverride = (id) => ({
+  type: REMOVE_OVERRIDE,
+  payload: {
+    id,
+  },
+});
+
 export const LOAD_OVERRIDES = "LOAD_OVERRIDES";
 export const loadOverrides = (overrides) => ({
   type: LOAD_OVERRIDES,
@@ -49,7 +57,7 @@ export const setTabDomain = (tabDomain) => ({
 });
 
 export const SET_SELECTED_NAVIGATION = "SET_SELECTED_NAVIGATION";
-export const selectNavigation = (id, type) => ({
+export const selectNavigation = (payload) => ({
   type: SET_SELECTED_NAVIGATION,
-  payload: { selectedNavigation: { id, type } },
+  payload: { selectedNavigation: payload },
 });

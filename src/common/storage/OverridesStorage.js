@@ -25,6 +25,20 @@ class OverridesStorage extends Storage {
     return allForDomain?.overrides?.find((forId) => forId === id) || null;
   }
 
+  // TOOD: simplify this logic
+  async removeOverride(id) {
+    let allOverrides = await this.getAllOverrides();
+    for (let domain of allOverrides) {
+      for (let i in domain.overrides) {
+        if (domain.overrides[i]?.id === id) {
+          delete domain.overrides[i];
+          this.saveOverrides(allOverrides);
+          return;
+        }
+      }
+    }
+  }
+
   // TODO: simplify this logic
   async updateOverride(id, override, domain = DOMAIN) {
     let allOverrides = await this.getAllOverrides();
@@ -34,7 +48,7 @@ class OverridesStorage extends Storage {
     if (domainIndex >= 0) {
       const allOverridesForDomain = allOverrides[domainIndex]?.overrides;
       const idIndex = allOverridesForDomain.findIndex(
-        (forId) => forId.id === id
+        (forId) => !!forId?.id && forId.id === id
       );
       if (idIndex >= 0) {
         allOverrides[domainIndex].overrides[idIndex] = { ...override, id };

@@ -1,6 +1,8 @@
-import { evolve, spread, where } from "immutableql";
-import { TOGGLE_REQUEST, SAVE_OVERRIDE } from "./actions";
+import { evolve, spread, where, remove } from "immutableql";
+import { TOGGLE_REQUEST, SAVE_OVERRIDE, REMOVE_OVERRIDE } from "./actions";
 import storage from "../../common/storage/OverridesStorage";
+import { getSelectedFolder } from "./selectors";
+import { NAV_TYPES } from "../components/Navigation/NavigationTypes";
 
 const initialState = {
   requests: {},
@@ -11,6 +13,8 @@ const initialState = {
   selectedNavigation: {
     id: null,
     type: null,
+    folder: null,
+    folderType: null,
   },
 };
 
@@ -27,8 +31,26 @@ export default (state = initialState, action) => {
             overrides: spread([{ id, ...override }]),
           },
         },
+        selectedNavigation: {
+          id,
+          type: NAV_TYPES.OVERRIDE,
+          parent: getSelectedFolder(state),
+        },
       });
     }
+    case REMOVE_OVERRIDE:
+      const { id } = action.payload;
+      storage.removeOverride(id);
+      return evolve(state, {
+        overrides: {
+          [where(true)]: {
+            overrides: {
+              [where((key, value) => value?.id === id)]: remove(),
+            },
+          },
+        },
+        selectedNavigation: getSelectedFolder(state),
+      });
     case TOGGLE_REQUEST: {
       return evolve(state, {
         requestsList: {

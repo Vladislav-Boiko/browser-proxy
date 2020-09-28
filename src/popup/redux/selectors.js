@@ -1,4 +1,3 @@
-import { evolve, where } from "immutableql";
 export const getAllRequests = (store) =>
   Object.values(store.requests)
     .reduce((windowReqeusts, requests) => [...requests, ...windowReqeusts], [])
@@ -13,12 +12,19 @@ export const getSelectedNavigationType = (store) =>
   store.selectedNavigation.type;
 export const getSelectedOverride = (store) => {
   // TODO: better way of searching
-  for (let forDomain of store.overrides) {
-    for (let override of forDomain.overrides) {
-      if (override.id === store.selectedNavigation.id) {
+  for (let domain of store.overrides) {
+    for (let override of domain.overrides) {
+      if (override?.id === store.selectedNavigation.id) {
         return override;
       }
     }
   }
   return null;
 };
+
+export const getSelectedFolder = (store) =>
+  store.selectedNavigation.parent || {
+    id: null,
+    type: null,
+    parent: null,
+  };

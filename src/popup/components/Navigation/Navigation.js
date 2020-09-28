@@ -15,12 +15,14 @@ const mapOverridesToNavigation = (allOVerrides) =>
     id: domain,
     isIniitiallyOpen: false,
     type: NAV_TYPES.DOMAIN,
-    subNodes: overrides.map(({ url, id }) => ({
-      name: url,
-      id,
-      isIniitiallyOpen: false,
-      type: NAV_TYPES.OVERRIDE,
-    })),
+    subNodes: overrides
+      .filter((notNull) => !!notNull)
+      .map(({ url, id }) => ({
+        name: url,
+        id,
+        isIniitiallyOpen: false,
+        type: NAV_TYPES.OVERRIDE,
+      })),
   }));
 
 const addAndSelectCurrent = (navigation, currentDomain) => {
@@ -59,6 +61,6 @@ export default connect(
     selected: getSelectedNavigation(state),
   }),
   (dispatch) => ({
-    select: (id, type) => dispatch(selectNavigation(id, type)),
+    select: (payload) => dispatch(selectNavigation(payload)),
   })
 )(Navigation);

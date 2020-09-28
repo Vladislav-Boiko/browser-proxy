@@ -2,18 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { saveOverride } from "../../redux/actions";
 import { v4 as uuid } from "uuid";
-
-const METHODS = [
-  "GET",
-  "POST",
-  "PUT",
-  "DELETE",
-  "HEAD",
-  "OPTIONS",
-  "PATCH",
-  "TRACE",
-  "OPTIONS",
-];
+import { METHODS } from "../../utils/constants";
 
 const StandaloneOverride = ({ domain, save }) => {
   const [urlValue, setUrl] = useState("");

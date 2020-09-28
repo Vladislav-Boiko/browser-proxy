@@ -22,7 +22,7 @@ const TreeItem = ({
         <button
           className={cn("tree__button", { "tree__button_no-arrow": !subNodes })}
           onClick={() => {
-            select(id, type);
+            select({ id, type, parent });
             subNodes && setIsOpen(!isOpen);
           }}
         >
@@ -40,7 +40,7 @@ const TreeItem = ({
           <li className="tree__child" key={index}>
             <TreeItem
               {...child}
-              parent={true}
+              parent={{ id, name, type }}
               select={select}
               selected={selected}
             />
