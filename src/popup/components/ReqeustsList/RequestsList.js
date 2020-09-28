@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import {
   getAllRequests,
   getRequestsList,
-  getOverridesOpen,
+  getDomainsOpen,
   getCurrentDomain,
 } from "../../redux/selectors";
 import {
@@ -22,7 +22,7 @@ export const RequestsList = ({
   requests,
   toggle,
   requestsList,
-  overridesOpen,
+  domainsOpen,
   openOverride,
   closeOverride,
   saveOverride,
@@ -50,7 +50,7 @@ export const RequestsList = ({
                   open={() => toggle(id)}
                 />
                 {isRequestOpen &&
-                  (!overridesOpen[id] ? (
+                  (!domainsOpen[id] ? (
                     <RequestContent
                       response={response}
                       doOverride={() => openOverride(id)}
@@ -78,7 +78,7 @@ export default connect(
   (state) => ({
     requests: getAllRequests(state),
     requestsList: getRequestsList(state),
-    overridesOpen: getOverridesOpen(state),
+    domainsOpen: getDomainsOpen(state),
     domain: getCurrentDomain(state),
   }),
   (dispatch) => ({

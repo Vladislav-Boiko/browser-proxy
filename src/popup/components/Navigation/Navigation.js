@@ -2,15 +2,15 @@ import React from "react";
 import TreeItem from "../TreeItem/TreeItem";
 import { connect } from "react-redux";
 import {
-  getOverridesList,
+  getDomainsList,
   getCurrentDomain,
   getSelectedNavigation,
 } from "../../redux/selectors";
 import { selectNavigation } from "../../redux/actions";
 import { NAV_TYPES } from "./NavigationTypes";
 
-const mapOverridesToNavigation = (allOVerrides) =>
-  allOVerrides.map(({ domain, overrides }) => ({
+const mapDomainsToNavigation = (domains) =>
+  domains.map(({ domain, overrides }) => ({
     name: domain,
     id: domain,
     isIniitiallyOpen: false,
@@ -42,8 +42,8 @@ const addAndSelectCurrent = (navigation, currentDomain) => {
   return navigation.sort(({ name }) => (name === currentDomain ? -1 : 1));
 };
 
-const Navigation = ({ className, overrides, domain, select, selected }) => {
-  const mappedOverrides = mapOverridesToNavigation(overrides);
+const Navigation = ({ className, domains, domain, select, selected }) => {
+  const mappedOverrides = mapDomainsToNavigation(domains);
   const navigation = addAndSelectCurrent(mappedOverrides, domain);
   return (
     <nav className={className}>
@@ -56,7 +56,7 @@ const Navigation = ({ className, overrides, domain, select, selected }) => {
 
 export default connect(
   (state) => ({
-    overrides: getOverridesList(state),
+    domains: getDomainsList(state),
     domain: getCurrentDomain(state),
     selected: getSelectedNavigation(state),
   }),

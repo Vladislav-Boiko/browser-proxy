@@ -15,13 +15,13 @@ export const toggleRequest = (id) => ({
 export const OPEN_OVERRIDE = "OPEN_OVERRIDE";
 export const openOverride = (id) => ({
   type: OPEN_OVERRIDE,
-  payload: { overridesOpen: { [id]: true } },
+  payload: { domainsOpen: { [id]: true } },
 });
 
 export const CLOSE_OVERRIDE = "CLOSE_OVERRIDE";
 export const closeOverride = (id) => ({
   type: CLOSE_OVERRIDE,
-  payload: { overridesOpen: { [id]: false } },
+  payload: { domainsOpen: { [id]: false } },
 });
 
 export const SAVE_OVERRIDE = "SAVE_OVERRIDE";
@@ -42,9 +42,9 @@ export const removeOverride = (id) => ({
 });
 
 export const LOAD_OVERRIDES = "LOAD_OVERRIDES";
-export const loadOverrides = (overrides) => ({
+export const loadOverrides = (domains) => ({
   type: LOAD_OVERRIDES,
-  payload: { overrides },
+  payload: { domains },
 });
 
 export const SET_TAB_DOMAIN = "SET_TAB_DOMAIN";

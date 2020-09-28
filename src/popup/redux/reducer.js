@@ -7,7 +7,7 @@ import { NAV_TYPES } from "../components/Navigation/NavigationTypes";
 const initialState = {
   requests: {},
   requestsList: {},
-  overrides: [],
+  domains: [],
   overridesOpen: {},
   tabDomain: null,
   selectedNavigation: {
@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
       delete override.domain;
       storage.updateOverride(id, override, domain);
       return evolve(state, {
-        overrides: {
+        domains: {
           [where({ domain })]: {
             overrides: spread([{ id, ...override }]),
           },
@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
       const { id } = action.payload;
       storage.removeOverride(id);
       return evolve(state, {
-        overrides: {
+        domains: {
           [where(true)]: {
             overrides: {
               [where((key, value) => value?.id === id)]: remove(),
