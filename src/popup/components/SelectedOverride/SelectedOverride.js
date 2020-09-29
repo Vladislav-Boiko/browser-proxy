@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { saveOverride, removeOverride } from "../../redux/actions";
+import { updateOverride, removeOverride } from "../../redux/overrides/actions";
 import { getSelectedOverride } from "../../redux/selectors";
 import { METHODS } from "../../utils/constants";
 
@@ -76,7 +76,7 @@ export default connect(
     override: getSelectedOverride(state),
   }),
   (dispatch) => ({
-    save: (id, override) => dispatch(saveOverride(id, override)),
+    save: (id, override) => dispatch(updateOverride(id, override)),
     remove: (id) => dispatch(removeOverride(id)),
   })
 )(SelectedOverride);

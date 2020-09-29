@@ -2,31 +2,17 @@ import React from "react";
 import TreeItem from "../TreeItem/TreeItem";
 import { connect } from "react-redux";
 import {
-  getDomainsList,
+  getFolders,
   getCurrentDomain,
   getSelectedNavigation,
 } from "../../redux/selectors";
-import { selectNavigation } from "../../redux/actions";
+import { selectItem } from "../../redux/navigation/actions";
 import { NAV_TYPES } from "./NavigationTypes";
 
-const mapDomainsToNavigation = (domains) =>
-  domains.map(({ domain, overrides }) => ({
-    name: domain,
-    id: domain,
-    isIniitiallyOpen: false,
-    type: NAV_TYPES.DOMAIN,
-    subNodes: overrides
-      .filter((notNull) => !!notNull)
-      .map(({ url, id }) => ({
-        name: url,
-        id,
-        isIniitiallyOpen: false,
-        type: NAV_TYPES.OVERRIDE,
-      })),
-  }));
+const mapFoldersToNavigation = (folders) => folders.root;
 
 const addAndSelectCurrent = (navigation, currentDomain) => {
-  const index = navigation.findIndex(({ name }) => name === currentDomain);
+  const index = navigation.findIndex(({ id }) => id === currentDomain);
   if (index >= 0) {
     navigation[index].isSelected = true;
   } else {
@@ -42,9 +28,9 @@ const addAndSelectCurrent = (navigation, currentDomain) => {
   return navigation.sort(({ name }) => (name === currentDomain ? -1 : 1));
 };
 
-const Navigation = ({ className, domains, domain, select, selected }) => {
-  const mappedOverrides = mapDomainsToNavigation(domains);
-  const navigation = addAndSelectCurrent(mappedOverrides, domain);
+const Navigation = ({ className, folders, domain, select, selected }) => {
+  const mappedNavigation = mapFoldersToNavigation(folders);
+  const navigation = addAndSelectCurrent(mappedNavigation, domain);
   return (
     <nav className={className}>
       {navigation.map((navItem) => (
@@ -56,11 +42,11 @@ const Navigation = ({ className, domains, domain, select, selected }) => {
 
 export default connect(
   (state) => ({
-    domains: getDomainsList(state),
+    folders: getFolders(state),
     domain: getCurrentDomain(state),
     selected: getSelectedNavigation(state),
   }),
   (dispatch) => ({
-    select: (payload) => dispatch(selectNavigation(payload)),
+    select: (payload) => dispatch(selectItem(payload)),
   })
 )(Navigation);

@@ -9,3 +9,8 @@ export const METHODS = [
   "TRACE",
   "OPTIONS",
 ];
+
+export const NAV_TYPES = {
+  DOMAIN: "DOMAIN",
+  OVERRIDE: "OVERRIDE",
+};

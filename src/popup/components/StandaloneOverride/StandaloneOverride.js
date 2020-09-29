@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { saveOverride } from "../../redux/actions";
+import { saveOverride } from "../../redux/overrides/actions";
 import { v4 as uuid } from "uuid";
 import { METHODS } from "../../utils/constants";
 

@@ -1,7 +1,7 @@
 import messaging from "./PluginMessaging";
 import EVENTS from "../../common/communication/plugin/events";
 import store from "../redux/store";
-import { addRequests } from "../redux/actions";
+import { addRequests } from "../redux/requests/actions";
 
 export const startMessaging = () => {
   messaging.subscribe(

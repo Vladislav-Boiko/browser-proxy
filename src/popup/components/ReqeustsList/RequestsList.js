@@ -6,15 +6,15 @@ import { connect } from "react-redux";
 import {
   getAllRequests,
   getRequestsList,
-  getDomainsOpen,
+  getInlineOverrides,
   getCurrentDomain,
 } from "../../redux/selectors";
+import { saveOverride } from "../../redux/overrides/actions";
 import {
-  toggleRequest,
-  saveOverride,
   closeOverride,
   openOverride,
-} from "../../redux/actions";
+} from "../../redux/inlineOverrides/actions";
+import { toggleRequest } from "../../redux/requests/actions";
 
 import "./RequestsList.css";
 
@@ -22,7 +22,7 @@ export const RequestsList = ({
   requests,
   toggle,
   requestsList,
-  domainsOpen,
+  inlineOverrides,
   openOverride,
   closeOverride,
   saveOverride,
@@ -50,7 +50,7 @@ export const RequestsList = ({
                   open={() => toggle(id)}
                 />
                 {isRequestOpen &&
-                  (!domainsOpen[id] ? (
+                  (!inlineOverrides[id] ? (
                     <RequestContent
                       response={response}
                       doOverride={() => openOverride(id)}
@@ -78,7 +78,7 @@ export default connect(
   (state) => ({
     requests: getAllRequests(state),
     requestsList: getRequestsList(state),
-    domainsOpen: getDomainsOpen(state),
+    inlineOverrides: getInlineOverrides(state),
     domain: getCurrentDomain(state),
   }),
   (dispatch) => ({

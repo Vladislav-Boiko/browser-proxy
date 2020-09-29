@@ -1,30 +1,20 @@
+// sorts the requests by timestamp
 export const getAllRequests = (store) =>
-  Object.values(store.requests)
+  Object.values(store.requests.list)
     .reduce((windowReqeusts, requests) => [...requests, ...windowReqeusts], [])
     .sort((left, right) => left.timestamp - right.timestamp);
+export const getRequestsList = (store) => store.requests.openClosed;
 
-export const getRequestsList = (store) => store.requestsList;
-export const getDomainsOpen = (store) => store.overridesOpen;
-export const getDomainsList = (store) => store.domains;
-export const getCurrentDomain = (store) => store.tabDomain;
-export const getSelectedNavigation = (store) => store.selectedNavigation.id;
+export const getSelectedNavigation = (store) => store.navigation.selected.id;
 export const getSelectedNavigationType = (store) =>
-  store.selectedNavigation.type;
-export const getSelectedOverride = (store) => {
-  // TODO: better way of searching
-  for (let domain of store.domains) {
-    for (let override of domain.overrides) {
-      if (override?.id === store.selectedNavigation.id) {
-        return override;
-      }
-    }
-  }
-  return null;
-};
+  store.navigation.selected.type;
 
-export const getSelectedFolder = (store) =>
-  store.selectedNavigation.parent || {
-    id: null,
-    type: null,
-    parent: null,
-  };
+export const getInlineOverrides = (store) => store.inlineOverrides;
+export const getCurrentDomain = (store) => store.page.url;
+
+export const getFolders = (store) => store.folders;
+
+export const getSelectedOverride = (store) => {
+  const currentId = getSelectedNavigation(store);
+  return store.overrides.find((override) => override.id === currentId);
+};
