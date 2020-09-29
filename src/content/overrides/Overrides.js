@@ -1,4 +1,4 @@
-import storage from "../../common/storage/OverridesStorage";
+import serializer from "../../common/storage/Serializer";
 import pluginMessaging from "../communication/PluginMessaging";
 import PLUGIN_EVENTS from "../../common/communication/plugin/events";
 import PROXY_EVENTS from "../../common/communication/injected/events";
@@ -18,7 +18,7 @@ class Overrides {
   }
 
   async updateOverrides() {
-    this.overrides = (await storage.getAllOverridesForDomain()) || {};
+    this.overrides = (await serializer.getAllOverridesForDomain()) || {};
     proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
   }
 }

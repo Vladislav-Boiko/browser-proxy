@@ -1,18 +1,17 @@
 import { startMessaging } from "./communication/withPage";
-import overridesStorage from "../common/storage/OverridesStorage";
-import foldersStorage from "../common/storage/FoldersStorage";
+import serializer from "../common/storage/Serializer.js";
 import store from "./redux/store";
 import { loadOverrides, loadFolders } from "./redux/storage/actions";
 import { setCurrentTab } from "./redux/page/actions";
-//setTabDomain } from "./redux/actions";
+import { selectItem } from "./redux/navigation/actions";
 
 const bootstrapOverrides = async () => {
-  const overrides = await overridesStorage.getAllOverrides();
+  const overrides = await serializer.getAllOverrides();
   store.dispatch(loadOverrides(overrides));
 };
 
 const bootstrapFolders = async () => {
-  const folders = await foldersStorage.getAllFolders();
+  const folders = await serializer.getAllFolders();
   store.dispatch(loadFolders(folders));
 };
 
@@ -21,7 +20,7 @@ const bootstrapTabData = async () => {
     const tab = tabs[0];
     const url = new URL(tab.url);
     store.dispatch(setCurrentTab(url.hostname));
-    // TODO: select the current tab
+    store.dispatch(selectItem({ id: url.hostname, path: [] }));
   });
 };
 

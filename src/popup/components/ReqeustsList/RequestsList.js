@@ -5,11 +5,11 @@ import InlineOverride from "../InlineOverride/InlineOverride";
 import { connect } from "react-redux";
 import {
   getAllRequests,
-  getRequestsList,
+  getOpenClosedRequests,
   getInlineOverrides,
   getCurrentDomain,
 } from "../../redux/selectors";
-import { saveOverride } from "../../redux/overrides/actions";
+import { addOverride } from "../../redux/overrides/actions";
 import {
   closeOverride,
   openOverride,
@@ -21,11 +21,11 @@ import "./RequestsList.css";
 export const RequestsList = ({
   requests,
   toggle,
-  requestsList,
+  openClosedRequests,
   inlineOverrides,
   openOverride,
   closeOverride,
-  saveOverride,
+  addOverride,
   domain,
 }) => {
   if (!requests.length) {
@@ -33,12 +33,13 @@ export const RequestsList = ({
       <h3 className="no-content">No requests were sent by this page yet.</h3>
     );
   }
+  console.log("Inline overrides are:", inlineOverrides);
   return (
     <React.Fragment>
       <h2 className="requests-header">Requests</h2>
       <ul className="requests-list">
         {requests.map(({ id, method, url, status, response }) => {
-          const isRequestOpen = requestsList?.[id]?.isOpen;
+          const isRequestOpen = openClosedRequests?.[id]?.isOpen;
           return (
             <li key={id} className="requests-list__row">
               <React.Fragment>
@@ -62,7 +63,7 @@ export const RequestsList = ({
                       response={response}
                       domain={domain}
                       cancel={() => closeOverride(id)}
-                      save={(override) => saveOverride(id, override)}
+                      save={(override) => addOverride(id, override)}
                     />
                   ))}
               </React.Fragment>
@@ -77,13 +78,13 @@ export const RequestsList = ({
 export default connect(
   (state) => ({
     requests: getAllRequests(state),
-    requestsList: getRequestsList(state),
+    openClosedRequests: getOpenClosedRequests(state),
     inlineOverrides: getInlineOverrides(state),
     domain: getCurrentDomain(state),
   }),
   (dispatch) => ({
     toggle: (id) => dispatch(toggleRequest(id)),
-    saveOverride: (id, payload) => dispatch(saveOverride(id, payload)),
+    addOverride: (id, payload) => dispatch(addOverride(id, payload)),
     openOverride: (id) => dispatch(openOverride(id)),
     closeOverride: (id) => dispatch(closeOverride(id)),
   })

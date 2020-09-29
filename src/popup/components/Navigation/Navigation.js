@@ -13,13 +13,10 @@ const mapFoldersToNavigation = (folders) => folders.root;
 
 const addAndSelectCurrent = (navigation, currentDomain) => {
   const index = navigation.findIndex(({ id }) => id === currentDomain);
-  if (index >= 0) {
-    navigation[index].isSelected = true;
-  } else {
+  if (index < 0) {
     navigation.unshift({
       id: currentDomain,
       name: currentDomain,
-      isSelected: true,
       isIniitiallyOpen: true,
       type: NAV_TYPES.DOMAIN,
     });

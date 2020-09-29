@@ -1,6 +1,5 @@
-import { evolve, spread, where, remove } from "immutableql";
+import { evolve, where, remove, alter } from "immutableql";
 import { ADD_OVERRIDE, REMOVE_OVERRIDE, UPDATE_OVERRIDE } from "./actions";
-import storage from "../../../common/storage/OverridesStorage";
 
 const initialState = {
   list: [],
@@ -12,7 +11,9 @@ export default (state = initialState, action) => {
       case ADD_OVERRIDE: {
         const { id, override } = action.payload;
         return evolve(state, {
-          list: spread([{ id, ...override }]),
+          list: alter((key, value) =>
+            value ? [...value, { id, ...override }] : [{ id, ...override }]
+          ),
         });
       }
       case UPDATE_OVERRIDE: {
@@ -25,7 +26,6 @@ export default (state = initialState, action) => {
       }
       case REMOVE_OVERRIDE:
         const { id } = action.payload;
-        storage.removeOverride(id);
         return evolve(state, {
           list: {
             [where({ id })]: remove(),

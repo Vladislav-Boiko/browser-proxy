@@ -1,7 +1,7 @@
 export const LOAD_REQUESTS = "LOAD_REQUESTS";
-export const addRequests = (requests) => ({
+export const addRequests = (list) => ({
   type: LOAD_REQUESTS,
-  payload: { requests },
+  payload: { list },
 });
 
 export const TOGGLE_REQUEST = "TOGGLE_REQUEST";

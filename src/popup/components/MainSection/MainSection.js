@@ -9,16 +9,14 @@ import {
 } from "../../redux/selectors";
 import { NAV_TYPES } from "../Navigation/NavigationTypes";
 
-const MainSection = ({ selectedType, selectedNavigation, tabDomain }) => {
-  switch (selectedType) {
+const MainSection = ({ type, constentId, pageDomain }) => {
+  console.log("selected type is", type);
+  switch (type) {
     case NAV_TYPES.OVERRIDE:
       return <SelectedOverride />;
     case NAV_TYPES.DOMAIN:
       return (
-        <Domain
-          domain={selectedNavigation}
-          hasRequests={tabDomain === selectedNavigation}
-        />
+        <Domain domain={constentId} hasRequests={pageDomain === constentId} />
       );
     default:
       // TODO: do we need this?
@@ -27,7 +25,7 @@ const MainSection = ({ selectedType, selectedNavigation, tabDomain }) => {
 };
 
 export default connect((state) => ({
-  selectedType: getSelectedNavigationType(state),
-  selectedNavigation: getSelectedNavigation(state),
-  tabDomain: getCurrentDomain(state),
+  type: getSelectedNavigationType(state),
+  constentId: getSelectedNavigation(state),
+  pageDomain: getCurrentDomain(state),
 }))(MainSection);

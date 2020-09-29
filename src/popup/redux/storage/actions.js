@@ -1,23 +1,17 @@
-export const SERIALIZE_FOLDERS = "SERIALIZE_FOLDERS";
-export const serializeFolders = (payload) => ({
-  type: SERIALIZE_FOLDERS,
+export const SERIALIZE = "SERIALIZE";
+export const serialize = (payload) => ({
+  type: SERIALIZE,
   payload,
 });
 
 export const LOAD_FOLDERS = "LOAD_FOLDERS";
-export const loadFolders = (payload) => ({
+export const loadFolders = (folders) => ({
   type: LOAD_FOLDERS,
-  payload,
-});
-
-export const SERIALIZE_OVERRIDES = "SERIALIZE_OVERRIDES";
-export const serializeOverrides = (payload) => ({
-  type: SERIALIZE_OVERRIDES,
-  payload,
+  payload: { folders },
 });
 
 export const LOAD_OVERRIDES = "LOAD_OVERRIDES";
-export const loadOverrides = (payload) => ({
+export const loadOverrides = (overrides) => ({
   type: LOAD_OVERRIDES,
-  payload,
+  payload: { overrides },
 });

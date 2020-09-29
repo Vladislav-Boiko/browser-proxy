@@ -12,7 +12,9 @@ export default (state = initialState, action) => {
       case TOGGLE_REQUEST: {
         return evolve(state, {
           openClosed: {
-            isOpen: !state.openClosed?.[action.payload]?.isOpen,
+            [action.payload]: {
+              isOpen: !state.openClosed?.[action.payload]?.isOpen,
+            },
           },
         });
       }

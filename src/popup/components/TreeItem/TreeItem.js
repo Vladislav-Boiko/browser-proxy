@@ -7,7 +7,7 @@ const TreeItem = ({
   id,
   name,
   subNodes,
-  parent,
+  path,
   select,
   selected,
   type,
@@ -15,14 +15,18 @@ const TreeItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(isIniitiallyOpen);
   return (
-    <ul className={cn("tree__parent", { tree__parent_root: !parent })}>
+    <ul
+      className={cn("tree__parent", {
+        tree__parent_root: !path || !path.length,
+      })}
+    >
       <li
         className={cn("tree__child", { tree__child_selected: selected === id })}
       >
         <button
           className={cn("tree__button", { "tree__button_no-arrow": !subNodes })}
           onClick={() => {
-            select({ id, type, parent });
+            select({ id, type, path });
             subNodes && setIsOpen(!isOpen);
           }}
         >
@@ -40,7 +44,7 @@ const TreeItem = ({
           <li className="tree__child" key={index}>
             <TreeItem
               {...child}
-              parent={{ id, name, type }}
+              path={path ? [...path, id] : [id]}
               select={select}
               selected={selected}
             />

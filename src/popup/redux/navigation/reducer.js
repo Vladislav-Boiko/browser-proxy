@@ -4,11 +4,7 @@ import { SELECT_ITEM } from "./actions";
 const initialState = {
   selected: {
     id: null,
-    name: "",
-    type: null,
-    content: null,
     path: [],
-    subNodes: [],
   },
 };
 

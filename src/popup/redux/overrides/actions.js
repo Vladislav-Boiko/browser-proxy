@@ -1,5 +1,5 @@
 export const ADD_OVERRIDE = "ADD_OVERRIDE";
-export const saveOverride = (id, override) => ({
+export const addOverride = (id, override) => ({
   type: ADD_OVERRIDE,
   payload: {
     id,

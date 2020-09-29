@@ -1,16 +1,15 @@
 const APPLICATION_NAME = "browser-proxy";
 
 class Storage {
-  save(index, value) {
+  save(value) {
     return new Promise((resolve) => {
       chrome.storage.local.get(APPLICATION_NAME, (result) => {
-        if (result[APPLICATION_NAME]) {
-          result[APPLICATION_NAME][index] = value;
-        } else {
-          result[APPLICATION_NAME] = { index: value };
-        }
-        chrome.storage.local.set(result);
-        resolve();
+        result[APPLICATION_NAME] = Object.assign(
+          {},
+          result[APPLICATION_NAME],
+          value
+        );
+        chrome.storage.local.set(result, resolve);
       });
     });
   }
