@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addOverride } from "../../redux/overrides/actions";
+import { selectItem } from "../../redux/navigation/actions";
 import { addItem } from "../../redux/folders/actions";
 import { serialize } from "../../redux/storage/actions";
 import { v4 as uuid } from "uuid";
@@ -55,16 +56,16 @@ const StandaloneOverride = ({ domain, save }) => {
 export default connect(null, (dispatch) => ({
   save: (override) => {
     const id = uuid();
+    const item = { id, path: [override.domain], type: NAV_TYPES.OVERRIDE };
     dispatch(addOverride(id, override));
     dispatch(
       addItem({
-        id,
+        ...item,
         name: override.name || override.url,
-        path: [override.domain],
-        type: NAV_TYPES.OVERRIDE,
         content: id,
       })
     );
+    dispatch(selectItem(item));
     dispatch(serialize());
   },
 }))(StandaloneOverride);

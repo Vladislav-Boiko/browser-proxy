@@ -3,6 +3,21 @@ import cn from "classnames";
 import { ReactComponent as Arrow } from "./arrow.svg";
 
 import "./TreeItem.css";
+
+const isSubPath = (parentPath, childPath) => {
+  if (parentPath.length === childPath.length) {
+    return false;
+  }
+  let childPathCopy = [...childPath];
+  for (let step of parentPath) {
+    const childStep = childPathCopy.shift();
+    if (childStep !== step) {
+      return false;
+    }
+  }
+  return true;
+};
+
 const TreeItem = ({
   id,
   name,
@@ -21,13 +36,15 @@ const TreeItem = ({
       })}
     >
       <li
-        className={cn("tree__child", { tree__child_selected: selected === id })}
+        className={cn("tree__child", {
+          tree__child_selected: selected?.id === id,
+        })}
       >
         <button
           className={cn("tree__button", { "tree__button_no-arrow": !subNodes })}
           onClick={() => {
+            subNodes && !isSubPath(path, selected.path) && setIsOpen(!isOpen);
             select({ id, type, path });
-            subNodes && setIsOpen(!isOpen);
           }}
         >
           {subNodes && (

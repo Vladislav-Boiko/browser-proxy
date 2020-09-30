@@ -19,6 +19,7 @@ const addAndSelectCurrent = (navigation, currentDomain) => {
       name: currentDomain,
       isIniitiallyOpen: true,
       type: NAV_TYPES.DOMAIN,
+      path: [],
     });
   }
   // putting current domain on top
@@ -31,7 +32,7 @@ const Navigation = ({ className, folders, domain, select, selected }) => {
   return (
     <nav className={className}>
       {navigation.map((navItem) => (
-        <TreeItem {...navItem} select={select} selected={selected} />
+        <TreeItem {...navItem} select={select} selected={selected} path={[]} />
       ))}
     </nav>
   );

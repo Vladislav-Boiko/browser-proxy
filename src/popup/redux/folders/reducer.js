@@ -8,11 +8,13 @@ const initialState = {
 };
 
 const setIn = (path, what) => {
-  if (!path.length) {
+  // array.shift is a not pure..
+  let pathCopy = [...path];
+  if (!pathCopy.length) {
     return what;
   } else {
-    const id = path.shift();
-    return { [where({ id })]: { subNodes: setIn(path, what) } };
+    const id = pathCopy.shift();
+    return { [where({ id })]: { subNodes: setIn(pathCopy, what) } };
   }
 };
 
@@ -34,7 +36,12 @@ export default (state = initialState, action) => {
       }
       case REMOVE_ITEM: {
         const item = action.payload;
-        const modification = setIn([...item.path, item.id], remove());
+        const modification = setIn(
+          item.path,
+          alter((key, value) =>
+            value.filter((e) => !!e && e?.id && e?.id !== item.id)
+          )
+        );
         return evolve(state, { root: modification });
       }
       default:

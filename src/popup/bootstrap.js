@@ -4,6 +4,7 @@ import store from "./redux/store";
 import { loadOverrides, loadFolders } from "./redux/storage/actions";
 import { setCurrentTab } from "./redux/page/actions";
 import { selectItem } from "./redux/navigation/actions";
+import { NAV_TYPES } from "./utils/constants";
 
 const bootstrapOverrides = async () => {
   const overrides = await serializer.getAllOverrides();
@@ -20,7 +21,9 @@ const bootstrapTabData = async () => {
     const tab = tabs[0];
     const url = new URL(tab.url);
     store.dispatch(setCurrentTab(url.hostname));
-    store.dispatch(selectItem({ id: url.hostname, path: [] }));
+    store.dispatch(
+      selectItem({ id: url.hostname, path: [], type: NAV_TYPES.DOMAIN })
+    );
   });
 };
 

@@ -27,9 +27,9 @@ export default (state = initialState, action) => {
       case REMOVE_OVERRIDE:
         const { id } = action.payload;
         return evolve(state, {
-          list: {
-            [where({ id })]: remove(),
-          },
+          list: alter((key, value) =>
+            value.filter((e) => !!e && e?.id && e?.id !== id)
+          ),
         });
       default:
         return evolve(state, action.payload);

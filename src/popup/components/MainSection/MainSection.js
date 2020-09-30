@@ -10,7 +10,6 @@ import {
 import { NAV_TYPES } from "../Navigation/NavigationTypes";
 
 const MainSection = ({ type, constentId, pageDomain }) => {
-  console.log("selected type is", type);
   switch (type) {
     case NAV_TYPES.OVERRIDE:
       return <SelectedOverride />;
@@ -26,6 +25,6 @@ const MainSection = ({ type, constentId, pageDomain }) => {
 
 export default connect((state) => ({
   type: getSelectedNavigationType(state),
-  constentId: getSelectedNavigation(state),
+  constentId: getSelectedNavigation(state)?.id,
   pageDomain: getCurrentDomain(state),
 }))(MainSection);

@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { updateOverride, removeOverride } from "../../redux/overrides/actions";
-import { getSelectedOverride } from "../../redux/selectors";
+import { removeItem } from "../../redux/folders/actions";
+import { serialize } from "../../redux/storage/actions";
+import {
+  getSelectedOverride,
+  getSelectedNavigation,
+} from "../../redux/selectors";
 import { METHODS } from "../../utils/constants";
 
-const SelectedOverride = ({ override, save, remove }) => {
+const SelectedOverride = ({ override, save, remove, navItem }) => {
   const [idValue, setId] = useState(override.id);
   const [urlValue, setUrl] = useState(override.url);
   const [responseValue, setResponse] = useState(override.response);
   const [method, setMethod] = useState(override.method);
   // TODO: better implementation of initial values
-  if (idValue !== override.id) {
-    setId(override.id);
+  if (idValue !== navItem.id) {
+    setId(navItem.id);
     setUrl(override.url);
     setResponse(override.response);
   }
@@ -48,7 +53,7 @@ const SelectedOverride = ({ override, save, remove }) => {
         className="delete-button"
         onClick={(e) => {
           e.preventDefault();
-          remove(idValue);
+          remove(navItem);
         }}
       >
         Delete
@@ -74,9 +79,14 @@ const SelectedOverride = ({ override, save, remove }) => {
 export default connect(
   (state) => ({
     override: getSelectedOverride(state),
+    navItem: getSelectedNavigation(state),
   }),
   (dispatch) => ({
     save: (id, override) => dispatch(updateOverride(id, override)),
-    remove: (id) => dispatch(removeOverride(id)),
+    remove: (navItem) => {
+      dispatch(removeOverride(navItem.id));
+      dispatch(removeItem(navItem));
+      dispatch(serialize());
+    },
   })
 )(SelectedOverride);

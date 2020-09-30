@@ -33,7 +33,6 @@ export const RequestsList = ({
       <h3 className="no-content">No requests were sent by this page yet.</h3>
     );
   }
-  console.log("Inline overrides are:", inlineOverrides);
   return (
     <React.Fragment>
       <h2 className="requests-header">Requests</h2>
