@@ -10,6 +10,7 @@ import {
   getCurrentDomain,
 } from "../../redux/selectors";
 import { addOverride } from "../../redux/overrides/actions";
+import { addNewOverride } from "../../redux/actions";
 import {
   closeOverride,
   openOverride,
@@ -35,7 +36,6 @@ export const RequestsList = ({
   }
   return (
     <React.Fragment>
-      <h2 className="requests-header">Requests</h2>
       <ul className="requests-list">
         {requests.map(({ id, method, url, status, response }) => {
           const isRequestOpen = openClosedRequests?.[id]?.isOpen;
@@ -62,7 +62,7 @@ export const RequestsList = ({
                       response={response}
                       domain={domain}
                       cancel={() => closeOverride(id)}
-                      save={(override) => addOverride(id, override)}
+                      save={addOverride}
                     />
                   ))}
               </React.Fragment>
@@ -83,7 +83,8 @@ export default connect(
   }),
   (dispatch) => ({
     toggle: (id) => dispatch(toggleRequest(id)),
-    addOverride: (id, payload) => dispatch(addOverride(id, payload)),
+    // TODO: distinguish when an override for the request was already add
+    addOverride: (override) => addNewOverride(dispatch, override),
     openOverride: (id) => dispatch(openOverride(id)),
     closeOverride: (id) => dispatch(closeOverride(id)),
   })
