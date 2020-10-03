@@ -8,20 +8,24 @@
   color: #000;
 }
 
-.method {
+/* .method {
   grid-column: 1 / 2;
-  align-self: center;
+}
+
+.url {
+  grid-column: 2 / 7;
 }
 
 .url-input {
-  grid-column: 2 / 7;
   padding: 0.5rem;
 }
 
-.response-input {
+.response {
   grid-column: 1 / 7;
-  padding: 0.5rem;
 }
+.response-input {
+  padding: 0.5rem;
+} */
 
 .cancel-button {
   grid-column: 5 / 6;

@@ -7,7 +7,6 @@ export const METHODS = [
   "OPTIONS",
   "PATCH",
   "TRACE",
-  "OPTIONS",
 ];
 
 export const NAV_TYPES = {

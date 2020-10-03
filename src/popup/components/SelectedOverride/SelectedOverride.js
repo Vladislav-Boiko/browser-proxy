@@ -22,8 +22,8 @@ const SelectedOverride = ({ override, save, remove, navItem }) => {
   }
   return (
     <form className="override">
-      <label>
-        Method:
+      <label className="method">
+        <span>Method</span>
         <select
           name="method"
           value={method}
@@ -34,21 +34,24 @@ const SelectedOverride = ({ override, save, remove, navItem }) => {
           ))}
         </select>
       </label>
-      <input
-        type="text"
-        value={urlValue}
-        id="url"
-        className="url-input"
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <label htmlFor="response" className="response-label">
-        Response
+      <label className="url">
+        <span>URL</span>
+        <input
+          type="text"
+          value={urlValue}
+          id="url"
+          className="url-input"
+          onChange={(e) => setUrl(e.target.value)}
+        />
       </label>
-      <textarea
-        value={responseValue}
-        className="response-input"
-        onChange={(e) => setResponse(e.target.value)}
-      ></textarea>
+      <label className="response">
+        <span className="response-label">Response</span>
+        <textarea
+          value={responseValue}
+          className="response-input"
+          onChange={(e) => setResponse(e.target.value)}
+        ></textarea>
+      </label>
       <button
         className="delete-button"
         onClick={(e) => {

@@ -13,22 +13,24 @@ export default ({ id, url, method, response, cancel, save, domain }) => {
   }
   return (
     <form className="override">
-      <span className="method">{method}</span>
-      <input
-        type="text"
-        value={urlValue}
-        id="url"
-        className="url-input"
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <label htmlFor="response" className="response-label">
-        Response
+      <label className="url">
+        <span>URL</span>
+        <input
+          type="text"
+          value={urlValue}
+          id="url"
+          className="url-input"
+          onChange={(e) => setUrl(e.target.value)}
+        />
       </label>
-      <textarea
-        value={responseValue}
-        className="response-input"
-        onChange={(e) => setResponse(e.target.value)}
-      ></textarea>
+      <label className="response">
+        <span>Response</span>
+        <textarea
+          value={responseValue}
+          className="response-input"
+          onChange={(e) => setResponse(e.target.value)}
+        ></textarea>
+      </label>
       <button
         className="cancel-button"
         onClick={(e) => {
