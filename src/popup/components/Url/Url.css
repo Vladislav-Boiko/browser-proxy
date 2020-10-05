@@ -16,9 +16,7 @@
 }
 
 .method__label,
-.url__label,
-.queryParamterValue__label,
-.queryParamterKey__label {
+.url__label {
   display: block;
   font-size: 12px;
   margin-bottom: 6px;
@@ -26,33 +24,10 @@
 }
 
 .method__dropdown,
-.url__input,
-.queryParamterKey__input,
-.queryParamterValue__input {
+.url__input {
   width: 100%;
   padding: 0.5rem;
   box-sizing: border-box;
-}
-
-.queryParamterKey {
-  grid-column: 2 / 5;
-}
-
-.queryParamterValue {
-  grid-column: 5 / 12;
-}
-
-.queryParamterKey__label,
-.queryParamterValue__label,
-.queryParamterCheckBox__label {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
 }
 
 .queryParameters {
@@ -73,29 +48,4 @@
 
 .queryParameters__legend {
   grid-column: 1/13;
-}
-
-.queryParamterCheckBox_input {
-  margin: 0;
-}
-
-.queryParameter__delete {
-  grid-column: 12/13;
-  cursor: pointer;
-  border-radius: 4px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  align-self: center;
-  border: none;
-  color: #fff;
-  text-align: center;
-  line-height: 26px;
-  font-weight: bold;
-  background-color: rgba(167, 3, 3, 0.842);
-}
-
-.queryParameter__delete:hover,
-.queryParameter__delete:focus {
-  background-color: rgba(167, 3, 3, 1);
 }
