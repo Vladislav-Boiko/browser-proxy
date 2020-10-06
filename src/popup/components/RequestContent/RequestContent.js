@@ -6,7 +6,7 @@ const RequestContent = ({ response, doOverride }) => (
   <div className="request-body">
     <div className="request-content">
       <h3>Response</h3>
-      <div className="response">
+      <div className="request__response">
         <ResponseBody response={response} />
       </div>
     </div>

@@ -7,13 +7,17 @@ import {
   getSelectedOverride,
   getSelectedNavigation,
 } from "../../redux/selectors";
-import { METHODS } from "../../utils/constants";
+import Url from "../Url/Url";
+import ResponseOverride from "../ResposeOverride/ResponseOverride";
+import { v4 as uuid } from "uuid";
+import "./SelectedOverride.css";
 
-const SelectedOverride = ({ override, save, remove, navItem }) => {
-  const [idValue, setId] = useState(override.id);
+export const SelectedOverride = ({ override, save, remove, navItem }) => {
+  const [idValue, setId] = useState(override?.id || uuid());
   const [urlValue, setUrl] = useState(override.url);
   const [responseValue, setResponse] = useState(override.response);
   const [method, setMethod] = useState(override.method);
+  console.log("The response value is", responseValue);
   // TODO: better implementation of initial values
   if (idValue !== navItem.id) {
     setId(navItem.id);
@@ -21,37 +25,22 @@ const SelectedOverride = ({ override, save, remove, navItem }) => {
     setResponse(override.response);
   }
   return (
-    <form className="override">
-      <label className="method">
-        <span>Method</span>
-        <select
-          name="method"
-          value={method}
-          onChange={(e) => setMethod(e.target.value)}
-        >
-          {METHODS.map((name) => (
-            <option value={name}>{name}</option>
-          ))}
-        </select>
-      </label>
-      <label className="url">
-        <span>URL</span>
-        <input
-          type="text"
-          value={urlValue}
-          id="url"
-          className="url-input"
-          onChange={(e) => setUrl(e.target.value)}
-        />
-      </label>
-      <label className="response">
-        <span className="response-label">Response</span>
-        <textarea
-          value={responseValue}
-          className="response-input"
-          onChange={(e) => setResponse(e.target.value)}
-        ></textarea>
-      </label>
+    <form className="selected-override">
+      <Url
+        className="selected-override__url"
+        url={override.url}
+        onChange={({ method, url }) => {
+          setUrl(url);
+          setMethod(method);
+        }}
+      />
+      <ResponseOverride
+        className="selected-override__response"
+        type={responseValue.type}
+        code={responseValue.code}
+        value={responseValue.value}
+        onChange={setResponse}
+      />
       <button
         className="delete-button"
         onClick={(e) => {
@@ -85,7 +74,10 @@ export default connect(
     navItem: getSelectedNavigation(state),
   }),
   (dispatch) => ({
-    save: (id, override) => dispatch(updateOverride(id, override)),
+    save: (id, override) => {
+      dispatch(updateOverride(id, override));
+      dispatch(serialize());
+    },
     remove: (navItem) => {
       dispatch(removeOverride(navItem.id));
       dispatch(removeItem(navItem));

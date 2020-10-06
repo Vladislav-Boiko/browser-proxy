@@ -1,0 +1,14 @@
+.response-text__label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  margin-left: 1px;
+}
+
+.response-text__input {
+  min-height: 200px;
+}
+
+.response-text__input textarea {
+  font-family: monospace;
+}

@@ -7,27 +7,11 @@
 
 .method {
   grid-column: 1 / 4;
-  position: relative;
 }
 
 .url {
   grid-column: 4 / 13;
   position: relative;
-}
-
-.method__label,
-.url__label {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 6px;
-  margin-left: 1px;
-}
-
-.method__dropdown,
-.url__input {
-  width: 100%;
-  padding: 0.5rem;
-  box-sizing: border-box;
 }
 
 .queryParameters {

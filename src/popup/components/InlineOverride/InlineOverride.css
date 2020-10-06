@@ -1,35 +1,48 @@
-.override {
+.inline-override {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
-  padding: 1rem;
-  background-color: #fff;
-  color: #000;
+  grid-row-gap: 0.5rem;
 }
 
-/* .method {
-  grid-column: 1 / 2;
+.inline-override__url {
+  grid-column: 1/13;
 }
 
-.url {
-  grid-column: 2 / 7;
+.inline-override__response {
+  grid-column: 1/13;
+  margin: 2rem 0;
 }
 
-.url-input {
-  padding: 0.5rem;
+.save-button {
+  grid-column: 10 / 13;
+}
+
+.save-button,
+.cancel-button,
+.delete-button {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
 }
 
 .response {
-  grid-column: 1 / 7;
+  margin-top: 1rem;
+  grid-column: 1/7;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
-.response-input {
-  padding: 0.5rem;
-} */
 
-.cancel-button {
-  grid-column: 5 / 6;
+.response__label {
+  grid-column: 1/7;
 }
-.save-button {
-  grid-column: 6 / 7;
+
+.response__input {
+  grid-column: 1/7;
+}
+
+.response__label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  margin-left: 1px;
 }

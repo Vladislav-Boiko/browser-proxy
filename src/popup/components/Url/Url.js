@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import URLParameter from "./UrlParameter/UrlParameter";
 import { METHODS } from "../../utils/constants";
+import cn from "classnames";
+import { LABEL_TYPES } from "../atoms/Label/Label";
+import Select, { SELECT_SIZES } from "../atoms/Select/Select";
+import Input from "../atoms/Input/Input";
+
 import "./Url.css";
 
 class Url extends React.Component {
@@ -9,6 +14,59 @@ class Url extends React.Component {
     urlValue: "",
     urlParams: [{ key: "", value: "", delimeter: "" }],
   };
+
+  render() {
+    const { method, urlParams } = this.state;
+    const { className } = this.props;
+    return (
+      <div className={cn("url-container", className)}>
+        <Select
+          className="method"
+          label="Method"
+          labelType={LABEL_TYPES.BLOCK}
+          options={METHODS.map((name) => ({ name, value: name }))}
+          initial={method || METHODS.GET}
+          onChange={(value) => this.setMethod(value)}
+          size={SELECT_SIZES.LARGE}
+        />
+        <Input
+          className="url"
+          value={this.getUrlString()}
+          onChange={(e) => {
+            this.onUrlValueChange(e.target.value);
+          }}
+          label="URL"
+          labelType={LABEL_TYPES.BLOCK}
+        />
+        <fieldset className="queryParameters">
+          <div className="queryParameters__grid">
+            <legend className="queryParameters__legend">
+              Query Parameters
+            </legend>
+            {urlParams.map(({ key, value, isDisabled }, index) => (
+              <URLParameter
+                key={`url-parameter-${index}`}
+                keyName={key}
+                value={value}
+                isDisabled={isDisabled}
+                setKeyName={(newKeyName) =>
+                  this.onQueryKeyChange(newKeyName, index)
+                }
+                setValue={(newValue) =>
+                  this.onQueryValueChange(newValue, index)
+                }
+                toggleDisabled={() => this.onQueryToggleDisabled(index)}
+                remove={
+                  index !== urlParams.length - 1 &&
+                  (() => this.onQueryRemove(index))
+                }
+              />
+            ))}
+          </div>
+        </fieldset>
+      </div>
+    );
+  }
 
   addEmptyParams(params) {
     return [...params, { key: "", value: "", delimeter: "" }];
@@ -87,6 +145,16 @@ class Url extends React.Component {
     this.setState({ urlParams });
   }
 
+  constructPayload() {
+    const url = this.getUrlString();
+    const { method } = this.state;
+    return { method, url };
+  }
+
+  componentDidUpdate() {
+    this.props.onChange && this.props.onChange(this.constructPayload());
+  }
+
   onUrlValueChange(value) {
     const { urlParams } = this.state;
     const parsed = this.parseUrl(value);
@@ -135,7 +203,7 @@ class Url extends React.Component {
   }
 
   componentDidMount() {
-    this.onUrlValueChange(this.props.url);
+    this.onUrlValueChange(this.props.url || "");
   }
 
   // TODO: think of getDerivedStateFromProps
@@ -143,62 +211,6 @@ class Url extends React.Component {
     if (newProps.url !== this.props.url) {
       this.onUrlValueChange(newProps.url);
     }
-  }
-
-  render() {
-    const { method, urlParams } = this.state;
-    return (
-      <div className="url-container">
-        <label className="method">
-          <span className="method__label">Method</span>
-          <select
-            className="method__dropdown"
-            name="method"
-            value={method}
-            onChange={(e) => this.setMethod(e.target.value)}
-          >
-            {METHODS.map((name) => (
-              <option value={name}>{name}</option>
-            ))}
-          </select>
-        </label>
-        <label className="url">
-          <span className="url__label">URL</span>
-          <input
-            className="url__input"
-            type="text"
-            value={this.getUrlString()}
-            onChange={(e) => {
-              this.onUrlValueChange(e.target.value);
-            }}
-          />
-        </label>
-        <fieldset className="queryParameters">
-          <div className="queryParameters__grid">
-            <legend className="queryParameters__legend">Query Params</legend>
-            {urlParams.map(({ key, value, isDisabled }, index) => (
-              <URLParameter
-                key={`url-parameter-${index}`}
-                keyName={key}
-                value={value}
-                isDisabled={isDisabled}
-                setKeyName={(newKeyName) =>
-                  this.onQueryKeyChange(newKeyName, index)
-                }
-                setValue={(newValue) =>
-                  this.onQueryValueChange(newValue, index)
-                }
-                toggleDisabled={() => this.onQueryToggleDisabled(index)}
-                remove={
-                  index !== urlParams.length - 1 &&
-                  (() => this.onQueryRemove(index))
-                }
-              />
-            ))}
-          </div>
-        </fieldset>
-      </div>
-    );
   }
 }
 

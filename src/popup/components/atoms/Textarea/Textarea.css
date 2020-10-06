@@ -1,0 +1,16 @@
+.textarea__wrapper {
+  display: flex;
+}
+
+.input__wrapper_block {
+  flex-flow: column;
+}
+
+.textarea {
+  flex: 1 1;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-radius: 4px;
+  max-width: 100%;
+}

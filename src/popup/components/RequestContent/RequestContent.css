@@ -2,7 +2,7 @@
   display: grid;
 }
 
-.response {
+.request__response {
   background-color: #dddfe5;
   padding: 1rem;
   padding-right: 2rem;

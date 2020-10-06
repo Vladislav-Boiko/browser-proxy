@@ -1,4 +1,6 @@
 import React from "react";
+import Input from "../../atoms/Input/Input";
+import { LABEL_TYPES } from "../../atoms/Label/Label";
 
 import "./UrlParameter.css";
 const URLParameter = ({
@@ -25,28 +27,24 @@ const URLParameter = ({
           }}
         />
       </label>
-      <label className="queryParamterKey">
-        <span className="queryParamterKey__label">Key</span>
-        <input
-          disabled={isDisabled}
-          className="queryParamterKey__input"
-          type="text"
-          value={keyName || ""}
-          onChange={(e) => setKeyName(e.target.value)}
-          placeholder="Key"
-        />
-      </label>
-      <label className="queryParamterValue">
-        <span className="queryParamterValue__label">Value</span>
-        <input
-          disabled={isDisabled}
-          className="queryParamterValue__input"
-          type="text"
-          value={value || ""}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="Value"
-        />
-      </label>
+      <Input
+        className="queryParamterKey"
+        label="Key"
+        labelType={LABEL_TYPES.HIDDEN}
+        value={keyName || ""}
+        onChange={(value) => setKeyName(value)}
+        placeholder="Key"
+        disabled={isDisabled}
+      />
+      <Input
+        className="queryParamterValue"
+        label="Value"
+        labelType={LABEL_TYPES.HIDDEN}
+        value={value || ""}
+        onChange={(value) => setValue(value)}
+        placeholder="Value"
+        disabled={isDisabled}
+      />
       {remove && (
         <button className="queryParameter__delete" onClick={remove}>
           X

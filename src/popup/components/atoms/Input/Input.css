@@ -1,0 +1,20 @@
+.input__wrapper {
+  display: flex;
+}
+
+.input__wrapper_block {
+  flex-flow: column;
+}
+
+.input__wrapper_line {
+  align-items: center;
+}
+
+.input {
+  flex: 1 1;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  border-radius: 4px;
+  max-width: 100%;
+}
