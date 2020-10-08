@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import MainSection from "./components/MainSection/MainSection";
 import Navigation from "./components/Navigation/Navigation";
+import Footer from "./components/Footer/Footer";
 import bootstrap from "./bootstrap.js";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <main className="app-main">
           <MainSection />
         </main>
+        {!chrome.devtools && <Footer className="app-footer" />}
       </div>
     </Provider>
   );

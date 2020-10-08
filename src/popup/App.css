@@ -18,3 +18,9 @@
   padding: 1rem;
   grid-column: 5 / 13;
 }
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

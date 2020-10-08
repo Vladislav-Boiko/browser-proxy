@@ -9,7 +9,6 @@ import {
   getInlineOverrides,
   getCurrentDomain,
 } from "../../redux/selectors";
-import { addOverride } from "../../redux/overrides/actions";
 import { addNewOverride } from "../../redux/actions";
 import {
   closeOverride,

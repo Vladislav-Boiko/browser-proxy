@@ -12,18 +12,22 @@ import { NAV_TYPES } from "./NavigationTypes";
 const mapFoldersToNavigation = (folders) => folders.root;
 
 const addAndSelectCurrent = (navigation, currentDomain) => {
-  const index = navigation.findIndex(({ id }) => id === currentDomain);
-  if (index < 0) {
-    navigation.unshift({
-      id: currentDomain,
-      name: currentDomain,
-      isIniitiallyOpen: true,
-      type: NAV_TYPES.DOMAIN,
-      path: [],
-    });
+  if (currentDomain) {
+    const index = navigation.findIndex(({ id }) => id === currentDomain);
+    if (index < 0) {
+      navigation.unshift({
+        id: currentDomain,
+        name: currentDomain,
+        isIniitiallyOpen: true,
+        type: NAV_TYPES.DOMAIN,
+        path: [],
+      });
+    }
   }
   // putting current domain on top
-  return navigation.sort(({ name }) => (name === currentDomain ? -1 : 1));
+  return navigation
+    .sort(({ name }) => (name === currentDomain ? -1 : 1))
+    .filter(({ name, id }) => name && id);
 };
 
 const Navigation = ({ className, folders, domain, select, selected }) => {

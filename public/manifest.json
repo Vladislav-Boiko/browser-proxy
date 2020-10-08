@@ -9,6 +9,7 @@
     "default_popup": "popup.html"
   },
   "permissions": ["activeTab", "storage"],
+  "devtools_page": "popup.html",
   "content_scripts": [
     {
       "run_at": "document_start",

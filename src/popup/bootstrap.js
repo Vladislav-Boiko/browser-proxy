@@ -19,12 +19,25 @@ const bootstrapFolders = async () => {
 const bootstrapTabData = async () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
-    const url = new URL(tab.url);
-    store.dispatch(setCurrentTab(url.hostname));
-    store.dispatch(
-      selectItem({ id: url.hostname, path: [], type: NAV_TYPES.DOMAIN })
-    );
+    if (tab?.url) {
+      const url = new URL(tab.url);
+      store.dispatch(setCurrentTab(url.hostname));
+      store.dispatch(
+        selectItem({ id: url.hostname, path: [], type: NAV_TYPES.DOMAIN })
+      );
+    }
   });
+};
+
+const bootstrapDevtoolsTab = () => {
+  if (chrome.devtools) {
+    chrome.devtools.panels.create(
+      "Browser-Proxy",
+      "",
+      "popup.html",
+      (panel) => {}
+    );
+  }
 };
 
 export default () => {
@@ -32,4 +45,5 @@ export default () => {
   bootstrapOverrides();
   bootstrapFolders();
   bootstrapTabData();
+  bootstrapDevtoolsTab();
 };
