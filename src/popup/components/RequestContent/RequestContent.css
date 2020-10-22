@@ -14,25 +14,6 @@
   font-size: 1rem;
 }
 
-.override-button {
-  background-color: transparent;
-  border: 2px solid #001f36;
-  border-radius: 3px;
-  color: #001f36;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-  font-weight: bolder;
-  font-size: 14px;
-  font-family: Nunito;
-  float: right;
-}
-
-.override-button:hover {
-  color: #fafafa;
-  background-color: #001f36;
-  border-color: #001f36;
-}
-
 .response-text {
   color: #000;
   word-break: break-all;

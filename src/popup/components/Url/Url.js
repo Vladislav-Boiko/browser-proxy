@@ -7,7 +7,6 @@ import Select, { SELECT_SIZES } from "../atoms/Select/Select";
 import Input from "../atoms/Input/Input";
 
 import "./Url.css";
-
 class Url extends React.Component {
   state = {
     method: METHODS[0],
@@ -32,8 +31,8 @@ class Url extends React.Component {
         <Input
           className="url"
           value={this.getUrlString()}
-          onChange={(e) => {
-            this.onUrlValueChange(e.target.value);
+          onChange={(value) => {
+            this.onUrlValueChange(value);
           }}
           label="URL"
           labelType={LABEL_TYPES.BLOCK}
@@ -202,14 +201,16 @@ class Url extends React.Component {
     this.setUrlParams(urlParamsCopy);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.onUrlValueChange(this.props.url || "");
+    this.setMethod(this.props.method || "GET");
   }
 
   // TODO: think of getDerivedStateFromProps
   componentWillReceiveProps(newProps) {
     if (newProps.url !== this.props.url) {
       this.onUrlValueChange(newProps.url);
+      this.setMethod(this.props.method);
     }
   }
 }

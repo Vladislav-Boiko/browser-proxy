@@ -1,22 +1,22 @@
-import React from "react";
-import RequestHeader from "../RequestHeader/RequestHeader";
-import RequestContent from "../RequestContent/RequestContent";
-import InlineOverride from "../InlineOverride/InlineOverride";
-import { connect } from "react-redux";
+import React from 'react';
+import RequestHeader from '../RequestHeader/RequestHeader';
+import RequestContent from '../RequestContent/RequestContent';
+import InlineOverride from '../../containers/InlineOverride/InlineOverride';
+import { connect } from 'react-redux';
 import {
   getAllRequests,
   getOpenClosedRequests,
   getInlineOverrides,
   getCurrentDomain,
-} from "../../redux/selectors";
-import { addNewOverride } from "../../redux/actions";
+} from '../../redux/selectors';
+import { addNewOverride } from '../../redux/actions';
 import {
   closeOverride,
   openOverride,
-} from "../../redux/inlineOverrides/actions";
-import { toggleRequest } from "../../redux/requests/actions";
+} from '../../redux/inlineOverrides/actions';
+import { toggleRequest } from '../../redux/requests/actions';
 
-import "./RequestsList.css";
+import './RequestsList.css';
 
 export const RequestsList = ({
   requests,
@@ -86,5 +86,5 @@ export default connect(
     addOverride: (override) => addNewOverride(dispatch, override),
     openOverride: (id) => dispatch(openOverride(id)),
     closeOverride: (id) => dispatch(closeOverride(id)),
-  })
+  }),
 )(RequestsList);

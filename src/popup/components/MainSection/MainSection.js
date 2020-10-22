@@ -1,15 +1,16 @@
-import React from "react";
-import SelectedOverride from "../SelectedOverride/SelectedOverride";
-import Domain from "../Domain/Domain";
-import { connect } from "react-redux";
+import React from 'react';
+import SelectedOverride from '../../containers/SelectedOverride/SelectedOverride';
+import Domain from '../Domain/Domain';
+import { connect } from 'react-redux';
 import {
   getSelectedNavigationType,
   getSelectedNavigation,
   getCurrentDomain,
-} from "../../redux/selectors";
-import { NAV_TYPES } from "../Navigation/NavigationTypes";
+} from '../../redux/selectors';
+import { NAV_TYPES } from '../Navigation/NavigationTypes';
 
 const MainSection = ({ type, constentId, pageDomain }) => {
+  // TODO: some sort of router?
   switch (type) {
     case NAV_TYPES.OVERRIDE:
       return <SelectedOverride />;

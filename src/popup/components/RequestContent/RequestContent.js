@@ -1,6 +1,7 @@
-import React from "react";
-import ResponseBody from "../ResponseBody/ResponseBody";
-import "./RequestContent.css";
+import React from 'react';
+import ResponseBody from '../ResponseBody/ResponseBody';
+import Button from '../atoms/button/Button';
+import './RequestContent.css';
 
 const RequestContent = ({ response, doOverride }) => (
   <div className="request-body">
@@ -11,15 +12,9 @@ const RequestContent = ({ response, doOverride }) => (
       </div>
     </div>
     <div className="request-actions">
-      <button
-        className="override-button"
-        onClick={(e) => {
-          e.preventDefault();
-          doOverride();
-        }}
-      >
+      <Button className="override-button" onClick={doOverride}>
         Override
-      </button>
+      </Button>
     </div>
   </div>
 );
