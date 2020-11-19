@@ -1,18 +1,25 @@
-import React from "react";
-
-import Input from "./Input";
+import React, { useState } from 'react';
+import Input from './Input';
+import DelayInput from './DelayInput';
 
 export default {
-  title: "Input",
+  title: 'Input',
   component: Input,
 };
 
-const Template = (args) => <Input {...args} />;
+const Template = (args) => {
+  const [value, setValue] = useState(args.value);
+  return (
+    <div>
+      <Input {...args} onChange={setValue} value={value} />
+      <DelayInput className="my2" {...args} label="Delay" value="200ms" />
+    </div>
+  );
+};
 
 export const Story = Template.bind({});
 const tree = {
-  initial: "text",
-  label: "Some input",
-  labelType: "INLINE",
+  value: 'Connection',
+  label: 'Search',
 };
 Story.args = tree;

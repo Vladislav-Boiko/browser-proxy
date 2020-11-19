@@ -1,34 +1,35 @@
 @import-normalize;
-@import "./fonts/index.css";
+@import './fonts/index.css';
+@import './components/atoms/Colors/Colors.css';
+@import './components/atoms/Text/Text.css';
+@import './components/atoms/Sizes/Sizes.css';
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #333;
+  color: black;
   background: #fff;
 }
 
 body,
 button,
 a {
-  font-family: "Nunito";
+  font-family: IBM Plex Sans;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-h2 {
-  font-weight: normal;
-  font-size: 20px;
-}
-
-h3 {
-  font-weight: normal;
 }
 
 ul {
   list-style: none;
+}
+
+*:focus {
+  outline-color: var(--c2);
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: 2px;
 }

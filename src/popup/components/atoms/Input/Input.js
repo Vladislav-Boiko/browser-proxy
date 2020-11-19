@@ -1,40 +1,39 @@
-import React from "react";
-import cn from "classnames";
-import Label, { LABEL_TYPES, LABEL_SIZES } from "../Label/Label";
+import React from 'react';
+import cn from 'classnames';
+import Icons from '../Icons/Icons';
 
-import "./Input.css";
+import './Input.css';
 
-const Input = ({
-  value,
-  className,
-  onChange,
-  labelType,
-  label,
-  ...otherProps
-}) => {
+const Input = ({ value, className, onChange, label, icon, ...otherProps }) => {
   return (
-    <Label
-      className={cn(className, "input__wrapper", {
-        input__wrapper_block: labelType === LABEL_TYPES.BLOCK,
-        input__wrapper_line:
-          labelType === LABEL_TYPES.INLINE || labelType === LABEL_TYPES.HIDDEN,
-      })}
-      type={labelType}
-      label={label}
-      size={
-        labelType === LABEL_TYPES.BLOCK ? LABEL_SIZES.SMALL : LABEL_SIZES.LARGE
-      }
-    >
+    <label className={cn('input-label', className)}>
+      <span className="label_weak g1-color">{label}</span>
       <input
-        className="input"
+        className="input label_weak g6-bg px2 py1"
         type="text"
         {...otherProps}
         value={value}
         onChange={(e) => {
           onChange && onChange(e.target.value);
         }}
-      />
-    </Label>
+      ></input>
+      <label
+        className={cn('cross-button input-icon', {
+          'cross-button_shown': !!value && !icon,
+        })}
+      >
+        <span className="label__text_hidden">Clear input {label}</span>
+        <button
+          className="input__cross px2"
+          onClick={() => {
+            onChange && onChange('');
+          }}
+        >
+          <Icons.Cross />
+        </button>
+      </label>
+      {icon && <div className="input-icon px2">{icon}</div>}
+    </label>
   );
 };
 

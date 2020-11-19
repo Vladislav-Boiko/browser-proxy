@@ -1,0 +1,74 @@
+svg {
+  fill: var(--primary);
+  width: 10px;
+  height: 10px;
+}
+
+.icon_sm {
+  width: 10px;
+  height: 10px;
+}
+
+.icon_md {
+  width: 16px;
+  height: 16px;
+}
+
+.icon_lg {
+  width: 20px;
+  height: 20px;
+}
+
+.animate_watch {
+  transform-origin: center center;
+  animation: 600ms ease-out 0s 1 wholeWatch;
+}
+
+.animate_watch .watch_svg__top {
+  transform-origin: center center;
+  animation: 600ms ease-out 0s 1 watchTop;
+}
+
+.animate_watch .watch_svg__arrow {
+  transform-origin: center 55%;
+  animation: 600ms ease-out 0s 1 watchArrow;
+}
+
+@keyframes watchTop {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes watchArrow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wholeWatch {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
