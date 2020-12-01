@@ -1,0 +1,33 @@
+.section {
+  position: relative;
+}
+
+.section__header {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding-top: var(--em) 0;
+}
+
+.section__chevron,
+.section__body {
+  transition: all 0.2s ease-out;
+}
+
+.section__chevron_closed {
+  transform: rotate(-90deg);
+}
+
+.section__body {
+  width: 100%;
+  transform-origin: top center;
+  position: relative;
+}
+
+.section__body_closed {
+  display: none;
+}

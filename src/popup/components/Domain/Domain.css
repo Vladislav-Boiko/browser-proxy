@@ -1,26 +1,32 @@
-.menu {
+.disabled-domain {
+  display: block;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.disabled-domain__teaser,
+.disabled-domain__teaser svg {
+  max-height: 80%;
+  max-width: 40%;
+  position: absolute;
+  left: -10%;
+  top: 20%;
+}
+
+.disabled-domain__content {
+  position: absolute;
+  left: 30%;
+  height: 100%;
+  justify-content: center;
   display: flex;
-  flex-flow: row;
-  padding: 0;
+  flex-flow: column;
 }
 
-.menu__button {
-  background-color: transparent;
-  border: none;
-  font-size: 1rem;
-  padding: 0.5rem 0;
-  cursor: pointer;
-}
-
-.menu_button_selected {
-  border-bottom: 3px solid black;
-}
-
-.menu__button:focus {
-  border-bottom: 3px solid grey;
-  outline: none;
-}
-
-.menu__item + .menu__item {
-  margin-left: 1rem;
+.disabled-domain__button {
+  width: fit-content;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
 }

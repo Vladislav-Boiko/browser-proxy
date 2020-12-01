@@ -1,0 +1,38 @@
+.naivgation {
+  width: 100%;
+  border-bottom: 2px solid var(--g7);
+  box-sizing: border-box;
+}
+
+.navigation__item {
+  display: inline-block;
+  padding: calc(var(--em) * 1) 0;
+  text-transform: uppercase;
+  color: var(--primary);
+  text-decoration: none;
+  position: relative;
+}
+
+.navigation__item_selected::after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  bottom: -2px;
+  left: 0;
+  display: block;
+  position: absolute;
+  border-radius: 2px;
+}
+
+.switch-with-label {
+  float: right;
+  display: flex;
+  align-items: center;
+  height: calc(var(--em) * 5);
+}
+
+.switch-with-label__label {
+  display: inline-block;
+  padding: calc(var(--em) * 1) 0;
+}

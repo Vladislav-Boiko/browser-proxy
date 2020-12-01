@@ -3,8 +3,6 @@ import cn from 'classnames';
 
 import './Button.css';
 const Button = ({ children, onClick, className, primary, secondary }) => {
-  // let primary = className?.split(' ')?.indexOf('primary') > -1;
-  // let secondary = className?.split(' ')?.indexOf('secondary') > -1;
   return (
     <button
       className={cn('button label_medium py1 px3', className, {

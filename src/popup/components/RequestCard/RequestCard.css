@@ -1,0 +1,38 @@
+.request-card {
+  border: 2px solid var(--c5);
+  padding: var(--em) calc(var(--em) * 2);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--em);
+  grid-row-gap: var(--em);
+  max-width: calc(var(--em) * 90);
+  background-color: white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.request-card__pill,
+.request-card__response-type {
+  justify-self: flex-end;
+}
+
+.request-card__url,
+.request-card__method,
+.request-card__response-typ,
+.request-card {
+  transition: all 0.2s;
+}
+
+.request-card:hover {
+  filter: drop-shadow(2px 2px 4px rgba(61, 77, 155, 0.1));
+}
+
+.request-card:hover .request-card__url {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.request-card:hover .request-card__method,
+.request-card:hover .request-card__response-type {
+  color: black;
+}

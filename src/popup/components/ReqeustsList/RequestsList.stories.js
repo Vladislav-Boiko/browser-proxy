@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { RequestsList } from "./RequestsList";
+import RequestsList from './RequestsList';
 
 export default {
-  title: "RequestsList",
+  title: 'RequestsList',
   component: RequestsList,
 };
 
@@ -12,42 +12,46 @@ const Template = (args) => <RequestsList {...args} />;
 export const Story = Template.bind({});
 const requests = [
   {
-    method: "GET",
-    url: "http://yandex.ru",
-    status: "200",
-    response: '{ "key": "value" }',
+    method: 'GET',
+    url: 'http://yandex.ru',
+    code: '200',
+    responseType: 'JSON',
   },
   {
-    method: "POST",
-    url: "http://google.com",
-    status: "200",
-    response: '[{"test":123},{"nested":{"child":"value"}}]',
+    method: 'POST',
+    url: 'http://google.com',
+    code: '200',
+    responseType: 'BLOB',
   },
   {
-    method: "PUT",
-    url: "http://amazon.com",
-    status: "200",
+    method: 'PUT',
+    url: 'http://amazon.com',
+    code: '200',
+    responseType: 'ArrayBuffer',
   },
   {
-    method: "DELETE",
-    url: "http://netflix.com",
-    status: "200",
+    method: 'DELETE',
+    url: 'http://netflix.com',
+    code: '200',
+    responseType: 'TEXT',
   },
   {
-    method: "OPTIONS",
-    url: "http://ibm.com",
-    status: "200",
+    method: 'OPTIONS',
+    url: 'http://ibm.com',
+    code: '200',
+    responseType: 'JSON',
   },
   {
-    method: "HEAD",
-    url: "http://apple.com",
-    status: "200",
+    method: 'HEAD',
+    url: 'http://apple.com',
+    code: '200',
+    responseType: 'ArrayBuffer',
   },
   {
-    method: "get",
-    url:
-      "https://public-api.example.com/rest/v1.0/test/wow/such_long_url/event_longer/?param=value",
-    status: "200",
+    method: 'HEAD',
+    url: 'http://apple.com/something/verey/very/long/user?abc=def',
+    code: '200',
+    responseType: 'ArrayBuffer',
   },
 ];
 Story.args = {

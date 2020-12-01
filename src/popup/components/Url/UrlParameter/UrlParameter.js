@@ -1,8 +1,10 @@
-import React from "react";
-import Input from "../../atoms/Input/Input";
-import { LABEL_TYPES } from "../../atoms/Label/Label";
+import React from 'react';
+import cn from 'classnames';
+import Input from '../../atoms/Input/Input';
+import { LABEL_TYPES } from '../../atoms/Label/Label';
+import Switch from '../../atoms/Switch/Switch';
 
-import "./UrlParameter.css";
+import './UrlParameter.css';
 const URLParameter = ({
   keyName,
   value,
@@ -11,46 +13,39 @@ const URLParameter = ({
   setValue,
   toggleDisabled,
   remove,
+  hasLabels,
 }) => {
+  const maybeRemove = (value, key) => !value && !key && remove && remove();
   return (
-    <React.Fragment>
-      <label className="queryParamterCheckBox">
-        <span className="queryParamterCheckBox__label">
-          Is this query parameter enabled?
-        </span>
-        <input
-          className="queryParamterCheckBox_input"
-          type="checkbox"
-          checked={!isDisabled}
-          onChange={() => {
-            toggleDisabled();
-          }}
-        />
-      </label>
+    <div className="urlParameter">
+      <Switch
+        className={cn('urlParamter__switch', { mt3: hasLabels })}
+        onChange={toggleDisabled}
+        initialState={true}
+      />
       <Input
         className="queryParamterKey"
-        label="Key"
+        label={hasLabels && 'Key'}
         labelType={LABEL_TYPES.HIDDEN}
-        value={keyName || ""}
-        onChange={(value) => setKeyName(value)}
-        placeholder="Key"
+        value={keyName || ''}
+        onChange={(newValue) => {
+          setKeyName(newValue);
+          maybeRemove(newValue, value);
+        }}
         disabled={isDisabled}
       />
       <Input
         className="queryParamterValue"
-        label="Value"
+        label={hasLabels && 'Value'}
         labelType={LABEL_TYPES.HIDDEN}
-        value={value || ""}
-        onChange={(value) => setValue(value)}
-        placeholder="Value"
+        value={value || ''}
+        onChange={(newValue) => {
+          setValue(newValue);
+          maybeRemove(newValue, keyName);
+        }}
         disabled={isDisabled}
       />
-      {remove && (
-        <button className="queryParameter__delete" onClick={remove}>
-          X
-        </button>
-      )}
-    </React.Fragment>
+    </div>
   );
 };
 

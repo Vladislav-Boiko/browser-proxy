@@ -1,47 +1,51 @@
-import React from "react";
-import URLParameter from "./UrlParameter/UrlParameter";
-import { METHODS } from "../../utils/constants";
-import cn from "classnames";
-import { LABEL_TYPES } from "../atoms/Label/Label";
-import Select, { SELECT_SIZES } from "../atoms/Select/Select";
-import Input from "../atoms/Input/Input";
+import React from 'react';
+import URLParameter from './UrlParameter/UrlParameter';
+import { METHODS } from '../../utils/constants';
+import cn from 'classnames';
+import { LABEL_TYPES } from '../atoms/Label/Label';
+import Dropdown from '../atoms/Dropdown/Dropdown';
+import Input from '../atoms/Input/Input';
+import Section from '../atoms/Section/Section';
 
-import "./Url.css";
+import './Url.css';
 class Url extends React.Component {
   state = {
     method: METHODS[0],
-    urlValue: "",
-    urlParams: [{ key: "", value: "", delimeter: "" }],
+    urlValue: '',
+    urlParams: [{ key: '', value: '', delimeter: '' }],
   };
 
   render() {
     const { method, urlParams } = this.state;
     const { className } = this.props;
     return (
-      <div className={cn("url-container", className)}>
-        <Select
-          className="method"
-          label="Method"
-          labelType={LABEL_TYPES.BLOCK}
-          options={METHODS.map((name) => ({ name, value: name }))}
-          initial={method || METHODS.GET}
-          onChange={(value) => this.setMethod(value)}
-          size={SELECT_SIZES.LARGE}
-        />
-        <Input
-          className="url"
-          value={this.getUrlString()}
-          onChange={(value) => {
-            this.onUrlValueChange(value);
-          }}
-          label="URL"
-          labelType={LABEL_TYPES.BLOCK}
-        />
+      <React.Fragment>
+        <div className={cn('url-container', className)}>
+          <Dropdown
+            label="Type"
+            initialState={method || METHODS.GET}
+            options={METHODS.map((name) => ({ name, value: name }))}
+          />
+          <Input
+            className="url"
+            value={this.getUrlString()}
+            onChange={(value) => {
+              this.onUrlValueChange(value);
+            }}
+            label="URL"
+            labelType={LABEL_TYPES.BLOCK}
+          />
+        </div>
+
         <fieldset className="queryParameters">
-          <div className="queryParameters__grid">
-            <legend className="queryParameters__legend">
-              Query Parameters
-            </legend>
+          <Section
+            header={
+              <legend className="queryParameters__legend label_medium">
+                Query Parameters
+              </legend>
+            }
+            isInitiallyOpen={true}
+          >
             {urlParams.map(({ key, value, isDisabled }, index) => (
               <URLParameter
                 key={`url-parameter-${index}`}
@@ -59,16 +63,17 @@ class Url extends React.Component {
                   index !== urlParams.length - 1 &&
                   (() => this.onQueryRemove(index))
                 }
+                hasLabels={!index}
               />
             ))}
-          </div>
+          </Section>
         </fieldset>
-      </div>
+      </React.Fragment>
     );
   }
 
   addEmptyParams(params) {
-    return [...params, { key: "", value: "", delimeter: "" }];
+    return [...params, { key: '', value: '', delimeter: '' }];
   }
 
   updateUrlParams(oldUrlParams, newUrlParams) {
@@ -89,18 +94,18 @@ class Url extends React.Component {
   }
 
   parseUrl(url) {
-    let splitted = url.split("?");
+    let splitted = url.split('?');
     let urlValue = splitted.shift();
     let urlParams = [];
     if (splitted.length) {
-      urlValue += "?";
-      const withoutBase = splitted.join("?");
+      urlValue += '?';
+      const withoutBase = splitted.join('?');
       urlParams = withoutBase
-        ? withoutBase.split("&").map((pair) => {
-            let splitted = pair.split("=");
+        ? withoutBase.split('&').map((pair) => {
+            let splitted = pair.split('=');
             const key = splitted.shift();
-            const delimeter = splitted.length ? "=" : "";
-            const value = splitted.join("=");
+            const delimeter = splitted.length ? '=' : '';
+            const value = splitted.join('=');
             return { key, value, delimeter };
           })
         : [];
@@ -115,13 +120,13 @@ class Url extends React.Component {
           urlParams
             .filter(
               ({ isDisabled }, index) =>
-                !isDisabled && index !== urlParams.length - 1
+                !isDisabled && index !== urlParams.length - 1,
             )
             .map(
               ({ key, value, delimeter }) =>
-                `${key || ""}${delimeter}${value || ""}`
+                `${key || ''}${delimeter}${value || ''}`,
             )
-            .join("&")
+            .join('&')
       : urlValue;
   }
 
@@ -137,7 +142,7 @@ class Url extends React.Component {
     const { urlValue } = this.state;
     if (
       urlParams.filter(({ isDisabled }) => !isDisabled).length > 1 &&
-      urlValue[urlValue.length - 1] !== "?"
+      urlValue[urlValue.length - 1] !== '?'
     ) {
       this.setUrl(`${urlValue}?`);
     }
@@ -177,10 +182,10 @@ class Url extends React.Component {
     const { urlParams } = this.state;
     let urlParamsCopy = [...urlParams];
     if (!urlParamsCopy[index].value && !!value) {
-      urlParamsCopy[index].delimeter = "=";
+      urlParamsCopy[index].delimeter = '=';
     }
     if (!!urlParamsCopy[index].value && !value) {
-      urlParamsCopy[index].delimeter = "";
+      urlParamsCopy[index].delimeter = '';
     }
     urlParamsCopy[index].value = value;
     if (index === urlParams.length - 1) {
@@ -202,8 +207,8 @@ class Url extends React.Component {
   }
 
   componentWillMount() {
-    this.onUrlValueChange(this.props.url || "");
-    this.setMethod(this.props.method || "GET");
+    this.onUrlValueChange(this.props.url || '');
+    this.setMethod(this.props.method || 'GET');
   }
 
   // TODO: think of getDerivedStateFromProps

@@ -1,0 +1,33 @@
+.dropdown {
+  display: inline-flex;
+  flex-flow: column;
+}
+
+.dropdown__select {
+  padding: var(--em) calc(var(--em) * 2);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dropdown__view {
+  padding: var(--em) calc(var(--em) * 2);
+  border-radius: var(--em);
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  min-width: calc(var(--em) * 12);
+}
+
+.dropdown__view .response-type {
+  color: black;
+}
+
+.dropdown__chevron {
+  margin-left: var(--em);
+}

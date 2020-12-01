@@ -1,20 +1,17 @@
-svg {
+.icon_sm {
   fill: var(--primary);
   width: 10px;
   height: 10px;
 }
 
-.icon_sm {
-  width: 10px;
-  height: 10px;
-}
-
 .icon_md {
+  fill: var(--primary);
   width: 16px;
   height: 16px;
 }
 
 .icon_lg {
+  fill: var(--primary);
   width: 20px;
   height: 20px;
 }

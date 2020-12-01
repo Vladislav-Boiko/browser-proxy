@@ -1,0 +1,8 @@
+.response-type {
+  display: inline-flex;
+  align-items: center;
+}
+
+.response-type__icon {
+  fill: var(--g2);
+}

@@ -21,7 +21,8 @@
 }
 
 .input-icon svg {
-  background-color: var(--g6);
+  background-color: transparent;
+  fill: var(--primary);
 }
 
 .input__cross {
@@ -32,7 +33,7 @@
 }
 
 .input__cross svg {
-  transition: all 0.6s;
+  transition: all 0.3s;
 }
 
 .input__cross:hover svg {
@@ -74,4 +75,9 @@
 .input_delay {
   display: inline-flex;
   width: calc(var(--em) * 16);
+}
+
+.input:disabled {
+  background-color: var(--g7);
+  color: var(--g3);
 }

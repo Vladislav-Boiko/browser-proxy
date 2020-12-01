@@ -23,13 +23,17 @@ code {
     monospace;
 }
 
-ul {
+ol,
+ul,
+li {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 *:focus {
-  outline-color: var(--c2);
+  outline-color: var(--c4);
   outline-width: 1px;
   outline-style: solid;
-  outline-offset: 2px;
+  outline-offset: 0px;
 }

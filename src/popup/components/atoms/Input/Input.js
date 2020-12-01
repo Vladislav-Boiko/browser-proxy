@@ -9,7 +9,7 @@ const Input = ({ value, className, onChange, label, icon, ...otherProps }) => {
     <label className={cn('input-label', className)}>
       <span className="label_weak g1-color">{label}</span>
       <input
-        className="input label_weak g6-bg px2 py1"
+        className="input label_weak c5-bg px2 py1"
         type="text"
         {...otherProps}
         value={value}
@@ -29,7 +29,7 @@ const Input = ({ value, className, onChange, label, icon, ...otherProps }) => {
             onChange && onChange('');
           }}
         >
-          <Icons.Cross />
+          <Icons.Cross className="icon_sm" />
         </button>
       </label>
       {icon && <div className="input-icon px2">{icon}</div>}

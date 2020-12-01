@@ -1,0 +1,60 @@
+.switch {
+  background-color: white;
+  border: 2px solid var(--g4);
+  border-radius: calc(var(--em) * 1.5);
+  height: calc(var(--em) * 3);
+  width: calc(var(--em) * 6.5);
+  display: block;
+  position: relative;
+  color: var(--primary);
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.switch:focus-within {
+  outline-color: var(--c4);
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: 0px;
+}
+
+.switch__checkbox {
+  clip-path: inset(100%);
+}
+
+.switch__label {
+  font-size: 10px;
+  font-weight: 500;
+  height: 100%;
+  line-height: calc(var(--em) * 3 - 2px);
+  text-align: right;
+  display: inline-block;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  transition: all 0.2s;
+  left: calc(var(--em) * 2.75);
+}
+
+.switch.switch__checked .switch__label {
+  left: calc(var(--em) * 0.75);
+}
+
+.switch:after {
+  content: '';
+  display: block;
+  width: calc(var(--em) * 3 - 4px);
+  height: calc(var(--em) * 3 - 4px);
+  border-radius: 50%;
+  background-color: var(--c5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.2s;
+}
+
+.switch.switch__checked:after {
+  left: auto;
+  left: calc(var(--em) * 3.5);
+  background-color: var(--primary);
+}

@@ -1,0 +1,13 @@
+.folder__icon {
+  fill: var(--g1);
+  transform: scale(1.05);
+}
+
+.folder__name {
+  font-weight: 400;
+  color: black;
+}
+
+.folder__children_collapsed {
+  display: none;
+}
