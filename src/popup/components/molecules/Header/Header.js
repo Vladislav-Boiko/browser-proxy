@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import Switch from '../atoms/Switch/Switch';
+import Switch from '../../atoms/Switch/Switch';
 
 import './Header.css';
 const Header = ({ options, initiallySelected, onChange }) => {

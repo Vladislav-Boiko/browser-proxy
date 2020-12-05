@@ -3,7 +3,7 @@ import Input from './Input';
 import DelayInput from './DelayInput';
 
 export default {
-  title: 'Input',
+  title: 'Atoms/Input',
   component: Input,
 };
 

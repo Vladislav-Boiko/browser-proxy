@@ -1,10 +1,10 @@
 import React from 'react';
 import URLParameter from './UrlParameter/UrlParameter';
-import { METHODS } from '../../utils/constants';
+import { METHODS } from '../../../utils/constants';
 import cn from 'classnames';
-import Dropdown from '../atoms/Dropdown/Dropdown';
-import Input from '../atoms/Input/Input';
-import Section from '../atoms/Section/Section';
+import Dropdown from '../../atoms/Dropdown/Dropdown';
+import Input from '../../atoms/Input/Input';
+import Section from '../../atoms/Section/Section';
 
 import './Url.css';
 class Url extends React.Component {

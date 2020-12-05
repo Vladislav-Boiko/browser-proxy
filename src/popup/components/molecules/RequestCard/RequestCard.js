@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import Pill from '../atoms/Pill/Pill';
-import ResponseeType from '../atoms/ResponseType/ResponseType';
+import Pill from '../../atoms/Pill/Pill';
+import ResponseType from '../../atoms/ResponseType/ResponseType';
 
 const stripURL = (url = '') => {
   const chunks = url.split('?')[0].split('/');
@@ -21,7 +21,7 @@ const RequestCard = ({ url, code, method, responseType, className }) => {
       <span className="request-card__method g2-color label_strong">
         {method.toUpperCase()}
       </span>
-      <ResponseeType
+      <ResponseType
         type={responseType}
         className="request-card__response-type label_strong"
       />

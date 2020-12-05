@@ -2,7 +2,7 @@ import React from 'react';
 import RequestCard from './RequestCard';
 
 export default {
-  title: 'RequestCard',
+  title: 'Molecules/RequestCard',
   component: RequestCard,
 };
 

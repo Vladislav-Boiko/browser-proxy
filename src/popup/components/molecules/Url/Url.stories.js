@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import Url from "./Url";
+import Url from './Url';
 
 export default {
-  title: "Url",
+  title: 'Molecules/Url',
   component: Url,
 };
 
 const Template = (args) => <Url {...args} />;
 
 export const Story = Template.bind({});
-const tree = { url: "test" };
+const tree = { url: 'test' };
 Story.args = tree;

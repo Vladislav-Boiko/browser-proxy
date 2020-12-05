@@ -3,7 +3,7 @@ import React from 'react';
 import RequestsList from './RequestsList';
 
 export default {
-  title: 'RequestsList',
+  title: 'Molecules/RequestsList',
   component: RequestsList,
 };
 

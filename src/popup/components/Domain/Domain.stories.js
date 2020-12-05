@@ -3,7 +3,7 @@ import Domain from './Domain';
 import EnabledDomain from './views/EnabledDomain';
 
 export default {
-  title: 'Domain',
+  title: 'Organisms/Domain',
   component: Domain,
 };
 

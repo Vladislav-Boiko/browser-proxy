@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import Input from '../../atoms/Input/Input';
-import Switch from '../../atoms/Switch/Switch';
+import Input from '../../../atoms/Input/Input';
+import Switch from '../../../atoms/Switch/Switch';
 
 import './UrlParameter.css';
 const URLParameter = ({
