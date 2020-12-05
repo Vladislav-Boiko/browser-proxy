@@ -1,6 +1,6 @@
 import React from 'react';
 import ResponseBody from '../ResponseBody/ResponseBody';
-import Button from '../atoms/button/Button';
+import Button from '../atoms/Button/Button';
 import './RequestContent.css';
 
 const RequestContent = ({ response, doOverride }) => (

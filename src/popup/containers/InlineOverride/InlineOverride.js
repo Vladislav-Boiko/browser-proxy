@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Url from '../../components/Url/Url';
 import ResponseOverride from '../../components/ResposeOverride/ResponseOverride';
 import Override from '../../components/Overrride/Override';
-import Button from '../../components/atoms/button/Button';
+import Button from '../../components/atoms/Button/Button';
 
 import './InlineOverride.css';
 export default (props) => {

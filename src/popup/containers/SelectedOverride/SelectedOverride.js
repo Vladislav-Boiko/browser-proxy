@@ -10,7 +10,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import './SelectedOverride.css';
 import Override from '../../components/Overrride/Override';
-import Button from '../../components/atoms/button/Button';
+import Button from '../../components/atoms/Button/Button';
 
 export const SelectedOverride = ({ override, save, remove, navItem }) => {
   // TODO: move the buttons markup out of the containers.

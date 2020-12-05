@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Url from "../Url/Url";
-import Button from "../atoms/button/Button";
-import ResponseOverride from "../ResposeOverride/ResponseOverride";
+import React, { useState } from 'react';
+import Url from '../Url/Url';
+import Button from '../atoms/Button/Button';
+import ResponseOverride from '../ResposeOverride/ResponseOverride';
 
-import "./Override.css";
+import './Override.css';
 export const Override = ({ override = {}, save }) => {
-  const [urlValue, setUrl] = useState(override.url || "");
+  const [urlValue, setUrl] = useState(override.url || '');
   const [responseValue, setResponse] = useState({});
-  const [method, setMethod] = useState(override.method || "GET");
+  const [method, setMethod] = useState(override.method || 'GET');
   return (
     <form className="standalone-override">
       <Url
@@ -27,8 +27,16 @@ export const Override = ({ override = {}, save }) => {
         onChange={setResponse}
       />
       <Button
-        onClick={() => 
-          save(Object.assign(override, { url: urlValue, response: responseValue, method })) }>
+        onClick={() =>
+          save(
+            Object.assign(override, {
+              url: urlValue,
+              response: responseValue,
+              method,
+            }),
+          )
+        }
+      >
         Save
       </Button>
     </form>
