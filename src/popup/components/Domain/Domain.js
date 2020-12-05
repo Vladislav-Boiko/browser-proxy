@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import DisabledDomain from './DisabledDomain';
-import EnabledDomain from './EnabledDomain';
+import DisabledDomain from './views/DisabledDomain';
+import EnabledDomain from './views/EnabledDomain';
 
 import './Domain.css';
 const Domain = (props) => {

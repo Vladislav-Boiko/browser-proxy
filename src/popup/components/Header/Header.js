@@ -3,9 +3,13 @@ import cn from 'classnames';
 import Switch from '../atoms/Switch/Switch';
 
 import './Header.css';
-const Header = ({ options }) => {
-  const [selectedId, setSelectedId] = useState();
+const Header = ({ options, initiallySelected, onChange }) => {
+  const [selectedId, setSelectedId] = useState(initiallySelected);
   const [isDisabled, setIsDisabled] = useState(false);
+  const select = (name) => {
+    setSelectedId(name);
+    onChange && onChange(name);
+  };
   return (
     <nav className="naivgation pl4">
       {options.map(({ name }) => (
@@ -17,7 +21,7 @@ const Header = ({ options }) => {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            setSelectedId(name);
+            select(name);
           }}
         >
           {name}

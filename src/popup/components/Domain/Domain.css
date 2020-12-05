@@ -30,3 +30,17 @@
   display: flex;
   align-items: center;
 }
+
+.domain-actions,
+.domain-settings__import-export,
+.domain-settings__turn-off {
+  display: flex;
+  flex-flow: row;
+}
+
+.domain-requests,
+.domain-settings__import-export,
+.domain-settings__turn-off {
+  width: 100%;
+  max-width: calc(var(--em) * 90);
+}

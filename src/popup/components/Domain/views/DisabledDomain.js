@@ -1,10 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
-import { ReactComponent as DomainTeaser } from './DomainTeaser.svg';
-import Button from '../atoms/button/Button';
-import Icons from '../atoms/Icons/Icons';
+import { ReactComponent as DomainTeaser } from '../DomainTeaser.svg';
+import Button from '../../atoms/Button/Button';
+import Icons from '../../atoms/Icons/Icons';
 
-import './Domain.css';
+import '../Domain.css';
 const Domain = ({ domainName, enable, className }) => {
   return (
     <div className={cn('disabled-domain', className)}>
@@ -12,14 +12,14 @@ const Domain = ({ domainName, enable, className }) => {
       <div className="disabled-domain__content">
         <h2 className="disabled-domain__header">{domainName}</h2>
         <p className="disabled-domain__text g1-color">
-          Enable browser broxy for this site.
+          Enable browser proxy for this site.
         </p>
         <Button
           className="disabled-domain__button mt3"
           primary
           onClick={enable}
+          Icon={Icons.Enable}
         >
-          <Icons.Enable className="icon_md mr1" />
           Enable
         </Button>
       </div>
