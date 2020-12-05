@@ -19,6 +19,14 @@ const Template = () => (
     <Icons.Chevron className="icon_sm ml1" />
     <Icons.Enable className="icon_sm ml1" />
     <Icons.Filter className="icon_sm ml1" />
+    <Icons.AddFile className="icon_sm ml1" />
+    <Icons.AddFolder className="icon_sm ml1" />
+    <Icons.Add className="icon_sm ml1" />
+    <Icons.Import className="icon_sm ml1" />
+    <Icons.Export className="icon_sm ml1" />
+    <Icons.TurnOff className="icon_sm ml1" />
+    <Icons.Trash className="icon_sm ml1" />
+    <Icons.Danger className="icon_sm ml1" />
     <h4 className="my2">Medium</h4>
     <Icons.Cross className="icon_md ml1" />
     <Icons.Watch className="icon_md ml1" />
@@ -30,6 +38,14 @@ const Template = () => (
     <Icons.Chevron className="icon_md ml1" />
     <Icons.Enable className="icon_md ml1" />
     <Icons.Filter className="icon_md ml1" />
+    <Icons.AddFile className="icon_md ml1" />
+    <Icons.AddFolder className="icon_md ml1" />
+    <Icons.Add className="icon_md ml1" />
+    <Icons.Import className="icon_md ml1" />
+    <Icons.Export className="icon_md ml1" />
+    <Icons.TurnOff className="icon_md ml1" />
+    <Icons.Trash className="icon_md ml1" />
+    <Icons.Danger className="icon_md ml1" />
     <h4 className="my2">Large</h4>
     <Icons.Cross className="icon_lg ml1" />
     <Icons.Watch className="icon_lg ml1" />
@@ -41,6 +57,14 @@ const Template = () => (
     <Icons.Chevron className="icon_lg ml1" />
     <Icons.Enable className="icon_lg ml1" />
     <Icons.Filter className="icon_lg ml1" />
+    <Icons.AddFile className="icon_lg ml1" />
+    <Icons.AddFolder className="icon_lg ml1" />
+    <Icons.Add className="icon_lg ml1" />
+    <Icons.Import className="icon_lg ml1" />
+    <Icons.Export className="icon_lg ml1" />
+    <Icons.TurnOff className="icon_lg ml1" />
+    <Icons.Trash className="icon_lg ml1" />
+    <Icons.Danger className="icon_lg ml1" />
   </div>
 );
 
