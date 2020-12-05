@@ -3,7 +3,7 @@ import React from 'react';
 import Switch from './Switch';
 
 export default {
-  title: 'Switch',
+  title: 'Atoms/Switch',
   component: Switch,
 };
 

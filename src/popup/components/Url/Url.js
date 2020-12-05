@@ -2,7 +2,6 @@ import React from 'react';
 import URLParameter from './UrlParameter/UrlParameter';
 import { METHODS } from '../../utils/constants';
 import cn from 'classnames';
-import { LABEL_TYPES } from '../atoms/Label/Label';
 import Dropdown from '../atoms/Dropdown/Dropdown';
 import Input from '../atoms/Input/Input';
 import Section from '../atoms/Section/Section';
@@ -33,7 +32,6 @@ class Url extends React.Component {
               this.onUrlValueChange(value);
             }}
             label="URL"
-            labelType={LABEL_TYPES.BLOCK}
           />
         </div>
 

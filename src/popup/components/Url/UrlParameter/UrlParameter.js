@@ -1,7 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
 import Input from '../../atoms/Input/Input';
-import { LABEL_TYPES } from '../../atoms/Label/Label';
 import Switch from '../../atoms/Switch/Switch';
 
 import './UrlParameter.css';
@@ -26,7 +25,6 @@ const URLParameter = ({
       <Input
         className="queryParamterKey"
         label={hasLabels && 'Key'}
-        labelType={LABEL_TYPES.HIDDEN}
         value={keyName || ''}
         onChange={(newValue) => {
           setKeyName(newValue);
@@ -37,7 +35,6 @@ const URLParameter = ({
       <Input
         className="queryParamterValue"
         label={hasLabels && 'Value'}
-        labelType={LABEL_TYPES.HIDDEN}
         value={value || ''}
         onChange={(newValue) => {
           setValue(newValue);

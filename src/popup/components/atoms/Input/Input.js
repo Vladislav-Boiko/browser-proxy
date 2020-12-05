@@ -1,8 +1,16 @@
 import React from 'react';
 import cn from 'classnames';
 import Icons from '../Icons/Icons';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import './Input.css';
+
+const InputType = (props) =>
+  !props.multiline ? (
+    <input {...props} />
+  ) : (
+    <TextareaAutosize minRows="3" {...props} />
+  );
 
 const Input = ({
   value,
@@ -24,9 +32,10 @@ const Input = ({
           </span>
         )}
       </span>
-      <input
+      <InputType
         className={cn('input label_weak c5-bg px2 py1', {
           input_invalid: !!validationError,
+          input_multiline: otherProps.multiline,
         })}
         type="text"
         {...otherProps}
@@ -34,11 +43,12 @@ const Input = ({
         onChange={(e) => {
           onChange && onChange(e.target.value);
         }}
-      ></input>
+      />
       <label
         className={cn('cross-button input-icon', {
           'cross-button_shown': !!value && !icon,
           'cross-button_invalid': !!validationError,
+          'cross-button_no-label': !label,
         })}
       >
         <span className="label__text_hidden">Clear input {label}</span>

@@ -3,7 +3,7 @@ import Dropdown from './Dropdown';
 import ResponseType from '../ResponseType/ResponseType';
 
 export default {
-  title: 'Dropdown',
+  title: 'Atoms/Dropdown',
   component: Dropdown,
 };
 

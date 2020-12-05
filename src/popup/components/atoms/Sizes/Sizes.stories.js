@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Sizes.css';
 export default {
-  title: 'Sizes',
+  title: 'Atoms/Sizes',
   component: null,
 };
 

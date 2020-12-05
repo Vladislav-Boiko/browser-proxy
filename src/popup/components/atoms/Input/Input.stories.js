@@ -7,26 +7,42 @@ export default {
   component: Input,
 };
 
-const Template = (args) => {
-  const [value, setValue] = useState(args.value);
+const Template = () => {
+  const [valueInput, setValueInput] = useState('Connection');
+  const [valueInvalid, setValueInvalid] = useState('Github.com');
+  const [valueMultiline, setValueMultiline] = useState('{\n\n}');
+  const [valueDelay, setValueDelay] = useState('200ms');
   return (
     <div>
-      <Input {...args} onChange={setValue} value={value} className="my2" />
       <Input
-        {...args}
-        onChange={setValue}
-        value={value}
+        onChange={setValueInput}
+        value={valueInput}
+        className="my2"
+        label="Regular input"
+      />
+      <Input
+        onChange={setValueInvalid}
+        label="Invalid input"
+        value={valueInvalid}
         validationError="Cannot be empty"
         className="my2"
       />
-      <DelayInput className="my2" {...args} label="Delay" value="200ms" />
+      <Input
+        onChange={setValueMultiline}
+        value={valueMultiline}
+        className="my2"
+        multiline
+      />
+      <DelayInput
+        className="my2"
+        label="Delay"
+        value={valueDelay}
+        onChange={setValueDelay}
+      />
     </div>
   );
 };
 
 export const Story = Template.bind({});
-const tree = {
-  value: 'Connection',
-  label: 'Search',
-};
+const tree = {};
 Story.args = tree;

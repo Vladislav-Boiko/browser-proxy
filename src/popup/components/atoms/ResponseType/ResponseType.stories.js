@@ -3,7 +3,7 @@ import React from 'react';
 import ResponseType, { TYPES } from './ResponseType';
 
 export default {
-  title: 'ResponseType',
+  title: 'Atoms/ResponseType',
   component: ResponseType,
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Colors.css';
 export default {
-  title: 'Colors',
+  title: 'Atoms/Colors',
   component: null,
 };
 

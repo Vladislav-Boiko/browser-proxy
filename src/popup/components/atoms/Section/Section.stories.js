@@ -2,7 +2,7 @@ import React from 'react';
 import Section from './Section';
 
 export default {
-  title: 'Section',
+  title: 'Atoms/Section',
   component: Section,
 };
 

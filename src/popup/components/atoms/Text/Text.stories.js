@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Text.css';
 export default {
-  title: 'Text',
+  title: 'Atoms/Text',
   component: null,
 };
 

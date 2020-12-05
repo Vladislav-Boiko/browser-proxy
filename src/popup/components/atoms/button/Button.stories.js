@@ -4,7 +4,7 @@ import Button from './Button';
 import Icons from '../Icons/Icons';
 
 export default {
-  title: 'Button',
+  title: 'Atoms/Button',
   component: Button,
 };
 

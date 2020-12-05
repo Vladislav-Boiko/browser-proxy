@@ -3,7 +3,7 @@ import React from 'react';
 import Pill from './Pill';
 
 export default {
-  title: 'Pill',
+  title: 'Atoms/Pill',
   component: Pill,
 };
 

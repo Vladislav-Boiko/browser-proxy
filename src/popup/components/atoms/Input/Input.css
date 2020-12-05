@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+.input_multiline {
+  height: auto;
+}
+
 .input-label {
   display: flex;
   flex-flow: column;
@@ -16,11 +20,15 @@
 
 .input-icon {
   position: absolute;
-  bottom: 0;
   display: flex;
   height: calc(var(--em) * 5);
   align-items: center;
   right: 0;
+  top: calc(var(--em) * 3);
+}
+
+.cross-button_no-label {
+  top: 0;
 }
 
 .input-icon svg {
@@ -94,7 +102,7 @@
 }
 
 .cross-button_invalid {
-  height: calc(var(--em) * 5.5);
+  height: calc(var(--em) * 5);
 }
 
 .input-label__validation-icon {
