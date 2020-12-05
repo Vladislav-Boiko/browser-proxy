@@ -13,9 +13,17 @@
   border: 1px solid var(--primary);
 }
 
-.button:hover {
-}
-
 .button:active {
   filter: none;
+}
+
+.tretiary {
+  border: none;
+  filter: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tretiary:active {
+  color: var(--c1);
 }
