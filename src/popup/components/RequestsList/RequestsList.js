@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import RequestCard from '../RequestCard/RequestCard';
 import Input from '../atoms/Input/Input';
-import Button from '../atoms/button/Button';
+import Button from '../atoms/Button/Button';
 import Icons from '../atoms/Icons/Icons';
 
 const KEY_SEEARCH_BLOCK_LIST = {
@@ -24,11 +25,10 @@ const filterRequests = (searchValue, requests) => {
 };
 
 import './RequestsList.css';
-const RequestsList = (props) => {
+const RequestsList = ({ requests, className }) => {
   const [searchValue, setSearchValue] = useState('');
-  const { requests } = props;
   return (
-    <div className="requests-list">
+    <div className={cn('requests-list', className)}>
       <h3 className="mb2">Requests</h3>
       <div className="requests-list__search">
         <Input
@@ -44,14 +44,12 @@ const RequestsList = (props) => {
       </div>
       <div className="requests-list__filters"></div>
       <div className="requests-list__reqeusts mt6">
-        {filterRequests(
-          searchValue,
-          requests
+        {requests &&
+          filterRequests(searchValue, requests)
             .map((request, id) => ({ ...request, id }))
             .map((request) => (
               <RequestCard {...request} className="mb2" key={request.id} />
-            )),
-        )}
+            ))}
       </div>
     </div>
   );
