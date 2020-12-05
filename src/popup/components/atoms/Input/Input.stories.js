@@ -11,7 +11,14 @@ const Template = (args) => {
   const [value, setValue] = useState(args.value);
   return (
     <div>
-      <Input {...args} onChange={setValue} value={value} />
+      <Input {...args} onChange={setValue} value={value} className="my2" />
+      <Input
+        {...args}
+        onChange={setValue}
+        value={value}
+        validationError="Cannot be empty"
+        className="my2"
+      />
       <DelayInput className="my2" {...args} label="Delay" value="200ms" />
     </div>
   );

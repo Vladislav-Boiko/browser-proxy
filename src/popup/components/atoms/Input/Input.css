@@ -3,6 +3,9 @@
   border: none;
   border-radius: var(--em);
   max-width: 100%;
+  transition: all 0.1s;
+  height: calc(var(--em) * 5);
+  box-sizing: border-box;
 }
 
 .input-label {
@@ -80,4 +83,21 @@
 .input:disabled {
   background-color: var(--g7);
   color: var(--g3);
+}
+
+.input-label__validation {
+  float: right;
+}
+
+.input_invalid {
+  border: 2px solid var(--accent);
+}
+
+.cross-button_invalid {
+  height: calc(var(--em) * 5.5);
+}
+
+.input-label__validation-icon {
+  fill: var(--accent);
+  transform: translateY(1px);
 }
