@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Input from 'atoms/Input/Input';
+import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 
@@ -40,8 +41,8 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
           Upload file
         </Button>
       </div>
-      <Input
-        value={base64Value}
+      <ChunkedInput
+        body={base64Value}
         multiline
         {...otherProps}
         label="base64 content"

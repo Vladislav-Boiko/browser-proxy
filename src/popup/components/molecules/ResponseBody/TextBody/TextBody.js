@@ -1,9 +1,9 @@
 import React from 'react';
-import Input from 'atoms/Input/Input';
+import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
 
 import './TextBody.css';
 const TextBody = ({ body, ...otherProps }) => {
-  return <Input value={body} multiline {...otherProps} />;
+  return <ChunkedInput body={body} {...otherProps} />;
 };
 
 export default TextBody;

@@ -9,7 +9,8 @@ import Icons from 'atoms/Icons/Icons';
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
 import './ChunkedInput.css';
-const ChunkedInput = ({ body, className, onChange, ...otherProps }) => {
+const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
+  const passedLabel = label || '';
   const [chunksValue, setChunksValue] = useState(
     body?.chunks || [DEFAULT_CHUNK],
   );
@@ -23,7 +24,9 @@ const ChunkedInput = ({ body, className, onChange, ...otherProps }) => {
         <React.Fragment>
           <Input
             className={cn({ mt5: index > 0 })}
-            label={chunksValue.length > 1 ? `#${index + 1}` : ''}
+            label={[passedLabel, chunksValue.length > 1 ? `#${index + 1}` : '']
+              .filter((e) => !!e)
+              .join(' ')}
             value={chunkValue.value}
             multiline
             {...otherProps}

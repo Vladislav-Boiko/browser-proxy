@@ -25,6 +25,7 @@ const Input = ({
   const [validationError, setValidationError] = useState(
     validate ? validate(value) : '',
   );
+  const [validationTimeout, setValidationTimeout] = useState(null);
   return (
     <label className={cn('input-label', className)}>
       <span className={cn('label_weak g1-color', labelClassName)}>
@@ -46,7 +47,14 @@ const Input = ({
         value={value}
         onChange={(e) => {
           const newValue = e.target.value;
-          validate && setValidationError(validate(newValue));
+          if (validate) {
+            clearTimeout(validationTimeout);
+            const newTimeout = setTimeout(
+              () => setValidationError(validate(newValue)),
+              300,
+            );
+            setValidationTimeout(newTimeout);
+          }
           onChange && onChange(newValue);
         }}
       />

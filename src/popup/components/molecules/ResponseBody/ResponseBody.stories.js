@@ -3,7 +3,7 @@ import React from 'react';
 import ResponseBody from './ResponseBody';
 
 export default {
-  title: 'Molecules/ResponseBodies/ResponseBody',
+  title: 'Molecules/ResponseBody',
   component: ResponseBody,
 };
 
