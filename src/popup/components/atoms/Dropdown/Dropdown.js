@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Icons from '../Icons/Icons';
-import cn from 'classnames';
 
 import './Dropdown.css';
 
@@ -12,7 +11,7 @@ const viewForValue = (options, value) => {
   return '';
 };
 
-const Dropdown = ({ options, label, initialState }) => {
+const Dropdown = ({ options, label, onChange, initialState }) => {
   const [value, setValue] = useState(initialState);
   return (
     <label className="dropdown">

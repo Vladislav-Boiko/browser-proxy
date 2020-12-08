@@ -14,7 +14,7 @@ const DomainSettings = ({ setDomainName, domainName, className }) => {
         label="Name"
         className="mt2"
         value={name}
-        validationError={!name && 'Cannot be empty'}
+        validate={(value) => value === '' && 'Cannot be empty'}
         onChange={(newName) => {
           setName(newName);
           newName && setDomainName && setDomainName(newName);

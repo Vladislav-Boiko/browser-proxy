@@ -1,0 +1,5 @@
+.array-buffer-header {
+  display: flex;
+  flex-flow: row-reverse;
+  justify-content: space-between;
+}

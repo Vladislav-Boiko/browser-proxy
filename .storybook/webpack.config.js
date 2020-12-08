@@ -18,6 +18,7 @@ module.exports = async ({ config }) => {
         atoms: path.resolve(__dirname, '../src/popup/components/atoms'),
         molecules: path.resolve(__dirname, '../src/popup/components/molecules'),
         organisms: path.resolve(__dirname, '../src/popup/components/organisms'),
+        utils: path.resolve(__dirname, '../src/popup/utils/'),
       },
     },
   };

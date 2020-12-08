@@ -1,0 +1,14 @@
+.blob-type {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.blob-type__input {
+  flex: 1 1;
+}
+
+.blob-type__upload-button {
+  margin-left: calc(var(--em) * 3);
+  align-self: flex-end;
+}

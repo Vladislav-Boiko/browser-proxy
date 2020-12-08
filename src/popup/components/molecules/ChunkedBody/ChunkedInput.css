@@ -1,0 +1,11 @@
+.chunk-footer {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.chunk-footer__actions {
+  display: flex;
+  flex-flow: row;
+  align-items: flex-end;
+}

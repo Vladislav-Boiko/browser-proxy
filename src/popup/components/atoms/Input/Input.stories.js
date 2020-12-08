@@ -24,7 +24,7 @@ const Template = () => {
         onChange={setValueInvalid}
         label="Invalid input"
         value={valueInvalid}
-        validationError="Cannot be empty"
+        validate={() => 'Cannot be empty'}
         className="my2"
       />
       <Input

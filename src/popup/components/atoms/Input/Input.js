@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import Icons from '../Icons/Icons';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -14,16 +14,20 @@ const InputType = (props) =>
 
 const Input = ({
   value,
+  labelClassName,
   className,
   onChange,
   label,
   icon,
-  validationError,
+  validate,
   ...otherProps
 }) => {
+  const [validationError, setValidationError] = useState(
+    validate ? validate(value) : '',
+  );
   return (
     <label className={cn('input-label', className)}>
-      <span className="label_weak g1-color">
+      <span className={cn('label_weak g1-color', labelClassName)}>
         {label}
         {validationError && (
           <span className="input-label__validation accent-color">
@@ -41,7 +45,9 @@ const Input = ({
         {...otherProps}
         value={value}
         onChange={(e) => {
-          onChange && onChange(e.target.value);
+          const newValue = e.target.value;
+          validate && setValidationError(validate(newValue));
+          onChange && onChange(newValue);
         }}
       />
       <label
