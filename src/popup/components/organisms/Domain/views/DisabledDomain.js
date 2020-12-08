@@ -1,8 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import { ReactComponent as DomainTeaser } from '../DomainTeaser.svg';
-import Button from '../../atoms/Button/Button';
-import Icons from '../../atoms/Icons/Icons';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 
 import '../Domain.css';
 const Domain = ({ domainName, enable, className }) => {

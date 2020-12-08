@@ -1,11 +1,25 @@
+const path = require('path');
+
 module.exports = async ({ config }) => {
   const fileLoaderRule = config.module.rules.find((rule) =>
-    rule.test.test(".svg")
+    rule.test.test('.svg'),
   );
   fileLoaderRule.exclude = /\.svg$/;
   config.module.rules.push({
     test: /\.svg$/,
-    use: ["@svgr/webpack", "url-loader"],
+    use: ['@svgr/webpack', 'url-loader'],
   });
-  return config;
+  return {
+    ...config,
+    resolve: {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        atoms: path.resolve(__dirname, '../src/popup/components/atoms'),
+        molecules: path.resolve(__dirname, '../src/popup/components/molecules'),
+        organisms: path.resolve(__dirname, '../src/popup/components/organisms'),
+      },
+    },
+  };
+  // return config;
 };

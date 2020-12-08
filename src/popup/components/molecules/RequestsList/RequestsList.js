@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import RequestCard from '../RequestCard/RequestCard';
-import Input from '../../atoms/Input/Input';
-import Button from '../../atoms/Button/Button';
-import Icons from '../../atoms/Icons/Icons';
+import RequestCard from 'molecules/RequestCard/RequestCard';
+import Input from 'atoms/Input/Input';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 
 const KEY_SEEARCH_BLOCK_LIST = {
   responseType: 'responseType',

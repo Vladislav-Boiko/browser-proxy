@@ -1,8 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import Button from '../../atoms/Button/Button';
-import Icons from '../../atoms/Icons/Icons';
-import RequestsList from '../../RequestsList/RequestsList';
+import RequestsList from 'molecules/RequestsList/RequestsList';
 
 import '../Domain.css';
 const DomainRequests = ({ requests, className }) => {

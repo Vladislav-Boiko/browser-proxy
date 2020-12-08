@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Button from '../../atoms/Button/Button';
-import Icons from '../../atoms/Icons/Icons';
-import Header from '../../Header/Header';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
+import Header from 'molecules/Header/Header';
 import DomainRequests from './DomainRequests';
 import DomainSettings from './DomainSettings';
 

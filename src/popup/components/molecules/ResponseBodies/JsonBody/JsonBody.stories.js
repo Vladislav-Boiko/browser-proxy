@@ -3,7 +3,7 @@ import React from 'react';
 import JsonBody from './JsonBody';
 
 export default {
-  title: 'Molecules/JsonBody',
+  title: 'Molecules/ResponseBodies/JsonBody',
   component: JsonBody,
 };
 
