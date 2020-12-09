@@ -5,11 +5,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import './Input.css';
 
-const InputType = (props) =>
-  !props.multiline ? (
-    <input {...props} />
+const InputType = ({ multiline, ...otherProps }) =>
+  !multiline ? (
+    <input {...otherProps} />
   ) : (
-    <TextareaAutosize minRows="3" {...props} />
+    <TextareaAutosize minRows="3" {...otherProps} />
   );
 
 const Input = ({
@@ -20,6 +20,7 @@ const Input = ({
   label,
   icon,
   validate,
+  multiline,
   ...otherProps
 }) => {
   const [validationError, setValidationError] = useState(
@@ -40,8 +41,9 @@ const Input = ({
       <InputType
         className={cn('input label_weak c5-bg px2 py1', {
           input_invalid: !!validationError,
-          input_multiline: otherProps.multiline,
+          input_multiline: multiline,
         })}
+        multiline={multiline}
         type="text"
         {...otherProps}
         value={value}

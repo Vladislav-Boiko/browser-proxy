@@ -375,3 +375,7 @@ body {
   margin-top: calc(var(--em) * 6);
   margin-bottom: calc(var(--em) * 6);
 }
+
+.w100 {
+  width: 100%;
+}

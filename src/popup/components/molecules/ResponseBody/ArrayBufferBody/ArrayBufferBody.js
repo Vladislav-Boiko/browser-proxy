@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
-import Input from 'atoms/Input/Input';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 

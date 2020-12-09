@@ -1,0 +1,4 @@
+.headers-row {
+  display: flex;
+  flex-flow: row;
+}

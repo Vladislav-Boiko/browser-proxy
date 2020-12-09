@@ -21,7 +21,7 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
   return (
     <div className={cn('chunked-input', className)}>
       {chunksValue.map((chunkValue, index) => (
-        <React.Fragment>
+        <React.Fragment key={`chunk_${index}`}>
           <Input
             className={cn({ mt5: index > 0 })}
             label={[passedLabel, chunksValue.length > 1 ? `#${index + 1}` : '']
