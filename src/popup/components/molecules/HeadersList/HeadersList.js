@@ -4,7 +4,7 @@ import { evolve, remove } from 'immutableql';
 import Input from 'atoms/Input/Input';
 
 import './HeadersList.css';
-const HeadersList = ({ headers, onChange, className, ...otherProps }) => {
+const HeadersList = ({ headers, onChange, className }) => {
   const [headersValue, setHeadersValue] = useState(headers);
   const [searchValue, setSearchValue] = useState('');
   let headerValuesWithId = headersValue.map((item, id) => ({ ...item, id }));
@@ -37,6 +37,7 @@ const HeadersList = ({ headers, onChange, className, ...otherProps }) => {
       }).filter((item) => !!item);
     }
     setHeadersValue(updatedHeader);
+    onChange && onChange(updatedHeader);
   };
   const searchRegexp = new RegExp(searchValue);
   const filteredHeaders =
