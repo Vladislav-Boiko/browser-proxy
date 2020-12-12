@@ -23,7 +23,7 @@ const ArrayBufferBody = ({ body, onChange, className, ...otherProps }) => {
   return (
     <div className={cn(className, 'mt6')}>
       <div className="array-buffer-header">
-        <Button secondary icon={Icons.upload}>
+        <Button secondary Icon={Icons.Import}>
           Upload file
         </Button>
       </div>

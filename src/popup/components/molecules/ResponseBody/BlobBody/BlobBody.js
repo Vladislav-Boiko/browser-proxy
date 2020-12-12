@@ -35,7 +35,7 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
         />
         <Button
           secondary
-          icon={Icons.upload}
+          Icon={Icons.Import}
           className="blob-type__upload-button"
         >
           Upload file
