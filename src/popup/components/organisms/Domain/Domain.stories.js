@@ -9,12 +9,12 @@ export default {
 
 const Template = (args) => <Domain {...args} />;
 
-export const Story = Template.bind({});
+export const Disabled = Template.bind({});
 const props = {
   enable: () => {},
   domainName: 'Github.com',
 };
-Story.args = props;
+Disabled.args = props;
 
 const EnabledTemplate = (args) => <EnabledDomain {...args} />;
 

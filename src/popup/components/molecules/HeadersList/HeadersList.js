@@ -7,7 +7,7 @@ import './HeadersList.css';
 const HeadersList = ({ headers, onChange, className }) => {
   const [headersValue, setHeadersValue] = useState(headers);
   const [searchValue, setSearchValue] = useState('');
-  let headerValuesWithId = headersValue.map((item, id) => ({ ...item, id }));
+  let headerValuesWithId = headersValue?.map((item, id) => ({ ...item, id }));
   if (headerValuesWithId) {
     const lastElement = headerValuesWithId[headerValuesWithId.length - 1];
     if (lastElement?.name || lastElement?.value) {
@@ -49,7 +49,12 @@ const HeadersList = ({ headers, onChange, className }) => {
       : headerValuesWithId;
   return (
     <div className={cn(className, 'mt3')}>
-      <Input label="Search" value={searchValue} onChange={setSearchValue} />
+      <Input
+        label="Search"
+        value={searchValue}
+        onChange={setSearchValue}
+        className="headers-list__search"
+      />
       <ul>
         {filteredHeaders?.map(({ id, name, value }, index) => (
           <li key={id} className="headers-row mt3">

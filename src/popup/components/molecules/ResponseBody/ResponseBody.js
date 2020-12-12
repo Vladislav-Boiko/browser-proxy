@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import Dropdown from 'atoms/Dropdown/Dropdown';
 import ResponseType, { TYPES } from 'atoms/ResponseType/ResponseType';
 import { HTTP_STATUS_CODES } from 'utils/constants';
@@ -52,14 +53,14 @@ const ResponseBodyBasedOnType = (type) => (props) => {
 };
 
 import './ResponseBody.css';
-const ResponseBody = ({ body, responseType, ...otherProps }) => {
+const ResponseBody = ({ body, responseType, className }) => {
   const [responseBodyType, setResponseBodyType] = useState(
     responseType || 'JSON',
   );
   const [responseBody, setResponseBody] = useState(body);
   const Body = ResponseBodyBasedOnType(responseBodyType);
   return (
-    <React.Fragment>
+    <div className={cn(className)}>
       <div className="response-header">
         <Dropdown
           options={RESPONSE_TYPES}
@@ -78,7 +79,7 @@ const ResponseBody = ({ body, responseType, ...otherProps }) => {
         />
       </div>
       <Body body={body} className="mt3" />
-    </React.Fragment>
+    </div>
   );
 };
 
