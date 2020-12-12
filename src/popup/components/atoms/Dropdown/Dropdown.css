@@ -31,3 +31,10 @@
 .dropdown__chevron {
   margin-left: var(--em);
 }
+
+.dropdown__view:focus-within {
+  outline-color: var(--c4);
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: 0px;
+}
