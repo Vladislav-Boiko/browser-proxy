@@ -7,7 +7,7 @@
       "atoms/*": ["./src/popup/components/atoms/*"],
       "molecules/*": ["./src/popup/components/molecules/*"],
       "organisms/*": ["./src/popup/components/organisms/*"],
-      "utils/*": ["./src/popup/components/utils/*"],
+      "utils/*": ["./src/popup/components/utils/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

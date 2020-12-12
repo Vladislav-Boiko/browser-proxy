@@ -6,6 +6,7 @@
 
 .blob-type__input {
   flex: 1 1;
+  max-width: calc(50% - var(--em) * 1.5);
 }
 
 .blob-type__upload-button {

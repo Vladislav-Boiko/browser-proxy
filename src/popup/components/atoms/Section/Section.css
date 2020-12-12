@@ -11,6 +11,7 @@
   background: transparent;
   cursor: pointer;
   padding-top: var(--em) 0;
+  padding-left: 0;
 }
 
 .section__chevron,
@@ -19,7 +20,7 @@
 }
 
 .section__chevron_closed {
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) translate(0px, -1px);
 }
 
 .section__body {
