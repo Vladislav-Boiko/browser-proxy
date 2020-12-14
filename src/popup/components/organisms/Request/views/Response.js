@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Section from 'atoms/Section/Section';
-import ResponseBody from 'molecules/ResponseBody/ResponseBody';
+import Body from 'molecules/Body/Body';
 import HeadersList from 'molecules/HeadersList/HeadersList';
 
 const Response = (props) => {
@@ -10,7 +10,7 @@ const Response = (props) => {
         header={<h3 className="py1">Response Body</h3>}
         isInitiallyOpen={true}
       >
-        <ResponseBody className="my3" />
+        <Body className="my3" />
       </Section>
       <Section
         className="mt6"

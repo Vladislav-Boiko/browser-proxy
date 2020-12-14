@@ -37,7 +37,7 @@ const RESPONSE_TYPES = [
 ];
 
 // TODO: add document as a response body type
-const ResponseBodyBasedOnType = (type) => (props) => {
+const BodyBasedOnType = (type) => (props) => {
   switch (type) {
     case 'JSON':
       return <JsonBody {...props} />;
@@ -52,13 +52,10 @@ const ResponseBodyBasedOnType = (type) => (props) => {
   }
 };
 
-import './ResponseBody.css';
-const ResponseBody = ({ body, responseType, className }) => {
-  const [responseBodyType, setResponseBodyType] = useState(
-    responseType || 'JSON',
-  );
-  const [responseBody, setResponseBody] = useState(body);
-  const Body = ResponseBodyBasedOnType(responseBodyType);
+import './Body.css';
+const Body = ({ body, responseType, className }) => {
+  const [responseBodyType, setBodyType] = useState(responseType || 'JSON');
+  const TypedBody = BodyBasedOnType(responseBodyType);
   return (
     <div className={cn(className)}>
       <div className="response-header">
@@ -66,7 +63,7 @@ const ResponseBody = ({ body, responseType, className }) => {
           options={RESPONSE_TYPES}
           label="Type"
           initialState="JSON"
-          onChange={setResponseBodyType}
+          onChange={setBodyType}
         />
         <Dropdown
           label="Response code"
@@ -78,9 +75,9 @@ const ResponseBody = ({ body, responseType, className }) => {
           }))}
         />
       </div>
-      <Body body={body} className="mt3" />
+      <TypedBody body={body} className="mt3" />
     </div>
   );
 };
 
-export default ResponseBody;
+export default Body;
