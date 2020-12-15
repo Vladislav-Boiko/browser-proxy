@@ -1,4 +1,4 @@
-.naivgation {
+.navigation {
   width: 100%;
   border-bottom: 2px solid var(--g7);
   box-sizing: border-box;
@@ -11,6 +11,10 @@
   color: var(--primary);
   text-decoration: none;
   position: relative;
+}
+
+.navigation__item + .navigation__item {
+  margin-left: calc(var(--em) * 4);
 }
 
 .navigation__item_selected::after {

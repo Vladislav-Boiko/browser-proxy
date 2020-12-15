@@ -11,11 +11,11 @@ const Header = ({ options, initiallySelected, onChange }) => {
     onChange && onChange(name);
   };
   return (
-    <nav className="naivgation pl4">
+    <nav className="navigation px4">
       {options.map(({ name }) => (
         <a
           key={name}
-          className={cn('navigation__item label_medium mr4', {
+          className={cn('navigation__item label_medium', {
             navigation__item_selected: selectedId === name,
           })}
           href="#"
@@ -27,7 +27,7 @@ const Header = ({ options, initiallySelected, onChange }) => {
           {name}
         </a>
       ))}
-      <div className="switch-with-label mr4">
+      <div className="switch-with-label">
         <span className="switch-with-label__label label_weak g1-color mr1">
           {!isDisabled ? 'Disable' : 'Enable'}
         </span>

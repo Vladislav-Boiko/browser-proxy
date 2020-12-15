@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Header from 'molecules/Header/Header';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 import ResponseView from './views/Response';
 import RequestView from './views/Request';
 
@@ -26,6 +28,14 @@ const Request = (props) => {
       ) : (
         <RequestView />
       )}
+      <div className="request__actions mt4 mx4">
+        <Button Icon={Icons.Enable} primary className="mr3">
+          Override
+        </Button>
+        <Button Icon={Icons.Trash} secondary>
+          Remove
+        </Button>
+      </div>
     </React.Fragment>
   );
 };
