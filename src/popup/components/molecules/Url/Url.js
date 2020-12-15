@@ -19,7 +19,7 @@ class Url extends React.Component {
     const { className } = this.props;
     return (
       <React.Fragment>
-        <div className={cn('wmax', className)}>
+        <div className={cn('wmax ffr', className)}>
           <Dropdown
             label="Type"
             initialState={method || METHODS.GET}
@@ -35,7 +35,7 @@ class Url extends React.Component {
           />
         </div>
 
-        <fieldset className="wmax">
+        <fieldset className="queryParameters wmax">
           <Section
             header={
               <legend className="queryParameters__legend label_medium">

@@ -3,21 +3,6 @@
   margin-top: calc(var(--em) * 2);
 }
 
-/* .queryParamterValue__label,
-.queryParamterKey__label {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 6px;
-  margin-left: 1px;
-} */
-
-/* .queryParamterKey__input,
-.queryParamterValue__input {
-  width: 100%;
-  padding: 0.5rem;
-  box-sizing: border-box;
-} */
-
 .queryParamterCheckBox_input {
   margin: 0;
 }

@@ -20,8 +20,8 @@ const RESPONSE_TYPES = [
     view: <ResponseType type={TYPES.TEXT} />,
   },
   {
-    name: 'Blob',
-    value: 'Blob',
+    name: 'BLOB',
+    value: 'BLOB',
     view: <ResponseType type={TYPES.BLOB} />,
   },
   {
