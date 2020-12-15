@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icons from '../Icons/Icons';
 
 import './Dropdown.css';
@@ -12,7 +12,10 @@ const viewForValue = (options, value) => {
 };
 
 const Dropdown = ({ options, label, onChange, initialState }) => {
-  const [value, setValue] = useState(initialState);
+  const [value, setValue] = useState('');
+  useEffect(() => {
+    setValue(initialState);
+  });
   return (
     <label className="dropdown">
       <span className="dropdown__label label_weak g1-color">{label}</span>

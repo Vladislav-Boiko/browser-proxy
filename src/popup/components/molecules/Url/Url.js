@@ -16,7 +16,7 @@ class Url extends React.Component {
 
   render() {
     const { method, urlParams } = this.state;
-    const { className } = this.props;
+    const { className, onMethodChange } = this.props;
     return (
       <React.Fragment>
         <div className={cn('wmax ffr', className)}>
@@ -24,6 +24,9 @@ class Url extends React.Component {
             label="Type"
             initialState={method || METHODS.GET}
             options={METHODS.map((name) => ({ name, value: name }))}
+            onChange={(newMethod) => {
+              onMethodChange && onMethodChange(newMethod);
+            }}
           />
           <Input
             className="url"
@@ -92,6 +95,9 @@ class Url extends React.Component {
   }
 
   parseUrl(url) {
+    if (!url) {
+      return { urlValue: '', urlParams: [] };
+    }
     let splitted = url.split('?');
     let urlValue = splitted.shift();
     let urlParams = [];
@@ -211,10 +217,8 @@ class Url extends React.Component {
 
   // TODO: think of getDerivedStateFromProps
   componentWillReceiveProps(newProps) {
-    if (newProps.url !== this.props.url) {
-      this.onUrlValueChange(newProps.url);
-      this.setMethod(this.props.method);
-    }
+    this.onUrlValueChange(newProps.url);
+    this.setMethod(newProps.method);
   }
 }
 

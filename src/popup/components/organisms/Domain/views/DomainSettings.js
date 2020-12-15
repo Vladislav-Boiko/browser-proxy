@@ -5,15 +5,15 @@ import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 
 import '../Domain.css';
-const DomainSettings = ({ setDomainName, domainName, className }) => {
-  const [name, setName] = useState(domainName || '');
+const DomainSettings = ({ setDomainName, name, className }) => {
+  const [domainName, setName] = useState(name || '');
   return (
     <div className={className}>
       <h3 className="mt3">URL</h3>
       <Input
         label="Name"
         className="mt2"
-        value={name}
+        value={domainName}
         validate={(value) => value === '' && 'Cannot be empty'}
         onChange={(newName) => {
           setName(newName);
@@ -29,7 +29,7 @@ const DomainSettings = ({ setDomainName, domainName, className }) => {
         You can export all the underlying overrides into a file and import them
         for another domain or in another browser.
       </p>
-      <div className="wmax mt4">
+      <div className="wmax ffr mt4">
         <Button secondary className="mr3" Icon={Icons.Import}>
           Import
         </Button>
@@ -42,7 +42,7 @@ const DomainSettings = ({ setDomainName, domainName, className }) => {
         Turning off will temporary disable the underlying overrides. Removing
         will delete them completely.
       </p>
-      <div className="wmax mt4">
+      <div className="wmax ffr mt4">
         <Button secondary className="mr3" Icon={Icons.TurnOff}>
           Turn OFF
         </Button>

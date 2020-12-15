@@ -6,10 +6,10 @@ import DomainRequests from './DomainRequests';
 import DomainSettings from './DomainSettings';
 
 import '../Domain.css';
-const Domain = (props) => {
+const Domain = ({ className, ...props }) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState('requests');
   return (
-    <React.Fragment>
+    <div className={className}>
       <Header
         options={[{ name: 'requests' }, { name: 'settings' }]}
         initiallySelected={selectedMenuItem}
@@ -30,7 +30,7 @@ const Domain = (props) => {
           <DomainSettings {...props} />
         )}
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

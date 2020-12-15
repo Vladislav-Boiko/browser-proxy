@@ -3,9 +3,9 @@ import Section from 'atoms/Section/Section';
 import Body from 'molecules/Body/Body';
 import HeadersList from 'molecules/HeadersList/HeadersList';
 
-const Response = (props) => {
+const Response = () => {
   return (
-    <div className="p4">
+    <div className="p4 wmax">
       <Section
         header={<h3 className="py1">Response Body</h3>}
         isInitiallyOpen={true}

@@ -1,11 +1,11 @@
-import { evolve } from "immutableql";
-import navigation from "./navigation/reducer";
-import overrides from "./overrides/reducer";
-import requests from "./requests/reducer";
-import folders from "./folders/reducer";
-import storage from "./storage/reducer";
-import inlineOverrides from "./inlineOverrides/reducer";
-import page from "./page/reducer";
+import { evolve } from 'immutableql';
+import navigation from './navigation/reducer';
+import overrides from './overrides/reducer';
+import requests from './requests/reducer';
+import folders from './folders/reducer';
+import storage from './storage/reducer';
+import inlineOverrides from './inlineOverrides/reducer';
+import page from './page/reducer';
 
 const combineReducersWithStorage = (reducers) => (state = {}, action) => {
   let newState = evolve(state);
@@ -15,7 +15,7 @@ const combineReducersWithStorage = (reducers) => (state = {}, action) => {
   newState = storage(newState, action);
   console.log(
     `after applying reducers with action ${action.type} got:`,
-    newState
+    newState,
   );
   return newState;
 };

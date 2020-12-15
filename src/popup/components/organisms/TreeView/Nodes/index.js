@@ -4,7 +4,7 @@ import Folder from './Folder/Folder';
 import Xhr from './Xhr/Xhr';
 import cn from 'classnames';
 
-const XHR_TYPES = {
+export const XHR_TYPES = {
   GET: 'GET',
   POST: 'POST',
   PUT: 'PUT',

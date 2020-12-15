@@ -11,10 +11,10 @@ const MENU_OPTIONS = {
 };
 
 import './Request.css';
-const Request = (props) => {
+const Request = ({ className, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   return (
-    <React.Fragment>
+    <div className={className}>
       <Header
         options={[
           { name: MENU_OPTIONS.RESPONSE },
@@ -24,9 +24,9 @@ const Request = (props) => {
         onChange={setSelectedHeader}
       />
       {selectedHeader === MENU_OPTIONS.RESPONSE ? (
-        <ResponseView />
+        <ResponseView {...otherProps} />
       ) : (
-        <RequestView />
+        <RequestView {...otherProps} />
       )}
       <div className="ffr mt4 mx4">
         <Button Icon={Icons.Enable} primary className="mr3">
@@ -36,7 +36,7 @@ const Request = (props) => {
           Remove
         </Button>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

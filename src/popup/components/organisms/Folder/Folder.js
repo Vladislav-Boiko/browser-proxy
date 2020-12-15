@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
-import cn from 'classnames';
 import Header from 'molecules/Header/Header';
 
 import './Folder.css';
-const Folder = ({ folderName }) => {
-  const [name, setName] = useState(folderName || '');
+const Folder = ({ name, className }) => {
+  const [folderName, setName] = useState(name || '');
   return (
-    <React.Fragment>
+    <div className={className}>
       <Header options={[{ name: 'settings' }]} initiallySelected={'settings'} />
       <div className="mx4">
         <Button primary className="mt4" Icon={Icons.AddFile}>
@@ -18,7 +17,7 @@ const Folder = ({ folderName }) => {
         <Input
           label="Name"
           className="mt4 wmax"
-          value={name}
+          value={folderName}
           validate={(value) => value === '' && 'Cannot be empty'}
           onChange={(newName) => {
             setName(newName);
@@ -52,7 +51,7 @@ const Folder = ({ folderName }) => {
           </Button>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
