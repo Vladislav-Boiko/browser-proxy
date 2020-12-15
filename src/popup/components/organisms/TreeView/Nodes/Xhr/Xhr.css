@@ -1,0 +1,14 @@
+.xhrNode__type {
+  display: inline-block;
+  width: calc(var(--em) * 5);
+  font-weight: 600;
+}
+
+.treeView__row_selected .xhrNode__name {
+  color: var(--g1);
+  font-weight: 500;
+}
+
+.treeView__row_selected .xhrNode__type {
+  color: var(--g3);
+}

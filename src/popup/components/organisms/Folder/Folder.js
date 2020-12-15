@@ -17,7 +17,7 @@ const Folder = ({ folderName }) => {
         </Button>
         <Input
           label="Name"
-          className="mt4"
+          className="mt4 wmax"
           value={name}
           validate={(value) => value === '' && 'Cannot be empty'}
           onChange={(newName) => {
@@ -26,7 +26,7 @@ const Folder = ({ folderName }) => {
           }}
         />
         <h3 className="mt6">Import and Export</h3>
-        <p>
+        <p className="wmax">
           You can export all the underlying overrides into a file and import
           them for another domain, brother, or folder.
         </p>
@@ -39,7 +39,7 @@ const Folder = ({ folderName }) => {
           </Button>
         </div>
         <h3 className="mt6">Turn OFF</h3>
-        <p>
+        <p className="wmax">
           Turning off will temporary disable the underlying overrides. Removing
           will delete them completely.
         </p>
