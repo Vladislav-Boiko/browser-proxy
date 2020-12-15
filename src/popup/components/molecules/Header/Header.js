@@ -11,7 +11,7 @@ const Header = ({ options, initiallySelected, onChange }) => {
     onChange && onChange(name);
   };
   return (
-    <nav className="navigation px4">
+    <nav className="navigation pl4">
       {options.map(({ name }) => (
         <a
           key={name}

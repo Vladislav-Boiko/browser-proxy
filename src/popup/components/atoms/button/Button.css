@@ -13,6 +13,14 @@
   border: 1px solid var(--primary);
 }
 
+.primary:hover {
+  background-color: var(--g1);
+}
+
+.secondary:hover {
+  background-color: var(--g7);
+}
+
 .button:active {
   filter: none;
 }

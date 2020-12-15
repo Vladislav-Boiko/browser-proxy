@@ -4,6 +4,7 @@
   box-sizing: border-box;
   height: calc(var(--em) * 5);
   overflow: visible;
+  max-width: calc(var(--em) * 94);
 }
 
 .navigation__item {

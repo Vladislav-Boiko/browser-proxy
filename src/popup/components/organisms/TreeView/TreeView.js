@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 import Node, {
   TYPES as TREE_TYPES,
   XHR_TYPES as XHR_TREE_TYPES,
@@ -23,6 +25,13 @@ const TreeView = ({ nodes, onChange }) => {
           key={node.id}
         />
       ))}
+      <Button
+        Icon={Icons.Add}
+        tretiary
+        className="treeView_add-domain g6-bg mx2 my2"
+      >
+        Add Domain
+      </Button>
     </ol>
   );
 };

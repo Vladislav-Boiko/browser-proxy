@@ -31,3 +31,12 @@
 .treeView__row_selected:hover {
   background-color: var(--c6);
 }
+
+.treeView_add-domain {
+  width: calc(100% - var(--em) * 4);
+  justify-content: center;
+}
+
+.treeView_add-domain:hover {
+  background-color: var(--c5);
+}
