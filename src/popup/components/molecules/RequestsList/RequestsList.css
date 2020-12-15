@@ -1,12 +1,3 @@
-.requests-list {
-  max-width: calc(var(--em) * 90);
-}
-
-.requests-list__search {
-  display: flex;
-  flex-flow: row;
-}
-
 .requests-list__search-input {
   flex: 1 1;
 }

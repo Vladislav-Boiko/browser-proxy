@@ -24,7 +24,7 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
   };
   return (
     <div className={className}>
-      <div className="blob-type">
+      <div className="blob-type ffr">
         <Input
           value={blobTypeValue}
           label="Blob type"

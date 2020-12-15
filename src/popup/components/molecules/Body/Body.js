@@ -58,7 +58,7 @@ const Body = ({ body, responseType, className }) => {
   const TypedBody = BodyBasedOnType(responseBodyType);
   return (
     <div className={cn(className)}>
-      <div className="response-header">
+      <div className="response-header ffr">
         <Dropdown
           options={RESPONSE_TYPES}
           label="Type"

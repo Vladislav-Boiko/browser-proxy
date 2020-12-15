@@ -30,7 +30,7 @@ const Folder = ({ folderName }) => {
           You can export all the underlying overrides into a file and import
           them for another domain, brother, or folder.
         </p>
-        <div className="domain-settings__import-export mt4">
+        <div className="ffr mt4">
           <Button secondary className="mr3" Icon={Icons.Import}>
             Import
           </Button>
@@ -43,7 +43,7 @@ const Folder = ({ folderName }) => {
           Turning off will temporary disable the underlying overrides. Removing
           will delete them completely.
         </p>
-        <div className="domain-settings__turn-off mt4">
+        <div className="ffr mt4">
           <Button secondary className="mr3" Icon={Icons.TurnOff}>
             Turn OFF
           </Button>

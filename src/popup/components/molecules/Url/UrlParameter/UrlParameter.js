@@ -16,7 +16,7 @@ const URLParameter = ({
 }) => {
   const maybeRemove = (value, key) => !value && !key && remove && remove();
   return (
-    <div className="urlParameter">
+    <div className="urlParameter ffr">
       <Switch
         className={cn('urlParamter__switch', { mt3: hasLabels })}
         onChange={toggleDisabled}

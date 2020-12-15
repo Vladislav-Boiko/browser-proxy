@@ -15,7 +15,7 @@ const Domain = (props) => {
         initiallySelected={selectedMenuItem}
         onChange={setSelectedMenuItem}
       />
-      <div className="domain-actions mt4 mx4">
+      <div className="ffr mt4 mx4">
         <Button primary className="mr3" Icon={Icons.AddFile}>
           Add Override
         </Button>
@@ -23,7 +23,7 @@ const Domain = (props) => {
           Add Folder
         </Button>
       </div>
-      <div className="domain-actions mt3 mx4">
+      <div className="ffr mt3 mx4">
         {selectedMenuItem === 'requests' ? (
           <DomainRequests {...props} />
         ) : (

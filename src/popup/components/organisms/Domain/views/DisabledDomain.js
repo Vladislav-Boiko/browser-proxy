@@ -9,7 +9,7 @@ const Domain = ({ domainName, enable, className }) => {
   return (
     <div className={cn('disabled-domain', className)}>
       <DomainTeaser className="disabled-domain__teaser" />
-      <div className="disabled-domain__content">
+      <div className="disabled-domain__content ffc">
         <h2 className="disabled-domain__header">{domainName}</h2>
         <p className="disabled-domain__text g1-color">
           Enable browser proxy for this site.

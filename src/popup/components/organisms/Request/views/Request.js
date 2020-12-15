@@ -13,12 +13,7 @@ const Request = (props) => {
   };
   return (
     <div className="p4">
-      <Input
-        className="request__name"
-        label="Name"
-        value={name}
-        onChange={updateName}
-      />
+      <Input className="wmax" label="Name" value={name} onChange={updateName} />
       <Section
         className="mt5"
         header={<h3 className="py1">Request Url</h3>}

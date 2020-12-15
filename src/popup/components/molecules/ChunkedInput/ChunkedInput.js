@@ -38,7 +38,7 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
               updateBodyValue(updatedBody);
             }}
           />
-          <div className="chunk-footer my2">
+          <div className="chunk-footer ffr my2">
             <DelayInput
               label="Delay"
               value={chunkValue.delay}
@@ -49,7 +49,7 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
                 updateBodyValue(updatedBody);
               }}
             />
-            <div className="chunk-footer__actions">
+            <div className="chunk-footer__actions ffr">
               {index > 0 ? (
                 <Button
                   Icon={Icons.Trash}

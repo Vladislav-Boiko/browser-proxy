@@ -15,7 +15,7 @@ const stripURL = (url = '') => {
 import './RequestCard.css';
 const RequestCard = ({ url, code, method, responseType, className }) => {
   return (
-    <button className={cn('request-card', className)}>
+    <button className={cn('request-card wmax', className)}>
       <h3 className="request-card__url">{stripURL(url)}</h3>
       <Pill text={code} className="request-card__pill" />
       <span className="request-card__method g2-color label_strong">

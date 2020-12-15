@@ -1,17 +1,6 @@
-.url-container {
-  display: flex;
-  flex-flow: row;
-}
-
 .url {
   margin-left: calc(var(--em) * 3);
   flex: 1 1;
-}
-
-.url-container,
-.queryParameters {
-  width: 100%;
-  max-width: calc(var(--em) * 90);
 }
 
 .queryParameters {

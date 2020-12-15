@@ -379,3 +379,18 @@ body {
 .w100 {
   width: 100%;
 }
+
+.wmax {
+  width: 100%;
+  max-width: calc(var(--em) * 90);
+}
+
+.ffr {
+  display: flex;
+  flex-flow: row;
+}
+
+.ffc {
+  display: flex;
+  flex-flow: column;
+}

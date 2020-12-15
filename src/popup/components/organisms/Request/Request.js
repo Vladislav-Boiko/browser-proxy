@@ -28,7 +28,7 @@ const Request = (props) => {
       ) : (
         <RequestView />
       )}
-      <div className="request__actions mt4 mx4">
+      <div className="ffr mt4 mx4">
         <Button Icon={Icons.Enable} primary className="mr3">
           Override
         </Button>

@@ -57,7 +57,7 @@ const HeadersList = ({ headers, onChange, className }) => {
       />
       <ul>
         {filteredHeaders?.map(({ id, name, value }, index) => (
-          <li key={id} className="headers-row mt3">
+          <li key={id} className="ffr mt3">
             <Input
               className="mr3 w100"
               label={index === 0 ? 'Name' : ''}

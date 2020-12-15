@@ -1,9 +1,1 @@
-.request__name {
-  width: 100%;
-  max-width: calc(var(--em) * 90);
-}
 
-.request__actions {
-  display: flex;
-  flex-flow: row;
-}

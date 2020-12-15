@@ -1,8 +1,3 @@
-.headers-row {
-  display: flex;
-  flex-flow: row;
-}
-
 .headers-list__search {
   max-width: calc(50% - var(--em) * 1.5);
 }

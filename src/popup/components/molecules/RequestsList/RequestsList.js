@@ -28,9 +28,9 @@ import './RequestsList.css';
 const RequestsList = ({ requests, className }) => {
   const [searchValue, setSearchValue] = useState('');
   return (
-    <div className={cn('requests-list', className)}>
+    <div className={cn('wmax', className)}>
       <h3 className="mb2">Requests</h3>
-      <div className="requests-list__search">
+      <div className="ffr">
         <Input
           label="Search"
           className="requests-list__search-input"
