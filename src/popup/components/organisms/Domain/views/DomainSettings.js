@@ -8,7 +8,7 @@ import '../Domain.css';
 const DomainSettings = ({ setDomainName, domainName, className }) => {
   const [name, setName] = useState(domainName || '');
   return (
-    <div className={cn('domain-settings', className)}>
+    <div className={className}>
       <h3 className="mt3">URL</h3>
       <Input
         label="Name"
@@ -39,8 +39,8 @@ const DomainSettings = ({ setDomainName, domainName, className }) => {
       </div>
       <h3 className="mt6">Turn OFF</h3>
       <p>
-        Turning off will temporary disable theunderlying overrides. Removing
-        will delete them completly.
+        Turning off will temporary disable the underlying overrides. Removing
+        will delete them completely.
       </p>
       <div className="domain-settings__turn-off mt4">
         <Button secondary className="mr3" Icon={Icons.TurnOff}>
