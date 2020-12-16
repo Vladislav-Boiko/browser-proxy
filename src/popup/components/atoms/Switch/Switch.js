@@ -6,7 +6,7 @@ const Switch = ({ className, initialState, onChange }) => {
   const [isActive, setIsActive] = useState(false);
   useEffect(() => {
     setIsActive(initialState);
-  });
+  }, [initialState]);
   return (
     <label
       className={cn('switch', className, {

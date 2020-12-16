@@ -11,7 +11,7 @@ const Request = (props) => {
   useEffect(() => {
     setName(props.name);
     setResponseMethod(props.type);
-  });
+  }, [props.name, props.type]);
   const updateName = (newName) => {
     setName(newName);
     props.onChange && props.onChange({ name });

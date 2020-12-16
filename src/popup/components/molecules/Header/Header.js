@@ -8,7 +8,7 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   useEffect(() => {
     setIsDisabled(!isOn);
-  });
+  }, [isOn]);
   const select = (name) => {
     setSelectedId(name);
     onChange && onChange(name);

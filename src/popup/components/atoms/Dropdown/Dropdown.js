@@ -12,10 +12,10 @@ const viewForValue = (options, value) => {
 };
 
 const Dropdown = ({ options, label, onChange, initialState }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(options[0]);
   useEffect(() => {
     setValue(initialState);
-  });
+  }, [initialState]);
   return (
     <label className="dropdown">
       <span className="dropdown__label label_weak g1-color">{label}</span>

@@ -11,7 +11,7 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
   const [selected, select] = useState();
   useEffect(() => {
     select(selectedId);
-  });
+  }, [selectedId]);
   const doSelect = (clicked) => {
     select(clicked);
     onChange && onChange(clicked);
