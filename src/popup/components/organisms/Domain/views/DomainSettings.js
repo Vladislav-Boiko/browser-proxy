@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
+import { evolve } from 'immutableql';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 
 import '../Domain.css';
-const DomainSettings = ({ id, updateNode, name, className }) => {
+const DomainSettings = ({
+  id,
+  activeUrls,
+  updateNode,
+  name,
+  className,
+  ...otherProps
+}) => {
   const [domainName, setName] = useState('');
   useEffect(() => {
     setName(name || '');
   });
   return (
-    <div className={className}>
+    <div className={cn(className, 'wmax')}>
       <h3 className="mt3">URL</h3>
       <Input
         label="Name"
@@ -24,8 +33,34 @@ const DomainSettings = ({ id, updateNode, name, className }) => {
           updateNode && updateNode({ id, name: newName });
         }}
       />
-      <Input label="Active on" className="mt3" />
-      <Button tretiary Icon={Icons.Add} className="mt2">
+      {activeUrls?.map((url, index) => (
+        <Input
+          key={index}
+          label={index === 0 ? 'Active on' : ''}
+          value={url}
+          className="mt3"
+          onChange={(newValue) => {
+            let updatedActiveUrls = activeUrls;
+            if (newValue === '' && activeUrls.length > 1) {
+              updatedActiveUrls = activeUrls.filter((e, i) => i !== index);
+            } else {
+              updatedActiveUrls = evolve(activeUrls, {
+                [index]: newValue,
+              });
+            }
+            updateNode && updateNode({ id, activeUrls: updatedActiveUrls });
+          }}
+        />
+      ))}
+      <Button
+        tretiary
+        Icon={Icons.Add}
+        className="mt2"
+        onClick={() =>
+          updateNode &&
+          updateNode({ id, activeUrls: [...(activeUrls || []), 'http://'] })
+        }
+      >
         Add active URL
       </Button>
       <h3 className="mt6">Import and Export</h3>
@@ -47,8 +82,13 @@ const DomainSettings = ({ id, updateNode, name, className }) => {
         will delete them completely.
       </p>
       <div className="wmax ffr mt4">
-        <Button secondary className="mr3" Icon={Icons.TurnOff}>
-          Turn OFF
+        <Button
+          secondary
+          className="mr3"
+          Icon={Icons.TurnOff}
+          onClick={otherProps.toggle}
+        >
+          {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
         </Button>
         <Button secondary Icon={Icons.Trash}>
           Remove

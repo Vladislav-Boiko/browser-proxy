@@ -8,7 +8,7 @@ import Domain from 'organisms/Domain/Domain';
 import Folder from 'organisms/Folder/Folder';
 
 import './Router.css';
-const Router = ({ nodes, selectedNode, setSelectedId }) => {
+const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
   let Node = null;
   if (selectedNode) {
     if (selectedNode.type in XHR_TYPES) {
@@ -33,7 +33,11 @@ const Router = ({ nodes, selectedNode, setSelectedId }) => {
     <div className="ffr">
       <TreeView nodes={nodes} onChange={setSelectedId} />
       {Node ? (
-        <Node {...selectedNode} className="navigation-node mt1 pt1" />
+        <Node
+          {...selectedNode}
+          toggle={() => toggleNode(selectedNode.id)}
+          className="navigation-node mt1 pt1"
+        />
       ) : (
         'TODO: not rendered'
       )}

@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 import Header from 'molecules/Header/Header';
 
 import './Folder.css';
-const Folder = ({ name, className }) => {
+const Folder = ({ name, className, ...otherProps }) => {
   const [folderName, setName] = useState(name || '');
   return (
     <div className={className}>
-      <Header options={[{ name: 'settings' }]} initiallySelected={'settings'} />
-      <div className="mx4">
+      <Header
+        options={[{ name: 'settings' }]}
+        initiallySelected={'settings'}
+        onToggle={otherProps.toggle}
+        isOn={otherProps.isOn}
+      />
+      <div
+        className={cn('mx4 node-body', {
+          'node-body_disabled': !otherProps.isOn,
+        })}
+      >
         <Button primary className="mt4" Icon={Icons.AddFile}>
           Add Override
         </Button>
@@ -43,8 +53,13 @@ const Folder = ({ name, className }) => {
           will delete them completely.
         </p>
         <div className="ffr mt4">
-          <Button secondary className="mr3" Icon={Icons.TurnOff}>
-            Turn OFF
+          <Button
+            secondary
+            className="mr3"
+            Icon={Icons.TurnOff}
+            onClick={otherProps.toggle}
+          >
+            {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
           </Button>
           <Button secondary Icon={Icons.Trash}>
             Remove

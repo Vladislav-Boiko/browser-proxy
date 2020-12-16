@@ -1,6 +1,7 @@
 .treeView {
   height: 100vh;
   display: inline-block;
+  overflow-y: scroll;
 }
 
 .treeView__child {
@@ -43,4 +44,12 @@
 
 .treeView_add-domain:hover {
   background-color: var(--c5);
+}
+
+.node-body {
+  transition: all 0.3s;
+}
+
+.node-body_disabled {
+  filter: grayscale(100%);
 }

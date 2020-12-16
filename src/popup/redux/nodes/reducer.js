@@ -1,5 +1,5 @@
-import { UPDATE_NODE, ADD_DOMAIN } from './actions';
-import { evolve, where } from 'immutableql';
+import { UPDATE_NODE, ADD_DOMAIN, TOGGLE_NODE } from './actions';
+import { evolve, where, alter } from 'immutableql';
 
 const findPath = (id, nodes, path = []) => {
   for (let node of nodes) {
@@ -7,7 +7,10 @@ const findPath = (id, nodes, path = []) => {
       return [...path, id];
     }
     if (node.nodes) {
-      return findPath(id, node.nodes, [...path, node.id]);
+      const found = findPath(id, node.nodes, [...path, node.id]);
+      if (found) {
+        return found;
+      }
     }
   }
   return null;
@@ -31,8 +34,16 @@ export default (state = [], action) => {
     case ADD_DOMAIN:
       return state.concat([action.payload]);
     case UPDATE_NODE:
-      const pathToNode = findPath(action.payload.id, state);
-      return updateDeep(state, pathToNode, action.payload);
+      return updateDeep(
+        state,
+        findPath(action.payload.id, state),
+        action.payload,
+      );
+    case TOGGLE_NODE:
+      return updateDeep(state, findPath(action.payload, state), {
+        isOn: alter((key, value) => !value),
+      });
+      return newState;
     default:
       return state;
   }

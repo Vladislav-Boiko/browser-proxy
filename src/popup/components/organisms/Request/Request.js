@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import Header from 'molecules/Header/Header';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
@@ -22,19 +23,27 @@ const Request = ({ className, ...otherProps }) => {
         ]}
         initiallySelected={selectedHeader}
         onChange={setSelectedHeader}
+        onToggle={otherProps.toggle}
+        isOn={otherProps.isOn}
       />
-      {selectedHeader === MENU_OPTIONS.RESPONSE ? (
-        <ResponseView {...otherProps} />
-      ) : (
-        <RequestView {...otherProps} />
-      )}
-      <div className="ffr mt4 mx4">
-        <Button Icon={Icons.Enable} primary className="mr3">
-          Override
-        </Button>
-        <Button Icon={Icons.Trash} secondary>
-          Remove
-        </Button>
+      <div
+        className={cn('node-body', {
+          'node-body_disabled': !otherProps.isOn,
+        })}
+      >
+        {selectedHeader === MENU_OPTIONS.RESPONSE ? (
+          <ResponseView {...otherProps} />
+        ) : (
+          <RequestView {...otherProps} />
+        )}
+        <div className="ffr mt4 mx4">
+          <Button Icon={Icons.Enable} primary className="mr3">
+            Override
+          </Button>
+          <Button Icon={Icons.Trash} secondary>
+            Remove
+          </Button>
+        </div>
       </div>
     </div>
   );

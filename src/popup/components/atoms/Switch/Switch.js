@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 
 import './Switch.css';
-const Switch = ({ className, initialState = false, onChange }) => {
-  const [isActive, setIsActive] = useState(initialState);
+const Switch = ({ className, initialState, onChange }) => {
+  const [isActive, setIsActive] = useState(false);
+  useEffect(() => {
+    setIsActive(initialState);
+  });
   return (
     <label
       className={cn('switch', className, {

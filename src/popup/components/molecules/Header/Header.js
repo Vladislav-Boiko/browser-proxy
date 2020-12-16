@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import Switch from 'atoms/Switch/Switch';
 
 import './Header.css';
-const Header = ({ options, initiallySelected, onChange }) => {
+const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
   const [selectedId, setSelectedId] = useState(initiallySelected);
   const [isDisabled, setIsDisabled] = useState(false);
+  useEffect(() => {
+    setIsDisabled(!isOn);
+  });
   const select = (name) => {
     setSelectedId(name);
     onChange && onChange(name);
@@ -32,8 +35,12 @@ const Header = ({ options, initiallySelected, onChange }) => {
           {!isDisabled ? 'Disable' : 'Enable'}
         </span>
         <Switch
+          initialState={isDisabled}
           className="switch-with-label__switch"
-          onChange={(isChecked) => setIsDisabled(isChecked)}
+          onChange={(isChecked) => {
+            setIsDisabled(isChecked);
+            onToggle && onToggle();
+          }}
         />
       </div>
     </nav>

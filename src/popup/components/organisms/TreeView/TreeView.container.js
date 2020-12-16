@@ -23,6 +23,7 @@ const TreeViewContainer = (props) => {
         id,
         type: TYPES.DOMAIN,
         isUnsaved: true,
+        isOn: true,
       }),
     );
     dispatch(selectNodeAction(id));

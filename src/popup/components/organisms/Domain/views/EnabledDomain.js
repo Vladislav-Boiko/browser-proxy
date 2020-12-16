@@ -7,13 +7,16 @@ import DomainSettings from './DomainSettings.container';
 
 import '../Domain.css';
 const Domain = ({ className, ...props }) => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState('requests');
+  // TODO: if the domain is current domain, show the list of requests first.
+  const [selectedMenuItem, setSelectedMenuItem] = useState('settings');
   return (
     <div className={className}>
       <Header
         options={[{ name: 'requests' }, { name: 'settings' }]}
         initiallySelected={selectedMenuItem}
         onChange={setSelectedMenuItem}
+        onToggle={props.toggle}
+        isOn={props.isOn}
       />
       <div className="ffr mt4 mx4">
         <Button primary className="mr3" Icon={Icons.AddFile}>

@@ -9,3 +9,9 @@ export const updateNode = (payload) => ({
   type: UPDATE_NODE,
   payload,
 });
+
+export const TOGGLE_NODE = 'TOGGLE_NODE';
+export const toggleNode = (payload) => ({
+  type: TOGGLE_NODE,
+  payload,
+});
