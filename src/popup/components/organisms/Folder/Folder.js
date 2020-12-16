@@ -6,7 +6,13 @@ import Input from 'atoms/Input/Input';
 import Header from 'molecules/Header/Header';
 
 import './Folder.css';
-const Folder = ({ name, className, ...otherProps }) => {
+const Folder = ({
+  name,
+  className,
+  addOverride,
+  removeFolder,
+  ...otherProps
+}) => {
   const [folderName, setName] = useState(name || '');
   return (
     <div className={className}>
@@ -21,7 +27,12 @@ const Folder = ({ name, className, ...otherProps }) => {
           'node-body_disabled': !otherProps.isOn,
         })}
       >
-        <Button primary className="mt4" Icon={Icons.AddFile}>
+        <Button
+          primary
+          className="mt4"
+          Icon={Icons.AddFile}
+          onClick={addOverride}
+        >
           Add Override
         </Button>
         <Input
@@ -61,7 +72,7 @@ const Folder = ({ name, className, ...otherProps }) => {
           >
             {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
           </Button>
-          <Button secondary Icon={Icons.Trash}>
+          <Button secondary Icon={Icons.Trash} onClick={removeFolder}>
             Remove
           </Button>
         </div>

@@ -1,6 +1,6 @@
 import { getAllNodes } from '../nodes/selectors';
 
-export const getSelectedNodeID = (store) => store.selected.id;
+export const getSelectedNodeId = (store) => store.selected.id;
 
 const findSelectedById = (id, nodes = []) => {
   for (let node of nodes) {
@@ -18,4 +18,4 @@ const findSelectedById = (id, nodes = []) => {
 };
 
 export const getSelectedNode = (store) =>
-  findSelectedById(getSelectedNodeID(store), getAllNodes(store));
+  findSelectedById(getSelectedNodeId(store), getAllNodes(store));

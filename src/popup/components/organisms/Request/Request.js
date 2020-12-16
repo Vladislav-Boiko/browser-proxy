@@ -7,12 +7,12 @@ import ResponseView from './views/Response';
 import RequestView from './views/Request';
 
 const MENU_OPTIONS = {
-  RESPONSE: 'Response',
+  RESPONSE: 'RESPONSE',
   REQUEST: 'REQUEST',
 };
 
 import './Request.css';
-const Request = ({ className, ...otherProps }) => {
+const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   return (
     <div className={className}>
@@ -40,7 +40,7 @@ const Request = ({ className, ...otherProps }) => {
           <Button Icon={Icons.Enable} primary className="mr3">
             Override
           </Button>
-          <Button Icon={Icons.Trash} secondary>
+          <Button Icon={Icons.Trash} secondary onClick={removeOverride}>
             Remove
           </Button>
         </div>

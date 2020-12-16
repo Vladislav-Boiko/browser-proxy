@@ -12,6 +12,7 @@ const DomainSettings = ({
   updateNode,
   name,
   className,
+  removeDomain,
   ...otherProps
 }) => {
   const [domainName, setName] = useState('');
@@ -90,7 +91,7 @@ const DomainSettings = ({
         >
           {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
         </Button>
-        <Button secondary Icon={Icons.Trash}>
+        <Button secondary Icon={Icons.Trash} onClick={removeDomain}>
           Remove
         </Button>
       </div>

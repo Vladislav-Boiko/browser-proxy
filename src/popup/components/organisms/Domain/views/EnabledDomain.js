@@ -6,7 +6,7 @@ import DomainRequests from './DomainRequests';
 import DomainSettings from './DomainSettings.container';
 
 import '../Domain.css';
-const Domain = ({ className, ...props }) => {
+const Domain = ({ className, addOverride, addFolder, ...props }) => {
   // TODO: if the domain is current domain, show the list of requests first.
   const [selectedMenuItem, setSelectedMenuItem] = useState('settings');
   return (
@@ -19,10 +19,15 @@ const Domain = ({ className, ...props }) => {
         isOn={props.isOn}
       />
       <div className="ffr mt4 mx4">
-        <Button primary className="mr3" Icon={Icons.AddFile}>
+        <Button
+          primary
+          className="mr3"
+          Icon={Icons.AddFile}
+          onClick={addOverride}
+        >
           Add Override
         </Button>
-        <Button secondary Icon={Icons.AddFolder}>
+        <Button secondary Icon={Icons.AddFolder} onClick={addFolder}>
           Add Folder
         </Button>
       </div>

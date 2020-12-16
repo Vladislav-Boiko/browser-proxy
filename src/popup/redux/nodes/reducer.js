@@ -1,20 +1,15 @@
-import { UPDATE_NODE, ADD_DOMAIN, TOGGLE_NODE } from './actions';
+import {
+  UPDATE_NODE,
+  ADD_DOMAIN,
+  TOGGLE_NODE,
+  ADD_OVERRIDE,
+  ADD_FOLDER,
+  REMOVE_FOLDER,
+  REMOVE_OVERRIDE,
+  REMOVE_DOMAIN,
+} from './actions';
+import { findPath } from './selectors';
 import { evolve, where, alter } from 'immutableql';
-
-const findPath = (id, nodes, path = []) => {
-  for (let node of nodes) {
-    if (node.id === id) {
-      return [...path, id];
-    }
-    if (node.nodes) {
-      const found = findPath(id, node.nodes, [...path, node.id]);
-      if (found) {
-        return found;
-      }
-    }
-  }
-  return null;
-};
 
 const updateDeep = (state, path, payload) => {
   let update = payload;
@@ -43,7 +38,24 @@ export default (state = [], action) => {
       return updateDeep(state, findPath(action.payload, state), {
         isOn: alter((key, value) => !value),
       });
-      return newState;
+    case ADD_OVERRIDE:
+    case ADD_FOLDER:
+      return updateDeep(state, findPath(action.payload.parentId, state), {
+        nodes: alter((key, value) =>
+          value
+            ? [...value, action.payload.override]
+            : [action.payload.override],
+        ),
+      });
+    case REMOVE_FOLDER:
+    case REMOVE_OVERRIDE:
+      const itemPath = findPath(action.payload, state);
+      const itemId = itemPath.pop();
+      return updateDeep(state, itemPath, {
+        nodes: alter((key, value) => value.filter(({ id }) => id !== itemId)),
+      });
+    case REMOVE_DOMAIN:
+      return state.filter(({ id }) => id !== action.payload);
     default:
       return state;
   }

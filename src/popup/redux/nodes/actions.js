@@ -4,6 +4,12 @@ export const addDomain = (payload) => ({
   payload,
 });
 
+export const REMOVE_DOMAIN = 'REMOVE_DOMAIN';
+export const removeDomain = (payload) => ({
+  type: REMOVE_DOMAIN,
+  payload,
+});
+
 export const UPDATE_NODE = 'UPDATE_NODE';
 export const updateNode = (payload) => ({
   type: UPDATE_NODE,
@@ -13,5 +19,29 @@ export const updateNode = (payload) => ({
 export const TOGGLE_NODE = 'TOGGLE_NODE';
 export const toggleNode = (payload) => ({
   type: TOGGLE_NODE,
+  payload,
+});
+
+export const ADD_OVERRIDE = 'ADD_OVERRIDE';
+export const addOverride = (payload) => ({
+  type: ADD_OVERRIDE,
+  payload,
+});
+
+export const REMOVE_OVERRIDE = 'REMOVE_OVERRIDE';
+export const removeOverride = (payload) => ({
+  type: REMOVE_OVERRIDE,
+  payload,
+});
+
+export const ADD_FOLDER = 'ADD_FOLDER';
+export const addFolder = (payload) => ({
+  type: ADD_FOLDER,
+  payload,
+});
+
+export const REMOVE_FOLDER = 'REMOVE_FOLDER';
+export const removeFolder = (payload) => ({
+  type: REMOVE_FOLDER,
   payload,
 });

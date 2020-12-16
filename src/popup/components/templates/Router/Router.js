@@ -3,9 +3,9 @@ import TreeView, {
   TYPES,
   XHR_TYPES,
 } from 'organisms/TreeView/TreeView.container';
-import Request from 'organisms/Request/Request';
+import Request from 'organisms/Request/Request.container';
 import Domain from 'organisms/Domain/Domain';
-import Folder from 'organisms/Folder/Folder';
+import Folder from 'organisms/Folder/Folder.container';
 
 import './Router.css';
 const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
