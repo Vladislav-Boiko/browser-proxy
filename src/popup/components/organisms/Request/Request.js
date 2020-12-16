@@ -14,6 +14,9 @@ const MENU_OPTIONS = {
 import './Request.css';
 const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
+  const [response, setResponse] = useState({});
+  const updateResponse = (part) =>
+    setResponse(Object.assign({}, response, part));
   return (
     <div className={className}>
       <Header
@@ -32,12 +35,23 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
         })}
       >
         {selectedHeader === MENU_OPTIONS.RESPONSE ? (
-          <ResponseView {...otherProps} />
+          <ResponseView
+            {...otherProps}
+            onChange={updateResponse}
+            body={response.body}
+          />
         ) : (
           <RequestView {...otherProps} />
         )}
         <div className="ffr mt4 mx4">
-          <Button Icon={Icons.Enable} primary className="mr3">
+          <Button
+            Icon={Icons.Enable}
+            primary
+            className="mr3"
+            onClick={() => {
+              console.log('TODO implement save: ', response);
+            }}
+          >
             Override
           </Button>
           <Button Icon={Icons.Trash} secondary onClick={removeOverride}>

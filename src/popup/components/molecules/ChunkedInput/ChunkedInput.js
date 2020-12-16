@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { evolve, remove } from 'immutableql';
 import Input from 'atoms/Input/Input';
 import cn from 'classnames';
@@ -11,16 +11,17 @@ const DEFAULT_CHUNK = { value: '', delay: 200 };
 import './ChunkedInput.css';
 const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
   const passedLabel = label || '';
-  const [chunksValue, setChunksValue] = useState(
-    body?.chunks || [DEFAULT_CHUNK],
-  );
+  const [chunksValue, setChunksValue] = useState([DEFAULT_CHUNK]);
+  useEffect(() => {
+    setChunksValue(body || [DEFAULT_CHUNK]);
+  }, [body]);
   const updateBodyValue = (newValue) => {
     setChunksValue(newValue);
     onChange && onChange(newValue);
   };
   return (
     <div className={cn('chunked-input', className)}>
-      {chunksValue.map((chunkValue, index) => (
+      {chunksValue?.map((chunkValue, index) => (
         <React.Fragment key={`chunk_${index}`}>
           <Input
             className={cn({ mt5: index > 0 })}

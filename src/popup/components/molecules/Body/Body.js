@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import Dropdown from 'atoms/Dropdown/Dropdown';
 import ResponseType, { TYPES } from 'atoms/ResponseType/ResponseType';
@@ -37,13 +37,13 @@ const RESPONSE_TYPES = [
 ];
 
 // TODO: add document as a response body type
-const BodyBasedOnType = (type) => (props) => {
+const BodyBasedOnType = ({ type, ...props }) => {
   switch (type) {
     case 'JSON':
       return <JsonBody {...props} />;
     case 'ArrayBuffer':
       return <ArrayBufferBody {...props} />;
-    case 'Blob':
+    case 'BLOB':
       return <BlobBody {...props} />;
     case 'Text':
       return <TextBody {...props} />;
@@ -53,29 +53,44 @@ const BodyBasedOnType = (type) => (props) => {
 };
 
 import './Body.css';
-const Body = ({ body, responseType, className }) => {
-  const [responseBodyType, setBodyType] = useState(responseType || 'JSON');
-  const TypedBody = BodyBasedOnType(responseBodyType);
+const Body = ({ body, responseType, responseCode, className, onChange }) => {
+  const [responseBodyType, setBodyType] = useState('JSON');
+  useEffect(() => {
+    setBodyType(responseType || 'JSON');
+  }, [responseType]);
   return (
     <div className={cn(className)}>
       <div className="response-header ffr">
         <Dropdown
           options={RESPONSE_TYPES}
           label="Type"
-          initialState="JSON"
-          onChange={setBodyType}
+          initialState={responseBodyType}
+          onChange={(newType) => {
+            setBodyType(newType);
+            onChange && onChange({ responseType: newType });
+          }}
         />
         <Dropdown
           label="Response code"
-          initialState="200"
+          initialState={responseCode || '200'}
           options={HTTP_STATUS_CODES.map(({ code, status }) => ({
             name: `${code} ${status}`,
             value: `${code}`,
             view: code,
           }))}
+          onChange={(newResponseCode) => {
+            onChange && onChange({ responseCode: newResponseCode });
+          }}
         />
       </div>
-      <TypedBody body={body} className="mt3" />
+      <BodyBasedOnType
+        type={responseBodyType}
+        body={body}
+        className="mt3"
+        onChange={(newResponseBody) => {
+          onChange && onChange({ body: newResponseBody });
+        }}
+      />
     </div>
   );
 };
