@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import domains from './domains/reducer';
+import nodes from './nodes/reducer';
+import selected from './selected/reducer';
 
 export default combineReducers({
-  domains,
+  nodes,
+  selected,
 });

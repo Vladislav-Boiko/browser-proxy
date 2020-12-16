@@ -267,6 +267,8 @@ module.exports = function (webpackEnv) {
         atoms: path.resolve(__dirname, '../src/popup/components/atoms'),
         molecules: path.resolve(__dirname, '../src/popup/components/molecules'),
         organisms: path.resolve(__dirname, '../src/popup/components/organisms'),
+        templates: path.resolve(__dirname, '../src/popup/components/templates'),
+        store: path.resolve(__dirname, '../src/popup/redux'),
         utils: path.resolve(__dirname, '../src/popup/utils/'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/

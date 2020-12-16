@@ -1,30 +1,14 @@
-import React, { useState } from 'react';
-import TreeView, { TYPES, XHR_TYPES } from 'organisms/TreeView/TreeView';
+import React from 'react';
+import TreeView, {
+  TYPES,
+  XHR_TYPES,
+} from 'organisms/TreeView/TreeView.container';
 import Request from 'organisms/Request/Request';
 import Domain from 'organisms/Domain/Domain';
 import Folder from 'organisms/Folder/Folder';
+
 import './Router.css';
-
-const findSelectedById = (id, nodes = []) => {
-  for (let node of nodes) {
-    if (node.id === id) {
-      return node;
-    }
-    if (node.nodes) {
-      const maybeFound = findSelectedById(id, node.nodes);
-      if (maybeFound) {
-        return maybeFound;
-      }
-    }
-  }
-  return null;
-};
-
-const Router = ({ nodes }) => {
-  // TODO: initial state
-  const [selectedId, setSelectedId] = useState();
-  // TODO: case not selected, select default
-  const selectedNode = findSelectedById(selectedId, nodes);
+const Router = ({ nodes, selectedNode, setSelectedId }) => {
   let Node = null;
   if (selectedNode) {
     if (selectedNode.type in XHR_TYPES) {

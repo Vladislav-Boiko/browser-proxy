@@ -19,8 +19,17 @@ const Domain = ({ name, nodes, ...otherProps }) => {
           }
         }}
       >
+        {nodes ? (
+          <Icons.Chevron
+            className={cn('icon_sm domain__chevron', {
+              domain__chevron_collapsed: isCollapsed,
+            })}
+          />
+        ) : (
+          ''
+        )}
         <Icons.Domain className="icon_md domain__icon" />
-        <NodeName name={name} />
+        <NodeName id={otherProps.id} name={name} />
       </NodeHoc>
       <ol
         className={cn('ml2', {

@@ -9,3 +9,19 @@
 .domain__children_collapsed {
   display: none;
 }
+
+.domain__chevron {
+  position: absolute;
+  right: var(--em);
+  transform: translate(-50%);
+  fill: var(--g5);
+  transition: all 0.3s;
+}
+
+.treeView__row_selected .domain__chevron {
+  fill: var(--c3);
+}
+
+.domain__chevron_collapsed {
+  transform: rotate(-90deg);
+}

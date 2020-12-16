@@ -3,7 +3,7 @@ import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Header from 'molecules/Header/Header';
 import DomainRequests from './DomainRequests';
-import DomainSettings from './DomainSettings';
+import DomainSettings from './DomainSettings.container';
 
 import '../Domain.css';
 const Domain = ({ className, ...props }) => {

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
+import { useDispatch } from 'react-redux';
+import { updateNode } from 'store/nodes/actions';
 
 import './NodeName.css';
-const NodeName = ({ name, className, isUnsaved }) => {
+const NodeName = ({ id, name, className, isUnsaved }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(name);
+  const dispatch = useDispatch();
+  const updateValue = (value) => dispatch(updateNode({ id, name: value }));
   let inputRef = null;
   useEffect(() => {
+    setValue(name);
     inputRef && inputRef.focus();
   });
   if (isEditing) {
@@ -16,7 +21,7 @@ const NodeName = ({ name, className, isUnsaved }) => {
         type="text"
         value={value}
         ref={(theInput) => (inputRef = theInput)}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => updateValue(e.target.value)}
         onBlur={() => setIsEditing(false)}
         size={`${name.length}`}
       />

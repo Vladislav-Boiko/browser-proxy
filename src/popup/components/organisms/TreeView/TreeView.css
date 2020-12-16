@@ -21,6 +21,8 @@
   cursor: pointer;
   min-width: calc(var(--em) * 25);
   position: relative;
+  height: calc(var(--em) * 5);
+  box-sizing: border-box;
 }
 
 .treeView__row:hover {
@@ -33,8 +35,10 @@
 }
 
 .treeView_add-domain {
-  width: calc(100% - var(--em) * 4);
+  width: 100%;
   justify-content: center;
+  padding-left: calc(var(--em) * 3);
+  padding-right: calc(var(--em) * 3);
 }
 
 .treeView_add-domain:hover {

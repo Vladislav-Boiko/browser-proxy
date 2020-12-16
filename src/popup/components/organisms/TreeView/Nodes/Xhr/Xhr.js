@@ -24,7 +24,12 @@ const Xhr = ({ type, name, isUnsaved, ...otherProps }) => {
     <li>
       <NodeHoc {...otherProps}>
         <span className="xhrNode__type mr1 g4-color">{typeToText(type)}</span>
-        <NodeName className="xhrNode__name" name={name} isUnsaved={isUnsaved} />
+        <NodeName
+          id={otherProps.id}
+          className="xhrNode__name"
+          name={name}
+          isUnsaved={isUnsaved}
+        />
       </NodeHoc>
     </li>
   );

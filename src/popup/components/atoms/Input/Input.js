@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import Icons from '../Icons/Icons';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -23,9 +23,10 @@ const Input = ({
   multiline,
   ...otherProps
 }) => {
-  const [validationError, setValidationError] = useState(
-    validate ? validate(value) : '',
-  );
+  const [validationError, setValidationError] = useState('');
+  useEffect(() => {
+    setValidationError(validate ? validate(value) : '');
+  });
   const [validationTimeout, setValidationTimeout] = useState(null);
   return (
     <label className={cn('input-label', className)}>

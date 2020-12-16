@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import cn from 'classnames';
+import React, { useState, useEffect } from 'react';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 
 import '../Domain.css';
-const DomainSettings = ({ setDomainName, name, className }) => {
-  const [domainName, setName] = useState(name || '');
+const DomainSettings = ({ id, updateNode, name, className }) => {
+  const [domainName, setName] = useState('');
+  useEffect(() => {
+    setName(name || '');
+  });
   return (
     <div className={className}>
       <h3 className="mt3">URL</h3>
@@ -14,10 +16,12 @@ const DomainSettings = ({ setDomainName, name, className }) => {
         label="Name"
         className="mt2"
         value={domainName}
-        validate={(value) => value === '' && 'Cannot be empty'}
+        validate={(value) => {
+          return value === '' && 'Shall not be empty';
+        }}
         onChange={(newName) => {
           setName(newName);
-          newName && setDomainName && setDomainName(newName);
+          updateNode && updateNode({ id, name: newName });
         }}
       />
       <Input label="Active on" className="mt3" />

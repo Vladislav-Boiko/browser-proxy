@@ -18,8 +18,17 @@ const Folder = ({ name, nodes, ...otherProps }) => {
           }
         }}
       >
+        {nodes ? (
+          <Icons.Chevron
+            className={cn('icon_sm folder__chevron', {
+              folder__chevron_collapsed: isCollapsed,
+            })}
+          />
+        ) : (
+          ''
+        )}
         <Icons.Folder className="icon_md folder__icon" />
-        <NodeName name={name} className="folder__name" />
+        <NodeName id={otherProps.id} name={name} className="folder__name" />
       </NodeHoc>
       <ol
         className={cn('mx2', {
