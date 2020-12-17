@@ -9,9 +9,13 @@ const fromMsString = (value) =>
 const isValid = (value) => /\d*$/.test(value);
 
 const DelayInput = ({ onChange, ...otherProps }) => {
-  const [value, setValue] = useState(otherProps.value);
+  const [value, setDelayValue] = useState(otherProps.value);
   const [valueOnFocus, setValueOnFocus] = useState(value);
   const [isAnimate, setAnimate] = useState(false);
+  const setValue = (newValue) => {
+    setDelayValue(newValue);
+    onChange && onChange(newValue);
+  };
   return (
     <Input
       icon={
