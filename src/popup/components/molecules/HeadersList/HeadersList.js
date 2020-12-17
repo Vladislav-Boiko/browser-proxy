@@ -4,6 +4,26 @@ import { evolve, remove } from 'immutableql';
 import Input from 'atoms/Input/Input';
 
 import './HeadersList.css';
+
+const filterHeaders = (searchValue, headers) => {
+  const searchRegexp = new RegExp(searchValue);
+  return searchValue !== ''
+    ? headers.filter(
+        (item) => searchRegexp.test(item.name) || searchRegexp.test(item.value),
+      )
+    : headers;
+};
+
+const isUnsaved = (headers, itemId, value, valueName) => {
+  if (headers) {
+    const initial = headers[itemId];
+    if (initial) {
+      return initial[valueName] !== value;
+    }
+  }
+  return true;
+};
+
 const HeadersList = ({ headers, onChange, className }) => {
   const [headersValue, setHeadersValue] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -42,14 +62,7 @@ const HeadersList = ({ headers, onChange, className }) => {
     setHeadersValue(updatedHeader);
     onChange && onChange(updatedHeader);
   };
-  const searchRegexp = new RegExp(searchValue);
-  const filteredHeaders =
-    searchValue !== ''
-      ? headerValuesWithId.filter(
-          (item) =>
-            searchRegexp.test(item.name) || searchRegexp.test(item.value),
-        )
-      : headerValuesWithId;
+  const filteredHeaders = filterHeaders(searchValue, headerValuesWithId);
   return (
     <div className={cn(className, 'mt3')}>
       <Input
@@ -59,6 +72,9 @@ const HeadersList = ({ headers, onChange, className }) => {
         className="headers-list__search"
       />
       <ul>
+        {!filteredHeaders.length && headerValuesWithId.length && (
+          <h4 className="my1 g2-color">No headers found</h4>
+        )}
         {filteredHeaders?.map(({ id, name, value }, index) => (
           <li key={id} className="ffr mt3">
             <Input
@@ -68,6 +84,10 @@ const HeadersList = ({ headers, onChange, className }) => {
               onChange={(newValue) =>
                 updateEntry({ id, name: newValue, value })
               }
+              isUnsaved={
+                isUnsaved(headers, id, name, 'name') &&
+                (name !== '' || value !== '')
+              }
             />
             <Input
               className="w100"
@@ -75,6 +95,10 @@ const HeadersList = ({ headers, onChange, className }) => {
               value={value}
               onChange={(newValue) =>
                 updateEntry({ id, name, value: newValue })
+              }
+              isUnsaved={
+                isUnsaved(headers, id, value, 'value') &&
+                (name !== '' || value !== '')
               }
             />
           </li>

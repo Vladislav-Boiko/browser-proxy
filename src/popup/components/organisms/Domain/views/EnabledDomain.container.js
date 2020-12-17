@@ -18,9 +18,6 @@ const Domain = (props) => {
         parentId: props.id,
         override: {
           id,
-          name: 'New Override',
-          type: 'GET',
-          isOn: true,
         },
       }),
     );
@@ -32,11 +29,8 @@ const Domain = (props) => {
     dispatch(
       addFolderAction({
         parentId: props.id,
-        override: {
+        folder: {
           id,
-          name: 'New Folder',
-          type: 'FOLDER',
-          isOn: true,
         },
       }),
     );

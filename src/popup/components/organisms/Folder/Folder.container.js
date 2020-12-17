@@ -18,9 +18,6 @@ const FolderContainer = (props) => {
         parentId: props.id,
         override: {
           id,
-          name: 'New Override',
-          type: 'GET',
-          isOn: true,
         },
       }),
     );

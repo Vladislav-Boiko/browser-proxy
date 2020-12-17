@@ -35,7 +35,27 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
         })}
       >
         {selectedHeader === MENU_OPTIONS.RESPONSE ? (
-          <ResponseView {...otherProps} onChange={updateResponse} />
+          <ResponseView
+            {...otherProps}
+            onChange={(change) => {
+              // Response view has other key names than the ones in redux.
+              for (let mappedKey of [
+                { from: 'body', to: 'responseBody' },
+                { from: 'code', to: 'responseCode' },
+                { from: 'type', to: 'responseType' },
+              ]) {
+                if (change[mappedKey.from]) {
+                  const value = change[mappedKey.from];
+                  delete change[mappedKey.from];
+                  change[mappedKey.to] = value;
+                }
+              }
+              updateResponse(change);
+            }}
+            body={otherProps.responseBody}
+            code={otherProps.responseCode}
+            type={otherProps.responseType}
+          />
         ) : (
           <RequestView {...otherProps} />
         )}
@@ -44,9 +64,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             Icon={Icons.Enable}
             primary
             className="mr3"
-            onClick={() => {
-              otherProps.updateNode(response);
-            }}
+            onClick={() => otherProps.updateNode(response)}
           >
             Override
           </Button>

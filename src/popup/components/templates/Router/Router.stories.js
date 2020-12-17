@@ -23,6 +23,9 @@ const nodes = [
         type: 'POST',
         isOn: true,
         isUnsaved: false,
+        responseType: 'TEXT',
+        responseCode: '201',
+        responseBody: [{ value: 'test value', delay: '300ms' }],
       },
       {
         id: '3',

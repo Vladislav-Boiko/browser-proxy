@@ -21,6 +21,7 @@ const Input = ({
   icon,
   validate,
   multiline,
+  isUnsaved,
   ...otherProps
 }) => {
   const [validationError, setValidationError] = useState('');
@@ -30,7 +31,15 @@ const Input = ({
   const [validationTimeout, setValidationTimeout] = useState(null);
   return (
     <label className={cn('input-label', className)}>
-      <span className={cn('label_weak g1-color', labelClassName)}>
+      <span
+        className={cn(
+          'label_weak g1-color input-label__label',
+          labelClassName,
+          {
+            'input-label__label_unsaved': isUnsaved,
+          },
+        )}
+      >
         {label}
         {validationError && (
           <span className="input-label__validation accent-color">

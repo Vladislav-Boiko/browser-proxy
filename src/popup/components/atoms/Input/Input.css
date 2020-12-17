@@ -110,3 +110,27 @@
   fill: var(--accent);
   transform: translateY(1px);
 }
+
+.input-label__label {
+  position: relative;
+}
+
+.input-label__label:after {
+  content: '';
+  position: absolute;
+  width: calc(var(--em) * 1);
+  height: calc(var(--em) * 1);
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid transparent;
+  right: calc(var(--em) * -0.75);
+  bottom: calc(var(--em) * -0.75);
+  transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s;
+}
+
+.input-label__label_unsaved:after {
+  transform-origin: 50% 50%;
+  transform: scale(1.5);
+  background-color: var(--accent);
+  border: 2px solid white;
+}

@@ -38,6 +38,9 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
               });
               updateBodyValue(updatedBody);
             }}
+            isUnsaved={
+              !(body && body[index] && body[index].value === chunkValue.value)
+            }
           />
           <div className="chunk-footer ffr my2">
             <DelayInput
@@ -49,6 +52,9 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
                 });
                 updateBodyValue(updatedBody);
               }}
+              isUnsaved={
+                !(body && body[index] && body[index].delay === chunkValue.delay)
+              }
             />
             <div className="chunk-footer__actions ffr">
               {index > 0 ? (

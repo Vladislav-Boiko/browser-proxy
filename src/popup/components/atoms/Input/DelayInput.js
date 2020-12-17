@@ -3,15 +3,17 @@ import Icons from '../Icons/Icons';
 import Input from './Input';
 import cn from 'classnames';
 
-const toMsString = (value) => `${value}ms`;
+const toMsString = (value) => `${(value + '').split('ms').shift()}ms`;
 const fromMsString = (value) =>
   Number.parseInt(/(\d*)m?s?$/.exec(value)[1]) || 0;
 const isValid = (value) => /\d*$/.test(value);
 
 const DelayInput = ({ onChange, ...otherProps }) => {
-  const [value, setDelayValue] = useState(otherProps.value);
+  const [value, setDelayValue] = useState(
+    otherProps.value === undefined ? '200ms' : otherProps.value,
+  );
   useEffect(() => {
-    setDelayValue(otherProps.value);
+    setDelayValue(otherProps.value === undefined ? '200ms' : otherProps.value);
   }, [otherProps.value]);
   const [valueOnFocus, setValueOnFocus] = useState(value);
   const [isAnimate, setAnimate] = useState(false);

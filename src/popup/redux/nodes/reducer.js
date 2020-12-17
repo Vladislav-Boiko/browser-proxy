@@ -39,12 +39,34 @@ export default (state = [], action) => {
         isOn: alter((key, value) => !value),
       });
     case ADD_OVERRIDE:
-    case ADD_FOLDER:
+      const newOverride = Object.assign(
+        {
+          name: 'New Override',
+          type: 'GET',
+          isOn: true,
+          responseType: 'JSON',
+          responseCode: '200',
+          responseBody: [{ value: undefined, delay: '200ms' }],
+        },
+        action.payload.override,
+      );
       return updateDeep(state, findPath(action.payload.parentId, state), {
         nodes: alter((key, value) =>
-          value
-            ? [...value, action.payload.override]
-            : [action.payload.override],
+          value ? [...value, newOverride] : [newOverride],
+        ),
+      });
+    case ADD_FOLDER:
+      const newFolder = Object.assign(
+        {
+          name: 'New Folder',
+          type: 'FOLDER',
+          isOn: true,
+        },
+        action.payload.folder,
+      );
+      return updateDeep(state, findPath(action.payload.parentId, state), {
+        nodes: alter((key, value) =>
+          value ? [...value, newFolder] : [newFolder],
         ),
       });
     case REMOVE_FOLDER:

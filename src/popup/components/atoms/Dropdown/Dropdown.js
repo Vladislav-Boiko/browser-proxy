@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
 import Icons from '../Icons/Icons';
 
 import './Dropdown.css';
@@ -11,13 +12,23 @@ const viewForValue = (options, value) => {
   return '';
 };
 
-const Dropdown = ({ options, label, onChange, initialState }) => {
+const Dropdown = ({
+  options,
+  label,
+  onChange,
+  initialState,
+  isUnsaved = false,
+}) => {
   const [value, setValue] = useState(options[0]);
   useEffect(() => {
     setValue(initialState);
   }, [initialState]);
   return (
-    <label className="dropdown">
+    <label
+      className={cn('dropdown', {
+        dropdown_unsaved: isUnsaved,
+      })}
+    >
       <span className="dropdown__label label_weak g1-color">{label}</span>
       <div className="dropdown__view c5-bg label_weak">
         {viewForValue(options, value)}

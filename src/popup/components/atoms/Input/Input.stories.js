@@ -21,6 +21,19 @@ const Template = () => {
         label="Regular input"
       />
       <Input
+        onChange={setValueInput}
+        value={valueInput}
+        className="my2"
+        label="Unsaved input"
+        isUnsaved={true}
+      />
+      <Input
+        onChange={setValueInput}
+        value={valueInput}
+        className="my2"
+        isUnsaved={true}
+      />
+      <Input
         onChange={setValueInvalid}
         label="Invalid input"
         value={valueInvalid}
@@ -32,6 +45,13 @@ const Template = () => {
         value={valueMultiline}
         className="my2"
         multiline
+      />
+      <Input
+        onChange={setValueMultiline}
+        value={valueMultiline}
+        className="my2"
+        multiline
+        isUnsaved={true}
       />
       <DelayInput
         className="my2"

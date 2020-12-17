@@ -53,38 +53,43 @@ const BodyBasedOnType = ({ type, ...props }) => {
 };
 
 import './Body.css';
-const Body = ({ body, responseType, responseCode, className, onChange }) => {
-  const [responseBodyType, setBodyType] = useState('JSON');
+const Body = ({ body, type, code, className, onChange }) => {
+  const [bodyType, setBodyType] = useState('JSON');
+  const [codeChanged, setResponseCode] = useState(200);
   useEffect(() => {
-    setBodyType(responseType || 'JSON');
-  }, [responseType]);
+    setBodyType(type || 'JSON');
+    setResponseCode(code || 200);
+  }, [type, code]);
   return (
     <div className={cn(className)}>
       <div className="response-header ffr">
         <Dropdown
           options={RESPONSE_TYPES}
           label="Type"
-          initialState={responseBodyType}
+          initialState={bodyType}
           onChange={(newType) => {
             setBodyType(newType);
-            onChange && onChange({ responseType: newType });
+            onChange && onChange({ type: newType });
           }}
+          isUnsaved={type !== bodyType}
         />
         <Dropdown
           label="Response code"
-          initialState={responseCode || '200'}
+          initialState={code || '200'}
           options={HTTP_STATUS_CODES.map(({ code, status }) => ({
             name: `${code} ${status}`,
             value: `${code}`,
             view: code,
           }))}
           onChange={(newResponseCode) => {
-            onChange && onChange({ responseCode: newResponseCode });
+            setResponseCode(newResponseCode);
+            onChange && onChange({ code: newResponseCode });
           }}
+          isUnsaved={code !== codeChanged}
         />
       </div>
       <BodyBasedOnType
-        type={responseBodyType}
+        type={bodyType}
         body={body}
         className="mt3"
         onChange={(newResponseBody) => {
