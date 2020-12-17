@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { evolve, remove } from 'immutableql';
 import Input from 'atoms/Input/Input';
 
 import './HeadersList.css';
 const HeadersList = ({ headers, onChange, className }) => {
-  const [headersValue, setHeadersValue] = useState(headers);
+  const [headersValue, setHeadersValue] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+  useEffect(() => {
+    setHeadersValue(headers || []);
+  }, [headers]);
   let headerValuesWithId = headersValue?.map((item, id) => ({ ...item, id }));
-  if (headerValuesWithId) {
+  if (headerValuesWithId && headerValuesWithId.length) {
     const lastElement = headerValuesWithId[headerValuesWithId.length - 1];
     if (lastElement?.name || lastElement?.value) {
       headerValuesWithId.push({
@@ -28,11 +31,11 @@ const HeadersList = ({ headers, onChange, className }) => {
   }
 
   const updateEntry = ({ name, value, id }) => {
-    let updatedHeader = evolve(filteredHeaders, {
+    let updatedHeader = evolve(headersValue, {
       [id]: { name, value, id },
     });
     if (name === '' && value === '') {
-      updatedHeader = evolve(filteredHeaders, {
+      updatedHeader = evolve(headersValue, {
         [id]: remove(),
       }).filter((item) => !!item);
     }

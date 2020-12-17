@@ -18,7 +18,12 @@ const Response = ({ ...otherProps }) => {
         isInitiallyOpen={false}
         {...otherProps}
       >
-        <HeadersList className="my3" />
+        <HeadersList
+          className="my3"
+          onChange={(responseHeaders) =>
+            otherProps.onChange({ responseHeaders })
+          }
+        />
       </Section>
     </div>
   );
