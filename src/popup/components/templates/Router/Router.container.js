@@ -13,7 +13,6 @@ const RouterContainer = (props) => {
   const setSelectedId = (id) => dispatch(selectNodeAction(id));
   const selectedNode = useSelector(getSelectedNode, shallowEqual);
   const toggleNode = (id) => dispatch(toggleNodeAction(id));
-
   return (
     <Router
       nodes={nodes}

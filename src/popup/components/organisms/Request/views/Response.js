@@ -20,6 +20,7 @@ const Response = ({ ...otherProps }) => {
       >
         <HeadersList
           className="my3"
+          headers={otherProps.responseHeaders}
           onChange={(responseHeaders) =>
             otherProps.onChange({ responseHeaders })
           }

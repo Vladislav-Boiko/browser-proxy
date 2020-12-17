@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icons from '../Icons/Icons';
 import Input from './Input';
 import cn from 'classnames';
@@ -10,6 +10,9 @@ const isValid = (value) => /\d*$/.test(value);
 
 const DelayInput = ({ onChange, ...otherProps }) => {
   const [value, setDelayValue] = useState(otherProps.value);
+  useEffect(() => {
+    setDelayValue(otherProps.value);
+  }, [otherProps.value]);
   const [valueOnFocus, setValueOnFocus] = useState(value);
   const [isAnimate, setAnimate] = useState(false);
   const setValue = (newValue) => {

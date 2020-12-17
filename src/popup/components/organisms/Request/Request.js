@@ -35,11 +35,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
         })}
       >
         {selectedHeader === MENU_OPTIONS.RESPONSE ? (
-          <ResponseView
-            {...otherProps}
-            onChange={updateResponse}
-            body={response.body}
-          />
+          <ResponseView {...otherProps} onChange={updateResponse} />
         ) : (
           <RequestView {...otherProps} />
         )}
@@ -49,7 +45,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             primary
             className="mr3"
             onClick={() => {
-              console.log('TODO implement save: ', response);
+              otherProps.updateNode(response);
             }}
           >
             Override
