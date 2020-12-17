@@ -14,11 +14,16 @@ const Request = (props) => {
   }, [props.name, props.type]);
   const updateName = (newName) => {
     setName(newName);
-    props.onChange && props.onChange({ name });
+    props.onChange && props.onChange({ name: newName });
   };
   return (
     <div className="p4 wmax">
-      <Input label="Name" value={name} onChange={updateName} />
+      <Input
+        label="Name"
+        value={name}
+        onChange={updateName}
+        validate={(value) => value === '' && 'Cannot be empty'}
+      />
       <Section
         className="mt5"
         header={<h3 className="py1">Request Url</h3>}

@@ -15,8 +15,10 @@ import './Request.css';
 const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   const [response, setResponse] = useState({});
+  const [request, setRequest] = useState({});
   const updateResponse = (part) =>
     setResponse(Object.assign({}, response, part));
+  const updateRequest = (part) => setRequest(Object.assign({}, response, part));
   return (
     <div className={className}>
       <Header
@@ -57,14 +59,25 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             type={otherProps.responseType}
           />
         ) : (
-          <RequestView {...otherProps} />
+          <RequestView
+            {...otherProps}
+            onChange={(change) => {
+              if (change && change.name) {
+                otherProps.updateNode({ name: change.name });
+              } else {
+                updateRequest(change);
+              }
+            }}
+          />
         )}
         <div className="ffr mt4 mx4">
           <Button
             Icon={Icons.Enable}
             primary
             className="mr3"
-            onClick={() => otherProps.updateNode(response)}
+            onClick={() =>
+              otherProps.updateNode(Object.assign({}, response, request))
+            }
           >
             Override
           </Button>
