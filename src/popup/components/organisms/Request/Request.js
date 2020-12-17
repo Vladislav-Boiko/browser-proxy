@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import Header from 'molecules/Header/Header';
 import Button from 'atoms/Button/Button';
@@ -16,9 +16,10 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   const [response, setResponse] = useState({});
   const [request, setRequest] = useState({});
-  const updateResponse = (part) =>
-    setResponse(Object.assign({}, response, part));
-  const updateRequest = (part) => setRequest(Object.assign({}, response, part));
+  const patchResponse = (patch) =>
+    setResponse(Object.assign({}, response, patch));
+  const patchRequest = (patch) => setRequest(Object.assign({}, request, patch));
+
   return (
     <div className={className}>
       <Header
@@ -52,7 +53,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
                   change[mappedKey.to] = value;
                 }
               }
-              updateResponse(change);
+              patchResponse(change);
             }}
             body={otherProps.responseBody}
             code={otherProps.responseCode}
@@ -61,11 +62,14 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
         ) : (
           <RequestView
             {...otherProps}
+            {...request}
+            initialUrl={otherProps.url}
+            initialMethod={otherProps.type}
             onChange={(change) => {
               if (change && change.name) {
                 otherProps.updateNode({ name: change.name });
               } else {
-                updateRequest(change);
+                patchRequest(change);
               }
             }}
           />
@@ -76,7 +80,9 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             primary
             className="mr3"
             onClick={() =>
-              otherProps.updateNode(Object.assign({}, response, request))
+              otherProps.updateNode(
+                Object.assign({}, response, request, { name: otherProps.name }),
+              )
             }
           >
             Override

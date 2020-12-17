@@ -7,11 +7,9 @@ import Body from 'molecules/Body/Body';
 
 const Request = (props) => {
   const [name, setName] = useState('');
-  const [responseMethod, setResponseMethod] = useState();
   useEffect(() => {
     setName(props.name);
-    setResponseMethod(props.type);
-  }, [props.name, props.type]);
+  }, [props.name]);
   const updateName = (newName) => {
     setName(newName);
     props.onChange && props.onChange({ name: newName });
@@ -31,8 +29,20 @@ const Request = (props) => {
       >
         <Url
           className="my3"
-          method={responseMethod}
-          onMethodChange={setResponseMethod}
+          initialMethod={props.initialMethod}
+          initialUrl={props.initialUrl}
+          method={props.type}
+          url={props.url || ''}
+          onChange={(change) => {
+            for (let mappedKey of [{ from: 'method', to: 'type' }]) {
+              if (change[mappedKey.from]) {
+                const value = change[mappedKey.from];
+                delete change[mappedKey.from];
+                change[mappedKey.to] = value;
+              }
+            }
+            props.onChange && props.onChange(change);
+          }}
         />
       </Section>
       <Section className="mt5" header={<h3 className="py1">Request Body</h3>}>

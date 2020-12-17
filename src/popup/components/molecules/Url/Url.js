@@ -16,7 +16,7 @@ class Url extends React.Component {
 
   render() {
     const { method, urlParams } = this.state;
-    const { className, onMethodChange } = this.props;
+    const { url, className, onChange, initialMethod, initialUrl } = this.props;
     return (
       <React.Fragment>
         <div className={cn('wmax ffr', className)}>
@@ -25,16 +25,20 @@ class Url extends React.Component {
             initialState={method || METHODS.GET}
             options={METHODS.map((name) => ({ name, value: name }))}
             onChange={(newMethod) => {
-              onMethodChange && onMethodChange(newMethod);
+              this.setState({ method: newMethod });
+              onChange && onChange({ method: newMethod });
             }}
+            isUnsaved={initialMethod && initialMethod !== method}
           />
           <Input
             className="url"
-            value={this.getUrlString()}
+            value={url}
             onChange={(value) => {
               this.onUrlValueChange(value);
+              onChange && onChange({ url: value });
             }}
             label="URL"
+            isUnsaved={initialUrl && initialUrl !== url}
           />
         </div>
 
@@ -94,15 +98,19 @@ class Url extends React.Component {
     return merged;
   }
 
-  parseUrl(url) {
+  static parseUrl(url) {
     if (!url) {
-      return { urlValue: '', urlParams: [] };
+      return {
+        urlValue: '',
+        urlParams: [{ key: '', value: '', delimeter: '' }],
+      };
     }
     let splitted = url.split('?');
     let urlValue = splitted.shift();
-    let urlParams = [];
+    let urlParams = [{ key: '', value: '', delimeter: '' }];
     if (splitted.length) {
-      urlValue += '?';
+      urlValue =
+        urlValue[urlValue.length - 1] === '?' ? urlValue : urlValue + '?';
       const withoutBase = splitted.join('?');
       urlParams = withoutBase
         ? withoutBase.split('&').map((pair) => {
@@ -112,13 +120,14 @@ class Url extends React.Component {
             const value = splitted.join('=');
             return { key, value, delimeter };
           })
-        : [];
+        : [{ key: '', value: '', delimeter: '' }];
     }
     return { urlValue, urlParams };
   }
 
-  getUrlString() {
-    const { urlValue, urlParams } = this.state;
+  static getUrlString(urlValue, urlParams) {
+    urlValue =
+      urlValue[urlValue.length - 1] === '?' ? urlValue : urlValue + '?';
     return urlParams.length > 1
       ? `${urlValue}` +
           urlParams
@@ -153,19 +162,9 @@ class Url extends React.Component {
     this.setState({ urlParams });
   }
 
-  constructPayload() {
-    const url = this.getUrlString();
-    const { method } = this.state;
-    return { method, url };
-  }
-
-  componentDidUpdate() {
-    this.props.onChange && this.props.onChange(this.constructPayload());
-  }
-
   onUrlValueChange(value) {
     const { urlParams } = this.state;
-    const parsed = this.parseUrl(value);
+    const parsed = Url.parseUrl(value);
     this.setUrl(parsed.urlValue);
     let updated = this.updateUrlParams(urlParams, parsed.urlParams);
     updated = this.addEmptyParams(updated);
@@ -173,17 +172,19 @@ class Url extends React.Component {
   }
 
   onQueryKeyChange(newName, index) {
-    const { urlParams } = this.state;
+    const { urlValue, urlParams } = this.state;
     let urlParamsCopy = [...urlParams];
     urlParamsCopy[index].key = newName;
     if (index === urlParams.length - 1) {
       urlParamsCopy = this.addEmptyParams(urlParamsCopy);
     }
     this.setUrlParams(urlParamsCopy);
+    this.props.onChange &&
+      this.props.onChange({ url: Url.getUrlString(urlValue, urlParamsCopy) });
   }
 
   onQueryValueChange(value, index) {
-    const { urlParams } = this.state;
+    const { urlValue, urlParams } = this.state;
     let urlParamsCopy = [...urlParams];
     if (!urlParamsCopy[index].value && !!value) {
       urlParamsCopy[index].delimeter = '=';
@@ -196,6 +197,8 @@ class Url extends React.Component {
       urlParamsCopy = this.addEmptyParams(urlParamsCopy);
     }
     this.setUrlParams(urlParamsCopy);
+    this.props.onChange &&
+      this.props.onChange({ url: Url.getUrlString(urlValue, urlParamsCopy) });
   }
 
   onQueryToggleDisabled(index) {
@@ -210,15 +213,20 @@ class Url extends React.Component {
     this.setUrlParams(urlParamsCopy);
   }
 
-  componentWillMount() {
-    this.onUrlValueChange(this.props.url || '');
-    this.setMethod(this.props.method || 'GET');
-  }
-
-  // TODO: think of getDerivedStateFromProps
-  componentWillReceiveProps(newProps) {
-    this.onUrlValueChange(newProps.url);
-    this.setMethod(newProps.method);
+  static getDerivedStateFromProps(props, state) {
+    let url = Url.getUrlString(state.urlValue, state.urlParams);
+    let method = state.method;
+    if ((props.url === url && props.method === method) || !props.onChange) {
+      // No state update needed
+      return null;
+    }
+    if (props.url !== url) {
+      url = props.url;
+    }
+    if (props.method !== method) {
+      method = props.method;
+    }
+    return { method, ...Url.parseUrl(url) };
   }
 }
 
