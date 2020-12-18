@@ -24,7 +24,7 @@ const Request = (props) => {
       />
       <Section
         className="mt5"
-        header={<h3 className="py1">Request Url</h3>}
+        header={<h3 className="py1">Request URL</h3>}
         isInitiallyOpen={true}
       >
         <Url

@@ -18,14 +18,16 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
   };
   return (
     <ol className="treeView g7-bg px2 py3">
-      <span className="label_medium g2-color px2">OVERRIDES</span>
+      <span className="treeView__header label_medium g2-color px2 mb2">
+        OVERRIDES
+      </span>
       {nodes?.map((node) => (
         <Node {...node} selectedId={selected} select={doSelect} key={node.id} />
       ))}
       <Button
         Icon={Icons.Add}
         tretiary
-        className="treeView_add-domain g7-bg my2 px2"
+        className="treeView__add-domain g7-bg my2 px2"
         onClick={addDomain}
       >
         Add Domain

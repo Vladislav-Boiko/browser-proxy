@@ -37,14 +37,14 @@ const RESPONSE_TYPES = [
 ];
 
 // TODO: add document as a response body type
-const BodyBasedOnType = ({ type, ...props }) => {
+const BodyBasedOnType = ({ type, blobType, ...props }) => {
   switch (type) {
     case 'JSON':
       return <JsonBody {...props} />;
     case 'ArrayBuffer':
       return <ArrayBufferBody {...props} />;
     case 'BLOB':
-      return <BlobBody {...props} />;
+      return <BlobBody blobType={blobType} {...props} />;
     case 'Text':
       return <TextBody {...props} />;
     default:
@@ -53,9 +53,17 @@ const BodyBasedOnType = ({ type, ...props }) => {
 };
 
 import './Body.css';
-const Body = ({ body, type, code, className, onChange }) => {
-  const [bodyType, setBodyType] = useState('JSON');
-  const [codeChanged, setResponseCode] = useState(200);
+const Body = ({
+  response,
+  body,
+  type,
+  code,
+  className,
+  onChange,
+  blobType,
+}) => {
+  const [bodyType, setBodyType] = useState(type || 'JSON');
+  const [codeChanged, setResponseCode] = useState(code || 200);
   useEffect(() => {
     setBodyType(type || 'JSON');
     setResponseCode(code || 200);
@@ -89,11 +97,17 @@ const Body = ({ body, type, code, className, onChange }) => {
         />
       </div>
       <BodyBasedOnType
+        blobType={blobType || ''}
         type={bodyType}
-        body={body}
+        initialBody={body}
+        body={response?.responseBody}
         className="mt3"
         onChange={(newResponseBody) => {
-          onChange && onChange({ body: newResponseBody });
+          if (bodyType === 'BLOB') {
+            onChange && onChange(newResponseBody);
+          } else {
+            onChange && onChange({ body: newResponseBody });
+          }
         }}
       />
     </div>

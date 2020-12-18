@@ -9,12 +9,21 @@ import Icons from 'atoms/Icons/Icons';
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
 import './ChunkedInput.css';
-const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
+const ChunkedInput = ({
+  body,
+  initialBody,
+  className,
+  onChange,
+  label,
+  ...otherProps
+}) => {
   const passedLabel = label || '';
-  const [chunksValue, setChunksValue] = useState([DEFAULT_CHUNK]);
+  const [chunksValue, setChunksValue] = useState(
+    body || initialBody || [DEFAULT_CHUNK],
+  );
   useEffect(() => {
-    setChunksValue(body || [DEFAULT_CHUNK]);
-  }, [body]);
+    setChunksValue(body || initialBody || [DEFAULT_CHUNK]);
+  }, [body, initialBody]);
   const updateBodyValue = (newValue) => {
     setChunksValue(newValue);
     onChange && onChange(newValue);
@@ -39,7 +48,11 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
               updateBodyValue(updatedBody);
             }}
             isUnsaved={
-              !(body && body[index] && body[index].value === chunkValue.value)
+              !(
+                initialBody &&
+                initialBody[index] &&
+                initialBody[index].value === chunkValue.value
+              )
             }
           />
           <div className="chunk-footer ffr my2">
@@ -53,7 +66,11 @@ const ChunkedInput = ({ body, className, onChange, label, ...otherProps }) => {
                 updateBodyValue(updatedBody);
               }}
               isUnsaved={
-                !(body && body[index] && body[index].delay === chunkValue.delay)
+                !(
+                  initialBody &&
+                  initialBody[index] &&
+                  initialBody[index].delay === chunkValue.delay
+                )
               }
             />
             <div className="chunk-footer__actions ffr">

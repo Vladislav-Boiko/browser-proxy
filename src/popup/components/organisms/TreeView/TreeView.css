@@ -35,14 +35,13 @@
   background-color: var(--c6);
 }
 
-.treeView_add-domain {
+.treeView__add-domain {
   width: 100%;
-  justify-content: center;
-  padding-left: calc(var(--em) * 3);
+  padding-left: calc(var(--em) * 2);
   padding-right: calc(var(--em) * 3);
 }
 
-.treeView_add-domain:hover {
+.treeView__add-domain:hover {
   background-color: var(--c5);
 }
 
@@ -52,4 +51,8 @@
 
 .node-body_disabled {
   filter: grayscale(100%);
+}
+
+.treeView__header {
+  display: inline-block;
 }

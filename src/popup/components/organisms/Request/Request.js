@@ -16,10 +16,12 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   const [response, setResponse] = useState({});
   const [request, setRequest] = useState({});
+  useEffect(() => {
+    setResponse({});
+  }, [otherProps.id]);
   const patchResponse = (patch) =>
     setResponse(Object.assign({}, response, patch));
   const patchRequest = (patch) => setRequest(Object.assign({}, request, patch));
-
   return (
     <div className={className}>
       <Header
@@ -55,6 +57,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
               }
               patchResponse(change);
             }}
+            response={response}
             body={otherProps.responseBody}
             code={otherProps.responseCode}
             type={otherProps.responseType}
@@ -79,11 +82,15 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             Icon={Icons.Enable}
             primary
             className="mr3"
-            onClick={() =>
-              otherProps.updateNode(
-                Object.assign({}, response, request, { name: otherProps.name }),
-              )
-            }
+            onClick={() => {
+              let updateEntry = Object.assign({}, response, request, {
+                name: otherProps.name,
+              });
+              if (updateEntry.responseType !== 'BLOB' && otherProps.blobType) {
+                updateEntry.blobType = '';
+              }
+              otherProps.updateNode(updateEntry);
+            }}
           >
             Override
           </Button>

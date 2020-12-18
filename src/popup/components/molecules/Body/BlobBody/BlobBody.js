@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from 'atoms/Input/Input';
 import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
 import Button from 'atoms/Button/Button';
@@ -15,10 +15,11 @@ const isValidBase64 = (value) => {
 
 import './BlobBody.css';
 const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
-  const [base64Value, setBase64Value] = useState(body || '');
   const [blobTypeValue, setBlobTypeValue] = useState(blobType || '');
+  useEffect(() => {
+    setBlobTypeValue(blobType || '');
+  }, [blobType]);
   const updateContent = ({ body, blobType }) => {
-    setBase64Value(body);
     setBlobTypeValue(blobType);
     onChange && onChange({ body, blobType });
   };
@@ -29,9 +30,8 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
           value={blobTypeValue}
           label="Blob type"
           className="blob-type__input"
-          onChange={(value) =>
-            updateContent({ body: base64Value, blobType: value })
-          }
+          onChange={(value) => updateContent({ body, blobType: value })}
+          isUnsaved={blobType !== blobTypeValue}
         />
         <Button
           secondary
@@ -42,8 +42,8 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
         </Button>
       </div>
       <ChunkedInput
-        body={base64Value}
         multiline
+        body={body}
         {...otherProps}
         label="base64 content"
         className="mt3"
