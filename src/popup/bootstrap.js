@@ -1,10 +1,10 @@
-import { startMessaging } from './communication/withPage';
-import serializer from '../common/storage/Serializer.js';
-import store from './redux/store';
-import { loadOverrides, loadFolders } from './redux/storage/actions';
-import { setCurrentTab } from './redux/page/actions';
-import { selectItem } from './redux/navigation/actions';
-import { NAV_TYPES } from './utils/constants';
+// import { startMessaging } from './communication/withPage';
+// import serializer from '../common/storage/Serializer.js';
+// import store from './redux/store';
+// import { loadOverrides, loadFolders } from './redux/storage/actions';
+// import { setCurrentTab } from './redux/page/actions';
+// import { selectItem } from './redux/navigation/actions';
+// import { NAV_TYPES } from './utils/constants';
 
 // const bootstrapOverrides = async () => {
 //   const overrides = await serializer.getAllOverrides();

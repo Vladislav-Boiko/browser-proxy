@@ -4,8 +4,10 @@ import RequestCard from 'molecules/RequestCard/RequestCard';
 import Input from 'atoms/Input/Input';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import './RequestsList.css';
 
-const KEY_SEEARCH_BLOCK_LIST = {
+// TODO: refactor to Allow list
+const KEY_SEARCH_BLOCK_LIST = {
   responseType: 'responseType',
 };
 
@@ -16,7 +18,7 @@ const filterRequests = (searchValue, requests) => {
   const searchRegExp = new RegExp(searchValue);
   return requests.filter((item) => {
     for (let key of Object.keys(item)) {
-      if (!(key in KEY_SEEARCH_BLOCK_LIST) && searchRegExp.test(item[key])) {
+      if (!(key in KEY_SEARCH_BLOCK_LIST) && searchRegExp.test(item[key])) {
         return true;
       }
     }
@@ -24,7 +26,6 @@ const filterRequests = (searchValue, requests) => {
   });
 };
 
-import './RequestsList.css';
 const RequestsList = ({ requests, className }) => {
   const [searchValue, setSearchValue] = useState('');
   return (

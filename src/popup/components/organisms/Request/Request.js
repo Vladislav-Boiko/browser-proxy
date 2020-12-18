@@ -6,13 +6,12 @@ import Icons from 'atoms/Icons/Icons';
 import ResponseView from './views/Response';
 import RequestView from './views/Request';
 import { renameKeys } from 'utils/utils';
+import './Request.css';
 
 const MENU_OPTIONS = {
   RESPONSE: 'RESPONSE',
   REQUEST: 'REQUEST',
 };
-
-import './Request.css';
 
 const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);

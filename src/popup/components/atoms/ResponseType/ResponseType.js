@@ -1,6 +1,7 @@
 import React from 'react';
 import Icons from '../Icons/Icons';
 import cn from 'classnames';
+import './ResponseType.css';
 
 export const TYPES = {
   JSON: 'JSON',
@@ -10,7 +11,6 @@ export const TYPES = {
   DOCUMENT: 'Document',
 };
 
-import './ResponseType.css';
 const ResponseType = ({ type, className }) => {
   let Icon = Icons.Domain;
   switch (type) {

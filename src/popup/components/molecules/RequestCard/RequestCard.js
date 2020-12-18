@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import Pill from 'atoms/Pill/Pill';
 import ResponseType from 'atoms/ResponseType/ResponseType';
+import './RequestCard.css';
 
 const stripURL = (url = '') => {
   const chunks = url.split('?')[0].split('/');
@@ -12,7 +13,6 @@ const stripURL = (url = '') => {
   return lastPart;
 };
 
-import './RequestCard.css';
 const RequestCard = ({ url, code, method, responseType, className }) => {
   return (
     <button className={cn('request-card wmax', className)}>

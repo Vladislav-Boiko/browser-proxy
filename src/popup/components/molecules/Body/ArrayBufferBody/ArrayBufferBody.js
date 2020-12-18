@@ -3,6 +3,7 @@ import cn from 'classnames';
 import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import './ArrayBufferBody.css';
 
 const isValidBase64 = (value) => {
   try {
@@ -13,7 +14,6 @@ const isValidBase64 = (value) => {
   }
 };
 
-import './ArrayBufferBody.css';
 const ArrayBufferBody = ({ body, onChange, className, ...otherProps }) => {
   const [base64Value, setBase64Value] = useState(body || '');
   const updateContent = (body) => {

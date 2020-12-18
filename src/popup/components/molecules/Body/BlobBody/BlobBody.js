@@ -3,6 +3,7 @@ import Input from 'atoms/Input/Input';
 import ChunkedInput from 'molecules/ChunkedInput/ChunkedInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import './BlobBody.css';
 
 const isValidBase64 = (value) => {
   try {
@@ -13,7 +14,6 @@ const isValidBase64 = (value) => {
   }
 };
 
-import './BlobBody.css';
 const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
   const [blobTypeValue, setBlobTypeValue] = useState(blobType || '');
   useEffect(() => {

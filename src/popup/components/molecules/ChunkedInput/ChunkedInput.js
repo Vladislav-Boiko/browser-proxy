@@ -5,10 +5,10 @@ import cn from 'classnames';
 import DelayInput from 'atoms/Input/DelayInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import './ChunkedInput.css';
 
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
-import './ChunkedInput.css';
 const ChunkedInput = ({
   body,
   initialBody,

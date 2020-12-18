@@ -7,6 +7,7 @@ import JsonBody from './JsonBody/JsonBody';
 import BlobBody from './BlobBody/BlobBody';
 import ArrayBufferBody from './ArrayBufferBody/ArrayBufferBody';
 import TextBody from './TextBody/TextBody';
+import './Body.css';
 
 const RESPONSE_TYPES = [
   {
@@ -52,7 +53,6 @@ const BodyBasedOnType = ({ type, blobType, ...props }) => {
   }
 };
 
-import './Body.css';
 const Body = ({
   body,
   initialBody,

@@ -9,7 +9,7 @@
       "organisms/*": ["./src/popup/components/organisms/*"],
       "utils/*": ["./src/popup/components/utils/*"],
       "templates/*": ["./src/popup/components/templates/*"],
-      "store/*": ["./src/popup/redux/*"],
+      "store/*": ["./src/popup/redux/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

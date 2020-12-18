@@ -1,6 +1,7 @@
 import React from 'react';
 import NodeHoc from '../NodeHoc/NodeHoc';
 import NodeName from '../NodeHoc/NodeName';
+import './Xhr.css';
 
 const typeToText = (type) => {
   if (type === 'DELETE') {
@@ -18,7 +19,6 @@ const typeToText = (type) => {
   return type;
 };
 
-import './Xhr.css';
 const Xhr = ({ type, name, isUnsaved, ...otherProps }) => {
   return (
     <li>
