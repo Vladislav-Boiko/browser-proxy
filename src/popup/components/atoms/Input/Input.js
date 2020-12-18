@@ -25,10 +25,10 @@ const Input = ({
   ...otherProps
 }) => {
   const [validationError, setValidationError] = useState(
-    validate ? validate(value) : '',
+    validate && value ? validate(value) : '',
   );
   useEffect(() => {
-    setValidationError(validate ? validate(value) : '');
+    setValidationError(validate && value ? validate(value) : '');
   });
   const [validationTimeout, setValidationTimeout] = useState(null);
   return (

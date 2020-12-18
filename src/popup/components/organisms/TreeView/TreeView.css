@@ -12,7 +12,7 @@
   width: calc(var(--em) * 6);
   padding-left: var(--em);
   min-width: 0;
-  padding-top: calc(var(--em) * 7);
+  padding-top: calc(var(--em) * 8);
 }
 
 .treeView_minified .treeView__row {
@@ -40,9 +40,9 @@
 }
 
 .treeView_minified .domain__icon {
-  min-width: 12px;
-  width: 12px;
-  height: 12px;
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .treeView_minified .treeView__add-domain {

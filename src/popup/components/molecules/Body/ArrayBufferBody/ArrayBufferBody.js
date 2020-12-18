@@ -35,7 +35,7 @@ const ArrayBufferBody = ({ body, onChange, className, ...otherProps }) => {
         className="mt3"
         onChange={updateContent}
         validate={(value) =>
-          isValidBase64(value) ? '' : 'Shall be a valid base64'
+          isValidBase64(value) ? '' : 'Is not a valid base64'
         }
       />
     </div>

@@ -51,7 +51,7 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
           updateContent({ body: value, blobType: blobTypeValue })
         }
         validate={(value) =>
-          isValidBase64(value) ? '' : 'Shall be a valid base64'
+          isValidBase64(value) ? '' : 'Is not a valid base64'
         }
       />
     </div>
