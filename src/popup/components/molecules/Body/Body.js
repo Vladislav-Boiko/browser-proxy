@@ -54,13 +54,14 @@ const BodyBasedOnType = ({ type, blobType, ...props }) => {
 
 import './Body.css';
 const Body = ({
-  response,
   body,
+  initialBody,
   type,
   code,
   className,
   onChange,
   blobType,
+  hideCode,
 }) => {
   const [bodyType, setBodyType] = useState(type || 'JSON');
   const [codeChanged, setResponseCode] = useState(code || 200);
@@ -81,26 +82,28 @@ const Body = ({
           }}
           isUnsaved={type !== bodyType}
         />
-        <Dropdown
-          label="Response code"
-          initialState={code || '200'}
-          options={HTTP_STATUS_CODES.map(({ code, status }) => ({
-            name: `${code} ${status}`,
-            value: `${code}`,
-            view: code,
-          }))}
-          onChange={(newResponseCode) => {
-            setResponseCode(newResponseCode);
-            onChange && onChange({ code: newResponseCode });
-          }}
-          isUnsaved={code !== codeChanged}
-        />
+        {!hideCode ? (
+          <Dropdown
+            label="Response code"
+            initialState={code || '200'}
+            options={HTTP_STATUS_CODES.map(({ code, status }) => ({
+              name: `${code} ${status}`,
+              value: `${code}`,
+              view: code,
+            }))}
+            onChange={(newResponseCode) => {
+              setResponseCode(newResponseCode);
+              onChange && onChange({ code: newResponseCode });
+            }}
+            isUnsaved={code !== codeChanged}
+          />
+        ) : null}
       </div>
       <BodyBasedOnType
         blobType={blobType || ''}
         type={bodyType}
-        initialBody={body}
-        body={response?.responseBody}
+        initialBody={initialBody}
+        body={body}
         className="mt3"
         onChange={(newResponseBody) => {
           if (bodyType === 'BLOB') {

@@ -7,6 +7,7 @@ const Response = ({ ...otherProps }) => {
   return (
     <div className="p4 wmax">
       <Section
+        className="mt2"
         header={<h3 className="py1">Response Body</h3>}
         isInitiallyOpen={true}
       >

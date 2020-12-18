@@ -4,6 +4,7 @@ import Section from 'atoms/Section/Section';
 import Url from 'molecules/Url/Url';
 import HeadersList from 'molecules/HeadersList/HeadersList';
 import Body from 'molecules/Body/Body';
+import { renameKeys } from 'utils/utils';
 
 const Request = (props) => {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ const Request = (props) => {
     props.onChange && props.onChange({ name: newName });
   };
   return (
-    <div className="p4 wmax">
+    <div className="p4 pt3 wmax">
       <Input
         label="Name"
         value={name}
@@ -28,25 +29,31 @@ const Request = (props) => {
         isInitiallyOpen={true}
       >
         <Url
-          className="my3"
+          className="mt2"
           initialMethod={props.initialMethod}
           initialUrl={props.initialUrl}
           method={props.type}
           url={props.url || ''}
           onChange={(change) => {
-            for (let mappedKey of [{ from: 'method', to: 'type' }]) {
-              if (change[mappedKey.from]) {
-                const value = change[mappedKey.from];
-                delete change[mappedKey.from];
-                change[mappedKey.to] = value;
-              }
-            }
+            change = renameKeys(change, [{ from: 'method', to: 'type' }]);
             props.onChange && props.onChange(change);
           }}
         />
       </Section>
       <Section className="mt5" header={<h3 className="py1">Request Body</h3>}>
-        <Body className="my3" />
+        <Body
+          className="my3"
+          body={props.body}
+          initialBody={props.initialBody}
+          type={props.requestBodyType}
+          onChange={(change) => {
+            change = renameKeys(change, [
+              { from: 'type', to: 'requestBodyType' },
+            ]);
+            props.onChange && props.onChange(change);
+          }}
+          hideCode
+        />
       </Section>
       <Section
         className="mt5"
