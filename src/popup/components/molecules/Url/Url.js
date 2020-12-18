@@ -202,9 +202,12 @@ class Url extends React.Component {
   }
 
   onQueryToggleDisabled(index) {
+    const { urlValue } = this.state;
     let urlParamsCopy = [...this.state.urlParams];
     urlParamsCopy[index].isDisabled = !urlParamsCopy[index].isDisabled;
     this.setUrlParams(urlParamsCopy);
+    this.props.onChange &&
+      this.props.onChange({ url: Url.getUrlString(urlValue, urlParamsCopy) });
   }
 
   onQueryRemove(index) {
