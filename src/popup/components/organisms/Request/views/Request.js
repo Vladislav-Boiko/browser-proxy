@@ -46,9 +46,11 @@ const Request = (props) => {
           body={props.body}
           initialBody={props.initialBody}
           type={props.requestBodyType}
+          blobType={props.requestBlobType}
           onChange={(change) => {
             change = renameKeys(change, [
               { from: 'type', to: 'requestBodyType' },
+              { from: 'blobType', to: 'requestBlobType' },
             ]);
             props.onChange && props.onChange(change);
           }}
@@ -59,7 +61,11 @@ const Request = (props) => {
         className="mt5"
         header={<h3 className="py1">Request Headers</h3>}
       >
-        <HeadersList className="my3" />
+        <HeadersList
+          className="my3"
+          headers={props.requestHeaders}
+          onChange={(requestHeaders) => props.onChange({ requestHeaders })}
+        />
       </Section>
     </div>
   );

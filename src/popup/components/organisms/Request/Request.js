@@ -20,6 +20,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
   const [request, setRequest] = useState({});
   useEffect(() => {
     setResponse({});
+    setRequest({});
   }, [otherProps.id]);
   const patchResponse = (patch) =>
     setResponse(Object.assign({}, response, patch));
@@ -65,6 +66,8 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             initialUrl={otherProps.url}
             initialMethod={otherProps.type}
             requestBodyType={otherProps.requestBodyType}
+            requestBlobType={otherProps.requestBlobType}
+            requestHeaders={otherProps.requestHeaders}
             onChange={(change) => {
               if (change && change.name) {
                 otherProps.updateNode({ name: change.name });
@@ -90,6 +93,12 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
               });
               if (updateEntry.responseType !== 'BLOB' && otherProps.blobType) {
                 updateEntry.blobType = '';
+              }
+              if (
+                updateEntry.requestBodyType !== 'BLOB' &&
+                otherProps.requestBlobType
+              ) {
+                updateEntry.requestBlobType = '';
               }
               otherProps.updateNode(updateEntry);
             }}
