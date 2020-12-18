@@ -1,7 +1,90 @@
 .treeView {
   height: 100vh;
   display: inline-block;
-  overflow-y: scroll;
+  overflow: scroll;
+  min-width: 250px;
+  max-width: 400px;
+  position: relative;
+  transition: width 0.3s;
+}
+
+.treeView_minified {
+  width: calc(var(--em) * 6);
+  padding-left: var(--em);
+  min-width: 0;
+  padding-top: calc(var(--em) * 7);
+}
+
+.treeView_minified .treeView__row {
+  margin-left: 0;
+  width: calc(var(--em) * 7);
+  padding: var(--em);
+  min-width: 0;
+}
+
+.treeView_minified .xhrNode__type {
+  font-size: 12px;
+  margin-right: 0;
+}
+
+.treeView_minified ol {
+  margin-left: 0;
+}
+
+.treeView_minified .nodeName__name {
+  display: none;
+}
+
+.treeView_minified .treeView__add-domain {
+  margin-top: var(--em);
+}
+
+.treeView_minified .domain__icon {
+  min-width: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+.treeView_minified .treeView__add-domain {
+  padding: var(--em);
+  min-width: calc(var(--em) * 7);
+  font-size: 0;
+}
+
+.treeView_minified .treeView__header {
+  display: none;
+}
+
+.treeView__show-hide {
+  position: absolute;
+  top: calc(var(--em) * 2);
+  right: var(--em);
+  padding: var(--em);
+  min-width: calc(var(--em) * 7);
+  justify-content: flex-end;
+}
+
+.treeView__show-hide .icon_md {
+  fill: var(--g5);
+  transition: all 0.5s;
+  transform: rotate(180deg);
+  float: right;
+}
+
+.treeView__show-hide:hover {
+  background-color: var(--c5);
+}
+
+.treeView__show-hide:hover .icon_md {
+  fill: var(--primary);
+}
+
+.treeView__show-hide_minified {
+  justify-content: flex-start;
+}
+
+.treeView__show-hide_minified .icon_md {
+  transform: rotate(0deg);
 }
 
 .treeView__child {

@@ -16,6 +16,7 @@ import { ReactComponent as Export } from './svg/export.svg';
 import { ReactComponent as TurnOff } from './svg/turn-off.svg';
 import { ReactComponent as Trash } from './svg/trash.svg';
 import { ReactComponent as Danger } from './svg/danger.svg';
+import { ReactComponent as Collapse } from './svg/collapse.svg';
 
 import './Icons.css';
 export default {
@@ -37,4 +38,5 @@ export default {
   TurnOff,
   Trash,
   Danger,
+  Collapse,
 };

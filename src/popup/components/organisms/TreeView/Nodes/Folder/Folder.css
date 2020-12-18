@@ -21,7 +21,7 @@
 }
 
 .treeView__row_selected .folder__chevron {
-  fill: var(--c3);
+  fill: var(--primary);
 }
 
 .folder__chevron_collapsed {

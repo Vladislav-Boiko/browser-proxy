@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Node, {
@@ -8,7 +9,14 @@ import Node, {
 
 import './TreeView.css';
 const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
+  const [isMinified, setMinified] = useState(false);
   const [selected, select] = useState();
+  nodes = isMinified
+    ? nodes.map((node) => ({
+        ...node,
+        name: node.name ? node.name[0] : node.name,
+      }))
+    : nodes;
   useEffect(() => {
     select(selectedId);
   }, [selectedId]);
@@ -17,10 +25,22 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
     onChange && onChange(clicked);
   };
   return (
-    <ol className="treeView g7-bg px2 py3">
+    <ol
+      className={cn('treeView g7-bg px2 py3', {
+        treeView_minified: isMinified,
+      })}
+    >
       <span className="treeView__header label_medium g2-color px2 mb2">
         OVERRIDES
       </span>
+      <Button
+        Icon={Icons.Collapse}
+        tretiary
+        className={cn('treeView__show-hide g7-bg', {
+          'treeView__show-hide_minified': isMinified,
+        })}
+        onClick={() => setMinified(!isMinified)}
+      ></Button>
       {nodes?.map((node) => (
         <Node {...node} selectedId={selected} select={doSelect} key={node.id} />
       ))}

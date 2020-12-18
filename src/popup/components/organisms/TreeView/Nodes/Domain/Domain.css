@@ -12,14 +12,15 @@
 
 .domain__chevron {
   position: absolute;
+  top: calc(var(--em) * 2);
   right: var(--em);
   transform: translate(-50%);
   fill: var(--g5);
-  transition: all 0.3s;
+  transition: transform 0.3s;
 }
 
 .treeView__row_selected .domain__chevron {
-  fill: var(--c3);
+  fill: var(--primary);
 }
 
 .domain__chevron_collapsed {

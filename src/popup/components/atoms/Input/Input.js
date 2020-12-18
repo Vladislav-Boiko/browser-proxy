@@ -24,7 +24,9 @@ const Input = ({
   isUnsaved,
   ...otherProps
 }) => {
-  const [validationError, setValidationError] = useState('');
+  const [validationError, setValidationError] = useState(
+    validate ? validate(value) : '',
+  );
   useEffect(() => {
     setValidationError(validate ? validate(value) : '');
   });
