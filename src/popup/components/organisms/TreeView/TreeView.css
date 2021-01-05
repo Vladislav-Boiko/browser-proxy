@@ -2,14 +2,11 @@
   height: 100vh;
   display: inline-block;
   overflow: scroll;
-  min-width: 250px;
   max-width: 400px;
   position: relative;
-  transition: width 0.3s;
 }
 
 .treeView_minified {
-  width: calc(var(--em) * 6);
   padding-left: var(--em);
   min-width: 0;
   padding-top: calc(var(--em) * 8);
@@ -27,19 +24,21 @@
   margin-right: 0;
 }
 
-.treeView_minified ol {
-  margin-left: 0;
+.treeView ol {
+  transition: margin-left 0.4s;
 }
 
-.treeView_minified .nodeName__name {
-  display: none;
+.treeView_minified ol {
+  margin-left: 0;
 }
 
 .treeView_minified .treeView__add-domain {
   margin-top: var(--em);
 }
 
-.treeView_minified .domain__icon {
+.treeView_minified .domain__icon,
+.treeView_minified .folder__icon,
+.treeView__add-domain .icon_md {
   min-width: 16px;
   width: 16px;
   height: 16px;
@@ -51,7 +50,13 @@
   font-size: 0;
 }
 
-.treeView_minified .treeView__header {
+.treeView .nodeName__name,
+.treeView .treeView__header {
+  white-space: nowrap;
+}
+
+.treeView_minified .treeView__header,
+.treeView_minified .nodeName__name {
   display: none;
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
+import { motion } from 'framer-motion';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Node, {
@@ -25,10 +26,19 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
     onChange && onChange(clicked);
   };
   return (
-    <ol
+    <motion.ol
       className={cn('treeView g7-bg px2 py3', {
         treeView_minified: isMinified,
       })}
+      animate={isMinified ? 'closed' : 'open'}
+      transition={{
+        duration: 0.8,
+        type: 'spring',
+      }}
+      variants={{
+        open: { width: '300px' },
+        closed: { width: '48px' },
+      }}
     >
       <span className="treeView__header label_medium g2-color px2 mb2">
         OVERRIDES
@@ -52,7 +62,7 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
       >
         Add Domain
       </Button>
-    </ol>
+    </motion.ol>
   );
 };
 
