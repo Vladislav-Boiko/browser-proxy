@@ -270,6 +270,7 @@ module.exports = function (webpackEnv) {
         templates: path.resolve(__dirname, '../src/popup/components/templates'),
         store: path.resolve(__dirname, '../src/popup/redux'),
         utils: path.resolve(__dirname, '../src/popup/utils/'),
+        app: path.resolve(__dirname, '../src/popup/'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',

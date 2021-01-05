@@ -21,6 +21,7 @@ module.exports = async ({ config }) => {
         templates: path.resolve(__dirname, '../src/popup/components/templates'),
         store: path.resolve(__dirname, '../src/popup/redux'),
         utils: path.resolve(__dirname, '../src/popup/utils/'),
+        app: path.resolve(__dirname, '../src/popup/'),
       },
     },
   };
