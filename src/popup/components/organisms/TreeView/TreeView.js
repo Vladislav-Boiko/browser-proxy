@@ -8,13 +8,13 @@ import Node, {
   TYPES as TREE_TYPES,
   XHR_TYPES as XHR_TREE_TYPES,
 } from './Nodes/index';
+import './TreeView.css';
 
 const WIDTH = {
   closed: 72,
   open: 272,
 };
 
-import './TreeView.css';
 const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
   const [isMinified, setMinified] = useState(false);
   const [selected, select] = useState();

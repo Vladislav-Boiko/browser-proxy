@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import isEqual from 'deep-equal';
 
-export const useInitialState = (initialState) => {
+export const useInitialState = (initialState, deps = []) => {
   const [value, setValue] = useState(initialState);
   useEffect(() => {
     setValue(initialState);
-  }, [initialState]);
+  }, [initialState, ...deps]);
 
   const reset = () => setValue(initialState);
-  const hasChanged = value !== initialState;
+  const hasChanged = !isEqual(value, initialState);
 
   return [value, setValue, hasChanged, reset];
 };

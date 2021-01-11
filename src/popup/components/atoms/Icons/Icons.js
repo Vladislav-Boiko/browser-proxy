@@ -17,6 +17,7 @@ import { ReactComponent as TurnOff } from './svg/turn-off.svg';
 import { ReactComponent as Trash } from './svg/trash.svg';
 import { ReactComponent as Danger } from './svg/danger.svg';
 import { ReactComponent as Collapse } from './svg/collapse.svg';
+import { ReactComponent as Reset } from './svg/reset.svg';
 
 import './Icons.css';
 export default {
@@ -39,4 +40,5 @@ export default {
   Trash,
   Danger,
   Collapse,
+  Reset,
 };

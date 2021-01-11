@@ -1,5 +1,6 @@
 .treeView {
-  height: 100vh;
+  min-height: 480px;
+  height: 100%;
   display: inline-block;
   overflow: scroll;
   position: relative;

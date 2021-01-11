@@ -115,22 +115,67 @@
   position: relative;
 }
 
-.input-label__label:after {
-  content: '';
+.input__revert {
   position: absolute;
-  width: calc(var(--em) * 1);
-  height: calc(var(--em) * 1);
+  width: calc(var(--em) * 2);
+  height: calc(var(--em) * 2);
   border-radius: 50%;
   background-color: transparent;
   border: 2px solid transparent;
-  right: calc(var(--em) * -0.75);
-  bottom: calc(var(--em) * -0.75);
+  right: calc(var(--em) * -1);
   transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s;
+  top: calc(var(--em) * -1);
+  box-sizing: border-box;
 }
 
-.input-label__label_unsaved:after {
-  transform-origin: 50% 50%;
-  transform: scale(1.5);
-  background-color: var(--accent);
+.input__revert_enabled {
   border: 2px solid white;
+  background-color: var(--accent);
+}
+
+.input__revert_enabled.input__revert_active {
+  cursor: pointer;
+}
+
+.input__revert button,
+.input__revert_label-text {
+  font-size: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.input__revert .icon_sm {
+  position: absolute;
+  top: 2px;
+  left: 1.5px;
+  width: 8px;
+  height: 8px;
+  fill: var(--c5);
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.input__revert_with-label {
+  top: calc(var(--em) * 2);
+}
+
+.input__revert_enabled.input__revert_active:hover {
+  transform: scale(2);
+}
+
+.input__revert_enabled.input__revert_active:hover .icon_sm {
+  opacity: 1;
+}
+
+.input__revert_enabled.input__revert_active:focus-within {
+  outline-color: var(--c5);
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: 0px;
+}
+
+.input__revert_enabled.input__revert_active:active .icon_sm {
+  fill: white;
+  transform: rotate(-135deg);
 }

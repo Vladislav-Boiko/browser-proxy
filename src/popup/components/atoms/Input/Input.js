@@ -22,6 +22,7 @@ const Input = ({
   validate,
   multiline,
   isUnsaved,
+  reset,
   ...otherProps
 }) => {
   const [validationError, setValidationError] = useState(
@@ -34,13 +35,7 @@ const Input = ({
   return (
     <label className={cn('input-label', className)}>
       <span
-        className={cn(
-          'label_weak g1-color input-label__label',
-          labelClassName,
-          {
-            'input-label__label_unsaved': isUnsaved,
-          },
-        )}
+        className={cn('label_weak g1-color input-label__label', labelClassName)}
       >
         {label}
         {validationError && (
@@ -50,6 +45,21 @@ const Input = ({
           </span>
         )}
       </span>
+      <label
+        title="undo changes"
+        className={cn('input__revert', {
+          input__revert_enabled: isUnsaved,
+          'input__revert_with-label': !!label,
+          input__revert_active: !!reset,
+        })}
+        disabled={!reset}
+      >
+        <span className="input__revert_label-text">
+          Undo changes in {label} input
+        </span>
+        <Icons.Reset className="icon_sm" />
+        <button onClick={() => reset && reset()}>Revert</button>
+      </label>
       <InputType
         className={cn('input label_weak c5-bg px2 py1', {
           input_invalid: !!validationError,

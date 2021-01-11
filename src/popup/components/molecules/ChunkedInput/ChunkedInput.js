@@ -5,6 +5,7 @@ import cn from 'classnames';
 import DelayInput from 'atoms/Input/DelayInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import { useInitialState } from 'app/hooks/hooks';
 import './ChunkedInput.css';
 
 const DEFAULT_CHUNK = { value: '', delay: 200 };
@@ -54,6 +55,18 @@ const ChunkedInput = ({
                 initialBody[index].value === chunkValue.value
               )
             }
+            reset={() => {
+              const updatedBody = evolve(chunksValue, {
+                [index]: Object.assign({}, chunkValue, {
+                  value:
+                    (initialBody &&
+                      initialBody[index] &&
+                      initialBody[index].value) ||
+                    '',
+                }),
+              });
+              updateBodyValue(updatedBody);
+            }}
           />
           <div className="chunk-footer ffr my2">
             <DelayInput
@@ -72,6 +85,18 @@ const ChunkedInput = ({
                   initialBody[index].delay === chunkValue.delay
                 )
               }
+              reset={() => {
+                const updatedBody = evolve(chunksValue, {
+                  [index]: Object.assign({}, chunkValue, {
+                    delay:
+                      (initialBody &&
+                        initialBody[index] &&
+                        initialBody[index].delay) ||
+                      DEFAULT_CHUNK.delay,
+                  }),
+                });
+                updateBodyValue(updatedBody);
+              }}
             />
             <div className="chunk-footer__actions ffr">
               {index > 0 ? (

@@ -26,6 +26,7 @@ const Template = () => {
         className="my2"
         label="Unsaved input"
         isUnsaved={true}
+        reset={() => setValueInput('')}
       />
       <Input
         onChange={setValueInput}
