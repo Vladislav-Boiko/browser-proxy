@@ -8,6 +8,14 @@
     "default_icon": "logo512.png",
     "default_popup": "popup.html"
   },
+  "icons": { 
+    "16": "logo16.png",
+    "32": "logo32.png",
+    "64": "logo64.png",
+   "128": "logo128.png",
+   "192": "logo192.png",
+   "512": "logo512.png"
+  },
   "permissions": ["activeTab", "storage"],
   "devtools_page": "popup.html",
   "content_scripts": [
