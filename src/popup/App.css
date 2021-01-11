@@ -1,6 +1,9 @@
-.app {
-  min-width: 600px;
+.popup {
+  width: 800px;
   min-height: 480px;
+}
+
+.app {
   color: black;
   display: grid;
   grid-template-columns: repeat(12, 1fr);

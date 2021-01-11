@@ -5,12 +5,19 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import bootstrap from './bootstrap.js';
 import Router from 'templates/Router/Router.container';
+import cn from 'classnames';
 
 function App() {
   bootstrap();
   return (
     <Provider store={store}>
-      <Router />
+      <div
+        className={cn({
+          popup: !chrome.devtools,
+        })}
+      >
+        <Router />
+      </div>
       {/* {!chrome.devtools && <Footer className="app-footer" />} */}
     </Provider>
   );
