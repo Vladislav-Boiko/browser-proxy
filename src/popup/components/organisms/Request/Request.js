@@ -102,7 +102,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
               otherProps.updateNode(updateEntry);
             }}
           >
-            Override
+            Save
           </Button>
           <Button Icon={Icons.Trash} secondary onClick={removeOverride}>
             Remove
