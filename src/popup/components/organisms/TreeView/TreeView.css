@@ -2,8 +2,13 @@
   height: 100vh;
   display: inline-block;
   overflow: scroll;
-  max-width: 400px;
   position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.treeView_md {
+  padding-left: var(--em);
 }
 
 .treeView_minified {
@@ -67,6 +72,7 @@
   padding: var(--em);
   min-width: calc(var(--em) * 7);
   justify-content: flex-end;
+  background-color: transparent;
 }
 
 .treeView__show-hide .icon_md {
@@ -143,4 +149,61 @@
 
 .treeView__header {
   display: inline-block;
+}
+
+.treeView__resize-handler {
+  width: calc(var(--em) * 0.25);
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: ew-resize;
+  outline: none;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  padding: 0;
+}
+
+.treeView__resize-handler:before {
+  content: '';
+  position: absolute;
+  width: calc(var(--em) * 1.5);
+  opacity: 0.8;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.treeView-container {
+  position: relative;
+  overflow-x: visible;
+}
+
+.treeView__resize-handler:hover {
+  background-color: var(--c5);
+}
+
+.treeView__resize-handler:hover:before {
+  background-color: var(--c5);
+}
+
+.treeView__resize-handler.treeView__resize-handler_dragged {
+  background-color: var(--primary);
+  width: calc(var(--em) * 0.5);
+}
+
+.treeView__resize-handler.treeView__resize-handler_dragged:before {
+  background-color: transparent;
+}
+
+.treeView__header_md {
+  font-size: calc(var(--em) * 1.75);
+}
+
+.treeView__header_sm {
+  font-size: calc(var(--em) * 1.5);
+}
+
+.treeView__header_xs {
+  visibility: hidden;
 }
