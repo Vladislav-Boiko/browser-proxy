@@ -40,7 +40,8 @@
 .input__cross {
   height: 100%;
   cursor: pointer;
-  background-color: transparent;
+  background-color: var(--c5);
+  border-radius: var(--em);
   border: none;
 }
 
@@ -126,6 +127,7 @@
   transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s;
   top: calc(var(--em) * -1);
   box-sizing: border-box;
+  z-index: 10;
 }
 
 .input__revert_enabled {
@@ -161,7 +163,7 @@
 }
 
 .input__revert_enabled.input__revert_active:hover {
-  transform: scale(2);
+  transform: scale(2.5);
 }
 
 .input__revert_enabled.input__revert_active:hover .icon_sm {

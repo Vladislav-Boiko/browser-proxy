@@ -81,11 +81,10 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             initialBody={otherProps.requestBody}
           />
         )}
-        <div className="ffr mt4 mx4">
+        <div className="button-row mt4 mx4">
           <Button
             Icon={Icons.Enable}
             primary
-            className="mr3"
             onClick={() => {
               let updateEntry = Object.assign({}, response, request, {
                 name: otherProps.name,

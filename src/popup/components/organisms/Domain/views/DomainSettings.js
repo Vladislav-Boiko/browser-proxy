@@ -69,8 +69,8 @@ const DomainSettings = ({
         You can export all the underlying overrides into a file and import them
         for another domain or in another browser.
       </p>
-      <div className="wmax ffr mt4">
-        <Button secondary className="mr3" Icon={Icons.Import}>
+      <div className="wmax button-row mt4">
+        <Button secondary Icon={Icons.Import}>
           Import
         </Button>
         <Button secondary Icon={Icons.Export}>
@@ -79,17 +79,12 @@ const DomainSettings = ({
       </div>
       <h3 className="mt6">Turn OFF</h3>
       <p>
-        Turning off will temporary disable the underlying overrides. Removing
-        will delete them completely.
+        Disabling will temporary disable the underlying overrides. Removing will
+        delete them completely.
       </p>
-      <div className="wmax ffr mt4">
-        <Button
-          secondary
-          className="mr3"
-          Icon={Icons.TurnOff}
-          onClick={otherProps.toggle}
-        >
-          {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
+      <div className="wmax button-row mt4">
+        <Button secondary Icon={Icons.TurnOff} onClick={otherProps.toggle}>
+          {otherProps.isOn ? 'Disable' : 'Enable'}
         </Button>
         <Button secondary Icon={Icons.Trash} onClick={removeDomain}>
           Remove

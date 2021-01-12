@@ -33,7 +33,7 @@ const Folder = ({
       >
         <Button
           primary
-          className="mt4"
+          className="mt4 add-file"
           Icon={Icons.AddFile}
           onClick={addOverride}
         >
@@ -54,8 +54,8 @@ const Folder = ({
           You can export all the underlying overrides into a file and import
           them for another domain, browser, or folder.
         </p>
-        <div className="ffr mt4">
-          <Button secondary className="mr3" Icon={Icons.Import}>
+        <div className="button-row mt4">
+          <Button secondary Icon={Icons.Import}>
             Import
           </Button>
           <Button secondary Icon={Icons.Export}>
@@ -67,13 +67,8 @@ const Folder = ({
           Turning off will temporary disable the underlying overrides. Removing
           will delete them completely.
         </p>
-        <div className="ffr mt4">
-          <Button
-            secondary
-            className="mr3"
-            Icon={Icons.TurnOff}
-            onClick={otherProps.toggle}
-          >
+        <div className="button-row mt4">
+          <Button secondary Icon={Icons.TurnOff} onClick={otherProps.toggle}>
             {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
           </Button>
           <Button secondary Icon={Icons.Trash} onClick={removeFolder}>

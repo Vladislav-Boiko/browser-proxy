@@ -18,10 +18,10 @@ const Domain = ({ className, addOverride, addFolder, ...props }) => {
         onToggle={props.toggle}
         isOn={props.isOn}
       />
-      <div className="ffr mt4 mx4">
+      <div className="button-row mt4 mx4">
         <Button
           primary
-          className="mr3"
+          className="add-file"
           Icon={Icons.AddFile}
           onClick={addOverride}
         >

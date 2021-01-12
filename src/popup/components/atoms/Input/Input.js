@@ -46,7 +46,7 @@ const Input = ({
         )}
       </span>
       <label
-        title="undo changes"
+        title="Undo changes"
         className={cn('input__revert', {
           input__revert_enabled: isUnsaved,
           'input__revert_with-label': !!label,
@@ -81,6 +81,7 @@ const Input = ({
           }
           onChange && onChange(newValue);
         }}
+        size="1"
       />
       <label
         className={cn('cross-button input-icon', {

@@ -14,34 +14,36 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
     onChange && onChange(name);
   };
   return (
-    <nav className="navigation pl4">
-      {options.map(({ name }) => (
-        <a
-          key={name}
-          className={cn('navigation__item label_medium', {
-            navigation__item_selected: selectedId === name,
-          })}
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            select(name);
-          }}
-        >
-          {name}
-        </a>
-      ))}
-      <div className="switch-with-label">
-        <span className="switch-with-label__label label_weak g1-color mr1">
-          {!isDisabled ? 'Disable' : 'Enable'}
-        </span>
-        <Switch
-          initialState={isDisabled}
-          className="switch-with-label__switch"
-          onChange={(isChecked) => {
-            setIsDisabled(isChecked);
-            onToggle && onToggle();
-          }}
-        />
+    <nav className="navigation">
+      <div className="navigation__actions wmax px4">
+        {options.map(({ name }) => (
+          <a
+            key={name}
+            className={cn('navigation__item label_medium', {
+              navigation__item_selected: selectedId === name,
+            })}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              select(name);
+            }}
+          >
+            {name}
+          </a>
+        ))}
+        <div className="switch-with-label">
+          <span className="switch-with-label__label label_weak g1-color mr1">
+            {!isDisabled ? 'Disable' : 'Enable'}
+          </span>
+          <Switch
+            initialState={isDisabled}
+            className="switch-with-label__switch"
+            onChange={(isChecked) => {
+              setIsDisabled(isChecked);
+              onToggle && onToggle();
+            }}
+          />
+        </div>
       </div>
     </nav>
   );

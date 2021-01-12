@@ -66,7 +66,6 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
         </span>
         <Button
           Icon={Icons.Collapse}
-          tretiary
           className={cn('treeView__show-hide', {
             'treeView__show-hide_minified': isMinified,
           })}

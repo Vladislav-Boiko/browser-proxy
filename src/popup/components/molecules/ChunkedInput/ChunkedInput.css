@@ -5,3 +5,7 @@
 .chunk-footer__actions {
   align-items: flex-end;
 }
+
+.add-chunk.tretiary:hover .icon_md {
+  transform: scale(1.3) rotate(-90deg);
+}
