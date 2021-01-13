@@ -12,7 +12,11 @@ const Domain = ({ className, addOverride, addFolder, ...props }) => {
   return (
     <div className={className}>
       <Header
-        options={[{ name: 'requests' }, { name: 'settings' }]}
+        options={[
+          { name: 'requests' },
+          { name: 'settings' },
+          { name: 'variables' },
+        ]}
         initiallySelected={selectedMenuItem}
         onChange={setSelectedMenuItem}
         onToggle={props.toggle}

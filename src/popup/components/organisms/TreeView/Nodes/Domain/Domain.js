@@ -4,6 +4,8 @@ import Node from '../index';
 import NodeHoc from '../NodeHoc/NodeHoc';
 import Icons from 'atoms/Icons/Icons';
 import NodeName from '../NodeHoc/NodeName';
+import { motion } from 'framer-motion';
+import { animateHeight } from 'atoms/animations/animations';
 
 import './Domain.css';
 const Domain = ({ name, nodes, ...otherProps }) => {
@@ -31,15 +33,11 @@ const Domain = ({ name, nodes, ...otherProps }) => {
         <Icons.Domain className="icon_md domain__icon" />
         <NodeName id={otherProps.id} name={name} />
       </NodeHoc>
-      <ol
-        className={cn('ml2', {
-          domain__children_collapsed: isCollapsed,
-        })}
-      >
+      <motion.ol className={cn('ml2')} {...animateHeight(!isCollapsed)}>
         {nodes?.map((node) => (
           <Node {...otherProps} {...node} key={node.id} />
         ))}
-      </ol>
+      </motion.ol>
     </li>
   );
 };

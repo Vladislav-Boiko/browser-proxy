@@ -4,6 +4,8 @@ import Node from '../index';
 import NodeHoc from '../NodeHoc/NodeHoc';
 import Icons from 'atoms/Icons/Icons';
 import NodeName from '../NodeHoc/NodeName';
+import { motion } from 'framer-motion';
+import { animateHeight } from 'atoms/animations/animations';
 
 import './Folder.css';
 const Folder = ({ name, nodes, ...otherProps }) => {
@@ -30,15 +32,11 @@ const Folder = ({ name, nodes, ...otherProps }) => {
         <Icons.Folder className="icon_md folder__icon" />
         <NodeName id={otherProps.id} name={name} className="folder__name" />
       </NodeHoc>
-      <ol
-        className={cn('mx2', {
-          folder__children_collapsed: isCollapsed,
-        })}
-      >
+      <motion.ol className={cn('mx2')} {...animateHeight(!isCollapsed)}>
         {nodes?.map((node) => (
           <Node {...otherProps} {...node} key={node.id} />
         ))}
-      </ol>
+      </motion.ol>
     </li>
   );
 };

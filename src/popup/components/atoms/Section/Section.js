@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import Icons from '../Icons/Icons';
 import cn from 'classnames';
+import { animateHeight } from 'atoms/animations/animations';
 
 import './Section.css';
 
@@ -21,13 +23,12 @@ const Section = ({ header, children, isInitiallyOpen, className }) => {
         />
         {header}
       </button>
-      <section
-        className={cn('section__body', {
-          section__body_closed: !isOpen,
-        })}
+      <motion.section
+        className={cn('section__body')}
+        {...animateHeight(isOpen)}
       >
         {children}
-      </section>
+      </motion.section>
     </div>
   );
 };

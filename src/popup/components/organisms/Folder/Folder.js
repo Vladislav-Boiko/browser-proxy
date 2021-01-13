@@ -21,7 +21,7 @@ const Folder = ({
   return (
     <div className={className}>
       <Header
-        options={[{ name: 'settings' }]}
+        options={[{ name: 'settings' }, { name: 'variables' }]}
         initiallySelected={'settings'}
         onToggle={otherProps.toggle}
         isOn={otherProps.isOn}

@@ -11,6 +11,7 @@
 .input_multiline {
   min-height: calc(var(--em) * 5);
   height: auto;
+  resize: vertical;
 }
 
 .input-label {
@@ -45,12 +46,17 @@
   border: none;
 }
 
+.input__cross:hover {
+  border: 1px solid var(--c4);
+}
+
 .input__cross svg {
   transition: all 0.3s;
 }
 
 .input__cross:hover svg {
   transform: rotate(180deg);
+  z-index: 11;
 }
 
 .label__text_hidden {
@@ -162,11 +168,15 @@
   top: calc(var(--em) * 2);
 }
 
-.input__revert_enabled.input__revert_active:hover {
+.input__revert_enabled.input__revert_active:hover,
+.input__revert_enabled.input__revert_active:active,
+.input__revert_enabled.input__revert_active:focus-within {
   transform: scale(2.5);
 }
 
-.input__revert_enabled.input__revert_active:hover .icon_sm {
+.input__revert_enabled.input__revert_active:hover .icon_sm,
+.input__revert_enabled.input__revert_active:active .icon_sm,
+.input__revert_enabled.input__revert_active:focus-within .icon_sm {
   opacity: 1;
 }
 
@@ -174,7 +184,7 @@
   outline-color: var(--c5);
   outline-width: 1px;
   outline-style: solid;
-  outline-offset: 0px;
+  outline-offset: 2px;
 }
 
 .input__revert_enabled.input__revert_active:active .icon_sm {

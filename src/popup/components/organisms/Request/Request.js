@@ -11,6 +11,7 @@ import './Request.css';
 const MENU_OPTIONS = {
   RESPONSE: 'RESPONSE',
   REQUEST: 'REQUEST',
+  VARIABLES: 'VARIABLES',
 };
 
 const Request = ({ className, removeOverride, ...otherProps }) => {
@@ -30,6 +31,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
         options={[
           { name: MENU_OPTIONS.RESPONSE },
           { name: MENU_OPTIONS.REQUEST },
+          { name: MENU_OPTIONS.VARIABLES },
         ]}
         initiallySelected={selectedHeader}
         onChange={setSelectedHeader}

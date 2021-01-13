@@ -1,6 +1,6 @@
 .switch {
   background-color: white;
-  border: 2px solid var(--g3);
+  border: 2px solid var(--primary);
   border-radius: calc(var(--em) * 1.5);
   height: calc(var(--em) * 3);
   width: calc(var(--em) * 6.5);
@@ -56,5 +56,5 @@
 .switch.switch__checked:after {
   left: auto;
   left: calc(var(--em) * 3.5);
-  background-color: var(--primary);
+  background-color: var(--c5);
 }

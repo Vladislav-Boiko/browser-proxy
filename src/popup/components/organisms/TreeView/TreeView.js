@@ -10,6 +10,7 @@ import Node, {
 } from './Nodes/index';
 import './TreeView.css';
 
+// TODO: better solution for width auto.
 const WIDTH = {
   closed: 72,
   open: 272,
