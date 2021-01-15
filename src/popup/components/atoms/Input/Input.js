@@ -30,7 +30,18 @@ const Input = ({
   );
   useEffect(() => {
     setValidationError(validate && value ? validate(value) : '');
-  });
+  }, [value]);
+  const doChange = (newValue, delay = 300) => {
+    if (validate) {
+      clearTimeout(validationTimeout);
+      const newTimeout = setTimeout(
+        () => setValidationError(validate(newValue)),
+        delay,
+      );
+      setValidationTimeout(newTimeout);
+    }
+    onChange && onChange(newValue);
+  };
   const [validationTimeout, setValidationTimeout] = useState(null);
   return (
     <label className={cn('input-label', className)}>
@@ -69,18 +80,7 @@ const Input = ({
         type="text"
         {...otherProps}
         value={value}
-        onChange={(e) => {
-          const newValue = e.target.value;
-          if (validate) {
-            clearTimeout(validationTimeout);
-            const newTimeout = setTimeout(
-              () => setValidationError(validate(newValue)),
-              300,
-            );
-            setValidationTimeout(newTimeout);
-          }
-          onChange && onChange(newValue);
-        }}
+        onChange={(e) => doChange(e.target.value)}
         size="1"
       />
       <label
@@ -91,12 +91,7 @@ const Input = ({
         })}
       >
         <span className="label__text_hidden">Clear input {label}</span>
-        <button
-          className="input__cross px2"
-          onClick={() => {
-            onChange && onChange('');
-          }}
-        >
+        <button className="input__cross px2" onClick={() => doChange('', 0)}>
           <Icons.Cross className="icon_sm" />
         </button>
       </label>

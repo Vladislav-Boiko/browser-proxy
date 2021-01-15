@@ -59,7 +59,7 @@ const DomainSettings = ({
         className="mt2"
         onClick={() =>
           updateNode &&
-          updateNode({ id, activeUrls: [...(activeUrls || []), 'http://'] })
+          updateNode({ id, activeUrls: [...(activeUrls || []), 'https://'] })
         }
       >
         Add active URL

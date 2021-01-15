@@ -62,7 +62,6 @@ const Request = (props) => {
         header={<h3 className="py1">Request Headers</h3>}
       >
         <HeadersList
-          className="my3"
           headers={props.requestHeaders}
           onChange={(requestHeaders) => props.onChange({ requestHeaders })}
         />

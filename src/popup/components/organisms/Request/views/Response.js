@@ -14,13 +14,12 @@ const Response = ({ ...otherProps }) => {
         <Body className="my3" {...otherProps} />
       </Section>
       <Section
-        className="mt6"
+        className="mt5"
         header={<h3 className="py1">Response Headers</h3>}
         isInitiallyOpen={false}
         {...otherProps}
       >
         <HeadersList
-          className="my3"
           headers={otherProps.responseHeaders}
           onChange={(responseHeaders) =>
             otherProps.onChange({ responseHeaders })

@@ -24,7 +24,9 @@ const Section = ({ header, children, isInitiallyOpen, className }) => {
         {header}
       </button>
       <motion.section
-        className={cn('section__body')}
+        className={cn('section__body', {
+          section__body_closed: !isOpen,
+        })}
         {...animateHeight(isOpen)}
       >
         {children}

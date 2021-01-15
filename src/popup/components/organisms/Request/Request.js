@@ -3,9 +3,11 @@ import cn from 'classnames';
 import Header from 'molecules/Header/Header';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import Variables from 'organisms/Variables/Variables';
+import { renameKeys } from 'utils/utils';
+
 import ResponseView from './views/Response';
 import RequestView from './views/Request';
-import { renameKeys } from 'utils/utils';
 import './Request.css';
 
 const MENU_OPTIONS = {
@@ -43,7 +45,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
           'node-body_disabled': !otherProps.isOn,
         })}
       >
-        {selectedHeader === MENU_OPTIONS.RESPONSE ? (
+        {selectedHeader === MENU_OPTIONS.RESPONSE && (
           <ResponseView
             {...otherProps}
             onChange={(change) => {
@@ -60,7 +62,8 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             code={otherProps.responseCode}
             type={otherProps.responseType}
           />
-        ) : (
+        )}
+        {selectedHeader === MENU_OPTIONS.REQUEST && (
           <RequestView
             {...otherProps}
             {...request}
@@ -83,6 +86,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             initialBody={otherProps.requestBody}
           />
         )}
+        {selectedHeader === MENU_OPTIONS.VARIABLES && <Variables />}
         <div className="button-row mt4 mx4">
           <Button
             Icon={Icons.Enable}

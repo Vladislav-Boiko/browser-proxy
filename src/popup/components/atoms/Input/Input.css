@@ -41,7 +41,7 @@
 .input__cross {
   height: 100%;
   cursor: pointer;
-  background-color: var(--c5);
+  background-color: transparent;
   border-radius: var(--em);
   border: none;
 }
@@ -110,6 +110,8 @@
 }
 
 .cross-button_invalid {
+  box-sizing: border-box;
+  border: 2px solid transparent;
   height: calc(var(--em) * 5);
 }
 
@@ -119,6 +121,7 @@
 }
 
 .input-label__label {
+  white-space: nowrap;
   position: relative;
 }
 

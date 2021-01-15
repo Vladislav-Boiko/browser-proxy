@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DisabledDomain from './views/DisabledDomain';
 import EnabledDomain from './views/EnabledDomain.container';
 

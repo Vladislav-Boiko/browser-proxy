@@ -11,8 +11,7 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  padding-top: var(--em) 0;
-  padding-left: 0;
+  padding: 0;
 }
 
 .section__chevron {
@@ -28,4 +27,13 @@
   transform-origin: top center;
   position: relative;
   box-sizing: border-box;
+}
+
+.section__body > div:first-child {
+  transition: margin 0.3s, padding 0.3s;
+}
+
+.section__body_closed > div:first-child {
+  margin: 0;
+  padding: 0;
 }

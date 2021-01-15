@@ -10,6 +10,7 @@
 }
 
 .app-navigation {
+  box-sizing: border-box;
   grid-column: 1 / 5;
   border-right: 1px solid #dedede;
   padding: 1rem 0;
