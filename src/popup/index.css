@@ -37,3 +37,8 @@ li {
   outline-style: solid;
   outline-offset: 0px;
 }
+
+a {
+  color: var(--primary);
+  font-weight: bold;
+}

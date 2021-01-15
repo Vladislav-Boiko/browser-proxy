@@ -1,3 +1,11 @@
 .variables__row {
   align-items: flex-end;
 }
+
+.regular-expression__input {
+  position: relative;
+}
+
+.regular-expression__input input {
+  padding-left: calc(var(--em) * 1.5);
+}
