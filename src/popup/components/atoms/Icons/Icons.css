@@ -69,3 +69,7 @@
     transform: scale(1);
   }
 }
+
+.enable_svg {
+  margin-left: -4px;
+}

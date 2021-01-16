@@ -44,17 +44,21 @@ const Domain = ({ className, addOverride, addFolder, ...props }) => {
           Add Folder
         </Button>
       </div>
-      <div className="ffr mt3 mx4">
-        {selectedMenuItem === DOMAIN_MENU_OPTIONS.REQUESTS && (
+      {selectedMenuItem === DOMAIN_MENU_OPTIONS.REQUESTS && (
+        <div className="ffr mt3 mx4">
           <DomainRequests {...props} />
-        )}{' '}
-        {selectedMenuItem === DOMAIN_MENU_OPTIONS.SETTINGS && (
+        </div>
+      )}
+      {selectedMenuItem === DOMAIN_MENU_OPTIONS.SETTINGS && (
+        <div className="ffr mt3 mx4">
           <DomainSettings {...props} />
-        )}
-        {selectedMenuItem === DOMAIN_MENU_OPTIONS.VARIABLES && (
+        </div>
+      )}
+      {selectedMenuItem === DOMAIN_MENU_OPTIONS.VARIABLES && (
+        <div className="mt2">
           <Variables {...props} />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

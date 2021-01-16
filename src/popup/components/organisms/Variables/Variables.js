@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Input from 'atoms/Input/Input';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 import { v4 as uuid } from 'uuid';
 
 import './Variables.css';
@@ -26,9 +28,9 @@ const Variables = (props) => {
     <div className="p4 wmax">
       <h3>Variables</h3>
       <p className="mb6 mt3">
-        You can capture parts of a Requset with regular expressions. You can use
-        them then it in as part of the response. Find out examples and more on
-        the <a href="">documentation</a> page
+        You can capture parts of a Requset with regular expressions, and then
+        use them as part of a Response. Find out examples and more on the{' '}
+        <a href="">documentation</a> page
       </p>
       {variables.map(({ name, value, id }, index) => (
         <div className="ffr mt3 variables__row" key={id}>
@@ -48,6 +50,17 @@ const Variables = (props) => {
           />
         </div>
       ))}
+      <div className="button-row mt4">
+        <Button
+          Icon={Icons.Enable}
+          primary
+          onClick={() => {
+            console.log('TODO: implement me');
+          }}
+        >
+          Save
+        </Button>
+      </div>
     </div>
   );
 };

@@ -87,32 +87,37 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
           />
         )}
         {selectedHeader === MENU_OPTIONS.VARIABLES && <Variables />}
-        <div className="button-row mt4 mx4">
-          <Button
-            Icon={Icons.Enable}
-            primary
-            onClick={() => {
-              let updateEntry = Object.assign({}, response, request, {
-                name: otherProps.name,
-              });
-              if (updateEntry.responseType !== 'BLOB' && otherProps.blobType) {
-                updateEntry.blobType = '';
-              }
-              if (
-                updateEntry.requestBodyType !== 'BLOB' &&
-                otherProps.requestBlobType
-              ) {
-                updateEntry.requestBlobType = '';
-              }
-              otherProps.updateNode(updateEntry);
-            }}
-          >
-            Save
-          </Button>
-          <Button Icon={Icons.Trash} secondary onClick={removeOverride}>
-            Remove
-          </Button>
-        </div>
+        {selectedHeader !== MENU_OPTIONS.VARIABLES && (
+          <div className="button-row mt4 mx4">
+            <Button
+              Icon={Icons.Enable}
+              primary
+              onClick={() => {
+                let updateEntry = Object.assign({}, response, request, {
+                  name: otherProps.name,
+                });
+                if (
+                  updateEntry.responseType !== 'BLOB' &&
+                  otherProps.blobType
+                ) {
+                  updateEntry.blobType = '';
+                }
+                if (
+                  updateEntry.requestBodyType !== 'BLOB' &&
+                  otherProps.requestBlobType
+                ) {
+                  updateEntry.requestBlobType = '';
+                }
+                otherProps.updateNode(updateEntry);
+              }}
+            >
+              Save
+            </Button>
+            <Button Icon={Icons.Trash} secondary onClick={removeOverride}>
+              Remove
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
