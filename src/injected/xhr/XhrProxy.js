@@ -1,6 +1,6 @@
-import { trackXhr } from "./TrackXhr";
-import overridesStorage from "../overrides/Overrides";
-import Overrider from "./Overrider";
+import { trackXhr } from './TrackXhr';
+import overridesStorage from '../overrides/Overrides';
+import Overrider from './Overrider';
 
 class XhrProxy {
   openArguments = null;
@@ -50,7 +50,7 @@ const proxyXhr = (xhr) => {
       } else if (xhrProxy.override && property in xhrProxy.override) {
         value = xhrProxy.override[property];
       }
-      return typeof value === "function" ? value.bind(target) : value;
+      return typeof value === 'function' ? value.bind(target) : value;
     },
     set(target, prop, value) {
       return Reflect.set(target, prop, value);

@@ -1,19 +1,18 @@
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.BABEL_ENV = 'production';
-process.env.NODE_ENV = 'production';
+process.env.BABEL_ENV = 'development';
+process.env.NODE_ENV = 'development';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   throw err;
 });
 
 // Ensure environment variables are read.
 require('../config/env');
-
 
 const path = require('path');
 const chalk = require('react-dev-utils/chalk');
@@ -39,7 +38,13 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.popupHtml, paths.popupIndexJs, paths.contentIndexJs])) {
+if (
+  !checkRequiredFiles([
+    paths.popupHtml,
+    paths.popupIndexJs,
+    paths.contentIndexJs,
+  ])
+) {
   process.exit(1);
 }
 
@@ -55,7 +60,7 @@ checkBrowsers(paths.appPath, isInteractive)
     // This lets us display how much they changed later.
     return measureFileSizesBeforeBuild(paths.appBuild);
   })
-  .then(previousFileSizes => {
+  .then((previousFileSizes) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
@@ -72,12 +77,12 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log(
           '\nSearch for the ' +
             chalk.underline(chalk.yellow('keywords')) +
-            ' to learn more about each warning.'
+            ' to learn more about each warning.',
         );
         console.log(
           'To ignore, add ' +
             chalk.cyan('// eslint-disable-next-line') +
-            ' to the line before.\n'
+            ' to the line before.\n',
         );
       } else {
         console.log(chalk.green('Compiled successfully.\n'));
@@ -89,7 +94,7 @@ checkBrowsers(paths.appPath, isInteractive)
         previousFileSizes,
         paths.appBuild,
         WARN_AFTER_BUNDLE_GZIP_SIZE,
-        WARN_AFTER_CHUNK_GZIP_SIZE
+        WARN_AFTER_CHUNK_GZIP_SIZE,
       );
       console.log();
 
@@ -102,16 +107,16 @@ checkBrowsers(paths.appPath, isInteractive)
         publicUrl,
         publicPath,
         buildFolder,
-        useYarn
+        useYarn,
       );
     },
-    err => {
+    (err) => {
       const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
       if (tscCompileOnError) {
         console.log(
           chalk.yellow(
-            'Compiled with the following type errors (you may want to check these before deploying your app):\n'
-          )
+            'Compiled with the following type errors (you may want to check these before deploying your app):\n',
+          ),
         );
         printBuildError(err);
       } else {
@@ -119,9 +124,9 @@ checkBrowsers(paths.appPath, isInteractive)
         printBuildError(err);
         process.exit(1);
       }
-    }
+    },
   )
-  .catch(err => {
+  .catch((err) => {
     if (err && err.message) {
       console.log(err.message);
     }
@@ -136,8 +141,8 @@ function build(previousFileSizes) {
   if (process.env.NODE_PATH) {
     console.log(
       chalk.yellow(
-        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
-      )
+        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.',
+      ),
     );
     console.log();
   }
@@ -168,7 +173,7 @@ function build(previousFileSizes) {
         });
       } else {
         messages = formatWebpackMessages(
-          stats.toJson({ all: false, warnings: true, errors: true })
+          stats.toJson({ all: false, warnings: true, errors: true }),
         );
       }
       if (messages.errors.length) {
@@ -188,8 +193,8 @@ function build(previousFileSizes) {
         console.log(
           chalk.yellow(
             '\nTreating warnings as errors because process.env.CI = true.\n' +
-              'Most CI servers set it automatically.\n'
-          )
+              'Most CI servers set it automatically.\n',
+          ),
         );
         return reject(new Error(messages.warnings.join('\n\n')));
       }
@@ -206,6 +211,6 @@ function build(previousFileSizes) {
 function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
-    filter: file => file !== paths.appHtml,
+    filter: (file) => file !== paths.appHtml,
   });
 }

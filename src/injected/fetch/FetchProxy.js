@@ -1,8 +1,8 @@
-import messaging from "../../common/communication/injected/ProxyMessaging";
-import EVENTS from "../../common/communication/injected/events";
-import { v4 as uuid } from "uuid";
+import messaging from '../../common/communication/injected/ProxyMessaging';
+import EVENTS from '../../common/communication/injected/events';
+import { v4 as uuid } from 'uuid';
 
-//TODO: change
+// TODO: change
 const serializeRequest = ({
   cache,
   context,
@@ -42,11 +42,11 @@ const startTracking = (argumentsList) => {
   const id = uuid();
   const timestamp = Date.now();
   const payload =
-    typeof argumentsList[0] === "object"
+    typeof argumentsList[0] === 'object'
       ? serializeRequest(argumentsList[0])
       : {
           url: argumentsList[0],
-          method: "GET",
+          method: 'GET',
         };
   messaging.emit(EVENTS.FETCH_SENT, {
     id,

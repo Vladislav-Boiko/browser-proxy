@@ -9,12 +9,12 @@ export const animateHeight = (isOpen) => ({
     open: {
       height: `auto`,
       opacity: 1,
-      clipPath: 'inset(calc(var(--em) * -1))',
+      clipPath: 'inset(calc(var(--em) * -3))',
     },
     closed: {
       height: `0px`,
       opacity: 0,
-      clipPath: 'inset(calc(var(--em) * -1))',
+      clipPath: 'inset(calc(var(--em) * -3))',
     },
   },
 });

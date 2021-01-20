@@ -34,3 +34,7 @@
 .request-card:hover .request-card__response-type {
   color: black;
 }
+
+.request-card__url {
+  text-transform: initial;
+}

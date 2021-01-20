@@ -1,16 +1,19 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import EnabledDomain from './EnabledDomain';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   addOverride as addOverrideAction,
   addFolder as addFolderAction,
   removeDomain as removeDomainAction,
 } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
+import { getAllRequests } from 'store/requests/selectors';
 
 const Domain = (props) => {
   const dispatch = useDispatch();
+  const requests = useSelector(getAllRequests, shallowEqual);
+  console.log('The requests are: ', requests);
   const addOverride = () => {
     const id = uuid();
     dispatch(
@@ -41,6 +44,7 @@ const Domain = (props) => {
   return (
     <EnabledDomain
       {...props}
+      requests={requests}
       addOverride={addOverride}
       addFolder={addFolder}
       removeDomain={removeDomain}

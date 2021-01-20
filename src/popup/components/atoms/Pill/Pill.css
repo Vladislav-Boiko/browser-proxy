@@ -1,7 +1,15 @@
 .pill {
   display: block;
   border-radius: calc(var(--em) * 3);
-  width: 64px;
+  min-width: 64px;
   height: 24px;
+  display: inline-block;
   text-align: center;
+  padding-left: calc(var(--em) * 2);
+  padding-right: calc(var(--em) * 2);
+  box-sizing: border-box;
+}
+
+.pill_error {
+  color: var(--accent);
 }

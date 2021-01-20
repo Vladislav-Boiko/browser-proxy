@@ -1,12 +1,12 @@
-import messaging from "../../common/communication/injected/ProxyMessaging";
-import EVENTS from "../../common/communication/injected/events";
+import messaging from '../../common/communication/injected/ProxyMessaging';
+import EVENTS from '../../common/communication/injected/events';
 
-const getBaseUrl = (url = "") => {
-  const splitted = url.split("?");
+const getBaseUrl = (url = '') => {
+  const splitted = url.split('?');
   if (splitted.length > 1) {
     splitted.pop();
   }
-  return splitted.join("");
+  return splitted.join('');
 };
 
 class Overrides {
@@ -16,15 +16,15 @@ class Overrides {
     messaging.emit(EVENTS.REQUEST_OVERRIDES_UPDATE, {});
     messaging.subscribe(
       EVENTS.OVERRIDES_UPDATED,
-      (overrides) => (this.overrides = overrides)
+      (overrides) => (this.overrides = overrides),
     );
   }
 
   findOverride(request) {
-    // TODO: actuall implementation
+    // TODO: actual implementation
     const url = getBaseUrl(request?.url);
     const result = Object.values(this.overrides).find(
-      (override) => getBaseUrl(override.url) === url
+      (override) => getBaseUrl(override.url) === url,
     );
     if (result) {
       return {

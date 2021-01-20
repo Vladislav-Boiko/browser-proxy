@@ -28,12 +28,12 @@ const ResponseType = ({ type, className }) => {
     case TYPES.BLOB:
     case TYPES.DOCUMENT:
     default:
-      Icon = Icons.File;
+      Icon = Icons.Text;
   }
   return (
     <span className={cn('response-type g2-color', className)}>
       <Icon className="icon_md mr1 response-type__icon" />
-      <span>{type}</span>
+      <span>{type || TYPES.TEXT}</span>
     </span>
   );
 };

@@ -12,6 +12,7 @@ const Template = (args) => (
     <Pill className="m2" text={200} />
     <Pill className="m2" text={500} />
     <Pill className="m2" text={404} />
+    <Pill className="m2 pill_error" text={'FAILED'} />
   </React.Fragment>
 );
 

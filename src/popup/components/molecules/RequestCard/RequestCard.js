@@ -13,11 +13,41 @@ const stripURL = (url = '') => {
   return lastPart;
 };
 
-const RequestCard = ({ url, code, method, responseType, className }) => {
+const LOADING_STATES = {
+  LOADING: 'loading',
+  LOADED: 'loaded',
+  FAIL: 'fail',
+};
+
+const RequestCard = ({
+  url,
+  code,
+  method,
+  responseType,
+  readyState,
+  className,
+}) => {
+  let loadingState = LOADING_STATES.LOADING;
+  // TODO: what about fetch requests?
+  if (readyState === 4 || code) {
+    if (code === 0) {
+      loadingState = LOADING_STATES.FAIL;
+    } else {
+      loadingState = LOADING_STATES.LOADED;
+    }
+  }
   return (
     <button className={cn('request-card wmax', className)}>
       <h3 className="request-card__url">{stripURL(url)}</h3>
-      <Pill text={code} className="request-card__pill" />
+      {loadingState === LOADING_STATES.LOADED && (
+        <Pill text={code} className="request-card__pill" />
+      )}
+      {loadingState === LOADING_STATES.FAIL && (
+        <Pill text={'FAILED'} className="request-card__pill pill_error" />
+      )}
+      {loadingState === LOADING_STATES.LOADING && (
+        <Pill text={'...'} className="request-card__pill" />
+      )}
       <span className="request-card__method g2-color label_strong">
         {method.toUpperCase()}
       </span>

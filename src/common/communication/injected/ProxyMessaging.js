@@ -1,23 +1,22 @@
-import Messaging from "../Messaging";
+import Messaging from '../Messaging';
 
 // The injected js on the page, that has access to the wnidow xhr objects, has no
 // access to the chrome messaging api.
-// TODO: security
 class ProxyMessaging extends Messaging {
   constructor() {
     super();
     window.addEventListener(
-      "message",
+      'message',
       (event) => {
         if (
           event.origin === window.location.origin &&
           event?.data?.sender &&
-          event?.data?.sender === "browser-proxy-web-script"
+          event?.data?.sender === 'browser-proxy-web-script'
         ) {
           this.onMessage(event.data);
         }
       },
-      false
+      false,
     );
   }
 
@@ -28,8 +27,8 @@ class ProxyMessaging extends Messaging {
     if (destination) {
       try {
         window.postMessage(
-          { ...message, sender: "browser-proxy-web-script" },
-          destination
+          { ...message, sender: 'browser-proxy-web-script' },
+          destination,
         );
       } catch (e) {
         // do nothing, we cannot override what we cannot track
