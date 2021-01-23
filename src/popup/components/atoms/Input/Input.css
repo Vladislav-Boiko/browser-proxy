@@ -6,6 +6,7 @@
   transition: all 0.1s;
   height: calc(var(--em) * 5);
   box-sizing: border-box;
+  padding-right: calc(var(--em) * 6);
 }
 
 .input_multiline {
