@@ -1,7 +1,7 @@
-import PROXY_EVENTS from "../../common/communication/injected/events";
-import PLUGIN_EVENTS from "../../common/communication/plugin/events";
-import proxyMessaging from "../../common/communication/injected/ProxyMessaging";
-import pluginMessaging from "./PluginMessaging";
+import PROXY_EVENTS from '../../common/communication/injected/events';
+import PLUGIN_EVENTS from '../../common/communication/plugin/events';
+import proxyMessaging from '../../common/communication/injected/ProxyMessaging';
+import pluginMessaging from './PluginMessaging';
 
 const {
   XHR_SENT,
@@ -11,25 +11,41 @@ const {
   FETCH_SENT,
   FETCH_STATE_CHANGED,
 } = PROXY_EVENTS;
-const { REQUESTS_UPDATED, ASK_REQUESTS } = PLUGIN_EVENTS;
+const { REQUESTS_UPDATED, PLUGIN_LOAD, WINDOW_LOAD } = PLUGIN_EVENTS;
 
 class RequestsCommunication {
   requests = [];
-  windowId = "";
+  windowId = '';
+  domain = '';
 
-  startCommunication(windowId) {
+  startCommunication(windowId, domain) {
     this.windowId = windowId;
-    this.listenOnRequestsAsked();
+    this.domain = domain;
+    this.listenOnPluginLoad();
     this.listenOnRequestSent();
     this.listenRequestStateChanged();
+    this.registerWindowToItsDomainMapping(windowId, domain);
   }
 
-  listenOnRequestsAsked() {
-    pluginMessaging.subscribe(ASK_REQUESTS, () =>
+  // A single domain (webpage) may have several windows, for instance in iframes. We want to track all
+  // requests of a webpage, thus all requests of all its windows. To keep a track of all domain windows
+  // we register windowId<->domain mappings on a window load.
+  registerWindowToItsDomainMapping(windowId, domain) {
+    pluginMessaging.emit(WINDOW_LOAD, {
+      windowId,
+      domain,
+    });
+  }
+
+  // When the user opens the popup or the plugin tab in the browser dev tools, it fires a request event.
+  // This might happen at any time, as one can open and close the popup back and forth.
+  listenOnPluginLoad() {
+    pluginMessaging.subscribe(PLUGIN_LOAD, () => {
       pluginMessaging.emit(REQUESTS_UPDATED, {
         [this.windowId]: this.requests,
-      })
-    );
+      });
+      this.registerWindowToItsDomainMapping(this.windowId, this.domain);
+    });
   }
 
   listenOnRequestSent() {
@@ -52,7 +68,7 @@ class RequestsCommunication {
         pluginMessaging.emit(REQUESTS_UPDATED, {
           [this.windowId]: this.requests,
         });
-      }
+      },
     );
   }
 }

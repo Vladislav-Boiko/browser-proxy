@@ -22,7 +22,7 @@ const TreeViewContainer = (props) => {
         name: 'New Domain',
         id,
         type: TYPES.DOMAIN,
-        isUnsaved: true,
+        isUnsaved: false,
         isOn: true,
       }),
     );

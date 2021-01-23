@@ -1,5 +1,6 @@
 import { startMessaging } from './communication/withPage';
 import serializer from '../common/storage/Serializer.js';
+import { selectInitialDomain } from 'utils/url';
 // import store from './redux/store';
 // import { loadOverrides, loadFolders } from './redux/storage/actions';
 // import { setCurrentTab } from './redux/page/actions';
@@ -19,6 +20,9 @@ const bootstrapFolders = async () => {
 const bootstrapTabData = async () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
+    if (tab?.url) {
+      selectInitialDomain(tab?.url);
+    }
     // if (tab?.url) {
     //   const url = new URL(tab.url);
     //   store.dispatch(setCurrentTab(url.hostname));
@@ -44,6 +48,6 @@ export default () => {
   startMessaging();
   // bootstrapOverrides();
   // bootstrapFolders();
-  // bootstrapTabData();
+  bootstrapTabData();
   bootstrapDevtoolsTab();
 };

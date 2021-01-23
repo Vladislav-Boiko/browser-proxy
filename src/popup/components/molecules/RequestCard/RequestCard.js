@@ -7,8 +7,15 @@ import './RequestCard.css';
 const stripURL = (url = '') => {
   const chunks = url.split('?')[0].split('/');
   let lastPart = chunks[chunks.length - 1];
-  if (chunks.length > 1 && chunks[chunks.length - 2]) {
+  if (
+    chunks.length > 1 &&
+    chunks[chunks.length - 2] &&
+    chunks[chunks.length - 2].length > 11
+  ) {
     lastPart = chunks[chunks.length - 2] + '/' + lastPart;
+  }
+  if (lastPart.length > 20) {
+    lastPart = lastPart.slice(-20);
   }
   return lastPart;
 };
