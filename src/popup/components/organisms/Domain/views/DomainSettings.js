@@ -82,7 +82,7 @@ const DomainSettings = ({
         Disabling will temporary disable the underlying overrides. Removing will
         delete them completely.
       </p>
-      <div className="wmax button-row mt4">
+      <div className="wmax button-row my4">
         <Button secondary Icon={Icons.TurnOff} onClick={otherProps.toggle}>
           {otherProps.isOn ? 'Disable' : 'Enable'}
         </Button>

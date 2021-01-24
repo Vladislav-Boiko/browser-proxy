@@ -10,6 +10,7 @@ import {
 } from './actions';
 import { findPath } from './selectors';
 import { evolve, where, alter } from 'immutableql';
+import serializer from '../../../common/storage/Serializer';
 
 const updateDeep = (state, path, payload) => {
   let update = payload;
@@ -24,7 +25,7 @@ const updateDeep = (state, path, payload) => {
   return evolve(state, update);
 };
 
-export default (state = [], action) => {
+const serializedReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_DOMAIN:
       return state.concat([action.payload]);
@@ -37,6 +38,7 @@ export default (state = [], action) => {
     case TOGGLE_NODE:
       return updateDeep(state, findPath(action.payload, state), {
         isOn: alter((key, value) => !value),
+        isFirstOpen: false,
       });
     case ADD_OVERRIDE:
       const newOverride = Object.assign(
@@ -79,6 +81,16 @@ export default (state = [], action) => {
     case REMOVE_DOMAIN:
       return state.filter(({ id }) => id !== action.payload);
     default:
-      return state;
+      return null;
   }
+};
+
+export default (state = [], action) => {
+  const updated = serializedReducer(state, action);
+  if (updated) {
+    const toSave = updated.filter(({ isFirstOpen }) => isFirstOpen !== true);
+    serializer.saveStore({ nodes: toSave });
+    return updated;
+  }
+  return state;
 };

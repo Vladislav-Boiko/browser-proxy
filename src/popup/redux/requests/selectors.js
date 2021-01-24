@@ -11,7 +11,7 @@ export const getRequestsForActiveUrls = (activeUrls) => (store) => {
     activeUrls
       .map((url) => getWindowsForUrl(url)(store))
       .reduce((acc, windowIds) => [...acc, windowIds], [])
-      .map((windowId) => store.requests[windowId]),
+      .map((windowId) => store.requests[windowId] || []),
   );
 };
 

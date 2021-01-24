@@ -5,3 +5,6 @@ export const getWindowsForUrl = (wildcardUrl) => (store) =>
     .filter((trackedDomain) => hasUrlMatch(trackedDomain, wildcardUrl))
     .map((trackedDomain) => store.activeWindows[trackedDomain])
     .reduce((acc, matchedWindows) => [...acc, matchedWindows], []);
+
+export const getDomainIdForActiveUrl = (activeUrl) => (store) =>
+  store.nodes?.find(({ activeUrls }) => hasUrlMatch(activeUrl, activeUrls))?.id;

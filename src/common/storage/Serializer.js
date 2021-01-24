@@ -1,27 +1,21 @@
-import Storage from "./Storage";
-import { DOMAIN } from "../../content/constants";
+import Storage from './Storage';
 
 class Serializer extends Storage {
-  async getAllOverrides() {
-    return await this.load("overrides", []);
-  }
-
-  async getAllOverridesForDomain(domain = DOMAIN) {
-    // TODO: implement me
-    return [];
-  }
-
   async getAllFolders() {
-    return await this.load("folders", []);
+    return await this.load('folders', []);
   }
 
   async serialize(payload) {
     await this.save(payload);
   }
 
-  async getAllOverridesForDomain(domain = DOMAIN) {
-    // TODO: implement me
-    return [];
+  async saveStore(store) {
+    // TODO: filter unsaved and non-relevant values
+    return await this.save({ store });
+  }
+
+  async loadStore() {
+    return await this.load('store', {});
   }
 }
 

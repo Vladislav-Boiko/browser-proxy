@@ -1,7 +1,7 @@
 import { startMessaging } from './communication/withPage';
 import serializer from '../common/storage/Serializer.js';
 import { selectInitialDomain } from 'utils/url';
-// import store from './redux/store';
+import store, { setState } from './redux/store';
 // import { loadOverrides, loadFolders } from './redux/storage/actions';
 // import { setCurrentTab } from './redux/page/actions';
 // import { selectItem } from './redux/navigation/actions';
@@ -23,13 +23,6 @@ const bootstrapTabData = async () => {
     if (tab?.url) {
       selectInitialDomain(tab?.url);
     }
-    // if (tab?.url) {
-    //   const url = new URL(tab.url);
-    //   store.dispatch(setCurrentTab(url.hostname));
-    //   store.dispatch(
-    //     selectItem({ id: url.hostname, path: [], type: NAV_TYPES.DOMAIN }),
-    //   );
-    // }
   });
 };
 
@@ -44,10 +37,17 @@ const bootstrapDevtoolsTab = () => {
   }
 };
 
+const bootstrapStore = async () => {
+  const storeFromLocalStorage = await serializer.loadStore();
+  store.dispatch(setState(storeFromLocalStorage));
+  // We shall first load the saved store to know if current domain has rules or is a new domain
+  await bootstrapTabData();
+};
+
 export default () => {
   startMessaging();
   // bootstrapOverrides();
   // bootstrapFolders();
-  bootstrapTabData();
   bootstrapDevtoolsTab();
+  bootstrapStore();
 };
