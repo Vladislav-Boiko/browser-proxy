@@ -17,7 +17,7 @@ export const createDefaultActiveUrl = (url) => {
   } catch (e) {
     // Do nothing.
   }
-  return `${origin}*`;
+  return `${origin}/**`;
 };
 
 export const selectInitialDomain = (tabUrl) => {

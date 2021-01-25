@@ -7,5 +7,9 @@ export const getWindowsForUrl = (wildcardUrl) => (store) => {
     .reduce((acc, matchedWindows) => [...acc, ...matchedWindows], []);
 };
 
-export const getDomainIdForActiveUrl = (activeUrl) => (store) =>
-  store.nodes?.find(({ activeUrls }) => hasUrlMatch(activeUrl, activeUrls))?.id;
+export const getDomainIdForActiveUrl = (activeUrl) => (store) => {
+  return store.nodes?.find(({ activeUrls }) => {
+    console.log('Checking: ', activeUrl, activeUrls);
+    return hasUrlMatch(activeUrl, activeUrls);
+  })?.id;
+};
