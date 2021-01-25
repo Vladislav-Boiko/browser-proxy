@@ -110,7 +110,7 @@
       "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
+      "<rootDir>/src/popup/setupTests.js"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
@@ -129,7 +129,14 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "^atoms(.*)$": "<rootDir>/src/popup/components/atoms$1",
+      "^molecules(.*)$": "<rootDir>/src/popup/components/molecules$1",
+      "^organisms(.*)$": "<rootDir>/src/popup/components/organisms$1",
+      "^templates(.*)$": "<rootDir>/src/popup/components/templates$1",
+      "^store(.*)$": "<rootDir>/src/popup/redux$1",
+      "^utils(.*)$": "<rootDir>/src/popup/utils$1",
+      "^app(.*)$": "<rootDir>/src/popup$1"
     },
     "moduleFileExtensions": [
       "web.js",
