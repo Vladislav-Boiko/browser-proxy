@@ -10,8 +10,6 @@ export default () => {
   requests.startCommunication(WINDOW_UUID, DOMAIN);
   overrides.startTracking();
   window.onbeforeunload = () => {
-    pluginMessaging.emit(WINDOW_UNLOAD, {
-      [WINDOW_UUID]: [],
-    });
+    pluginMessaging.emit(WINDOW_UNLOAD, WINDOW_UUID);
   };
 };

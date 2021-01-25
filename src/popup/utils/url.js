@@ -9,7 +9,16 @@ import { getDomainIdForActiveUrl } from 'store/activeWindows/selectors';
 export const hasUrlMatch = (url, activeUrls) =>
   micromatch.isMatch(url, activeUrls);
 
-export const createDefaultActiveUrl = (url) => `${url}*`;
+export const createDefaultActiveUrl = (url) => {
+  let origin = url;
+  try {
+    const parsed = new URL(url);
+    origin = parsed.origin;
+  } catch (e) {
+    // Do nothing.
+  }
+  return `${origin}*`;
+};
 
 export const selectInitialDomain = (tabUrl) => {
   const foundDomainId = getDomainIdForActiveUrl(tabUrl)(store.getState());

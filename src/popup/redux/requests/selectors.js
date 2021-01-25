@@ -7,6 +7,14 @@ export const getRequestsForActiveUrls = (activeUrls) => (store) => {
   if (!activeUrls || activeUrls.length === 0) {
     return [];
   }
+  // console.log('Want to get requests for urls ', activeUrls);
+  // console.log(
+  //   'The windows for this urls are: ',
+  //   activeUrls
+  //     .map((url) => getWindowsForUrl(url)(store))
+  //     .reduce((acc, windowIds) => [...acc, ...windowIds], []),
+  // );
+  // console.log('the registered windows are: ', store.activeWindows);
   return flattenRequests(
     activeUrls
       .map((url) => getWindowsForUrl(url)(store))

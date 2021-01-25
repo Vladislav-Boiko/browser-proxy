@@ -1,4 +1,4 @@
-import { SET_REQUESTS } from './actions';
+import { SET_REQUESTS, UNLOAD_WINDOW } from './actions';
 
 const updateWindowRequests = (oldWindowRequests, updateRequests) => {
   // Update requests that are already present in state
@@ -40,6 +40,10 @@ export default (state = {}, action) => {
         },
         {},
       );
+    case UNLOAD_WINDOW:
+      let copy = Object.assign({}, state);
+      delete copy[action.payload];
+      return copy;
     default:
       return state;
   }

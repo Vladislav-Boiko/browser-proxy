@@ -1,4 +1,4 @@
-import { WINDOW_LOAD } from './actions';
+import { WINDOW_LOAD, WINDOW_UNLOAD } from './actions';
 
 export default (state = {}, action) => {
   const { payload } = action;
@@ -12,6 +12,19 @@ export default (state = {}, action) => {
           payload.windowId,
         ],
       };
+    case WINDOW_UNLOAD:
+      return Object.keys(state)
+        .map((key) => ({
+          domain: key,
+          ids: state[key].filter((id) => id !== action.payload),
+        }))
+        .reduce(
+          (acc, { domain, ids }) => ({
+            ...acc,
+            [domain]: [...ids],
+          }),
+          {},
+        );
     default:
       return state;
   }
