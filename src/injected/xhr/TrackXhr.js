@@ -15,16 +15,19 @@ export const trackXhr = (requestPayload, xhr) => {
   });
 
   xhr.addEventListener('readystatechange', () => {
-    messaging.emit(EVENTS.XHR_STATE_CHANGED, {
-      id,
-      readyState: xhr.readyState,
-      status: xhr.status,
-      response: xhr.response,
-      responseType: xhr.responseType,
-    });
+    if (xhr.readyState !== 0 && xhr.status !== 0) {
+      messaging.emit(EVENTS.XHR_STATE_CHANGED, {
+        id,
+        readyState: xhr.readyState,
+        status: xhr.status,
+        response: xhr.response,
+        responseType: xhr.responseType,
+      });
+    }
   });
 
   xhr.addEventListener('loadend', () => {
+    console.log(xhr.status, xhr.readyState);
     messaging.emit(EVENTS.XHR_LOADED, {
       id,
       isLoaded: true,
@@ -33,6 +36,7 @@ export const trackXhr = (requestPayload, xhr) => {
   });
 
   xhr.addEventListener('progress', ({ loaded, total }) => {
+    console.log(xhr.status, xhr.readyState);
     messaging.emit(EVENTS.XHR_PROGRESS, {
       id,
       progress: { loaded, total },
