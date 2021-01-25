@@ -1,7 +1,7 @@
-import messaging from "../../common/communication/injected/ProxyMessaging";
-import { v4 as uuid } from "uuid";
-import EVENTS from "../../common/communication/injected/events";
-import { DOMAIN } from "../../content/constants";
+import messaging from '../../common/communication/injected/ProxyMessaging';
+import { v4 as uuid } from 'uuid';
+import EVENTS from '../../common/communication/injected/events';
+import { DOMAIN } from '../../content/constants';
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();
@@ -14,27 +14,29 @@ export const trackXhr = (requestPayload, xhr) => {
     domain: DOMAIN,
   });
 
-  xhr.addEventListener("readystatechange", () => {
+  xhr.addEventListener('readystatechange', () => {
     messaging.emit(EVENTS.XHR_STATE_CHANGED, {
       id,
       readyState: xhr.readyState,
+      status: xhr.status,
       response: xhr.response,
       responseType: xhr.responseType,
     });
   });
 
-  xhr.addEventListener("loadend", () => {
+  xhr.addEventListener('loadend', () => {
     messaging.emit(EVENTS.XHR_LOADED, {
       id,
-      isLoaeded: true,
+      isLoaded: true,
       status: xhr.status,
     });
   });
 
-  xhr.addEventListener("progress", ({ loaded, total }) => {
+  xhr.addEventListener('progress', ({ loaded, total }) => {
     messaging.emit(EVENTS.XHR_PROGRESS, {
       id,
       progress: { loaded, total },
+      status: xhr.status,
     });
   });
 };

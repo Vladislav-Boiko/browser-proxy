@@ -28,12 +28,14 @@ const LOADING_STATES = {
 
 const RequestCard = ({
   url,
-  code,
+  status,
   method,
   responseType,
   readyState,
   className,
 }) => {
+  // TODO: loading state based on status?
+  const code = status;
   let loadingState = LOADING_STATES.LOADING;
   // TODO: what about fetch requests?
   if (readyState === 4 || code) {

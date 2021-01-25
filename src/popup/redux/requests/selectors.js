@@ -10,15 +10,11 @@ export const getRequestsForActiveUrls = (activeUrls) => (store) => {
   return flattenRequests(
     activeUrls
       .map((url) => getWindowsForUrl(url)(store))
-      .reduce((acc, windowIds) => [...acc, windowIds], [])
+      .reduce((acc, windowIds) => [...acc, ...windowIds], [])
       .map((windowId) => store.requests[windowId] || []),
   );
 };
 
-const flattenRequests = (requestsSelection) =>
-  requestsSelection
-    .reduce((acc, items) => [...acc, ...items], [])
-    .map((request) => ({
-      ...request,
-      code: request.status,
-    }));
+const flattenRequests = (requestsSelection) => {
+  return requestsSelection.reduce((acc, items) => [...acc, ...items], []);
+};

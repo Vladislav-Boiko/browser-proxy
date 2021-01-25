@@ -1,4 +1,4 @@
-import micromatch from 'micromatch';
+import * as micromatch from 'micromatch';
 import { addDomain } from 'store/nodes/actions';
 import { selectNode } from 'store/selected/actions';
 import store from 'store/store';
