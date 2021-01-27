@@ -21,7 +21,6 @@ const bootstrapTabData = async () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
     if (tab?.url) {
-      console.log(tab);
       selectInitialDomain(tab?.url);
     }
   });

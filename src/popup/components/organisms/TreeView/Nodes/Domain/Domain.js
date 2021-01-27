@@ -21,7 +21,7 @@ const Domain = ({ name, nodes, ...otherProps }) => {
           }
         }}
       >
-        {nodes ? (
+        {nodes && nodes.length ? (
           <Icons.Chevron
             className={cn('icon_sm domain__chevron', {
               domain__chevron_collapsed: isCollapsed,

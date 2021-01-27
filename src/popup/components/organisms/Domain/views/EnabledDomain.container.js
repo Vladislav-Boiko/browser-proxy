@@ -16,12 +16,13 @@ const Domain = (props) => {
     getRequestsForActiveUrls(props.activeUrls),
     shallowEqual,
   );
-  const addOverride = () => {
+  const addOverride = (overrideProps = {}) => {
     const id = uuid();
     dispatch(
       addOverrideAction({
         parentId: props.id,
         override: {
+          ...overrideProps,
           id,
         },
       }),

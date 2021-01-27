@@ -33,6 +33,8 @@ const RequestCard = ({
   responseType,
   readyState,
   className,
+  onClick,
+  ...otherProps
 }) => {
   // TODO: loading state based on status?
   const code = status;
@@ -46,7 +48,21 @@ const RequestCard = ({
     }
   }
   return (
-    <button className={cn('request-card wmax', className)}>
+    <button
+      className={cn('request-card wmax', className)}
+      onClick={() => {
+        onClick &&
+          onClick({
+            name: stripURL(url),
+            url,
+            status,
+            method,
+            responseType,
+            readyState,
+            ...otherProps,
+          });
+      }}
+    >
       <h3 className="request-card__url">{stripURL(url)}</h3>
       {loadingState === LOADING_STATES.LOADED && (
         <Pill text={code} className="request-card__pill" />

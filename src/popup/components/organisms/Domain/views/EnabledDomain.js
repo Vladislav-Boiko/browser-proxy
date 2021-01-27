@@ -46,7 +46,7 @@ const Domain = ({ className, addOverride, addFolder, ...props }) => {
       </div>
       {selectedMenuItem === DOMAIN_MENU_OPTIONS.REQUESTS && (
         <div className="ffr mt3 mx4">
-          <DomainRequests {...props} />
+          <DomainRequests {...props} addOverride={addOverride} />
         </div>
       )}
       {selectedMenuItem === DOMAIN_MENU_OPTIONS.SETTINGS && (

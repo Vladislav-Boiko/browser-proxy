@@ -27,7 +27,6 @@ export const trackXhr = (requestPayload, xhr) => {
   });
 
   xhr.addEventListener('loadend', () => {
-    console.log(xhr.status, xhr.readyState);
     messaging.emit(EVENTS.XHR_LOADED, {
       id,
       isLoaded: true,
@@ -36,7 +35,6 @@ export const trackXhr = (requestPayload, xhr) => {
   });
 
   xhr.addEventListener('progress', ({ loaded, total }) => {
-    console.log(xhr.status, xhr.readyState);
     messaging.emit(EVENTS.XHR_PROGRESS, {
       id,
       progress: { loaded, total },

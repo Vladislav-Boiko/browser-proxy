@@ -20,7 +20,7 @@ const Folder = ({ name, nodes, ...otherProps }) => {
           }
         }}
       >
-        {nodes ? (
+        {nodes && nodes.length ? (
           <Icons.Chevron
             className={cn('icon_sm folder__chevron', {
               folder__chevron_collapsed: isCollapsed,

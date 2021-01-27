@@ -26,11 +26,12 @@ const filterRequests = (searchValue, requests) => {
   });
 };
 
-const RequestsList = ({ requests, className }) => {
+const RequestsList = ({ requests, className, onSelect }) => {
   const [searchValue, setSearchValue] = useState('');
   return (
     <div className={cn('wmax', className)}>
       <h3 className="mb2">Requests</h3>
+      <p>Select a request to override</p>
       <div className="ffr">
         <Input
           label="Search"
@@ -49,7 +50,12 @@ const RequestsList = ({ requests, className }) => {
           filterRequests(searchValue, requests)
             .map((request, id) => ({ ...request, id }))
             .map((request) => (
-              <RequestCard {...request} className="mb2" key={request.id} />
+              <RequestCard
+                {...request}
+                className="mb2"
+                key={request.id}
+                onClick={onSelect}
+              />
             ))}
       </div>
     </div>
