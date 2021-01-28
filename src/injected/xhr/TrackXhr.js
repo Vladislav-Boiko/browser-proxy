@@ -2,7 +2,6 @@ import messaging from '../../common/communication/injected/ProxyMessaging';
 import { v4 as uuid } from 'uuid';
 import EVENTS from '../../common/communication/injected/events';
 import { DOMAIN } from '../../content/constants';
-import { parseXhrHeaders } from './utils';
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();
