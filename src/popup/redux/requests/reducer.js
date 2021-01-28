@@ -1,21 +1,5 @@
 import { SET_REQUESTS, UNLOAD_WINDOW } from './actions';
-
-const updateWindowRequests = (oldWindowRequests, updateRequests) => {
-  // Update requests that are already present in state
-  const updated = oldWindowRequests.map((request) => {
-    const anUpdate = updateRequests.find(({ id }) => id === request.id);
-    if (anUpdate) {
-      return { ...request, ...anUpdate };
-    }
-    return request;
-  });
-  // Add requests that are not yet present in state
-  const newRequests = updateRequests.filter(
-    ({ id }) =>
-      !oldWindowRequests.find((existingRequest) => existingRequest.id === id),
-  );
-  return [...updated, ...newRequests];
-};
+import { updateWindowRequests } from './mappers/request';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -29,7 +13,10 @@ export default (state = {}, action) => {
         }));
       const newWindows = Object.keys(payload)
         .filter((windowId) => !(windowId in state))
-        .map((windowId) => ({ windowId, requests: payload[windowId] }));
+        .map((windowId) => ({
+          windowId,
+          requests: updateWindowRequests([], payload[windowId]),
+        }));
       const unchanged = Object.keys(state)
         .filter((windowId) => !(windowId in payload))
         .map((windowId) => ({ windowId, requests: state[windowId] }));

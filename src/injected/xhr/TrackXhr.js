@@ -10,7 +10,7 @@ export const trackXhr = (requestPayload, xhr) => {
   messaging.emit(EVENTS.XHR_SENT, {
     ...requestPayload,
     id,
-    timestamp,
+    sentTimestamp: timestamp,
     domain: DOMAIN,
   });
 
@@ -22,6 +22,7 @@ export const trackXhr = (requestPayload, xhr) => {
         status: xhr.status,
         response: xhr.response,
         responseType: xhr.responseType,
+        chunkTimestamp: Date.now(),
       });
     }
   });
@@ -31,6 +32,7 @@ export const trackXhr = (requestPayload, xhr) => {
       id,
       isLoaded: true,
       status: xhr.status,
+      loadendTimestamp: Date.now(),
     });
   });
 
@@ -39,6 +41,7 @@ export const trackXhr = (requestPayload, xhr) => {
       id,
       progress: { loaded, total },
       status: xhr.status,
+      chunkTimestamp: Date.now(),
     });
   });
 };

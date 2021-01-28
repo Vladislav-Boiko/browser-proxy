@@ -63,6 +63,7 @@ const Body = ({
   blobType,
   hideCode,
 }) => {
+  code = '' + code;
   const [bodyType, setBodyType] = useState(type || 'JSON');
   const [codeChanged, setResponseCode] = useState(code || 200);
   useEffect(() => {

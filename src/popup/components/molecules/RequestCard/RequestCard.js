@@ -28,7 +28,7 @@ const LOADING_STATES = {
 
 const RequestCard = ({
   url,
-  status,
+  code,
   method,
   responseType,
   readyState,
@@ -36,8 +36,6 @@ const RequestCard = ({
   onClick,
   ...otherProps
 }) => {
-  // TODO: loading state based on status?
-  const code = status;
   let loadingState = LOADING_STATES.LOADING;
   // TODO: what about fetch requests?
   if (readyState === 4 || code) {
@@ -55,7 +53,7 @@ const RequestCard = ({
           onClick({
             name: stripURL(url),
             url,
-            status,
+            code,
             method,
             responseType,
             readyState,

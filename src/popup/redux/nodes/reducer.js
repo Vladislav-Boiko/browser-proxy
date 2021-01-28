@@ -90,16 +90,10 @@ export default (state = [], action) => {
   if (updated) {
     const toSave = updated
       .filter(({ isFirstOpen }) => isFirstOpen !== true)
-      .map((entry) => {
-        console.log(
-          entry,
-          entry.nodes?.filter((isUnsaved) => !!isUnsaved),
-        );
-        return {
-          ...entry,
-          nodes: entry.nodes?.filter((isUnsaved) => !!isUnsaved) || [],
-        };
-      });
+      .map((entry) => ({
+        ...entry,
+        nodes: entry.nodes?.filter((isUnsaved) => !!isUnsaved) || [],
+      }));
     serializer.saveStore({ nodes: toSave });
     return updated;
   }
