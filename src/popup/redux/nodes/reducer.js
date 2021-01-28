@@ -8,8 +8,9 @@ import {
   REMOVE_OVERRIDE,
   REMOVE_DOMAIN,
 } from './actions';
-import { findPath } from './selectors';
+import { findPath, getItemsToSerialize } from './selectors';
 import { evolve, where, alter } from 'immutableql';
+import { TYPES } from 'organisms/TreeView/Nodes/index';
 import serializer from '../../../common/storage/Serializer';
 
 const updateDeep = (state, path, payload) => {
@@ -25,6 +26,7 @@ const updateDeep = (state, path, payload) => {
   return evolve(state, update);
 };
 
+// Returns null if the state shall not be serialized, and state if does.
 const serializedReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_DOMAIN:
@@ -61,7 +63,7 @@ const serializedReducer = (state = [], action) => {
       const newFolder = Object.assign(
         {
           name: 'New Folder',
-          type: 'FOLDER',
+          type: TYPES.FOLDER,
           isOn: true,
         },
         action.payload.folder,
@@ -88,13 +90,8 @@ const serializedReducer = (state = [], action) => {
 export default (state = [], action) => {
   const updated = serializedReducer(state, action);
   if (updated) {
-    const toSave = updated
-      .filter(({ isFirstOpen }) => isFirstOpen !== true)
-      .map((entry) => ({
-        ...entry,
-        nodes: entry.nodes?.filter((isUnsaved) => !!isUnsaved) || [],
-      }));
-    serializer.saveStore({ nodes: toSave });
+    const nodes = getItemsToSerialize({ nodes: state });
+    serializer.saveStore(nodes);
     return updated;
   }
   return state;
