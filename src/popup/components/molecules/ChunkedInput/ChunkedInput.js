@@ -117,7 +117,7 @@ const ChunkedInput = ({
                 ''
               )}
               <Button
-                className="add-chunk"
+                className="add-chunk animate_add"
                 Icon={Icons.Add}
                 tretiary
                 onClick={() => {

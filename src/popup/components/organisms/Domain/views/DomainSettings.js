@@ -56,7 +56,7 @@ const DomainSettings = ({
       <Button
         tretiary
         Icon={Icons.Add}
-        className="mt2"
+        className="mt2 animate_add"
         onClick={() =>
           updateNode &&
           updateNode({ id, activeUrls: [...(activeUrls || []), 'https://'] })
