@@ -2,6 +2,7 @@ import messaging from '../../common/communication/injected/ProxyMessaging';
 import { v4 as uuid } from 'uuid';
 import EVENTS from '../../common/communication/injected/events';
 import { DOMAIN } from '../../content/constants';
+import { parseXhrHeaders } from './utils';
 
 export const trackXhr = (requestPayload, xhr) => {
   const id = uuid();
@@ -16,14 +17,19 @@ export const trackXhr = (requestPayload, xhr) => {
 
   xhr.addEventListener('readystatechange', () => {
     if (xhr.readyState !== 0 && xhr.status !== 0) {
-      messaging.emit(EVENTS.XHR_STATE_CHANGED, {
+      let update = {
         id,
         readyState: xhr.readyState,
         status: xhr.status,
         response: xhr.response,
         responseType: xhr.responseType,
         chunkTimestamp: Date.now(),
-      });
+      };
+      // HEADERS_RECEIVED
+      if (xhr.readyState >= 2) {
+        update.responseHeaders = xhr.getAllResponseHeaders();
+      }
+      messaging.emit(EVENTS.XHR_STATE_CHANGED, update);
     }
   });
 

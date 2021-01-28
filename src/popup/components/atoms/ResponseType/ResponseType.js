@@ -5,10 +5,10 @@ import './ResponseType.css';
 
 export const TYPES = {
   JSON: 'JSON',
-  ARRAY_BUFFER: 'ArrayBuffer',
+  ARRAY_BUFFER: 'ARRAYBUFFER',
   BLOB: 'BLOB',
   TEXT: 'TEXT',
-  DOCUMENT: 'Document',
+  DOCUMENT: 'DOCUMENT',
 };
 
 const ResponseType = ({ type, className }) => {

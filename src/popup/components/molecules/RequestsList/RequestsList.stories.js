@@ -1,3 +1,4 @@
+import { TYPES } from 'atoms/ResponseType/ResponseType';
 import React from 'react';
 
 import RequestsList from './RequestsList';
@@ -15,43 +16,43 @@ const requests = [
     method: 'GET',
     url: 'http://yandex.ru',
     code: '200',
-    responseType: 'JSON',
+    responseType: TYPES.JSON,
   },
   {
     method: 'POST',
     url: 'http://google.com',
     code: '200',
-    responseType: 'BLOB',
+    responseType: TYPES.BLOB,
   },
   {
     method: 'PUT',
     url: 'http://amazon.com',
     code: '200',
-    responseType: 'ArrayBuffer',
+    responseType: TYPES.ARRAY_BUFFER,
   },
   {
     method: 'DELETE',
     url: 'http://netflix.com',
     code: '200',
-    responseType: 'TEXT',
+    responseType: TYPES.TEXT,
   },
   {
     method: 'OPTIONS',
     url: 'http://ibm.com',
     code: '200',
-    responseType: 'JSON',
+    responseType: TYPES.JSON,
   },
   {
     method: 'HEAD',
     url: 'http://apple.com',
     code: '200',
-    responseType: 'ArrayBuffer',
+    responseType: TYPES.ARRAY_BUFFER,
   },
   {
     method: 'HEAD',
     url: 'http://apple.com/something/verey/very/long/user?abc=def',
     code: '200',
-    responseType: 'ArrayBuffer',
+    responseType: TYPES.ARRAY_BUFFER,
   },
 ];
 Story.args = {

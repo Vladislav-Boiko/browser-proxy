@@ -48,6 +48,7 @@ const serializedReducer = (state = [], action) => {
           name: 'New Override',
           type: 'GET',
           isOn: true,
+          isUnsaved: true,
           responseType: 'JSON',
           responseCode: '200',
           responseBody: [{ value: undefined, delay: '200ms' }],
@@ -90,7 +91,8 @@ const serializedReducer = (state = [], action) => {
 export default (state = [], action) => {
   const updated = serializedReducer(state, action);
   if (updated) {
-    const nodes = getItemsToSerialize({ nodes: state });
+    const nodes = getItemsToSerialize({ nodes: updated });
+    console.log({ updated, action, serializing: nodes });
     serializer.saveStore(nodes);
     return updated;
   }

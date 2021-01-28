@@ -95,6 +95,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
               onClick={() => {
                 let updateEntry = Object.assign({}, response, request, {
                   name: otherProps.name,
+                  isUnsaved: false,
                 });
                 if (
                   updateEntry.responseType !== 'BLOB' &&

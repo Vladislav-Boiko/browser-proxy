@@ -1,3 +1,4 @@
+import { TYPES } from 'atoms/ResponseType/ResponseType';
 import React from 'react';
 import RequestCard from './RequestCard';
 
@@ -13,7 +14,7 @@ const Template = (args) => (
       {...args}
       code={200}
       method="POST"
-      responseType="JSON"
+      responseType={TYPES.JSON}
       url="feature_preview/indicator_check"
     />
     <RequestCard
@@ -21,7 +22,7 @@ const Template = (args) => (
       {...args}
       code={500}
       method="GET"
-      responseType="ArrayBuffer"
+      responseType={TYPES.ARRAY_BUFFER}
       url="user"
     />
     <RequestCard
@@ -29,7 +30,7 @@ const Template = (args) => (
       {...args}
       code={404}
       method="DELETE"
-      responseType="BLOB"
+      responseType={TYPES.BLOB}
       url="profile"
     />
   </React.Fragment>

@@ -1,3 +1,4 @@
+import { TYPES } from 'atoms/ResponseType/ResponseType';
 import { updateWindowRequests } from './request';
 
 describe('updateWindowRequests', () => {
@@ -101,5 +102,24 @@ describe('updateWindowRequests', () => {
       [{ id: 'A', status: 201 }],
     );
     expect(result[0].responseCode).toBe(201);
+  });
+
+  it('maps the response type correctly', () => {
+    let result = updateWindowRequests([], [{ id: 'A', responseType: '' }]);
+    expect(result[0].responseType).toBe(TYPES.TEXT);
+
+    result = updateWindowRequests(result, [{ id: 'A', responseType: 'text' }]);
+    expect(result[0].responseType).toBe(TYPES.TEXT);
+
+    result = updateWindowRequests(result, [{ id: 'A', responseType: 'json' }]);
+    expect(result[0].responseType).toBe(TYPES.JSON);
+
+    result = updateWindowRequests(result, [
+      { id: 'A', responseType: 'ArrayBuffer' },
+    ]);
+    expect(result[0].responseType).toBe(TYPES.ARRAY_BUFFER);
+
+    result = updateWindowRequests(result, [{ id: 'A', responseType: 'blob' }]);
+    expect(result[0].responseType).toBe(TYPES.BLOB);
   });
 });

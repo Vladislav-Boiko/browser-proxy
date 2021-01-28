@@ -28,7 +28,7 @@ const LOADING_STATES = {
 
 const RequestCard = ({
   url,
-  code,
+  responseCode,
   method,
   responseType,
   readyState,
@@ -38,8 +38,8 @@ const RequestCard = ({
 }) => {
   let loadingState = LOADING_STATES.LOADING;
   // TODO: what about fetch requests?
-  if (readyState === 4 || code) {
-    if (code === 0) {
+  if (readyState === 4 || responseCode) {
+    if (responseCode === 0 || responseCode === '0') {
       loadingState = LOADING_STATES.FAIL;
     } else {
       loadingState = LOADING_STATES.LOADED;
@@ -53,7 +53,7 @@ const RequestCard = ({
           onClick({
             name: stripURL(url),
             url,
-            code,
+            responseCode,
             method,
             responseType,
             readyState,
@@ -63,7 +63,7 @@ const RequestCard = ({
     >
       <h3 className="request-card__url">{stripURL(url)}</h3>
       {loadingState === LOADING_STATES.LOADED && (
-        <Pill text={code} className="request-card__pill" />
+        <Pill text={responseCode} className="request-card__pill" />
       )}
       {loadingState === LOADING_STATES.FAIL && (
         <Pill text={'FAILED'} className="request-card__pill pill_error" />

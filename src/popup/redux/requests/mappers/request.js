@@ -1,3 +1,5 @@
+import { TYPES } from 'atoms/ResponseType/ResponseType';
+
 export const updateWindowRequests = (oldWindowRequests, updateRequests) => {
   // Update requests that are already present in state
   const updated = oldWindowRequests.map((request) => {
@@ -27,6 +29,12 @@ const mapRequestFields = (request) => {
   if (request.type !== undefined) {
     mapped.method = request.type;
     delete mapped.type;
+  }
+  if (request.responseType !== undefined) {
+    mapped.responseType = request.responseType.toUpperCase() || TYPES.TEXT;
+  }
+  if (request.responseHeaders) {
+    mapped.responseHeaders = parseXhrHeaders(request.responseHeaders);
   }
   return mapped;
 };
@@ -77,4 +85,18 @@ const addRequest = (old, update) => {
     ...update,
     responseBody,
   };
+};
+
+// See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders
+export const parseXhrHeaders = (headersString = '') => {
+  console.log('Want to parse headers: ', headersString);
+  const regExp = new RegExp('[\r\n]+');
+  const splitted = headersString.trim().split(regExp);
+  console.log('splitted:', regExp);
+  return splitted.map((line) => {
+    const parts = line.split(': ');
+    const name = parts.shift();
+    const value = parts.join(': ');
+    return { name, value };
+  });
 };
