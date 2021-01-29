@@ -16,6 +16,8 @@ const ChunkedInput = ({
   className,
   onChange,
   label,
+  noChunks,
+  noDelay,
   ...otherProps
 }) => {
   const passedLabel = label || '';
@@ -69,35 +71,37 @@ const ChunkedInput = ({
             }}
           />
           <div className="chunk-footer ffr my2">
-            <DelayInput
-              label="Delay"
-              value={chunkValue.delay}
-              onChange={(delay) => {
-                const updatedBody = evolve(chunksValue, {
-                  [index]: Object.assign({}, chunkValue, { delay }),
-                });
-                updateBodyValue(updatedBody);
-              }}
-              isUnsaved={
-                !(
-                  initialBody &&
-                  initialBody[index] &&
-                  initialBody[index].delay === chunkValue.delay
-                )
-              }
-              reset={() => {
-                const updatedBody = evolve(chunksValue, {
-                  [index]: Object.assign({}, chunkValue, {
-                    delay:
-                      (initialBody &&
-                        initialBody[index] &&
-                        initialBody[index].delay) ||
-                      DEFAULT_CHUNK.delay,
-                  }),
-                });
-                updateBodyValue(updatedBody);
-              }}
-            />
+            {!noDelay && (
+              <DelayInput
+                label="Delay"
+                value={chunkValue.delay}
+                onChange={(delay) => {
+                  const updatedBody = evolve(chunksValue, {
+                    [index]: Object.assign({}, chunkValue, { delay }),
+                  });
+                  updateBodyValue(updatedBody);
+                }}
+                isUnsaved={
+                  !(
+                    initialBody &&
+                    initialBody[index] &&
+                    initialBody[index].delay === chunkValue.delay
+                  )
+                }
+                reset={() => {
+                  const updatedBody = evolve(chunksValue, {
+                    [index]: Object.assign({}, chunkValue, {
+                      delay:
+                        (initialBody &&
+                          initialBody[index] &&
+                          initialBody[index].delay) ||
+                        DEFAULT_CHUNK.delay,
+                    }),
+                  });
+                  updateBodyValue(updatedBody);
+                }}
+              />
+            )}
             <div className="chunk-footer__actions ffr">
               {index > 0 ? (
                 <Button
@@ -116,16 +120,18 @@ const ChunkedInput = ({
               ) : (
                 ''
               )}
-              <Button
-                className="add-chunk animate_add"
-                Icon={Icons.Add}
-                tretiary
-                onClick={() => {
-                  updateBodyValue([...chunksValue, DEFAULT_CHUNK]);
-                }}
-              >
-                Add chunk
-              </Button>
+              {!noChunks && (
+                <Button
+                  className="add-chunk animate_add"
+                  Icon={Icons.Add}
+                  tretiary
+                  onClick={() => {
+                    updateBodyValue([...chunksValue, DEFAULT_CHUNK]);
+                  }}
+                >
+                  Add chunk
+                </Button>
+              )}
             </div>
           </div>
         </React.Fragment>

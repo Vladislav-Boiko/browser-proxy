@@ -25,6 +25,7 @@ const mapRequestFields = ({
   type,
   responseType,
   responseHeaders,
+  requestBody,
   ...otherData
 }) => {
   const mapped = Object.assign({}, otherData);
@@ -42,6 +43,9 @@ const mapRequestFields = ({
   }
   if (responseHeaders) {
     mapped.responseHeaders = parseXhrHeaders(responseHeaders);
+  }
+  if (requestBody) {
+    mapped.requestBody = [{ value: requestBody, delay: 0 }];
   }
   return mapped;
 };

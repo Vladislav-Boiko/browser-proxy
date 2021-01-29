@@ -62,6 +62,8 @@ const Body = ({
   onChange,
   blobType,
   hideCode,
+  noChunks,
+  noDelay,
 }) => {
   code = '' + code;
   const [bodyType, setBodyType] = useState(type || 'JSON');
@@ -105,6 +107,8 @@ const Body = ({
         type={bodyType}
         initialBody={initialBody}
         body={body}
+        noChunks={noChunks}
+        noDelay={noDelay}
         className="mt3"
         onChange={(newResponseBody) => {
           if (bodyType === 'BLOB') {

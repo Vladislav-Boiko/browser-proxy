@@ -47,6 +47,8 @@ const Request = (props) => {
           initialBody={props.initialBody}
           type={props.requestBodyType}
           blobType={props.requestBlobType}
+          noChunks={true}
+          noDelay={true}
           onChange={(change) => {
             change = renameKeys(change, [
               { from: 'type', to: 'requestBodyType' },

@@ -31,10 +31,17 @@
   transform: rotate(-90deg);
 }
 
-.treeView__row.domain_current {
-  border-left: 4px solid var(--c3);
+.treeView__row.domain_current::before {
+  content: '';
+  position: absolute;
+  width: calc(var(--em) * 0.5);
+  height: 100%;
+  background-color: var(--c3);
+  left: 0;
+  transition: all 0.3s;
+  border-radius: calc(var(--em) * 0.5);
 }
 
-.treeView__row.domain_current.treeView__row_selected {
-  border-left: 4px solid var(--c2);
+.treeView__row.domain_current.treeView__row_selected::before {
+  background-color: var(--c2);
 }
