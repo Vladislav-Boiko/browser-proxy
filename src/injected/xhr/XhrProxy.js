@@ -24,16 +24,16 @@ class XhrProxy {
     return new Proxy(realSend, {
       apply(target, thisArg, argumentsList) {
         const body = argumentsList[0];
-        const xhrData = { ...self.openArguments, body };
+        const xhrData = { ...self.openArguments, requestBody: body };
         trackXhr(xhrData, xhrMock);
         const override = overridesStorage.findOverride(xhrData);
-        if (override) {
-          self.override = { mock: override, readyState: xhrMock.readyState };
-          const overrider = new Overrider(self, xhrMock, override);
-          overrider.doOverride(body, xhrMock.readyState);
-        } else {
-          Reflect.apply(target, thisArg, argumentsList);
-        }
+        // if (override) {
+        //   self.override = { mock: override, readyState: xhrMock.readyState };
+        //   const overrider = new Overrider(self, xhrMock, override);
+        //   overrider.doOverride(body, xhrMock.readyState);
+        // } else {
+        Reflect.apply(target, thisArg, argumentsList);
+        // }
       },
     });
   }

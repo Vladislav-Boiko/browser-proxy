@@ -20,21 +20,28 @@ export const updateWindowRequests = (oldWindowRequests, updateRequests) => {
   return [...updated, ...newRequests];
 };
 
-const mapRequestFields = (request) => {
-  const mapped = Object.assign({}, request);
-  if (request.status !== undefined) {
-    mapped.responseCode = request.status;
-    delete mapped.status;
+const mapRequestFields = ({
+  status,
+  type,
+  responseType,
+  responseHeaders,
+  ...otherData
+}) => {
+  const mapped = Object.assign({}, otherData);
+  if (status !== undefined) {
+    mapped.responseCode = status;
   }
-  if (request.type !== undefined) {
-    mapped.method = request.type;
+  if (type !== undefined) {
+    mapped.method = type;
     delete mapped.type;
   }
-  if (request.responseType !== undefined) {
-    mapped.responseType = request.responseType.toUpperCase() || TYPES.TEXT;
+  if (responseType && typeof responseType === 'string') {
+    mapped.responseType = responseType.toUpperCase() || TYPES.TEXT;
+  } else {
+    mapped.responseType = TYPES.TEXT;
   }
-  if (request.responseHeaders) {
-    mapped.responseHeaders = parseXhrHeaders(request.responseHeaders);
+  if (responseHeaders) {
+    mapped.responseHeaders = parseXhrHeaders(responseHeaders);
   }
   return mapped;
 };
@@ -89,14 +96,12 @@ const addRequest = (old, update) => {
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders
 export const parseXhrHeaders = (headersString = '') => {
-  console.log('Want to parse headers: ', headersString);
   const regExp = new RegExp('[\r\n]+');
   const splitted = headersString.trim().split(regExp);
-  console.log('splitted:', regExp);
   return splitted.map((line) => {
     const parts = line.split(': ');
-    const name = parts.shift();
-    const value = parts.join(': ');
+    const name = parts.shift().trim();
+    const value = parts.join(': ').trim();
     return { name, value };
   });
 };

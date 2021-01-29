@@ -8,6 +8,7 @@ import {
   removeDomain as removeDomainAction,
 } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
+import { getCurrentDomain } from 'store/selected/selectors';
 import { getRequestsForActiveUrls } from 'store/requests/selectors';
 
 const Domain = (props) => {
@@ -16,6 +17,7 @@ const Domain = (props) => {
     getRequestsForActiveUrls(props.activeUrls),
     shallowEqual,
   );
+  const currentDomain = useSelector(getCurrentDomain, shallowEqual);
   const addOverride = (overrideProps = {}) => {
     const id = uuid();
     dispatch(
@@ -51,6 +53,7 @@ const Domain = (props) => {
       addOverride={addOverride}
       addFolder={addFolder}
       removeDomain={removeDomain}
+      isCurrent={currentDomain === props.id}
     />
   );
 };

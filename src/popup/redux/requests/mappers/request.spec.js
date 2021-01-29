@@ -122,4 +122,19 @@ describe('updateWindowRequests', () => {
     result = updateWindowRequests(result, [{ id: 'A', responseType: 'blob' }]);
     expect(result[0].responseType).toBe(TYPES.BLOB);
   });
+
+  it('maps the response headers correctly', () => {
+    const headers = `header: value
+      header name: value2
+      header name: value 3`;
+    const result = updateWindowRequests(
+      [],
+      [{ id: 'A', responseHeaders: headers }],
+    );
+    expect(result[0].responseHeaders).toStrictEqual([
+      { name: 'header', value: 'value' },
+      { name: 'header name', value: 'value2' },
+      { name: 'header name', value: 'value 3' },
+    ]);
+  });
 });

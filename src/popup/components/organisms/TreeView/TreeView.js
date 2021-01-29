@@ -9,6 +9,7 @@ import Node, {
   XHR_TYPES as XHR_TREE_TYPES,
 } from './Nodes/index';
 import './TreeView.css';
+import { bringCurrentDomainToTop } from './utils';
 
 // TODO: better solution for width auto.
 const WIDTH = {
@@ -16,7 +17,13 @@ const WIDTH = {
   open: 272,
 };
 
-const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
+const TreeView = ({
+  nodes,
+  onChange,
+  addDomain,
+  selectedId,
+  currentDomain,
+}) => {
   const [isMinified, setMinified] = useState(false);
   const [selected, select] = useState();
   nodes = isMinified
@@ -25,6 +32,7 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
         name: node.name ? node.name[0] : node.name,
       }))
     : nodes;
+  nodes = bringCurrentDomainToTop(nodes, currentDomain);
   useEffect(() => {
     select(selectedId);
   }, [selectedId]);
@@ -87,6 +95,7 @@ const TreeView = ({ nodes, onChange, addDomain, selectedId }) => {
             selectedId={selected}
             select={doSelect}
             key={node.id}
+            currentDomain={currentDomain}
           />
         ))}
         <Button

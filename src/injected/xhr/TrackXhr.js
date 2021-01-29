@@ -49,4 +49,14 @@ export const trackXhr = (requestPayload, xhr) => {
       chunkTimestamp: Date.now(),
     });
   });
+
+  // xhr.upload &&
+  //   xhr.upload.onprogress('progress', ({ loaded, total }) => {
+  //     messaging.emit(EVENTS.XHR_UPLOAD_PROGRESS, {
+  //       id,
+  //       progress: { loaded, total },
+  //       status: xhr.status,
+  //       uploadChunkTimestamp: Date.now(),
+  //     });
+  //   });
 };

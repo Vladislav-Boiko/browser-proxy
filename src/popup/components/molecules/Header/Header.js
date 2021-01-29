@@ -13,6 +13,9 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
     setSelectedId(name);
     onChange && onChange(name);
   };
+  useEffect(() => {
+    setSelectedId(initiallySelected);
+  }, [initiallySelected]);
   return (
     <nav className="navigation">
       <div className="navigation__actions wmax px4">

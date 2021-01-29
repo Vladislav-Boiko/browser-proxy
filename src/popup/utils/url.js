@@ -1,6 +1,6 @@
 import * as micromatch from 'micromatch';
 import { addDomain } from 'store/nodes/actions';
-import { selectNode } from 'store/selected/actions';
+import { selectNode, selectCurrentDomain } from 'store/selected/actions';
 import store from 'store/store';
 import { v4 as uuid } from 'uuid';
 import { TYPES } from 'organisms/TreeView/TreeView.container';
@@ -24,6 +24,7 @@ export const selectInitialDomain = (tabUrl) => {
   const foundDomainId = getDomainIdForActiveUrl(tabUrl)(store.getState());
   if (foundDomainId) {
     store.dispatch(selectNode(foundDomainId));
+    store.dispatch(selectCurrentDomain(foundDomainId));
   } else {
     const domainName = new URL(tabUrl)?.hostname || tabUrl;
     const id = uuid();
@@ -40,5 +41,6 @@ export const selectInitialDomain = (tabUrl) => {
       }),
     );
     store.dispatch(selectNode(id));
+    store.dispatch(selectCurrentDomain(id));
   }
 };

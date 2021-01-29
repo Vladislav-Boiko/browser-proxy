@@ -121,7 +121,12 @@ const nodes = [
   },
 ];
 
-const store = createStore(rootReducer, { nodes });
+const store = createStore(rootReducer, {
+  nodes,
+  selected: {
+    currentDomain: '1',
+  },
+});
 const Template = (args) => (
   <Provider store={store}>
     <Router {...args} />

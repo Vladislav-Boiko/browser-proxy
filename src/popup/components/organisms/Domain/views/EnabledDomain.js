@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Header from 'molecules/Header/Header';
@@ -13,19 +13,34 @@ const DOMAIN_MENU_OPTIONS = {
   VARIABLES: 'VARIABLES',
 };
 
-const Domain = ({ className, addOverride, addFolder, ...props }) => {
+const getOptions = (isCurrent) => {
+  if (isCurrent) {
+    return [
+      { name: DOMAIN_MENU_OPTIONS.REQUESTS },
+      { name: DOMAIN_MENU_OPTIONS.SETTINGS },
+      { name: DOMAIN_MENU_OPTIONS.VARIABLES },
+    ];
+  }
+  return [
+    { name: DOMAIN_MENU_OPTIONS.SETTINGS },
+    { name: DOMAIN_MENU_OPTIONS.VARIABLES },
+  ];
+};
+
+const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
   // TODO: if the domain is current domain, show the list of requests first.
   const [selectedMenuItem, setSelectedMenuItem] = useState(
-    DOMAIN_MENU_OPTIONS.SETTINGS,
+    isCurrent ? DOMAIN_MENU_OPTIONS.REQUESTS : DOMAIN_MENU_OPTIONS.SETTINGS,
   );
+  useEffect(() => {
+    setSelectedMenuItem(
+      isCurrent ? DOMAIN_MENU_OPTIONS.REQUESTS : DOMAIN_MENU_OPTIONS.SETTINGS,
+    );
+  }, [isCurrent]);
   return (
     <div className={className}>
       <Header
-        options={[
-          { name: DOMAIN_MENU_OPTIONS.REQUESTS },
-          { name: DOMAIN_MENU_OPTIONS.SETTINGS },
-          { name: DOMAIN_MENU_OPTIONS.VARIABLES },
-        ]}
+        options={getOptions(isCurrent)}
         initiallySelected={selectedMenuItem}
         onChange={setSelectedMenuItem}
         onToggle={props.toggle}

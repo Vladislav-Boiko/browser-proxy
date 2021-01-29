@@ -94,7 +94,12 @@ const nodes = [
   },
 ];
 
-const store = createStore(rootReducer, { nodes });
+const store = createStore(rootReducer, {
+  nodes,
+  selected: {
+    currentDomain: '1',
+  },
+});
 const ContainerTemplate = (args) => (
   <Provider store={store}>
     <TreeViewContainer {...args} />
@@ -111,5 +116,6 @@ export const Container = ContainerTemplate.bind({});
 export const Component = ComponentTemplate.bind({});
 const props = {
   nodes,
+  currentDomain: '1',
 };
 Component.args = props;

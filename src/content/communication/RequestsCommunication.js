@@ -10,6 +10,7 @@ const {
   XHR_LOADED,
   FETCH_SENT,
   FETCH_STATE_CHANGED,
+  XHR_UPLOAD_PROGRESS,
 } = PROXY_EVENTS;
 const { REQUESTS_UPDATED, PLUGIN_LOAD, WINDOW_LOAD } = PLUGIN_EVENTS;
 
@@ -59,7 +60,13 @@ class RequestsCommunication {
 
   listenRequestStateChanged() {
     proxyMessaging.subscribe(
-      [XHR_STATE_CHANGED, XHR_PROGRESS, XHR_LOADED, FETCH_STATE_CHANGED],
+      [
+        XHR_STATE_CHANGED,
+        XHR_PROGRESS,
+        XHR_UPLOAD_PROGRESS,
+        XHR_LOADED,
+        FETCH_STATE_CHANGED,
+      ],
       (message) => {
         let request = this.requests.find(({ id }) => id === message.id);
         if (request) {

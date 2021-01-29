@@ -19,3 +19,5 @@ const findSelectedById = (id, nodes = []) => {
 
 export const getSelectedNode = (store) =>
   findSelectedById(getSelectedNodeId(store), getAllNodes(store));
+
+export const getCurrentDomain = (store) => store.selected.currentDomain;

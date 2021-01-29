@@ -8,9 +8,10 @@ import { motion } from 'framer-motion';
 import { animateHeight } from 'atoms/animations/animations';
 
 import './Domain.css';
-const Domain = ({ name, nodes, ...otherProps }) => {
+const Domain = ({ name, nodes, className, ...otherProps }) => {
   // TODO: initial value based on the site we are at
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const isCurrent = otherProps.id === otherProps.currentDomain;
   return (
     <li>
       <NodeHoc
@@ -20,6 +21,7 @@ const Domain = ({ name, nodes, ...otherProps }) => {
             setIsCollapsed(!isCollapsed);
           }
         }}
+        className={cn(className, { domain_current: isCurrent })}
       >
         {nodes && nodes.length ? (
           <Icons.Chevron

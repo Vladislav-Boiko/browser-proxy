@@ -2,7 +2,7 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { getAllNodes } from 'store/nodes/selectors';
-import { getSelectedNodeId } from 'store/selected/selectors';
+import { getSelectedNodeId, getCurrentDomain } from 'store/selected/selectors';
 import { addDomain as addDomainAction } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
 
@@ -13,6 +13,7 @@ import TreeView, {
 
 const TreeViewContainer = (props) => {
   const nodes = useSelector(getAllNodes, shallowEqual);
+  const currentDomain = useSelector(getCurrentDomain, shallowEqual);
   const selectedNodeId = useSelector(getSelectedNodeId, shallowEqual);
   const dispatch = useDispatch();
   const addDomain = () => {
@@ -35,6 +36,7 @@ const TreeViewContainer = (props) => {
       {...props}
       addDomain={addDomain}
       selectedId={selectedNodeId}
+      currentDomain={currentDomain}
     />
   );
 };
