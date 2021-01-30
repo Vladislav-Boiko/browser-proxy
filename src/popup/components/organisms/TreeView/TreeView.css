@@ -183,7 +183,7 @@
 .treeView-container {
   position: relative;
   overflow-x: visible;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .treeView__resize-handler:hover {
