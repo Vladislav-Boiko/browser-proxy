@@ -3,7 +3,8 @@ import overridesStorage from '../overrides/Overrides';
 import Overrider from './Overrider';
 
 class XhrProxy {
-  openArguments = null;
+  openArguments = {};
+  requestHeaders = [];
   override = null;
 
   open(realOpen) {
@@ -19,14 +20,30 @@ class XhrProxy {
     });
   }
 
+  setRequestHeader(realSetRequestHeader, xhrMock) {
+    let self = this;
+    return new Proxy(realSetRequestHeader, {
+      apply(target, thisArg, argumentsList) {
+        const name = argumentsList.length > 0 ? argumentsList[0] : '';
+        const value = argumentsList.length > 1 ? argumentsList[1] : '';
+        self.requestHeaders.push({ name, value });
+        Reflect.apply(target, thisArg, argumentsList);
+      },
+    });
+  }
+
   send(realSend, xhrMock) {
     const self = this;
     return new Proxy(realSend, {
       apply(target, thisArg, argumentsList) {
         const body = argumentsList[0];
-        const xhrData = { ...self.openArguments, requestBody: body };
+        const xhrData = {
+          ...self.openArguments,
+          requestHeaders: self.requestHeaders,
+          requestBody: body,
+        };
         trackXhr(xhrData, xhrMock);
-        const override = overridesStorage.findOverride(xhrData);
+        // const override = overridesStorage.findOverride(xhrData);
         // if (override) {
         //   self.override = { mock: override, readyState: xhrMock.readyState };
         //   const overrider = new Overrider(self, xhrMock, override);

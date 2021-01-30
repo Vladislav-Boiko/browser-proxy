@@ -1,3 +1,19 @@
 .headers-list__search {
   max-width: calc(50% - var(--em) * 1.5);
 }
+
+.header__input_name:after,
+.header__input_name:before {
+  content: '';
+  width: calc(var(--em) * 0.5);
+  height: calc(var(--em) * 0.5);
+  border-radius: 50%;
+  position: absolute;
+  right: calc(var(--em) * -1.75);
+  bottom: calc(var(--em) * 1.75);
+  background-color: var(--g5);
+}
+
+.header__input_name:before {
+  bottom: calc(var(--em) * 2.75);
+}

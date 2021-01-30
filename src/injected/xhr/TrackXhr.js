@@ -59,4 +59,6 @@ export const trackXhr = (requestPayload, xhr) => {
   //       uploadChunkTimestamp: Date.now(),
   //     });
   //   });
+
+  return id;
 };
