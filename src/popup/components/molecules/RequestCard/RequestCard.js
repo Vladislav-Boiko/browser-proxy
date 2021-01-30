@@ -36,6 +36,16 @@ const RequestCard = ({
   onClick,
   ...otherProps
 }) => {
+  console.log({
+    url,
+    responseCode,
+    method,
+    responseType,
+    readyState,
+    className,
+    onClick,
+    ...otherProps,
+  });
   let loadingState = LOADING_STATES.LOADING;
   // TODO: what about fetch requests?
   if (readyState === 4 || responseCode) {
@@ -72,7 +82,7 @@ const RequestCard = ({
         <Pill text={'...'} className="request-card__pill" />
       )}
       <span className="request-card__method g2-color label_strong">
-        {method.toUpperCase()}
+        {method ? method.toUpperCase() : 'GET'}
       </span>
       <ResponseType
         type={responseType}

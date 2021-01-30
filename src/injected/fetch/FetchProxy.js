@@ -2,6 +2,16 @@ import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
 import { v4 as uuid } from 'uuid';
 
+const mapRequestHeaders = (headers) => {
+  if (!headers) {
+    return [];
+  }
+  return Object.keys(headers).map((key) => ({
+    name: key,
+    value: headers[key],
+  }));
+};
+
 // TODO: change
 const serializeRequest = ({
   cache,
@@ -17,6 +27,7 @@ const serializeRequest = ({
   referrerPolicy,
   body,
   bodyUsed,
+  headers,
 }) => ({
   cache,
   context,
@@ -31,6 +42,7 @@ const serializeRequest = ({
   referrerPolicy,
   body,
   bodyUsed,
+  requestHeaders: mapRequestHeaders(headers),
 });
 
 const serializeOptions = (options = {}) => ({
@@ -40,17 +52,18 @@ const serializeOptions = (options = {}) => ({
 
 const startTracking = (argumentsList) => {
   const id = uuid();
+  const url = argumentsList[0];
   const payload =
-    typeof argumentsList[0] === 'object'
-      ? serializeRequest(argumentsList[0])
+    typeof argumentsList[1] === 'object'
+      ? serializeRequest(argumentsList[1])
       : {
-          url: argumentsList[0],
           method: 'GET',
         };
   messaging.emit(EVENTS.FETCH_SENT, {
     id,
     sentTimestamp: Date.now(),
     ...payload,
+    url,
     ...serializeOptions(argumentsList[1]),
   });
   return id;
