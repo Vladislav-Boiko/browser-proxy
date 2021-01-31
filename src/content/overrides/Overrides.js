@@ -3,6 +3,8 @@ import pluginMessaging from '../communication/PluginMessaging';
 import PLUGIN_EVENTS from '../../common/communication/plugin/events';
 import PROXY_EVENTS from '../../common/communication/injected/events';
 import proxyMessaging from '../../common/communication/injected/ProxyMessaging';
+import { getDomainForActiveUrl } from '../../popup/redux/activeWindows/selectors';
+import { DOMAIN } from '../../content/constants';
 
 class Overrides {
   overrides = {};
@@ -18,8 +20,9 @@ class Overrides {
   }
 
   async updateOverrides() {
-    // this.overrides = (await serializer.getAllOverridesForDomain()) || {};
-    // proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
+    const store = await serializer.loadStore();
+    this.overrides = getDomainForActiveUrl(DOMAIN)(store) || {};
+    proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
   }
 }
 
