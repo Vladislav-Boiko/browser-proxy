@@ -21,48 +21,48 @@ export default class Overrider {
     if (state !== READY_STATES.OPENED) {
       throw new DOMException(
         "Failed to execute 'send' on 'XMLHttpRequest': The object's state must be OPENED.",
-        "INVALID_STATE_ERR"
+        'INVALID_STATE_ERR',
       );
     }
     //TODO: handle sync requests
     const isAsync = true;
     if (isAsync) {
-      this.dispatchProgressEvent(this.xhr, "loadstart", 0, 0);
+      this.dispatchProgressEvent(this.xhr, 'loadstart', 0, 0);
       if (sentBody) {
         this.doOverrideSendBody(sentBody);
       }
       this.changeState(READY_STATES.HEADERS_RECEIVED);
-      this.doOverrideReceiveResponse(this.mock.response);
+      this.doOverrideReceiveResponse(this.mock.responseBody);
     } else {
-      this.proxy.override.response = this.mock.response;
+      this.proxy.override.response = this.mock.responseBody;
     }
-    this.doOverrideEndOfBody(this.mock.response);
+    this.doOverrideEndOfBody(this.mock.responseBody);
   }
 
   doOverrideSendBody(sentBody) {
     this.dispatchProgressEvent(
       this.xhr.upload,
-      "loadstart",
+      'loadstart',
       0,
-      sentBody.length
+      sentBody?.length || 0,
     );
     this.dispatchProgressEvent(
       this.xhr.upload,
-      "progress",
-      sentBody.length,
-      sentBody.length
+      'progress',
+      sentBody?.length || 0,
+      sentBody?.length || 0,
     );
     this.dispatchProgressEvent(
       this.xhr.upload,
-      "load",
-      sentBody.length,
-      sentBody.length
+      'load',
+      sentBody?.length || 0,
+      sentBody?.length || 0,
     );
     this.dispatchProgressEvent(
       this.xhr.upload,
-      "loadend",
-      sentBody.length,
-      sentBody.length
+      'loadend',
+      sentBody?.length || 0,
+      sentBody?.length || 0,
     );
   }
 
@@ -73,9 +73,9 @@ export default class Overrider {
       this.proxy.override.response = response;
       this.dispatchProgressEvent(
         this.xhr,
-        "progress",
+        'progress',
         response.length,
-        response.length
+        response.length,
       );
     }
   }
@@ -84,21 +84,21 @@ export default class Overrider {
     this.changeState(READY_STATES.DONE);
     this.dispatchProgressEvent(
       this.xhr,
-      "load",
+      'load',
       response.length,
-      response.length
+      response.length,
     );
     this.dispatchProgressEvent(
       this.xhr,
-      "loadend",
+      'loadend',
       response.length,
-      response.length
+      response.length,
     );
   }
 
   changeState(newState) {
     this.proxy.override.readyState = newState;
-    this.xhr.dispatchEvent(new Event("readystatechange"));
+    this.xhr.dispatchEvent(new Event('readystatechange'));
   }
 
   dispatchProgressEvent(where, name, loaded, total) {

@@ -10,7 +10,7 @@ import { updateNode as updateNodeAction } from 'store/nodes/actions';
 import { getParentId } from 'store/nodes/selectors';
 
 import Folder from './Folder';
-const FolderContainer = (props) => {
+const FolderContainer = (props = {}) => {
   const dispatch = useDispatch();
   const addOverride = () => {
     const id = uuid();

@@ -11,7 +11,7 @@ import { selectNode as selectNodeAction } from 'store/selected/actions';
 import { getCurrentDomain } from 'store/selected/selectors';
 import { getRequestsForActiveUrls } from 'store/requests/selectors';
 
-const Domain = (props) => {
+const Domain = (props = {}) => {
   const dispatch = useDispatch();
   const requests = useSelector(
     getRequestsForActiveUrls(props.activeUrls),

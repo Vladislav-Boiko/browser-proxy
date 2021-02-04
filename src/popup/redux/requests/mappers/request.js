@@ -3,7 +3,7 @@ import { TYPES } from 'atoms/ResponseType/ResponseType';
 export const updateWindowRequests = (oldWindowRequests, updateRequests) => {
   // Update requests that are already present in state
   const updated = oldWindowRequests.map((request) => {
-    let anUpdate = updateRequests.find(({ id }) => id === request.id);
+    let anUpdate = updateRequests.find(({ id }) => id === request?.id);
     if (anUpdate) {
       anUpdate = mapRequestFields(anUpdate);
       return addRequest(request, anUpdate);
@@ -14,7 +14,9 @@ export const updateWindowRequests = (oldWindowRequests, updateRequests) => {
   const newRequests = updateRequests
     .filter(
       ({ id }) =>
-        !oldWindowRequests.find((existingRequest) => existingRequest.id === id),
+        !oldWindowRequests.find(
+          (existingRequest) => existingRequest?.id === id,
+        ),
     )
     .map(createNewRequest);
   return [...updated, ...newRequests];

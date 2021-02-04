@@ -68,7 +68,7 @@ class RequestsCommunication {
         FETCH_STATE_CHANGED,
       ],
       (message) => {
-        let request = this.requests.find(({ id }) => id === message.id);
+        let request = this.requests.find(({ id }) => id === message?.id);
         if (request) {
           Object.assign(request, message);
         }

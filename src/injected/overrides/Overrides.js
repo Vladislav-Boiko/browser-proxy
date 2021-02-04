@@ -4,12 +4,11 @@ import EVENTS from '../../common/communication/injected/events';
 class Overrides {
   overrides = {};
 
-  startListening() {
+  async startListening() {
     messaging.emit(EVENTS.REQUEST_OVERRIDES_UPDATE, {});
-    messaging.subscribe(
-      EVENTS.OVERRIDES_UPDATED,
-      (overrides) => (this.overrides = overrides),
-    );
+    messaging.subscribe(EVENTS.OVERRIDES_UPDATED, (overrides) => {
+      this.overrides = overrides;
+    });
   }
 
   // Traversing the overrides tree with any depth.
@@ -55,10 +54,16 @@ class Overrides {
   compareXhrWithOverride(xhrData, override) {
     let isMatch = true;
     isMatch &= xhrData.url === override.url;
-    isMatch &= xhrData.method === override.method;
+    // TODO: shall be called method in override.
+    isMatch &=
+      xhrData.method === override.method || xhrData.method === override.type;
     if (
-      (xhrData.requestHeaders && !override.requestHeaders) ||
-      (!xhrData.requestHeaders && override.requestHeaders)
+      (xhrData.requestHeaders &&
+        xhrData.requestHeaders?.length &&
+        !override.requestHeaders) ||
+      (!xhrData.requestHeaders &&
+        override.requestHeaders &&
+        override.requestHeaders?.length)
     ) {
       return false;
     }

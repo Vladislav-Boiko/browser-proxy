@@ -1,16 +1,11 @@
 import { startMessaging } from './communication/withPage';
-import serializer from '../common/storage/Serializer.js';
+import serializer from '../common/storage/Serializer';
 import { selectInitialDomain } from 'utils/url';
 import store, { setState } from './redux/store';
 // import { loadOverrides, loadFolders } from './redux/storage/actions';
 // import { setCurrentTab } from './redux/page/actions';
 // import { selectItem } from './redux/navigation/actions';
 // import { NAV_TYPES } from './utils/constants';
-
-const bootstrapOverrides = async () => {
-  const overrides = await serializer.getAllOverrides();
-  // store.dispatch(loadOverrides(overrides));
-};
 
 const bootstrapFolders = async () => {
   const folders = await serializer.getAllFolders();
@@ -46,8 +41,6 @@ const bootstrapStore = async () => {
 
 export default () => {
   startMessaging();
-  // bootstrapOverrides();
-  // bootstrapFolders();
   bootstrapDevtoolsTab();
   bootstrapStore();
 };

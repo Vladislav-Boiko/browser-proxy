@@ -1,4 +1,4 @@
-import Messaging from "../../common/communication/Messaging";
+import Messaging from '../../common/communication/Messaging';
 
 class PluginMessaging extends Messaging {
   constructor() {
@@ -8,8 +8,8 @@ class PluginMessaging extends Messaging {
 
   sendMessage(message) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (typeof chrome.app.isInstalled !== "undefined" && chrome?.tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, message);
+      if (typeof chrome.app.isInstalled !== 'undefined' && chrome?.tabs) {
+        tabs && tabs[0] && chrome.tabs.sendMessage(tabs[0].id, message);
       }
     });
   }

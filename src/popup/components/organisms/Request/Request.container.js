@@ -6,7 +6,7 @@ import { updateNode as updateNodeAction } from 'store/nodes/actions';
 import { getParentId } from 'store/nodes/selectors';
 
 import Request from './Request';
-const RequestContainer = (props) => {
+const RequestContainer = (props = {}) => {
   const dispatch = useDispatch();
   const parentId = useSelector(getParentId(props.id), shallowEqual);
   const removeOverride = () => {

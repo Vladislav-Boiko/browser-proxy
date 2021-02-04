@@ -1,10 +1,10 @@
 import { getAllNodes } from '../nodes/selectors';
 
-export const getSelectedNodeId = (store) => store.selected.id;
+export const getSelectedNodeId = (store) => store.selected?.id;
 
 const findSelectedById = (id, nodes = []) => {
   for (let node of nodes) {
-    if (node.id === id) {
+    if (node?.id === id) {
       return node;
     }
     if (node.nodes) {

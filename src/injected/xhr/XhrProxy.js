@@ -43,14 +43,14 @@ class XhrProxy {
           requestBody: body,
         };
         trackXhr(xhrData, xhrMock);
-        // const override = overridesStorage.findOverride(xhrData);
-        // if (override) {
-        //   self.override = { mock: override, readyState: xhrMock.readyState };
-        //   const overrider = new Overrider(self, xhrMock, override);
-        //   overrider.doOverride(body, xhrMock.readyState);
-        // } else {
-        Reflect.apply(target, thisArg, argumentsList);
-        // }
+        const override = overridesStorage.findOverride(xhrData);
+        if (override) {
+          self.override = { mock: override, readyState: xhrMock.readyState };
+          const overrider = new Overrider(self, xhrMock, override);
+          overrider.doOverride(body, xhrMock.readyState);
+        } else {
+          Reflect.apply(target, thisArg, argumentsList);
+        }
       },
     });
   }

@@ -35,7 +35,7 @@ const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
       {Node ? (
         <Node
           {...selectedNode}
-          toggle={() => toggleNode(selectedNode.id)}
+          toggle={() => toggleNode(selectedNode?.id)}
           className="navigation-node mt1 pt1"
         />
       ) : (

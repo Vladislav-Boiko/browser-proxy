@@ -36,16 +36,6 @@ const RequestCard = ({
   onClick,
   ...otherProps
 }) => {
-  console.log({
-    url,
-    responseCode,
-    method,
-    responseType,
-    readyState,
-    className,
-    onClick,
-    ...otherProps,
-  });
   let loadingState = LOADING_STATES.LOADING;
   // TODO: what about fetch requests?
   if (readyState === 4 || responseCode) {
