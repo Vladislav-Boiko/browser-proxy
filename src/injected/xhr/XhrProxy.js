@@ -89,7 +89,8 @@ class XhrProxy {
           if (xhrMock.readyState >= 2 && responseHeaders) {
             return (
               responseHeaders
-                .map(({ name, value }) => `${name}: ${value}`)
+                // no es6 template literals in injected script
+                .map(({ name, value }) => name + ': ' + value)
                 .join('\n\r') || null
             );
           }
