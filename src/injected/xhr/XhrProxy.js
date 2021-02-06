@@ -54,6 +54,52 @@ class XhrProxy {
       },
     });
   }
+
+  getResponseHeader(realGetResponseHeader, xhrMock) {
+    let self = this;
+    return new Proxy(realGetResponseHeader, {
+      apply(target, thisArg, argumentsList) {
+        if (self.override) {
+          const responseHeaders = self.override?.mock?.responseHeaders;
+          // 2 is ready state HEADERS_RECEIVED
+          if (xhrMock.readyState >= 2 && responseHeaders) {
+            const headerName = argumentsList[0];
+            return (
+              responseHeaders
+                .filter(({ name }) => name === headerName)
+                .map(({ value }) => value)
+                .join(', ') || null
+            );
+          }
+          return null;
+        } else {
+          Reflect.apply(target, thisArg, argumentsList);
+        }
+      },
+    });
+  }
+
+  getAllResponseHeaders(realGetAllResponseHeaders, xhrMock) {
+    let self = this;
+    return new Proxy(realGetAllResponseHeaders, {
+      apply(target, thisArg, argumentsList) {
+        if (self.override) {
+          const responseHeaders = self.override?.mock?.responseHeaders;
+          // 2 is ready state HEADERS_RECEIVED
+          if (xhrMock.readyState >= 2 && responseHeaders) {
+            return (
+              responseHeaders
+                .map(({ name, value }) => `${name}: ${value}`)
+                .join('\n\r') || null
+            );
+          }
+          return null;
+        } else {
+          Reflect.apply(target, thisArg, argumentsList);
+        }
+      },
+    });
+  }
 }
 
 const proxyXhr = (xhr) => {

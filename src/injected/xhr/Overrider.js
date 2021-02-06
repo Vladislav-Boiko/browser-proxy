@@ -16,7 +16,7 @@ export default class Overrider {
     this.mock = mock;
   }
 
-  doOverride(sentBody, state) {
+  async doOverride(sentBody, state) {
     // TODO: manage reopened requests.
     if (state !== READY_STATES.OPENED) {
       throw new DOMException(
@@ -24,6 +24,7 @@ export default class Overrider {
         'INVALID_STATE_ERR',
       );
     }
+    const responseBody = this.mock.responseBody;
     //TODO: handle sync requests
     const isAsync = true;
     if (isAsync) {
@@ -32,11 +33,11 @@ export default class Overrider {
         this.doOverrideSendBody(sentBody);
       }
       this.changeState(READY_STATES.HEADERS_RECEIVED);
-      this.doOverrideReceiveResponse(this.mock.responseBody);
+      await this.doOverrideReceiveResponse(responseBody);
     } else {
-      this.proxy.override.response = this.mock.responseBody;
+      this.proxy.override.response = this.getTotalResponse(responseBody);
     }
-    this.doOverrideEndOfBody(this.mock.responseBody);
+    this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
   }
 
   doOverrideSendBody(sentBody) {
@@ -66,18 +67,40 @@ export default class Overrider {
     );
   }
 
-  doOverrideReceiveResponse(response) {
+  async doOverrideReceiveResponse(response) {
     if (response) {
-      this.changeState(READY_STATES.LOADING);
-      //TODO: manage chunked responses
-      this.proxy.override.response = response;
-      this.dispatchProgressEvent(
-        this.xhr,
-        'progress',
-        response.length,
-        response.length,
-      );
+      this.proxy.override.response = '';
+      let progress = 0;
+      const total = this.getResponseLength(response);
+      for (let { value, delay } of response) {
+        this.proxy.override.status = this.mock.responseCode || 200;
+        this.changeState(READY_STATES.LOADING);
+        progress += await this.updateResponse(value, delay, progress, total);
+      }
     }
+  }
+
+  async updateResponse(value, delay, progress, total) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.proxy.override.response += value;
+        this.dispatchProgressEvent(
+          this.xhr,
+          'progress',
+          progress + value.length,
+          total,
+        );
+        resolve(value.length);
+      }, delay);
+    });
+  }
+
+  getResponseLength(responseBody) {
+    return responseBody.reduce((acc, { value }) => acc + value.length, 0);
+  }
+
+  getTotalResponse(responseBody) {
+    return responseBody.reduce((acc, { value }) => acc + value, '');
   }
 
   doOverrideEndOfBody(response) {
