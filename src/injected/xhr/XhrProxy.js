@@ -121,6 +121,20 @@ class XhrProxy {
   }
 }
 
+const shallOverrideResponses = (propName) => {
+  const responseRequests = {
+    response: true,
+    responseText: true,
+    responseXml: true,
+  };
+  return propName in responseRequests;
+};
+
+// TODO: different response types and move this logic to overrider.
+const overrideResponses = (overrider) => {
+  return overrider.response;
+};
+
 const proxyXhr = (xhr) => {
   // TODO: better naming
   const xhrProxy = new XhrProxy();
@@ -130,6 +144,9 @@ const proxyXhr = (xhr) => {
     get(target, property) {
       if (property === 'upload') {
         return xhrProxy.upload;
+      }
+      if (shallOverrideResponses(property)) {
+        return overrideResponses(xhrProxy.override);
       }
       let value = Reflect.get(target, property);
       if (property in xhrProxy) {

@@ -33,6 +33,20 @@ describe('Xhr overrider', () => {
     xhr.send();
   });
 
+  it('Shall return same responseText as response', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.onload = () => {
+      expect(xhr.responseText).toEqual('ABC');
+      done();
+    };
+    xhr.open('GET', 'test');
+    xhr.send();
+  });
+
   it('Shall do an override with chunks', (done) => {
     const xhr = new global.XMLHttpRequest();
     mockFindOverride({
