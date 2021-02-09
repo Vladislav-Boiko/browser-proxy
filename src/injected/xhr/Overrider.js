@@ -8,6 +8,7 @@ const READY_STATES = {
 };
 
 export default class Overrider {
+  isAborted = false;
   // xhr is the real xhr object, proxy is the one
   // encapsulating it and the mock are the data with which we override the response
   constructor(proxy, xhr, mock) {
@@ -25,19 +26,22 @@ export default class Overrider {
       );
     }
     const responseBody = this.mock.responseBody;
-    //TODO: handle sync requests
-    const isAsync = true;
-    if (isAsync) {
+    if (this.proxy.openArguments.async) {
       this.dispatchProgressEvent(this.xhr, 'loadstart', 0, 0);
       if (sentBody) {
         this.doOverrideSendBody(sentBody);
       }
       this.changeState(READY_STATES.HEADERS_RECEIVED);
       await this.doOverrideReceiveResponse(responseBody);
+      this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
     } else {
+      // this.proxy.override.response = await this.receiveResponseSync(
+      //   responseBody,
+      // );
       this.proxy.override.response = this.getTotalResponse(responseBody);
+      this.proxy.override.readyState = 4;
+      this.proxy.override.status = this.mock.responseCode || 200;
     }
-    this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
   }
 
   doOverrideSendBody(sentBody) {
@@ -73,11 +77,26 @@ export default class Overrider {
       let progress = 0;
       const total = this.getResponseLength(response);
       for (let { value, delay } of response) {
+        if (this.isAborted) {
+          return;
+        }
         this.proxy.override.status = this.mock.responseCode || 200;
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
     }
+  }
+
+  async receiveResponseSync(response) {
+    if (response) {
+      for (let { delay } of response) {
+        if (this.isAborted) {
+          throw new DOMException('TODO: text of the abort error.', 'ABORT_ERR');
+        }
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+    return this.getTotalResponse(response);
   }
 
   async updateResponse(value, delay, progress, total) {

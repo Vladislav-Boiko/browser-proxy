@@ -247,7 +247,7 @@ describe('Xhr overrider', () => {
     xhr.send();
   });
 
-  it('Shall return null instead of all resposne headers if none are provided', (done) => {
+  it('Shall return null instead of all response headers if none are provided', (done) => {
     const xhr = new global.XMLHttpRequest();
     mockFindOverride({
       url: 'test',
@@ -260,5 +260,75 @@ describe('Xhr overrider', () => {
     });
     xhr.open('GET', 'test');
     xhr.send();
+  });
+
+  it('Shall reset the state if abort called after done', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    mockFindOverride({
+      url: 'test',
+      responseCode: 500,
+      responseBody: [{ delay: 1, value: 'ABC' }],
+      responseHeaders: [{ name: 'ABC', value: 'DEF' }],
+    });
+    xhr.addEventListener('load', () => {
+      xhr.abort();
+      expect(xhr.readyState).toEqual(0);
+      expect(xhr.response).toEqual('');
+      expect(xhr.responseText).toEqual('');
+      expect(xhr.getAllResponseHeaders()).toEqual(null);
+      done();
+    });
+    xhr.open('GET', 'test');
+    xhr.send();
+  });
+
+  it('Shall reset the state if called while the request is sent', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    mockFindOverride({
+      url: 'test',
+      responseCode: 500,
+      responseBody: [
+        { delay: 1, value: 'ABC' },
+        { delay: 1, value: 'DEF' },
+        { delay: 1, value: 'GHI' },
+      ],
+      responseHeaders: [{ name: 'ABC', value: 'DEF' }],
+    });
+    let loaded = 0;
+    xhr.addEventListener('progress', () => {
+      loaded++;
+      if (loaded === 2) {
+        xhr.abort();
+      }
+      if (loaded === 3) {
+        // we shall never reach this.
+        expect(false).toBeTruthy();
+      }
+      done();
+    });
+    xhr.addEventListener('load', () => {
+      expect(xhr.readyState).toEqual(0);
+      expect(xhr.response).toEqual('');
+      expect(xhr.responseText).toEqual('');
+      expect(xhr.getAllResponseHeaders()).toEqual(null);
+      done();
+    });
+    xhr.open('GET', 'test');
+    xhr.send();
+  });
+
+  it('Shall receive synchronous requests', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1000, value: 'ABC' }],
+    });
+    // false is the async flag -- calling a *sync* call
+    xhr.open('GET', 'test', false);
+    xhr.send();
+    expect(xhr.response).toEqual('ABC');
+    expect(xhr.status).toEqual(200);
+    expect(xhr.readyState).toEqual(4);
+    done();
   });
 });

@@ -14,13 +14,14 @@ class XhrProxy {
         self.openArguments = {
           method: argumentsList[0],
           url: argumentsList[1],
+          async: argumentsList[2] === false ? false : true,
         };
         Reflect.apply(target, thisArg, argumentsList);
       },
     });
   }
 
-  setRequestHeader(realSetRequestHeader, xhrMock) {
+  setRequestHeader(realSetRequestHeader) {
     let self = this;
     return new Proxy(realSetRequestHeader, {
       apply(target, thisArg, argumentsList) {
@@ -95,6 +96,22 @@ class XhrProxy {
             );
           }
           return null;
+        } else {
+          Reflect.apply(target, thisArg, argumentsList);
+        }
+      },
+    });
+  }
+
+  abort(realAbort) {
+    let self = this;
+    return new Proxy(realAbort, {
+      apply(target, thisArg, argumentsList) {
+        if (self.override) {
+          // TODO: shall we set it back to false in case of reopen?
+          self.isAborted = true;
+          self.override.readyState = 0;
+          self.override.response = '';
         } else {
           Reflect.apply(target, thisArg, argumentsList);
         }
