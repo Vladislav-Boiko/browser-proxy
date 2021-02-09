@@ -4,7 +4,6 @@ class Storage {
   save(value) {
     return new Promise((resolve) => {
       chrome.storage.local.get(APPLICATION_NAME, (result) => {
-        const was = result[APPLICATION_NAME];
         result[APPLICATION_NAME] = value;
         chrome.storage.local.set(result, resolve);
       });

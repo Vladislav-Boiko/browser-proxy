@@ -7,11 +7,6 @@ import store, { setState } from './redux/store';
 // import { selectItem } from './redux/navigation/actions';
 // import { NAV_TYPES } from './utils/constants';
 
-const bootstrapFolders = async () => {
-  const folders = await serializer.getAllFolders();
-  // store.dispatch(loadFolders(folders));
-};
-
 const bootstrapTabData = async () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];

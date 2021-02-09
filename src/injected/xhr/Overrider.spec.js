@@ -226,7 +226,7 @@ describe('Xhr overrider', () => {
     xhr.send();
   });
 
-  it('Shall return all resposne headers', (done) => {
+  it('Shall return all response headers', (done) => {
     const xhr = new global.XMLHttpRequest();
     mockFindOverride({
       url: 'test',
@@ -330,5 +330,85 @@ describe('Xhr overrider', () => {
     expect(xhr.status).toEqual(200);
     expect(xhr.readyState).toEqual(4);
     done();
+  });
+
+  it('Shall dispatch onloadstart of upload on send', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    const payload = 'Some data to be uploaded';
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.upload.addEventListener('onloadstart', ({ loaded, total }) => {
+      expect(loaded).toBe(0);
+      expect(total).toBe(payload.length);
+      done();
+    });
+    xhr.open('POST', 'test');
+    xhr.send(payload);
+  });
+
+  it('Shall trigger loadstart of upload on send', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    const payload = 'Some data to be uploaded';
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.upload.loadstart = ({ loaded, total }) => {
+      expect(loaded).toBe(0);
+      expect(total).toBe(payload.length);
+      done();
+    };
+    xhr.open('POST', 'test');
+    xhr.send(payload);
+  });
+
+  it('Shall dispatch progress of upload on send', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    const payload = 'Some data to be uploaded';
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.upload.addEventListener('onprogress', ({ loaded, total }) => {
+      expect(loaded).toBe(payload.length);
+      expect(total).toBe(payload.length);
+      done();
+    });
+    xhr.open('POST', 'test');
+    xhr.send(payload);
+  });
+
+  it('Shall dispatch progress of load on send', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    const payload = 'Some data to be uploaded';
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.upload.addEventListener('onload', ({ loaded, total }) => {
+      expect(loaded).toBe(payload.length);
+      expect(total).toBe(payload.length);
+      done();
+    });
+    xhr.open('POST', 'test');
+    xhr.send(payload);
+  });
+
+  it('Shall dispatch progress of loadend on send', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    const payload = 'Some data to be uploaded';
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+    });
+    xhr.upload.addEventListener('onloadend', ({ loaded, total }) => {
+      expect(loaded).toBe(payload.length);
+      expect(total).toBe(payload.length);
+      done();
+    });
+    xhr.open('POST', 'test');
+    xhr.send(payload);
   });
 });

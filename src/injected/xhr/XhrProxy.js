@@ -1,6 +1,7 @@
 import { trackXhr } from './TrackXhr';
 import overridesStorage from '../overrides/Overrides';
 import Overrider from './Overrider';
+import XhrUploadProxy from './XhrUploadProxy';
 
 class XhrProxy {
   openArguments = {};
@@ -123,8 +124,13 @@ class XhrProxy {
 const proxyXhr = (xhr) => {
   // TODO: better naming
   const xhrProxy = new XhrProxy();
+  const xhrUploadProxy = new XhrUploadProxy(xhr.upload);
+  xhrProxy.upload = xhrUploadProxy;
   const xhrMock = new Proxy(xhr, {
     get(target, property) {
+      if (property === 'upload') {
+        return xhrProxy.upload;
+      }
       let value = Reflect.get(target, property);
       if (property in xhrProxy) {
         value = xhrProxy[property](value, xhrMock);

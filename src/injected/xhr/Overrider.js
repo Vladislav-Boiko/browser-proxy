@@ -29,46 +29,16 @@ export default class Overrider {
     if (this.proxy.openArguments.async) {
       this.dispatchProgressEvent(this.xhr, 'loadstart', 0, 0);
       if (sentBody) {
-        this.doOverrideSendBody(sentBody);
+        this.xhr.upload.overrideSend(sentBody);
       }
       this.changeState(READY_STATES.HEADERS_RECEIVED);
       await this.doOverrideReceiveResponse(responseBody);
       this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
     } else {
-      // this.proxy.override.response = await this.receiveResponseSync(
-      //   responseBody,
-      // );
       this.proxy.override.response = this.getTotalResponse(responseBody);
       this.proxy.override.readyState = 4;
       this.proxy.override.status = this.mock.responseCode || 200;
     }
-  }
-
-  doOverrideSendBody(sentBody) {
-    this.dispatchProgressEvent(
-      this.xhr.upload,
-      'loadstart',
-      0,
-      sentBody?.length || 0,
-    );
-    this.dispatchProgressEvent(
-      this.xhr.upload,
-      'progress',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
-    this.dispatchProgressEvent(
-      this.xhr.upload,
-      'load',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
-    this.dispatchProgressEvent(
-      this.xhr.upload,
-      'loadend',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
   }
 
   async doOverrideReceiveResponse(response) {
@@ -87,13 +57,14 @@ export default class Overrider {
     }
   }
 
+  // TODO: find a way to do a blocking sleep in js without thread burnout.
   async receiveResponseSync(response) {
     if (response) {
       for (let { delay } of response) {
         if (this.isAborted) {
           throw new DOMException('TODO: text of the abort error.', 'ABORT_ERR');
         }
-        await new Promise((resolve) => setTimeout(resolve, delay));
+        //blockingSleep(delay);
       }
     }
     return this.getTotalResponse(response);
