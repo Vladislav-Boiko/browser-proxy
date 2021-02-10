@@ -12,10 +12,10 @@ export default class XhrUploadProxy extends EventTarget {
       'load',
       'timeout',
       'loadend',
-    ].forEach((name) => this.overrideProgressEvent(name));
+    ].forEach((name) => this.overrideOriginalProgressEvent(name));
   }
 
-  overrideProgressEvent(name) {
+  overrideOriginalProgressEvent(name) {
     const listener = {
       name,
       callback: ({ loaded, total }) => {

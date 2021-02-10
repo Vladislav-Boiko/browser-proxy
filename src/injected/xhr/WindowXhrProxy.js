@@ -25,15 +25,11 @@ const proxyXhr = (realXhr, xhrProxy) => {
   });
 };
 
-let id = 0;
 const proxyXMLHttpRequestOnWindow = (window) => {
   window.XMLHttpRequest = new Proxy(window.XMLHttpRequest, {
     construct(target, args) {
-      let realXhr = new target(...args);
-      id++;
-      realXhr.id = id;
+      const realXhr = new target(...args);
       const xhrProxy = new XhrProxy(realXhr);
-
       return proxyXhr(realXhr, xhrProxy);
     },
   });
