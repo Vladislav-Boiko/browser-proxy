@@ -1,7 +1,7 @@
-import proxyXhr from './XhrProxy';
+import proxyXhr from './WindowXhrProxy';
 import overridesStorage from '../overrides/Overrides';
 
-let realFindOverride = overridesStorage.findOverride;
+const realFindOverride = overridesStorage.findOverride;
 const mockFindOverride = (overrideToFind) => {
   overridesStorage.findOverride = () => overrideToFind;
 };
@@ -304,12 +304,12 @@ describe('Xhr overrider', () => {
       responseBody: [
         { delay: 1, value: 'ABC' },
         { delay: 1, value: 'DEF' },
-        { delay: 1, value: 'GHI' },
+        { delay: 1, value: 'GHIJKLM' },
       ],
       responseHeaders: [{ name: 'ABC', value: 'DEF' }],
     });
     let loaded = 0;
-    xhr.addEventListener('progress', () => {
+    xhr.addEventListener('progress', (e) => {
       loaded++;
       if (loaded === 2) {
         xhr.abort();
@@ -378,7 +378,7 @@ describe('Xhr overrider', () => {
     xhr.send(payload);
   });
 
-  it('Shall dispatch progress of upload on send', (done) => {
+  it('Shall dispatch progress event of upload on send', (done) => {
     const xhr = new global.XMLHttpRequest();
     const payload = 'Some data to be uploaded';
     mockFindOverride({
@@ -394,7 +394,7 @@ describe('Xhr overrider', () => {
     xhr.send(payload);
   });
 
-  it('Shall dispatch progress of load on send', (done) => {
+  it('Shall dispatch onload on upload on send', (done) => {
     const xhr = new global.XMLHttpRequest();
     const payload = 'Some data to be uploaded';
     mockFindOverride({

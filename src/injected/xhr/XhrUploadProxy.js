@@ -26,28 +26,30 @@ export default class XhrUploadProxy extends EventTarget {
     this.passThroughListeners.push(listener);
   }
 
-  overrideSend(sentBody) {
+  getFullValue(requestBody) {
+    return requestBody?.reduce((acc, { value }) => acc + value, '') || '';
+  }
+
+  async overrideSend(requestBody, isAborted) {
     this.shallOverride = true;
     this.removeListenersFromRealXhr();
-    if (!sentBody || !sentBody.length) {
+    if (!requestBody || !requestBody.length) {
       return;
     }
-    this.overrideProgressEvent('loadstart', 0, sentBody?.length || 0);
-    this.overrideProgressEvent(
-      'progress',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
-    this.overrideProgressEvent(
-      'load',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
-    this.overrideProgressEvent(
-      'loadend',
-      sentBody?.length || 0,
-      sentBody?.length || 0,
-    );
+    const fullValue = this.getFullValue(requestBody);
+    const total = fullValue?.length || 0;
+    this.overrideProgressEvent('loadstart', 0, total);
+    let progress = 0;
+    for (let { value, delay } of requestBody) {
+      if (isAborted()) {
+        return;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      progress += value.length;
+      this.overrideProgressEvent('progress', progress || 0, total);
+    }
+    this.overrideProgressEvent('load', total, total);
+    this.overrideProgressEvent('loadend', total, total);
   }
 
   removeListenersFromRealXhr() {

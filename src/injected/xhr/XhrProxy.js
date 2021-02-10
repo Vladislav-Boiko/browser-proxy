@@ -1,173 +1,132 @@
 import { trackXhr } from './TrackXhr';
 import overridesStorage from '../overrides/Overrides';
-import Overrider from './Overrider';
+import OverrideXhr from './OverrideXhr';
 import XhrUploadProxy from './XhrUploadProxy';
 
-class XhrProxy {
+const proxyFunction = (func, replacement) =>
+  new Proxy(func, {
+    apply(target, thisArg, argumentsList) {
+      return replacement(argumentsList, () =>
+        Reflect.apply(target, thisArg, argumentsList),
+      );
+    },
+  });
+
+export default class XhrProxy {
   openArguments = {};
   requestHeaders = [];
   override = null;
 
+  constructor(realXhr) {
+    this.realXhr = realXhr;
+    this.upload = new XhrUploadProxy(realXhr.upload);
+  }
+
   open(realOpen) {
-    let self = this;
-    return new Proxy(realOpen, {
-      apply(target, thisArg, argumentsList) {
-        self.openArguments = {
-          method: argumentsList[0],
-          url: argumentsList[1],
-          async: argumentsList[2] === false ? false : true,
-        };
-        Reflect.apply(target, thisArg, argumentsList);
-      },
+    return proxyFunction(realOpen, (args, applyReal) => {
+      this.openArguments = {
+        method: args[0],
+        url: args[1],
+        async: args[2] === false ? false : true,
+      };
+      applyReal();
     });
   }
 
   setRequestHeader(realSetRequestHeader) {
-    let self = this;
-    return new Proxy(realSetRequestHeader, {
-      apply(target, thisArg, argumentsList) {
-        const name = argumentsList.length > 0 ? argumentsList[0] : '';
-        const value = argumentsList.length > 1 ? argumentsList[1] : '';
-        self.requestHeaders.push({ name, value });
-        Reflect.apply(target, thisArg, argumentsList);
-      },
+    return proxyFunction(realSetRequestHeader, (args, applyReal) => {
+      const name = args.length > 0 ? args[0] : '';
+      const value = args.length > 1 ? args[1] : '';
+      this.requestHeaders.push({ name, value });
+      applyReal();
     });
   }
 
-  send(realSend, xhrMock) {
-    const self = this;
-    return new Proxy(realSend, {
-      apply(target, thisArg, argumentsList) {
-        const body = argumentsList[0];
-        const xhrData = {
-          ...self.openArguments,
-          requestHeaders: self.requestHeaders,
-          requestBody: body,
-        };
-        trackXhr(xhrData, xhrMock);
-        const override = overridesStorage.findOverride(xhrData);
-        if (override) {
-          self.override = { mock: override, readyState: xhrMock.readyState };
-          const overrider = new Overrider(self, xhrMock, override);
-          overrider.doOverride(body, xhrMock.readyState);
-        } else {
-          Reflect.apply(target, thisArg, argumentsList);
-        }
-      },
+  send(realSend) {
+    return proxyFunction(realSend, (args, applyReal) => {
+      const body = args[0];
+      const xhrTrack = {
+        ...this.openArguments,
+        requestHeaders: this.requestHeaders,
+        requestBody: body,
+      };
+      // TODO: track overriden xhrs as well.
+      trackXhr(xhrTrack, this.realXhr);
+      const override = overridesStorage.findOverride(xhrTrack);
+      if (override) {
+        this.override = override;
+        this.readyState = this.realXhr.readyState;
+        const overrideXhr = new OverrideXhr(this);
+        overrideXhr.doOverride(body, this.readyState);
+      } else {
+        applyReal();
+      }
     });
   }
 
-  getResponseHeader(realGetResponseHeader, xhrMock) {
-    let self = this;
-    return new Proxy(realGetResponseHeader, {
-      apply(target, thisArg, argumentsList) {
-        if (self.override) {
-          const responseHeaders = self.override?.mock?.responseHeaders;
-          // 2 is ready state HEADERS_RECEIVED
-          if (xhrMock.readyState >= 2 && responseHeaders) {
-            const headerName = argumentsList[0];
-            return (
-              responseHeaders
-                .filter(({ name }) => name === headerName)
-                .map(({ value }) => value)
-                .join(', ') || null
-            );
-          }
-          return null;
-        } else {
-          Reflect.apply(target, thisArg, argumentsList);
+  getResponseHeader(realGetResponseHeader) {
+    return proxyFunction(realGetResponseHeader, (args, applyReal) => {
+      if (this.override) {
+        const responseHeaders = this.override?.responseHeaders;
+        // 2 is ready state HEADERS_RECEIVED
+        if (this.readyState >= 2 && responseHeaders) {
+          const headerName = args[0];
+          return (
+            responseHeaders
+              .filter(({ name }) => name === headerName)
+              .map(({ value }) => value)
+              .join(', ') || null
+          );
         }
-      },
+        return null;
+      } else {
+        applyReal();
+      }
     });
   }
 
-  getAllResponseHeaders(realGetAllResponseHeaders, xhrMock) {
-    let self = this;
-    return new Proxy(realGetAllResponseHeaders, {
-      apply(target, thisArg, argumentsList) {
-        if (self.override) {
-          const responseHeaders = self.override?.mock?.responseHeaders;
-          // 2 is ready state HEADERS_RECEIVED
-          if (xhrMock.readyState >= 2 && responseHeaders) {
-            return (
-              responseHeaders
-                // no es6 template literals in injected script
-                .map(({ name, value }) => name + ': ' + value)
-                .join('\n\r') || null
-            );
-          }
-          return null;
-        } else {
-          Reflect.apply(target, thisArg, argumentsList);
+  getAllResponseHeaders(realGetAllResponseHeaders) {
+    return proxyFunction(realGetAllResponseHeaders, (args, applyReal) => {
+      if (this.override) {
+        const responseHeaders = this.override?.responseHeaders;
+        // 2 is ready state HEADERS_RECEIVED
+        if (this.readyState >= 2 && responseHeaders) {
+          return (
+            responseHeaders
+              // no es6 template literals in injected script
+              .map(({ name, value }) => name + ': ' + value)
+              .join('\n\r') || null
+          );
         }
-      },
+        return null;
+      } else {
+        applyReal();
+      }
     });
   }
 
   abort(realAbort) {
-    let self = this;
-    return new Proxy(realAbort, {
-      apply(target, thisArg, argumentsList) {
-        if (self.override) {
-          // TODO: shall we set it back to false in case of reopen?
-          self.isAborted = true;
-          self.override.readyState = 0;
-          self.override.response = '';
-        } else {
-          Reflect.apply(target, thisArg, argumentsList);
-        }
-      },
+    return proxyFunction(realAbort, (args, applyReal) => {
+      if (this.override) {
+        // TODO: shall we set it back to false in case of reopen?
+        this.isAborted = true;
+        this.readyState = 0;
+        this.response = '';
+      } else {
+        applyReal();
+      }
     });
   }
+
+  dispatchEvent(event) {
+    this.realXhr.dispatchEvent(event);
+  }
+
+  get responseText() {
+    return this.response;
+  }
+
+  get responseXml() {
+    return this.response;
+  }
 }
-
-const shallOverrideResponses = (propName) => {
-  const responseRequests = {
-    response: true,
-    responseText: true,
-    responseXml: true,
-  };
-  return propName in responseRequests;
-};
-
-// TODO: different response types and move this logic to overrider.
-const overrideResponses = (overrider) => {
-  return overrider.response;
-};
-
-const proxyXhr = (xhr) => {
-  // TODO: better naming
-  const xhrProxy = new XhrProxy();
-  const xhrUploadProxy = new XhrUploadProxy(xhr.upload);
-  xhrProxy.upload = xhrUploadProxy;
-  const xhrMock = new Proxy(xhr, {
-    get(target, property) {
-      if (property === 'upload') {
-        return xhrProxy.upload;
-      }
-      if (shallOverrideResponses(property)) {
-        return overrideResponses(xhrProxy.override);
-      }
-      let value = Reflect.get(target, property);
-      if (property in xhrProxy) {
-        value = xhrProxy[property](value, xhrMock);
-      } else if (xhrProxy.override && property in xhrProxy.override) {
-        value = xhrProxy.override[property];
-      }
-      return typeof value === 'function' ? value.bind(target) : value;
-    },
-    set(target, prop, value) {
-      return Reflect.set(target, prop, value);
-    },
-  });
-  return xhrMock;
-};
-
-export default (window) => {
-  window.XMLHttpRequest = new Proxy(window.XMLHttpRequest, {
-    construct(target, args) {
-      const xhr = new target(...args);
-      return proxyXhr(xhr);
-    },
-  });
-};

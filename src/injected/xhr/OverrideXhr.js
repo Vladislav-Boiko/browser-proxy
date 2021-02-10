@@ -7,14 +7,12 @@ const READY_STATES = {
   DONE: 4,
 };
 
-export default class Overrider {
+export default class OverrideXhr {
   isAborted = false;
-  // xhr is the real xhr object, proxy is the one
-  // encapsulating it and the mock are the data with which we override the response
-  constructor(proxy, xhr, mock) {
-    this.proxy = proxy;
-    this.xhr = xhr;
-    this.mock = mock;
+
+  constructor(xhrProxy) {
+    this.proxy = xhrProxy;
+    this.mock = xhrProxy.override;
   }
 
   async doOverride(sentBody, state) {
@@ -27,30 +25,32 @@ export default class Overrider {
     }
     const responseBody = this.mock.responseBody;
     if (this.proxy.openArguments.async) {
-      this.dispatchProgressEvent(this.xhr, 'loadstart', 0, 0);
-      if (sentBody) {
-        this.xhr.upload.overrideSend(sentBody);
+      this.dispatchProgressEvent('loadstart', 0, 0);
+      if (sentBody || this.proxy.requestBody) {
+        await this.proxy.upload.overrideSend(
+          this.proxy.requestBody
+            ? this.proxy.requestBody
+            : [{ value: sentBody, delay: 0 }],
+          () => this.proxy.isAborted,
+        );
       }
       this.changeState(READY_STATES.HEADERS_RECEIVED);
       await this.doOverrideReceiveResponse(responseBody);
       this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
     } else {
-      this.proxy.override.response = this.getTotalResponse(responseBody);
-      this.proxy.override.readyState = 4;
-      this.proxy.override.status = this.mock.responseCode || 200;
+      this.proxy.response = this.getTotalResponse(responseBody);
+      this.proxy.readyState = 4;
+      this.proxy.status = this.mock.responseCode || 200;
     }
   }
 
   async doOverrideReceiveResponse(response) {
     if (response) {
-      this.proxy.override.response = '';
+      this.proxy.response = '';
       let progress = 0;
       const total = this.getResponseLength(response);
       for (let { value, delay } of response) {
-        if (this.isAborted) {
-          return;
-        }
-        this.proxy.override.status = this.mock.responseCode || 200;
+        this.proxy.status = this.mock.responseCode || 200;
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
@@ -61,7 +61,7 @@ export default class Overrider {
   async receiveResponseSync(response) {
     if (response) {
       for (let { delay } of response) {
-        if (this.isAborted) {
+        if (this.proxy.isAborted) {
           throw new DOMException('TODO: text of the abort error.', 'ABORT_ERR');
         }
         //blockingSleep(delay);
@@ -73,14 +73,15 @@ export default class Overrider {
   async updateResponse(value, delay, progress, total) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        this.proxy.override.response += value;
-        this.dispatchProgressEvent(
-          this.xhr,
-          'progress',
-          progress + value.length,
-          total,
-        );
-        resolve(value.length);
+        if (!this.proxy.isAborted) {
+          this.proxy.response += value;
+          this.dispatchProgressEvent(
+            'progress',
+            progress + value.length,
+            total,
+          );
+          resolve(value.length);
+        }
       }, delay);
     });
   }
@@ -94,36 +95,30 @@ export default class Overrider {
   }
 
   doOverrideEndOfBody(response) {
+    if (this.proxy.isAborted) {
+      return;
+    }
     this.changeState(READY_STATES.DONE);
-    this.dispatchProgressEvent(
-      this.xhr,
-      'load',
-      response.length,
-      response.length,
-    );
-    this.dispatchProgressEvent(
-      this.xhr,
-      'loadend',
-      response.length,
-      response.length,
-    );
+    this.dispatchProgressEvent('load', response.length, response.length);
+    this.dispatchProgressEvent('loadend', response.length, response.length);
   }
 
   changeState(newState) {
-    this.proxy.override.readyState = newState;
-    this.xhr.dispatchEvent(new Event('readystatechange'));
+    if (this.proxy.isAborted) {
+      return;
+    }
+    this.proxy.readyState = newState;
+    this.proxy.dispatchEvent(new Event('readystatechange'));
   }
 
-  dispatchProgressEvent(where, name, loaded, total) {
-    if (where) {
-      let payload = {
-        loaded,
-        total,
-      };
-      if (total) {
-        payload.lengthComputable = true;
-      }
-      where.dispatchEvent(new ProgressEvent(name, payload));
+  dispatchProgressEvent(name, loaded, total) {
+    let payload = {
+      loaded,
+      total,
+    };
+    if (total) {
+      payload.lengthComputable = true;
     }
+    this.proxy.dispatchEvent(new ProgressEvent(name, payload));
   }
 }
