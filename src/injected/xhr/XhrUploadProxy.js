@@ -19,7 +19,7 @@ export default class XhrUploadProxy extends EventTarget {
     const listener = {
       name,
       callback: ({ loaded, total }) => {
-        !this.shallOverride && this.dispatchEvent(name, loaded, total);
+        !this.shallOverride && this.overrideProgressEvent(name, loaded, total);
       },
     };
     this.realXhrUpload.addEventListener(name, listener.callback);
