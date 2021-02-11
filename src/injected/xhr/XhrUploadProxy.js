@@ -4,26 +4,6 @@ export default class XhrUploadProxy extends EventTarget {
   constructor(realXhrUpload) {
     super();
     this.realXhrUpload = realXhrUpload;
-    [
-      'loadstart',
-      'progress',
-      'abort',
-      'error',
-      'load',
-      'timeout',
-      'loadend',
-    ].forEach((name) => this.overrideOriginalProgressEvent(name));
-  }
-
-  overrideOriginalProgressEvent(name) {
-    const listener = {
-      name,
-      callback: ({ loaded, total }) => {
-        !this.shallOverride && this.overrideProgressEvent(name, loaded, total);
-      },
-    };
-    this.realXhrUpload.addEventListener(name, listener.callback);
-    this.passThroughListeners.push(listener);
   }
 
   getFullValue(requestBody) {
@@ -32,7 +12,7 @@ export default class XhrUploadProxy extends EventTarget {
 
   async overrideSend(requestBody, isAborted) {
     this.shallOverride = true;
-    this.removeListenersFromRealXhr();
+    // this.removeListenersFromRealXhr();
     if (!requestBody || !requestBody.length) {
       return;
     }
@@ -52,19 +32,15 @@ export default class XhrUploadProxy extends EventTarget {
     this.overrideProgressEvent('loadend', total, total);
   }
 
-  removeListenersFromRealXhr() {
-    while (this.passThroughListeners.length) {
-      const listener = this.passThroughListeners.pop();
-      this.realXhrUpload.removeEventListener(listener.name, listener.callback);
-    }
-  }
-
   overrideProgressEvent(name, loaded, total) {
-    this.dispatchProgressEvent('on' + name, loaded, total);
     const payload = this.getProgressPayload(loaded, total);
-    const event = new ProgressEvent(name, payload);
-    if (this[name] && typeof this[name] === 'function') {
-      this[name](event);
+    const event = new ProgressEvent('on' + name, payload);
+    this.realXhrUpload.dispatchEvent(event);
+    if (
+      this.realXhrUpload[name] &&
+      typeof this.realXhrUpload[name] === 'function'
+    ) {
+      this.realXhrUpload[name](event);
     }
   }
 

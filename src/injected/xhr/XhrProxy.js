@@ -19,7 +19,7 @@ export default class XhrProxy {
 
   constructor(realXhr) {
     this.realXhr = realXhr;
-    this.upload = new XhrUploadProxy(realXhr.upload);
+    //this.upload = new XhrUploadProxy(realXhr.upload);
   }
 
   open(realOpen) {
@@ -29,7 +29,7 @@ export default class XhrProxy {
         url: args[1],
         async: args[2] === false ? false : true,
       };
-      applyReal();
+      return applyReal();
     });
   }
 
@@ -38,7 +38,7 @@ export default class XhrProxy {
       const name = args.length > 0 ? args[0] : '';
       const value = args.length > 1 ? args[1] : '';
       this.requestHeaders.push({ name, value });
-      applyReal();
+      return applyReal();
     });
   }
 
@@ -59,7 +59,7 @@ export default class XhrProxy {
         const overrideXhr = new OverrideXhr(this);
         overrideXhr.doOverride(body, this.readyState);
       } else {
-        applyReal();
+        return applyReal();
       }
     });
   }
@@ -80,7 +80,7 @@ export default class XhrProxy {
         }
         return null;
       } else {
-        applyReal();
+        return applyReal();
       }
     });
   }
@@ -100,7 +100,7 @@ export default class XhrProxy {
         }
         return null;
       } else {
-        applyReal();
+        return applyReal();
       }
     });
   }
@@ -113,7 +113,7 @@ export default class XhrProxy {
         this.readyState = 0;
         this.response = '';
       } else {
-        applyReal();
+        return applyReal();
       }
     });
   }

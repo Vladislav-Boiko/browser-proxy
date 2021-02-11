@@ -1,3 +1,5 @@
+import XhrUploadProxy from './XhrUploadProxy';
+
 // For more information on what is happening here, read https://xhr.spec.whatwg.org/
 const READY_STATES = {
   UNSET: 0,
@@ -27,7 +29,8 @@ export default class OverrideXhr {
     if (this.proxy.openArguments.async) {
       this.dispatchProgressEvent('loadstart', 0, 0);
       if (sentBody || this.proxy.requestBody) {
-        await this.proxy.upload.overrideSend(
+        const uploadOverrides = new XhrUploadProxy(this.proxy.realXhr.upload);
+        await uploadOverrides.overrideSend(
           this.proxy.requestBody
             ? this.proxy.requestBody
             : [{ value: sentBody, delay: 0 }],
