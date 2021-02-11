@@ -123,10 +123,16 @@ export default class XhrProxy {
   }
 
   get responseText() {
-    return this.response;
+    if (this.override) {
+      return this.response;
+    }
+    return this.realXhr.responseText;
   }
 
   get responseXml() {
-    return this.response;
+    if (this.override) {
+      return this.response;
+    }
+    return this.realXhr.responseXml;
   }
 }
