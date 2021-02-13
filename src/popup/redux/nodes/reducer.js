@@ -43,7 +43,7 @@ const serializedReducer = (state = [], action) => {
         isFirstOpen: false,
       });
     case ADD_OVERRIDE:
-      const newOverride = Object.assign(
+      let newOverride = Object.assign(
         {
           name: 'New Override',
           type: 'GET',
@@ -55,6 +55,16 @@ const serializedReducer = (state = [], action) => {
         },
         action.payload.override,
       );
+      try {
+        if (newOverride.responseBody?.length === 1) {
+          const asJson = JSON.parse(newOverride.responseBody[0].value);
+          newOverride.responseBody[0] = Object.assign(
+            {},
+            newOverride.responseBody[0],
+            { value: JSON.stringify(asJson, null, 2) },
+          );
+        }
+      } catch (e) {}
       return updateDeep(state, findPath(action.payload.parentId, state), {
         nodes: alter((key, value) =>
           value ? [...value, newOverride] : [newOverride],

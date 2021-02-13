@@ -10,8 +10,6 @@
 }
 
 .input_multiline {
-  min-height: calc(var(--em) * 5);
-  height: auto;
   resize: vertical;
 }
 

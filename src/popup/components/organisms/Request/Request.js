@@ -114,8 +114,12 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             >
               Save
             </Button>
-            <Button Icon={Icons.Trash} secondary onClick={removeOverride}>
-              Remove
+            <Button
+              Icon={otherProps.isUnsaved ? null : Icons.Trash}
+              secondary
+              onClick={removeOverride}
+            >
+              {otherProps.isUnsaved ? 'Cancel' : 'Remove'}
             </Button>
           </div>
         )}

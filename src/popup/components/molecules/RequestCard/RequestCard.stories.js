@@ -12,7 +12,7 @@ const Template = (args) => (
     <RequestCard
       className="my1"
       {...args}
-      code={200}
+      responseCode={200}
       method="POST"
       responseType={TYPES.JSON}
       url="feature_preview/indicator_check"
@@ -20,7 +20,7 @@ const Template = (args) => (
     <RequestCard
       className="my1"
       {...args}
-      code={500}
+      responseCode={500}
       method="GET"
       responseType={TYPES.ARRAY_BUFFER}
       url="user"
@@ -28,7 +28,7 @@ const Template = (args) => (
     <RequestCard
       className="my1"
       {...args}
-      code={404}
+      responseCode={404}
       method="DELETE"
       responseType={TYPES.BLOB}
       url="profile"

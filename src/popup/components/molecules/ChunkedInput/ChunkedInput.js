@@ -36,7 +36,7 @@ const ChunkedInput = ({
       {chunksValue?.map((chunkValue, index) => (
         <React.Fragment key={`chunk_${index}`}>
           <Input
-            className={cn({ mt5: index > 0 })}
+            className={cn('chunked-input__input', { mt5: index > 0 })}
             label={[passedLabel, chunksValue.length > 1 ? `#${index + 1}` : '']
               .filter((e) => !!e)
               .join(' ')}

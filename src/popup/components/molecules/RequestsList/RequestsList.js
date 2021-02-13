@@ -48,7 +48,7 @@ const RequestsList = ({ requests, className, onSelect }) => {
       <div className="requests-list__reqeusts mt6">
         {requests &&
           filterRequests(searchValue, requests)
-            .map((request, id) => ({ ...request, id }))
+            .map((request, id) => (request.id ? request : { ...request, id }))
             .map((request) => (
               <RequestCard
                 {...request}

@@ -9,7 +9,7 @@ const InputType = ({ multiline, ...otherProps }) =>
   !multiline ? (
     <input {...otherProps} />
   ) : (
-    <TextareaAutosize minRows="3" {...otherProps} />
+    <TextareaAutosize minRows="3" maxRows="12" {...otherProps} />
   );
 
 const Input = ({

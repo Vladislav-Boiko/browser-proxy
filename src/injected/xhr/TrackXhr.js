@@ -24,7 +24,7 @@ export const trackXhr = (requestPayload, xhr) => {
         responseType: xhr.responseType,
         chunkTimestamp: Date.now(),
       };
-      // HEADERS_RECEIVED
+      // 2 is HEADERS_RECEIVED
       if (xhr.readyState >= 2) {
         update.responseHeaders = xhr.getAllResponseHeaders();
       }
