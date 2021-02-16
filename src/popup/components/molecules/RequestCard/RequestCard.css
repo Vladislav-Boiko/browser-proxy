@@ -7,6 +7,11 @@
   grid-row-gap: var(--em);
   background-color: white;
   cursor: pointer;
+  word-break: break-all;
+}
+
+.request-card_open {
+  cursor: initial;
 }
 
 .request-card__pill,
@@ -25,9 +30,18 @@
   filter: drop-shadow(2px 2px 4px rgba(61, 77, 155, 0.1));
 }
 
+.request-card_open:hover {
+  filter: none;
+}
+
 .request-card:hover .request-card__url {
   color: var(--primary);
   text-decoration: underline;
+}
+
+.request-card_open:hover .request-card__url {
+  color: black;
+  text-decoration: none;
 }
 
 .request-card:hover .request-card__method,
@@ -37,4 +51,51 @@
 
 .request-card__url {
   text-transform: initial;
+}
+
+.card-body__header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chevron_up {
+  transform: rotate(180deg);
+}
+
+.card-body__close {
+  flex: 1 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.card-body__close:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.override__icon.icon_md {
+  fill: white;
+  transform: rotate(-90deg);
+  margin-right: -8px;
+}
+
+.request-card__body {
+  grid-column: 1/3;
+}
+
+.tabbed__input textarea {
+  border-top-left-radius: 0;
+}
+
+.url-param__base {
+  font-weight: 500;
+}
+
+.url-param__key {
+  color: var(--g2);
+}
+
+.url-param__value {
+  color: black;
 }

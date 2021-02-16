@@ -10,6 +10,8 @@ const Button = ({
   primary,
   secondary,
   tretiary,
+  iconLeft,
+  iconClass,
 }) => {
   return (
     <button
@@ -23,8 +25,9 @@ const Button = ({
         onClick && onClick();
       }}
     >
-      {Icon && <Icon className={'icon_md mr1'} />}
+      {!iconLeft && Icon && <Icon className={cn(iconClass, 'icon_md mr1')} />}
       {children}
+      {iconLeft && Icon && <Icon className={cn(iconClass, 'icon_md ml1')} />}
     </button>
   );
 };

@@ -15,7 +15,7 @@ const Template = (args) => (
       responseCode={200}
       method="POST"
       responseType={TYPES.JSON}
-      url="feature_preview/indicator_check"
+      url="http://github.com/some/very/long/api/url/feature_preview/indicator_check?a=b&c=d"
     />
     <RequestCard
       className="my1"

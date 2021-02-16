@@ -91,9 +91,11 @@ const Input = ({
         })}
       >
         <span className="label__text_hidden">Clear input {label}</span>
-        <button className="input__cross px2" onClick={() => doChange('', 0)}>
-          <Icons.Cross className="icon_sm" />
-        </button>
+        {!otherProps.disabled && (
+          <button className="input__cross px2" onClick={() => doChange('', 0)}>
+            <Icons.Cross className="icon_sm" />
+          </button>
+        )}
       </label>
       {icon && <div className="input-icon px2">{icon}</div>}
     </label>
