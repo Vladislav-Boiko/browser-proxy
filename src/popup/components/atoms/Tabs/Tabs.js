@@ -7,6 +7,7 @@ const Tabs = ({ className, tabs, onSelect, selectedTab }) => {
     <ul className={cn(className, 'tabs ffr')}>
       {tabs.map((tab) => (
         <li
+          key={tab.id}
           className={cn('tab', {
             tab_selected: selectedTab === tab?.id,
           })}

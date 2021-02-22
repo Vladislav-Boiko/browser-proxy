@@ -4,6 +4,7 @@ import RequestCard from 'molecules/RequestCard/RequestCard';
 import Input from 'atoms/Input/Input';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
+import Pagination from 'atoms/Pagination/Pagination';
 import './RequestsList.css';
 
 // TODO: refactor to Allow list
@@ -26,8 +27,22 @@ const filterRequests = (searchValue, requests) => {
   });
 };
 
+const ITEMS_PER_PAGE = 20;
+
+const getPageSlice = (requests, currentPage) =>
+  requests.slice(
+    ITEMS_PER_PAGE * (currentPage - 1),
+    ITEMS_PER_PAGE * currentPage,
+  );
+
 const RequestsList = ({ requests, className, onSelect }) => {
   const [searchValue, setSearchValue] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const filteredItems = filterRequests(searchValue, requests);
+  const totalPages = Math.ceil(
+    filteredItems?.length ? filteredItems?.length / ITEMS_PER_PAGE : 0,
+  );
+  const displayedPage = Math.min(totalPages, Math.max(0, currentPage));
   return (
     <div className={cn('wmax', className)}>
       <h3 className="mb2">Requests</h3>
@@ -37,7 +52,7 @@ const RequestsList = ({ requests, className, onSelect }) => {
           label="Search"
           className="requests-list__search-input"
           value={searchValue}
-          onChange={setSearchValue}
+          onChange={(newValue) => setSearchValue(newValue)}
         />
         <Button className="ml3 requests-list__filter-button" secondary>
           <Icons.Filter className="mr1 icon_md" />
@@ -47,7 +62,7 @@ const RequestsList = ({ requests, className, onSelect }) => {
       <div className="requests-list__filters"></div>
       <div className="requests-list__reqeusts mt6">
         {requests &&
-          filterRequests(searchValue, requests)
+          getPageSlice(filteredItems, displayedPage)
             .map((request, id) => (request.id ? request : { ...request, id }))
             .map((request) => (
               <RequestCard
@@ -57,6 +72,11 @@ const RequestsList = ({ requests, className, onSelect }) => {
                 onClick={onSelect}
               />
             ))}
+        <Pagination
+          totalPages={totalPages}
+          currentPage={displayedPage}
+          onChange={setCurrentPage}
+        />
       </div>
     </div>
   );
