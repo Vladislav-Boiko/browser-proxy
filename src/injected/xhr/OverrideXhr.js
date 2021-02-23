@@ -1,3 +1,4 @@
+import { getResponseLength, getTotalResponse } from '../../common/utils';
 import XhrUploadProxy from './XhrUploadProxy';
 
 // For more information on what is happening here, read https://xhr.spec.whatwg.org/
@@ -37,11 +38,13 @@ export default class OverrideXhr {
           () => this.proxy.isAborted,
         );
       }
+      this.proxy.responseURL = this.mock.responseURL || '';
       this.changeState(READY_STATES.HEADERS_RECEIVED);
       await this.doOverrideReceiveResponse(responseBody);
-      this.doOverrideEndOfBody(this.getTotalResponse(responseBody));
+      this.doOverrideEndOfBody(getTotalResponse(responseBody));
     } else {
-      this.proxy.response = this.getTotalResponse(responseBody);
+      this.proxy.responseURL = this.mock.responseURL || '';
+      this.proxy.response = getTotalResponse(responseBody);
       this.proxy.readyState = 4;
       this.proxy.status = this.mock.responseCode || 200;
     }
@@ -51,7 +54,7 @@ export default class OverrideXhr {
     if (response) {
       this.proxy.response = '';
       let progress = 0;
-      const total = this.getResponseLength(response);
+      const total = getResponseLength(response);
       for (let { value, delay } of response) {
         this.proxy.status = this.mock.responseCode || 200;
         this.changeState(READY_STATES.LOADING);
@@ -70,7 +73,7 @@ export default class OverrideXhr {
         //blockingSleep(delay);
       }
     }
-    return this.getTotalResponse(response);
+    return getTotalResponse(response);
   }
 
   async updateResponse(value, delay, progress, total) {
@@ -87,14 +90,6 @@ export default class OverrideXhr {
         }
       }, delay);
     });
-  }
-
-  getResponseLength(responseBody) {
-    return responseBody.reduce((acc, { value }) => acc + value.length, 0);
-  }
-
-  getTotalResponse(responseBody) {
-    return responseBody.reduce((acc, { value }) => acc + value, '');
   }
 
   doOverrideEndOfBody(response) {

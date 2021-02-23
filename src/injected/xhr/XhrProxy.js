@@ -1,7 +1,6 @@
 import { trackXhr } from './TrackXhr';
 import overridesStorage from '../overrides/Overrides';
 import OverrideXhr from './OverrideXhr';
-import XhrUploadProxy from './XhrUploadProxy';
 
 const proxyFunction = (func, replacement) =>
   new Proxy(func, {
@@ -19,7 +18,6 @@ export default class XhrProxy {
 
   constructor(realXhr) {
     this.realXhr = realXhr;
-    //this.upload = new XhrUploadProxy(realXhr.upload);
   }
 
   open(realOpen) {

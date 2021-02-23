@@ -1,3 +1,5 @@
+import { getTotalResponse } from '../../common/utils';
+
 export default class XhrUploadProxy extends EventTarget {
   shallOverride = false;
   passThroughListeners = [];
@@ -6,17 +8,13 @@ export default class XhrUploadProxy extends EventTarget {
     this.realXhrUpload = realXhrUpload;
   }
 
-  getFullValue(requestBody) {
-    return requestBody?.reduce((acc, { value }) => acc + value, '') || '';
-  }
-
   async overrideSend(requestBody, isAborted) {
     this.shallOverride = true;
     // this.removeListenersFromRealXhr();
     if (!requestBody || !requestBody.length) {
       return;
     }
-    const fullValue = this.getFullValue(requestBody);
+    const fullValue = getTotalResponse(requestBody);
     const total = fullValue?.length || 0;
     this.overrideProgressEvent('loadstart', 0, total);
     let progress = 0;

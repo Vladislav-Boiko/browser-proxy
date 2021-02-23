@@ -38,6 +38,7 @@ export const trackXhr = (requestPayload, xhr) => {
       isLoaded: true,
       status: xhr.status,
       loadendTimestamp: Date.now(),
+      responseURL: xhr.responseURL,
     });
   });
 
@@ -47,18 +48,9 @@ export const trackXhr = (requestPayload, xhr) => {
       progress: { loaded, total },
       status: xhr.status,
       chunkTimestamp: Date.now(),
+      responseURL: xhr.responseURL,
     });
   });
-
-  // xhr.upload &&
-  //   xhr.upload.onprogress('progress', ({ loaded, total }) => {
-  //     messaging.emit(EVENTS.XHR_UPLOAD_PROGRESS, {
-  //       id,
-  //       progress: { loaded, total },
-  //       status: xhr.status,
-  //       uploadChunkTimestamp: Date.now(),
-  //     });
-  //   });
 
   return id;
 };

@@ -425,4 +425,19 @@ describe('Xhr overrider', () => {
     xhr.open('POST', 'test');
     xhr.send(payload);
   });
+
+  it('Shall set the response url correctly', (done) => {
+    const xhr = new global.XMLHttpRequest();
+    mockFindOverride({
+      url: 'test',
+      responseBody: [{ delay: 1, value: 'ABC' }],
+      responseURL: 'http://example.com/test',
+    });
+    xhr.onload = () => {
+      expect(xhr.responseURL).toEqual('http://example.com/test');
+      done();
+    };
+    xhr.open('GET', 'test');
+    xhr.send();
+  });
 });

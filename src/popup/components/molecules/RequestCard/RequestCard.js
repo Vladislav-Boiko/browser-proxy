@@ -6,6 +6,7 @@ import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 import Tabs from 'atoms/Tabs/Tabs';
+import { getTotalResponse } from '../../../../common/utils';
 import './RequestCard.css';
 
 const SplitBy = ({ text, delimiter }) => {
@@ -142,10 +143,7 @@ const RequestCard = ({
           <Input
             className="tabbed__input"
             disabled
-            value={otherProps[selectedTab]?.reduce(
-              (acc, { value }) => acc + value,
-              '',
-            )}
+            value={getTotalResponse(otherProps[selectedTab])}
             multiline
           />
         </div>
