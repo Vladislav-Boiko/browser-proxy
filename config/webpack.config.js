@@ -114,7 +114,7 @@ module.exports = function (webpackEnv) {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: true, //isEnvProduction && shouldUseSourceMap,
+            sourceMap: isEnvProduction && shouldUseSourceMap,
           },
         },
         {
@@ -132,12 +132,11 @@ module.exports = function (webpackEnv) {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
-    devtool: 'inline-source-map',
-    // isEnvProduction
-    //   ? shouldUseSourceMap
-    //     ? 'source-map'
-    //     : false
-    //   : isEnvDevelopment && 'cheap-module-source-map',
+    devtool: isEnvProduction
+      ? shouldUseSourceMap
+        ? 'source-map'
+        : false
+      : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     entry: {
@@ -157,6 +156,7 @@ module.exports = function (webpackEnv) {
       popup: paths.popupIndexJs,
       injected: paths.injectedIndexJs,
       content_template: paths.contentIndexJs,
+      background: paths.backgroundIndexJs,
       // We include the app code last so that if there is a runtime error during
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
@@ -398,8 +398,8 @@ module.exports = function (webpackEnv) {
                 // Babel sourcemaps are needed for debugging into node_modules
                 // code.  Without the options below, debuggers like VSCode
                 // show incorrect code and set breakpoints on the wrong lines.
-                sourceMaps: true, //shouldUseSourceMap,
-                inputSourceMap: true, //shouldUseSourceMap,
+                sourceMaps: shouldUseSourceMap,
+                inputSourceMap: shouldUseSourceMap,
               },
             },
             // "postcss" loader applies autoprefixer to our CSS.

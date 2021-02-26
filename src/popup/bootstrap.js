@@ -2,13 +2,10 @@ import { startMessaging } from './communication/withPage';
 import serializer from '../common/storage/Serializer';
 import { selectInitialDomain } from 'utils/url';
 import store, { setState } from './redux/store';
-// import { loadOverrides, loadFolders } from './redux/storage/actions';
-// import { setCurrentTab } from './redux/page/actions';
-// import { selectItem } from './redux/navigation/actions';
-// import { NAV_TYPES } from './utils/constants';
 
 const bootstrapTabData = async () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  const browser = window.browser || window.chrome;
+  browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tab = tabs[0];
     if (tab?.url) {
       selectInitialDomain(tab?.url);
@@ -17,8 +14,9 @@ const bootstrapTabData = async () => {
 };
 
 const bootstrapDevtoolsTab = () => {
-  if (chrome.devtools) {
-    chrome.devtools.panels.create(
+  const browser = window.browser || window.chrome;
+  if (browser.devtools) {
+    browser.devtools.panels.create(
       'Browser-Proxy',
       '',
       'popup.html',

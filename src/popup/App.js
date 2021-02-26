@@ -9,16 +9,17 @@ import cn from 'classnames';
 
 function App() {
   bootstrap();
+  const browser = window.browser || window.chrome;
   return (
     <Provider store={store}>
       <div
         className={cn({
-          popup: !chrome.devtools,
+          popup: !browser.devtools,
         })}
       >
         <Router />
       </div>
-      {/* {!chrome.devtools && <Footer className="app-footer" />} */}
+      {/* {!browser.devtools && <Footer className="app-footer" />} */}
     </Provider>
   );
 }

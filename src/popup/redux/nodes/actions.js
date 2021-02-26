@@ -1,3 +1,6 @@
+import messaging from '../../communication/PluginMessaging';
+import EVENTS from '../../../common/communication/plugin/events';
+
 export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const addDomain = (payload) => ({
   type: ADD_DOMAIN,
@@ -17,10 +20,13 @@ export const updateNode = (payload) => ({
 });
 
 export const TOGGLE_NODE = 'TOGGLE_NODE';
-export const toggleNode = (payload) => ({
-  type: TOGGLE_NODE,
-  payload,
-});
+export const toggleNode = (payload) => {
+  // messaging.emit(EVENTS.NODE_TOGGLED);
+  return {
+    type: TOGGLE_NODE,
+    payload,
+  };
+};
 
 export const ADD_OVERRIDE = 'ADD_OVERRIDE';
 export const addOverride = (payload) => ({

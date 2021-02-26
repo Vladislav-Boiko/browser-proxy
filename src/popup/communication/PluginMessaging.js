@@ -3,13 +3,19 @@ import Messaging from '../../common/communication/Messaging';
 class PluginMessaging extends Messaging {
   constructor() {
     super();
-    chrome.runtime.onMessage.addListener((message) => this.onMessage(message));
+    const browser = window.browser || window.chrome;
+    if (browser?.runtime?.onMessage) {
+      browser.runtime.onMessage.addListener((message) =>
+        this.onMessage(message),
+      );
+    }
   }
 
   sendMessage(message) {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (typeof chrome.app.isInstalled !== 'undefined' && chrome?.tabs) {
-        tabs && tabs[0] && chrome.tabs.sendMessage(tabs[0].id, message);
+    const browser = window.browser || window.chrome;
+    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (typeof browser.app.isInstalled !== 'undefined' && browser?.tabs) {
+        tabs && tabs[0] && browser.tabs.sendMessage(tabs[0].id, message);
       }
     });
   }

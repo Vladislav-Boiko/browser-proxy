@@ -5,7 +5,7 @@
   "manifest_version": 2,
   "description": "TODO: add a description",
   "browser_action": {
-    "default_icon": "logo512.png",
+    "default_icon": "logo-disabled64.png",
     "default_popup": "popup.html"
   },
   "icons": { 
@@ -26,5 +26,9 @@
       "matches": ["<all_urls>"],
       "js": ["src/content.js"]
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["src/background.js"],
+    "persistent": false
+  }
 }
