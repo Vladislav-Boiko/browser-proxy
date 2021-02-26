@@ -1,6 +1,7 @@
 .disabled-domain {
   display: block;
   width: 100%;
+  min-height: 300px;
   position: relative;
   overflow-x: hidden;
 }
