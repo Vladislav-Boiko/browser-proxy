@@ -13,7 +13,7 @@ class Overrides {
 
   // Traversing the overrides tree with any depth.
   recursivelySearchOverrides(xhrData, parent) {
-    if (parent.nodes && parent.nodes.length) {
+    if (parent.nodes && parent.nodes.length && parent.isOn !== false) {
       const found = this.findOverrideAmong(
         xhrData,
         parent.nodes.filter(({ nodes }) => !nodes),
@@ -46,7 +46,10 @@ class Overrides {
 
   findOverrideAmong(xhrData, overrides) {
     return overrides.find((override) => {
-      return this.compareXhrWithOverride(xhrData, override);
+      return (
+        override.isOn !== false &&
+        this.compareXhrWithOverride(xhrData, override)
+      );
     });
   }
 

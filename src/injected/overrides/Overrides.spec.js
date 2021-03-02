@@ -104,6 +104,16 @@ describe('Recursive search in own overrides', () => {
     expect(found).toStrictEqual({ url: 'A' });
   });
 
+  it("doesn't find an override in disabled parent nodes", () => {
+    overrides.overrides = {
+      name: 'Some domain',
+      isOn: false,
+      nodes: [{ url: 'A' }],
+    };
+    const found = overrides.findOverride({ url: 'A' });
+    expect(found).toStrictEqual(null);
+  });
+
   it("Doesn't fail if no overrides are set", () => {
     const found = overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
@@ -122,6 +132,24 @@ describe('Recursive search in own overrides', () => {
     };
     const found = overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual({ url: 'A' });
+  });
+
+  it("doesn't find an override in child nodes if it is disabled", () => {
+    overrides.overrides = {
+      name: 'Some domain',
+      nodes: [{ name: 'Some folder', nodes: [{ url: 'A', isOn: false }] }],
+    };
+    const found = overrides.findOverride({ url: 'A' });
+    expect(found).toStrictEqual(null);
+  });
+
+  it("doesn't find an override in child nodes if its domain is disabled", () => {
+    overrides.overrides = {
+      name: 'Some domain',
+      nodes: [{ name: 'Some folder', isOn: false, nodes: [{ url: 'A' }] }],
+    };
+    const found = overrides.findOverride({ url: 'A' });
+    expect(found).toStrictEqual(null);
   });
 
   it("doesn't find an override in child nodes if there is no match", () => {
