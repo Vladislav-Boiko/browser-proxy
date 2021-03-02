@@ -30,7 +30,7 @@ const Input = ({
   );
   useEffect(() => {
     setValidationError(validate && value ? validate(value) : '');
-  }, [value]);
+  }, [value, validate]);
   const doChange = (newValue, delay = 300) => {
     if (validate) {
       clearTimeout(validationTimeout);

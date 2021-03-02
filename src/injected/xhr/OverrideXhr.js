@@ -66,12 +66,12 @@ export default class OverrideXhr {
   // TODO: find a way to do a blocking sleep in js without thread burnout.
   async receiveResponseSync(response) {
     if (response) {
-      for (let { delay } of response) {
-        if (this.proxy.isAborted) {
-          throw new DOMException('TODO: text of the abort error.', 'ABORT_ERR');
-        }
-        //blockingSleep(delay);
+      // for (let { delay } of response) {
+      if (this.proxy.isAborted) {
+        throw new DOMException('TODO: text of the abort error.', 'ABORT_ERR');
       }
+      //blockingSleep(delay);
+      // }
     }
     return getTotalResponse(response);
   }

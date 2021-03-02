@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from 'molecules/Header/Header';
 import Variables from 'organisms/Variables/Variables';
 import FolderSettings from './Settings/FolderSettings';

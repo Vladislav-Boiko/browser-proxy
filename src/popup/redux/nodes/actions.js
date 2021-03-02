@@ -1,6 +1,3 @@
-import messaging from '../../communication/PluginMessaging';
-import EVENTS from '../../../common/communication/plugin/events';
-
 export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const addDomain = (payload) => ({
   type: ADD_DOMAIN,

@@ -13,7 +13,7 @@ const NodeName = ({ id, name, className, isUnsaved }) => {
   useEffect(() => {
     setValue(name);
     inputRef && inputRef.focus();
-  }, [name]);
+  }, [name, inputRef]);
   if (isEditing) {
     return (
       <input

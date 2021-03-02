@@ -5,7 +5,7 @@ import Icons from 'atoms/Icons/Icons';
 import { v4 as uuid } from 'uuid';
 
 import './Variables.css';
-const Variables = (props) => {
+const Variables = () => {
   const [variables, setVariables] = useState([
     { name: '', value: '', id: uuid() },
   ]);

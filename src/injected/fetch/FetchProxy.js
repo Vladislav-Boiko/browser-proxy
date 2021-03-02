@@ -4,16 +4,6 @@ import overridesStorage from '../overrides/Overrides';
 import { getTotalResponse } from '../../common/utils';
 import { v4 as uuid } from 'uuid';
 
-const mapRequestHeaders = (headers) => {
-  if (!headers) {
-    return [];
-  }
-  return Object.keys(headers).map((key) => ({
-    name: key,
-    value: headers[key],
-  }));
-};
-
 const getFetchTrack = (argumentsList) => {
   const url = argumentsList[0];
   let payload = {

@@ -18,7 +18,7 @@ const DomainSettings = ({
   const [domainName, setName] = useState('');
   useEffect(() => {
     setName(name || '');
-  });
+  }, [setName, name]);
   return (
     <div className={cn(className, 'wmax')}>
       <h3 className="mt3">URL</h3>

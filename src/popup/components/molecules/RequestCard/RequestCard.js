@@ -129,7 +129,7 @@ const RequestCard = ({
             </Button>
           </div>
           <span className="label_weak">
-            <SplitBy text={url} delimiter={/\?|\&/g} />
+            <SplitBy text={url} delimiter={/\?|&/g} />
           </span>
           <Tabs
             onSelect={setSelectedTab}
