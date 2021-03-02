@@ -14,7 +14,7 @@ export const trackXhr = (requestPayload, xhr) => {
     domain: DOMAIN,
   });
 
-  xhr.addEventListener('readystatechange', () => {
+  const readystatechange = () => {
     if (xhr.readyState !== 0 && xhr.status !== 0) {
       let update = {
         id,
@@ -30,19 +30,9 @@ export const trackXhr = (requestPayload, xhr) => {
       }
       messaging.emit(EVENTS.XHR_STATE_CHANGED, update);
     }
-  });
+  };
 
-  xhr.addEventListener('loadend', () => {
-    messaging.emit(EVENTS.XHR_LOADED, {
-      id,
-      isLoaded: true,
-      status: xhr.status,
-      loadendTimestamp: Date.now(),
-      responseURL: xhr.responseURL,
-    });
-  });
-
-  xhr.addEventListener('progress', ({ loaded, total }) => {
+  const progress = ({ loaded, total }) => {
     messaging.emit(EVENTS.XHR_PROGRESS, {
       id,
       progress: { loaded, total },
@@ -50,7 +40,24 @@ export const trackXhr = (requestPayload, xhr) => {
       chunkTimestamp: Date.now(),
       responseURL: xhr.responseURL,
     });
-  });
+  };
+
+  const loadend = () => {
+    messaging.emit(EVENTS.XHR_LOADED, {
+      id,
+      isLoaded: true,
+      status: xhr.status,
+      loadendTimestamp: Date.now(),
+      responseURL: xhr.responseURL,
+    });
+    xhr.removeEventListener('readystatechange', readystatechange);
+    xhr.removeEventListener('loadend', loadend);
+    xhr.removeEventListener('progress', progress);
+  };
+
+  xhr.addEventListener('readystatechange', readystatechange);
+  xhr.addEventListener('loadend', loadend);
+  xhr.addEventListener('progress', progress);
 
   return id;
 };
