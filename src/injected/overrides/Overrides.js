@@ -12,11 +12,12 @@ class Overrides {
   }
 
   // Traversing the overrides tree with any depth.
-  recursivelySearchOverrides(xhrData, parent) {
+  recursivelySearchOverrides(xhrData, parent, variables = []) {
     if (parent.nodes && parent.nodes.length && parent.isOn !== false) {
       const found = this.findOverrideAmong(
         xhrData,
         parent.nodes.filter(({ nodes }) => !nodes),
+        [...variables, ...(parent.variables ? parent.variables : [])],
       );
       if (found) {
         return found;
@@ -26,6 +27,11 @@ class Overrides {
           const foundInSubnodes = this.recursivelySearchOverrides(
             xhrData,
             node,
+            [
+              ...variables,
+              ...(parent.variables ? parent.variables : []),
+              ...(node.variables ? node.variables : []),
+            ],
           );
           if (foundInSubnodes) {
             return foundInSubnodes;
@@ -44,22 +50,147 @@ class Overrides {
     return null;
   }
 
-  findOverrideAmong(xhrData, overrides) {
-    return overrides.find((override) => {
-      return (
-        override.isOn !== false &&
-        this.compareXhrWithOverride(xhrData, override)
-      );
+  findOverrideAmong(xhrData, overrides, variables) {
+    let matchedVariables = null;
+    let override = overrides.find((override) => {
+      if (override.isOn !== false) {
+        const { isMatch, variableMatches } = this.compareXhrWithOverride(
+          xhrData,
+          override,
+          variables,
+        );
+        if (isMatch) {
+          matchedVariables = variableMatches;
+        }
+        return isMatch;
+      }
+      return false;
     });
+    if (override) {
+      return this.replaceVariablesInOverride(override, matchedVariables);
+    }
+    return override;
   }
 
-  // checks if the given xhr matches to the override, returns boolean.
-  compareXhrWithOverride(xhrData, override) {
+  replaceVariablesInOverride(override, matchedVariables) {
+    if (matchedVariables?.length) {
+      if (override?.responseBody) {
+        override.responseBody = override.responseBody.map(
+          ({ value, ...other }) => ({
+            value: this.replaceVariablesInAString(value, matchedVariables),
+            ...other,
+          }),
+        );
+      }
+      if (override?.responseHeaders) {
+        override.responseHeaders = override.responseHeaders.map(
+          ({ name, value, ...other }) => ({
+            name: this.replaceVariablesInAString(name, matchedVariables),
+            value: this.replaceVariablesInAString(value, matchedVariables),
+            ...other,
+          }),
+        );
+      }
+    }
+    return override;
+  }
+
+  // creates from a string an ordered list of parts and variables
+  inflateWithVariable(text, variable) {
+    if (!text) {
+      return [];
+    }
+    const splitted = text.split(variable.name);
+    return splitted.reduce((acc, value, index) => {
+      let result = [...acc];
+      result.push(value);
+      if (index !== splitted.length - 1) {
+        result.push(variable);
+      }
+      return result;
+    }, []);
+  }
+
+  replaceVariablesInAString(text, variables) {
+    let result = text;
+    if (text) {
+      for (let variable of variables) {
+        if (variable.match) {
+          result = text.replace(variable.name, variable.match);
+        }
+      }
+    }
+    return result;
+  }
+
+  compareWithInflatedString(stringWithoutVariables, inflatedString) {
+    let processedString = stringWithoutVariables;
+    let variableMatches = [];
+    for (let part of inflatedString) {
+      if (typeof part === 'string') {
+        if (processedString.slice(0, part.length) !== part) {
+          return { isMatch: false };
+        }
+        processedString = processedString.slice(part.length);
+      } else if (typeof part === 'object') {
+        const regexp = new RegExp(part.value);
+        const result = regexp.exec(processedString);
+        if (!result || result.index !== 0) {
+          return { isMatch: false };
+        }
+        processedString = processedString.slice(result[0].length);
+        variableMatches.push({ ...part, match: result[0] });
+      }
+    }
+    return { isMatch: !processedString, variableMatches };
+  }
+
+  matchStringWithVariables(
+    stringWithoutVariables,
+    stringWithVariables,
+    variables = [],
+  ) {
+    if (!stringWithoutVariables && !stringWithVariables) {
+      return { isMatch: true };
+    }
+    let inflated = [stringWithVariables];
+    for (let variable of variables) {
+      inflated = inflated.reduce(
+        (acc, part) => [
+          ...acc,
+          ...(typeof part === 'string'
+            ? this.inflateWithVariable(part, variable)
+            : [part]),
+        ],
+        [],
+      );
+    }
+    return this.compareWithInflatedString(stringWithoutVariables, inflated);
+  }
+
+  compareUrlMatch(xhrData, override, variables = []) {
+    return this.matchStringWithVariables(xhrData.url, override.url, variables);
+  }
+
+  compareMethodMatch(xhrData, override, variables = []) {
+    const methodMatch = this.matchStringWithVariables(
+      xhrData.method,
+      override.method,
+      variables,
+    );
+    if (methodMatch.isMatch) {
+      return methodMatch;
+    }
+    return this.matchStringWithVariables(
+      xhrData.method,
+      override.type,
+      variables,
+    );
+  }
+
+  compareHeadersMatch(xhrData, override, variables = []) {
     let isMatch = true;
-    isMatch &= xhrData.url === override.url;
-    // TODO: shall be called method in override.
-    isMatch &=
-      xhrData.method === override.method || xhrData.method === override.type;
+    let variableMatches = [];
     if (
       (xhrData.requestHeaders &&
         xhrData.requestHeaders?.length &&
@@ -68,21 +199,58 @@ class Overrides {
         override.requestHeaders &&
         override.requestHeaders?.length)
     ) {
-      return false;
+      return { isMatch: false };
     }
     if (xhrData.requestHeaders && override.requestHeaders) {
       isMatch &= xhrData.requestHeaders.reduce((acc, header) => {
         return (
           acc &&
-          !!override.requestHeaders.find(
-            (overrideHeader) =>
-              overrideHeader.name === header.name &&
-              overrideHeader.value === header.value,
-          )
+          !!override.requestHeaders.find((overrideHeader) => {
+            const headerNameMatch = this.matchStringWithVariables(
+              header.name,
+              overrideHeader.name,
+              variables,
+            );
+            const headerValueMatch = this.matchStringWithVariables(
+              header.value,
+              overrideHeader.value,
+              variables,
+            );
+            variableMatches.concat(...(headerNameMatch.variableMatches || []));
+            variableMatches.concat(...(headerValueMatch.variableMatches || []));
+            return headerNameMatch.isMatch && headerValueMatch.isMatch;
+          })
         );
       }, true);
     }
-    return isMatch;
+    return { isMatch, variableMatches };
+  }
+
+  // checks if the given xhr matches to the override, returns boolean.
+  compareXhrWithOverride(xhrData, override, variables = []) {
+    let variableMatches = [];
+    const urlMatch = this.compareUrlMatch(xhrData, override, variables);
+    if (!urlMatch.isMatch) {
+      return { isMatch: false };
+    }
+    variableMatches = variableMatches.concat(
+      ...(urlMatch.variableMatches || []),
+    );
+    const methodMatch = this.compareMethodMatch(xhrData, override, variables);
+    if (!methodMatch.isMatch) {
+      return { isMatch: false };
+    }
+    variableMatches = variableMatches.concat(
+      ...(methodMatch.variableMatches || []),
+    );
+    const headersMatch = this.compareHeadersMatch(xhrData, override, variables);
+    if (!headersMatch.isMatch) {
+      return { isMatch: false };
+    }
+    variableMatches = variableMatches.concat(
+      ...(headersMatch.variableMatches || []),
+    );
+    return { isMatch: true, variableMatches };
   }
 }
 
