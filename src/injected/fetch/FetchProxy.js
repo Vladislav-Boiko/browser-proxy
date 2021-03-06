@@ -28,15 +28,17 @@ const startTracking = (fetchTrack) => {
   return id;
 };
 
-const finishTracking = async (id, response) =>
+const finishTracking = async (id, response) => {
+  const text = await response.text();
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
     status: response.status,
-    responseBody: await response.text(),
+    response: text,
     chunkTimestamp: Date.now(),
     loadendTimestamp: Date.now(),
     responseURL: response.url,
   });
+};
 
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
