@@ -2,11 +2,11 @@ import serializer from '../common/storage/Serializer';
 import { hasUrlMatch } from 'utils/url';
 
 export const getResponseLength = (responseBody) => {
-  return responseBody.reduce((acc, { value }) => acc + value.length, 0);
+  return responseBody?.reduce((acc, { value }) => acc + value.length, 0) || 0;
 };
 
 export const getTotalResponse = (responseBody) => {
-  return responseBody.reduce((acc, { value }) => acc + value, '');
+  return responseBody?.reduce((acc, { value }) => acc + value, '') || '';
 };
 
 export const changeTabIcon = (tab) => {
