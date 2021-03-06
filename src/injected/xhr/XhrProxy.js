@@ -50,7 +50,12 @@ export default class XhrProxy {
       };
       // TODO: track overriden xhrs as well.
       trackXhr(xhrTrack, this.realXhr);
-      const override = await overridesStorage.findOverride(xhrTrack);
+      let override = null;
+      if (this.openArguments.async) {
+        override = await overridesStorage.findOverride(xhrTrack);
+      } else {
+        override = overridesStorage.findOverrideSync(xhrTrack);
+      }
       if (override) {
         this.override = override;
         this.readyState = this.realXhr.readyState;

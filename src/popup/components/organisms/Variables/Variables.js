@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from 'atoms/Input/Input';
-import Button from 'atoms/Button/Button';
-import Icons from 'atoms/Icons/Icons';
 import { v4 as uuid } from 'uuid';
 
 import './Variables.css';
-const Variables = () => {
-  const [variables, setVariables] = useState([
-    { name: '', value: '', id: uuid() },
-  ]);
+const DEFAULT_VARIABLES = [{ name: '', value: '', id: uuid() }];
+const Variables = ({ onVariablesChange, initialVariables }) => {
+  const [variables, setVariables] = useState(
+    initialVariables?.length ? initialVariables : DEFAULT_VARIABLES,
+  );
+  useEffect(() => {
+    setVariables(
+      initialVariables?.length ? initialVariables : DEFAULT_VARIABLES,
+    );
+  }, [initialVariables]);
+  const updateVariables = (newVariables) => {
+    setVariables(newVariables);
+    onVariablesChange &&
+      onVariablesChange(
+        // TODO: filter out invalid regexps
+        newVariables.filter(({ name, value }) => !!name && !!value),
+      );
+  };
   const setVariable = (index, toSet) => {
     let variablesCopy = [...variables];
     variablesCopy[index] = Object.assign(variablesCopy[index], toSet);
@@ -22,7 +34,7 @@ const Variables = () => {
     ) {
       variablesCopy.splice(index, 1);
     }
-    setVariables(variablesCopy);
+    updateVariables(variablesCopy);
   };
   return (
     <div className="p4 wmax">
@@ -50,17 +62,6 @@ const Variables = () => {
           />
         </div>
       ))}
-      <div className="button-row mt4">
-        <Button
-          Icon={Icons.Enable}
-          primary
-          onClick={() => {
-            console.log('TODO: implement me');
-          }}
-        >
-          Save
-        </Button>
-      </div>
     </div>
   );
 };

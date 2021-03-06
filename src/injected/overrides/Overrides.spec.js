@@ -98,92 +98,102 @@ describe('Recursive search in own overrides', () => {
     overrides.overrides = null;
   });
 
-  it('finds an override in parent nodes', () => {
+  it('finds an override in parent nodes', async (done) => {
     overrides.overrides = { name: 'Some domain', nodes: [{ url: 'A' }] };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual({ url: 'A' });
+    done();
   });
 
-  it("doesn't find an override in disabled parent nodes", () => {
+  it("doesn't find an override in disabled parent nodes", async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       isOn: false,
       nodes: [{ url: 'A' }],
     };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 
-  it("Doesn't fail if no overrides are set", () => {
-    const found = overrides.findOverride({ url: 'A' });
+  it("Doesn't fail if no overrides are set", async (done) => {
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 
-  it("Doesn't finds an override in parent nodes if there is no match", () => {
+  it("Doesn't finds an override in parent nodes if there is no match", async (done) => {
     overrides.overrides = { name: 'Some domain', nodes: [{ url: 'B' }] };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 
-  it('finds an override in child nodes', () => {
+  it('finds an override in child nodes', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       nodes: [{ name: 'Some folder', nodes: [{ url: 'A' }] }],
     };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual({ url: 'A' });
+    done();
   });
 
-  it("doesn't find an override in child nodes if it is disabled", () => {
+  it("doesn't find an override in child nodes if it is disabled", async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       nodes: [{ name: 'Some folder', nodes: [{ url: 'A', isOn: false }] }],
     };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 
-  it("doesn't find an override in child nodes if its domain is disabled", () => {
+  it("doesn't find an override in child nodes if its domain is disabled", async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       nodes: [{ name: 'Some folder', isOn: false, nodes: [{ url: 'A' }] }],
     };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 
-  it("doesn't find an override in child nodes if there is no match", () => {
+  it("doesn't find an override in child nodes if there is no match", async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       nodes: [{ name: 'Some folder', nodes: [{ url: 'B' }] }],
     };
-    const found = overrides.findOverride({ url: 'A' });
+    const found = await overrides.findOverride({ url: 'A' });
     expect(found).toStrictEqual(null);
+    done();
   });
 });
 
 describe('Variables', () => {
-  it('Matches a url with a variable', () => {
+  it('Matches a url with a variable', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       variables: [{ name: '$test', value: '\\d+' }],
       nodes: [{ name: 'Some folder', nodes: [{ url: 'id=$test' }] }],
     };
-    const found = overrides.findOverride({ url: 'id=123' });
+    const found = await overrides.findOverride({ url: 'id=123' });
     expect(found).toStrictEqual({ url: 'id=$test' });
+    done();
   });
 
-  it('Matches a url with a variable in the middle', () => {
+  it('Matches a url with a variable in the middle', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       variables: [{ name: '$test', value: '\\d+' }],
       nodes: [{ name: 'Some folder', nodes: [{ url: 'id=$test&f=bcg' }] }],
     };
-    const found = overrides.findOverride({ url: 'id=123&f=bcg' });
+    const found = await overrides.findOverride({ url: 'id=123&f=bcg' });
     expect(found).toStrictEqual({ url: 'id=$test&f=bcg' });
+    done();
   });
 
-  it('searches for an override with variable method match', () => {
+  it('searches for an override with variable method match', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       variables: [
@@ -197,11 +207,12 @@ describe('Variables', () => {
         },
       ],
     };
-    const override = overrides.findOverride({
+    const override = await overrides.findOverride({
       url: 'id=123&f=bcg',
       method: 'GET',
     });
     expect(override).toStrictEqual({ url: 'id=$test&f=bcg', method: 'GET' });
+    done();
   });
 
   it('Matches a complete string correctly', () => {
@@ -238,7 +249,7 @@ describe('Variables', () => {
     expect(result.isMatch).toBeTruthy();
   });
 
-  it('searches for an override with variable request headers match', () => {
+  it('searches for an override with variable request headers match', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       variables: [{ name: '$token', value: '\\w+' }],
@@ -254,7 +265,7 @@ describe('Variables', () => {
         },
       ],
     };
-    const override = overrides.findOverride({
+    const override = await overrides.findOverride({
       url: 'id=123',
       requestHeaders: [{ name: 'token', value: 'ABCdeFG' }],
     });
@@ -262,9 +273,10 @@ describe('Variables', () => {
       url: 'id=123',
       requestHeaders: [{ name: 'token', value: '$token' }],
     });
+    done();
   });
 
-  it('Replaces a body part from url match', () => {
+  it('Replaces a body part from url match', async (done) => {
     overrides.overrides = {
       name: 'Some domain',
       variables: [{ name: '$test', value: '\\d+' }],
@@ -282,10 +294,11 @@ describe('Variables', () => {
         },
       ],
     };
-    const found = overrides.findOverride({ url: 'id=123' });
+    const found = await overrides.findOverride({ url: 'id=123' });
     expect(found).toStrictEqual({
       url: 'id=$test',
       responseBody: [{ value: '{ id: 123, name: "Vlad" }', delay: 200 }],
     });
+    done();
   });
 });

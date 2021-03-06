@@ -51,8 +51,9 @@ class Overrides {
   async findOverride(xhrData) {
     // this.overrides is a domain node.
     if (this.overrides) {
-      let step = 0;
-      while (!this.hasLoaded || ++step < MAX_WAITING_STEPS) {
+      let step = 1;
+      while (!this.hasLoaded && step < MAX_WAITING_STEPS) {
+        step++;
         await new Promise((resolve) =>
           setTimeout(resolve, WAIT_OVERRIDES_LOADED_DELAY),
         );
@@ -62,15 +63,26 @@ class Overrides {
     return null;
   }
 
-  findOverrideAmong(xhrData, overrides, variables) {
+  findOverrideSync(xhrData) {
+    if (this.overrides) {
+      return this.recursivelySearchOverrides(xhrData, this.overrides);
+    }
+    return null;
+  }
+
+  findOverrideAmong(xhrData, overrides, variables = []) {
     let matchedVariables = null;
     let override = overrides.find((override) => {
       if (override.isOn !== false) {
-        const { isMatch, variableMatches } = this.compareXhrWithOverride(
-          xhrData,
-          override,
-          variables,
-        );
+        const {
+          isMatch,
+          variableMatches,
+        } = this.compareXhrWithOverride(xhrData, override, [
+          ...variables,
+          ...(override.variables ? override.variables : []).filter(
+            ({ name }) => !!name,
+          ),
+        ]);
         if (isMatch) {
           matchedVariables = variableMatches;
         }
@@ -111,6 +123,9 @@ class Overrides {
   inflateWithVariable(text, variable) {
     if (!text) {
       return [];
+    }
+    if (!variable.name) {
+      return [text];
     }
     const splitted = text.split(variable.name);
     return splitted.reduce((acc, value, index) => {

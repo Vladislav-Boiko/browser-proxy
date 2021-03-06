@@ -2,12 +2,18 @@ import proxyXhr from './WindowXhrProxy';
 import overridesStorage from '../overrides/Overrides';
 
 const realFindOverride = overridesStorage.findOverride;
+const realFindOverrideSync = overridesStorage.findOverrideSync;
 const mockFindOverride = (overrideToFind) => {
   overridesStorage.findOverride = () => overrideToFind;
 };
 
+const mockFindOverrideSync = (overrideToFind) => {
+  overridesStorage.findOverrideSync = () => overrideToFind;
+};
+
 const unMockFindOverride = () => {
   overridesStorage.findOverride = realFindOverride;
+  overridesStorage.findOverrideSync = realFindOverrideSync;
 };
 
 describe('Xhr overrider', () => {
@@ -333,7 +339,7 @@ describe('Xhr overrider', () => {
 
   it('Shall receive synchronous requests', (done) => {
     const xhr = new global.XMLHttpRequest();
-    mockFindOverride({
+    mockFindOverrideSync({
       url: 'test',
       responseBody: [{ delay: 1000, value: 'ABC' }],
     });

@@ -20,9 +20,11 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
   const [selectedHeader, setSelectedHeader] = useState(MENU_OPTIONS.RESPONSE);
   const [response, setResponse] = useState({});
   const [request, setRequest] = useState({});
+  const [variables, setVariables] = useState(otherProps.variables || []);
   useEffect(() => {
     setResponse({});
     setRequest({});
+    setVariables(otherProps.variables || []);
   }, [otherProps.id]);
   const patchResponse = (patch) =>
     setResponse(Object.assign({}, response, patch));
@@ -86,43 +88,44 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             initialBody={otherProps.requestBody}
           />
         )}
-        {selectedHeader === MENU_OPTIONS.VARIABLES && <Variables />}
-        {selectedHeader !== MENU_OPTIONS.VARIABLES && (
-          <div className="button-row mt4 mx4">
-            <Button
-              Icon={Icons.Enable}
-              primary
-              onClick={() => {
-                let updateEntry = Object.assign({}, response, request, {
-                  name: otherProps.name,
-                  isUnsaved: false,
-                });
-                if (
-                  updateEntry.responseType !== 'BLOB' &&
-                  otherProps.blobType
-                ) {
-                  updateEntry.blobType = '';
-                }
-                if (
-                  updateEntry.requestBodyType !== 'BLOB' &&
-                  otherProps.requestBlobType
-                ) {
-                  updateEntry.requestBlobType = '';
-                }
-                otherProps.updateNode(updateEntry);
-              }}
-            >
-              Save
-            </Button>
-            <Button
-              Icon={otherProps.isUnsaved ? null : Icons.Trash}
-              secondary
-              onClick={removeOverride}
-            >
-              {otherProps.isUnsaved ? 'Cancel' : 'Remove'}
-            </Button>
-          </div>
+        {selectedHeader === MENU_OPTIONS.VARIABLES && (
+          <Variables
+            onVariablesChange={setVariables}
+            initialVariables={variables}
+          />
         )}
+        <div className="button-row mt4 mx4">
+          <Button
+            Icon={Icons.Enable}
+            primary
+            onClick={() => {
+              let updateEntry = Object.assign({}, response, request, {
+                variables,
+                name: otherProps.name,
+                isUnsaved: false,
+              });
+              if (updateEntry.responseType !== 'BLOB' && otherProps.blobType) {
+                updateEntry.blobType = '';
+              }
+              if (
+                updateEntry.requestBodyType !== 'BLOB' &&
+                otherProps.requestBlobType
+              ) {
+                updateEntry.requestBlobType = '';
+              }
+              otherProps.updateNode(updateEntry);
+            }}
+          >
+            Save
+          </Button>
+          <Button
+            Icon={otherProps.isUnsaved ? null : Icons.Trash}
+            secondary
+            onClick={removeOverride}
+          >
+            {otherProps.isUnsaved ? 'Cancel' : 'Remove'}
+          </Button>
+        </div>
       </div>
     </div>
   );
