@@ -41,7 +41,7 @@ export default class XhrProxy {
   }
 
   send(realSend) {
-    return proxyFunction(realSend, (args, applyReal) => {
+    return proxyFunction(realSend, async (args, applyReal) => {
       const body = args[0];
       const xhrTrack = {
         ...this.openArguments,
@@ -50,7 +50,7 @@ export default class XhrProxy {
       };
       // TODO: track overriden xhrs as well.
       trackXhr(xhrTrack, this.realXhr);
-      const override = overridesStorage.findOverride(xhrTrack);
+      const override = await overridesStorage.findOverride(xhrTrack);
       if (override) {
         this.override = override;
         this.readyState = this.realXhr.readyState;

@@ -1,12 +1,18 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
 
+// ms
+const WAIT_OVERRIDES_LOADED_DELAY = 5;
+const MAX_WAITING_STEPS = 10;
+
 class Overrides {
   overrides = {};
+  hasLoaded = false;
 
   async startListening() {
     messaging.emit(EVENTS.REQUEST_OVERRIDES_UPDATE, {});
     messaging.subscribe(EVENTS.OVERRIDES_UPDATED, (overrides) => {
+      this.hasLoaded = true;
       this.overrides = overrides;
     });
   }
@@ -42,9 +48,15 @@ class Overrides {
     return null;
   }
 
-  findOverride(xhrData) {
+  async findOverride(xhrData) {
+    // this.overrides is a domain node.
     if (this.overrides) {
-      // this.overrides is a domain node.
+      let step = 0;
+      while (!this.hasLoaded || ++step < MAX_WAITING_STEPS) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, WAIT_OVERRIDES_LOADED_DELAY),
+        );
+      }
       return this.recursivelySearchOverrides(xhrData, this.overrides);
     }
     return null;

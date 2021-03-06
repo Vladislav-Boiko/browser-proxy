@@ -42,9 +42,9 @@ const finishTracking = async (id, response) => {
 
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
-    apply(target, thisArg, argumentsList) {
+    async apply(target, thisArg, argumentsList) {
       const fetchTrack = getFetchTrack(argumentsList);
-      const override = overridesStorage.findOverride(fetchTrack);
+      const override = await overridesStorage.findOverride(fetchTrack);
       if (override) {
         return new Promise(async (resolve, reject) => {
           let headers = new Headers();
