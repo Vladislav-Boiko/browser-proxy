@@ -40,7 +40,7 @@ const Variables = ({ onVariablesChange, initialVariables }) => {
     <div className="p4 wmax">
       <h3>Variables</h3>
       <p className="mb6 mt3">
-        You can capture parts of a Requset with regular expressions, and then
+        You can capture parts of a Request with regular expressions, and then
         use them as part of a Response. Find out examples and more on the{' '}
         <a href="">documentation</a> page
       </p>

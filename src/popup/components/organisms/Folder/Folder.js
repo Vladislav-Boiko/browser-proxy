@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from 'molecules/Header/Header';
 import Variables from 'organisms/Variables/Variables';
 import FolderSettings from './Settings/FolderSettings';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 import './Folder.css';
 
 const FOLDER_MENU_OPTIONS = {
@@ -13,6 +15,10 @@ const Folder = ({ className, ...otherProps }) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(
     FOLDER_MENU_OPTIONS.SETTINGS,
   );
+  const [variables, setVariables] = useState(otherProps.variables || []);
+  useEffect(() => {
+    setVariables(otherProps.variables || []);
+  }, [otherProps.variables]);
   return (
     <div className={className}>
       <Header
@@ -26,7 +32,23 @@ const Folder = ({ className, ...otherProps }) => {
         isOn={otherProps.isOn}
       />
       {selectedMenuItem === FOLDER_MENU_OPTIONS.VARIABLES && (
-        <Variables {...otherProps} />
+        <React.Fragment>
+          <Variables
+            onVariablesChange={setVariables}
+            initialVariables={variables}
+          />
+          <div className="mx4">
+            <Button
+              Icon={Icons.Enable}
+              primary
+              onClick={() => {
+                otherProps.updateNode({ variables });
+              }}
+            >
+              Save
+            </Button>
+          </div>
+        </React.Fragment>
       )}
       {selectedMenuItem === FOLDER_MENU_OPTIONS.SETTINGS && (
         <FolderSettings {...otherProps} />

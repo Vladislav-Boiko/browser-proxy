@@ -25,7 +25,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
     setResponse({});
     setRequest({});
     setVariables(otherProps.variables || []);
-  }, [otherProps.id]);
+  }, [otherProps.id, otherProps.variables]);
   const patchResponse = (patch) =>
     setResponse(Object.assign({}, response, patch));
   const patchRequest = (patch) => setRequest(Object.assign({}, request, patch));
