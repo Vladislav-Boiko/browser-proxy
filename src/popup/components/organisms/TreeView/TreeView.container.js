@@ -3,8 +3,13 @@ import { v4 as uuid } from 'uuid';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { getAllNodes } from 'store/nodes/selectors';
 import { getSelectedNodeId, getCurrentDomain } from 'store/selected/selectors';
-import { addDomain as addDomainAction } from 'store/nodes/actions';
+import {
+  addDomain as addDomainAction,
+  moveNode as moveNodeAction,
+} from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import TreeView, {
   TYPES as TREE_TYPES,
@@ -29,15 +34,18 @@ const TreeViewContainer = (props) => {
     );
     dispatch(selectNodeAction(id));
   };
-
+  const moveNode = (payload) => dispatch(moveNodeAction(payload));
   return (
-    <TreeView
-      nodes={nodes}
-      {...props}
-      addDomain={addDomain}
-      selectedId={selectedNodeId}
-      currentDomain={currentDomain}
-    />
+    <DndProvider backend={HTML5Backend}>
+      <TreeView
+        nodes={nodes}
+        {...props}
+        addDomain={addDomain}
+        moveNode={moveNode}
+        selectedId={selectedNodeId}
+        currentDomain={currentDomain}
+      />
+    </DndProvider>
   );
 };
 

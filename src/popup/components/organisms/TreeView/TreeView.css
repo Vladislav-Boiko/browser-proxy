@@ -214,3 +214,33 @@
 .treeView__header_xs {
   visibility: hidden;
 }
+
+.node__row {
+  transition: all 0.1s;
+}
+
+.node__row_dragged {
+  box-sizing: border-box;
+  border: 2px dashed var(--c4);
+  outline: none;
+  background-color: transparent;
+}
+
+.node__row_dragged button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.node__row_dragged .treeView__row:hover {
+  background-color: transparent;
+}
+
+.node__row_dropping.node__row_dragged {
+  padding-bottom: 0;
+}
+
+.node__row_dropping {
+  padding-bottom: calc(var(--em) * 5);
+  /* border-bottom: 2px solid var(--c3); */
+}

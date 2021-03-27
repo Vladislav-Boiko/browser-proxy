@@ -48,3 +48,9 @@ export const removeFolder = (payload) => ({
   type: REMOVE_FOLDER,
   payload,
 });
+
+export const MOVE_NODE = 'MOVE_NODE';
+export const moveNode = (payload) => ({
+  type: MOVE_NODE,
+  payload,
+});

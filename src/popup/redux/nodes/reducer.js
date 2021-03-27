@@ -7,13 +7,18 @@ import {
   REMOVE_FOLDER,
   REMOVE_OVERRIDE,
   REMOVE_DOMAIN,
+  MOVE_NODE,
+  removeOverride,
 } from './actions';
-import { findPath, getItemsToSerialize } from './selectors';
+import { findPath, getItemsToSerialize, getNode } from './selectors';
 import { evolve, where, alter } from 'immutableql';
 import { TYPES } from 'organisms/TreeView/Nodes/index';
 import serializer from '../../../common/storage/Serializer';
 
-const updateDeep = (state, path, payload) => {
+export const updateDeep = (state, path, payload) => {
+  if (!path) {
+    return state;
+  }
   let update = payload;
   do {
     const id = path.pop();
@@ -26,8 +31,52 @@ const updateDeep = (state, path, payload) => {
   return evolve(state, update);
 };
 
+const removeNode = (action, state) => {
+  const itemPath = findPath(action.payload, state);
+  if (!itemPath) {
+    return state;
+  }
+  const itemId = itemPath.pop();
+  return updateDeep(state, itemPath, {
+    nodes: alter((key, value) => value.filter(({ id }) => id !== itemId)),
+  });
+};
+
+const addOverride = (action, state) => {
+  let newOverride = Object.assign(
+    {
+      name: 'New Override',
+      type: 'GET',
+      isOn: true,
+      isUnsaved: true,
+      responseType: 'JSON',
+      responseCode: '200',
+      responseBody: [{ value: undefined, delay: '200ms' }],
+    },
+    action.payload.override,
+  );
+  try {
+    if (
+      newOverride.responseBody?.length === 1 &&
+      newOverride.responseBody[0].value
+    ) {
+      const asJson = JSON.parse(newOverride.responseBody[0].value);
+      newOverride.responseBody[0] = Object.assign(
+        {},
+        newOverride.responseBody[0],
+        { value: JSON.stringify(asJson, null, 2) },
+      );
+    }
+  } catch (e) {}
+  return updateDeep(state, findPath(action.payload.parentId, state), {
+    nodes: alter((key, value) =>
+      value ? [newOverride, ...value] : [newOverride],
+    ),
+  });
+};
+
 // Returns null if the state shall not be serialized, and state if does.
-const serializedReducer = (state = [], action) => {
+export const serializedReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_DOMAIN:
       return state.concat([action.payload]);
@@ -43,33 +92,7 @@ const serializedReducer = (state = [], action) => {
         isFirstOpen: false,
       });
     case ADD_OVERRIDE:
-      let newOverride = Object.assign(
-        {
-          name: 'New Override',
-          type: 'GET',
-          isOn: true,
-          isUnsaved: true,
-          responseType: 'JSON',
-          responseCode: '200',
-          responseBody: [{ value: undefined, delay: '200ms' }],
-        },
-        action.payload.override,
-      );
-      try {
-        if (newOverride.responseBody?.length === 1) {
-          const asJson = JSON.parse(newOverride.responseBody[0].value);
-          newOverride.responseBody[0] = Object.assign(
-            {},
-            newOverride.responseBody[0],
-            { value: JSON.stringify(asJson, null, 2) },
-          );
-        }
-      } catch (e) {}
-      return updateDeep(state, findPath(action.payload.parentId, state), {
-        nodes: alter((key, value) =>
-          value ? [...value, newOverride] : [newOverride],
-        ),
-      });
+      return addOverride(action, state);
     case ADD_FOLDER:
       const newFolder = Object.assign(
         {
@@ -86,13 +109,32 @@ const serializedReducer = (state = [], action) => {
       });
     case REMOVE_FOLDER:
     case REMOVE_OVERRIDE:
-      const itemPath = findPath(action.payload, state);
-      const itemId = itemPath.pop();
-      return updateDeep(state, itemPath, {
-        nodes: alter((key, value) => value.filter(({ id }) => id !== itemId)),
-      });
+      return removeNode(action, state);
     case REMOVE_DOMAIN:
       return state.filter(({ id }) => id !== action.payload);
+    case MOVE_NODE:
+      const fromPath = findPath(action.payload.from, state);
+      let toPath = findPath(action.payload.to, state);
+      if (!toPath || !fromPath) {
+        return state;
+      }
+      const moved = getNode(state, fromPath);
+      const destinationNode = getNode(state, [...toPath]);
+      const afterRemoval = removeNode(removeOverride(moved.id), state);
+      if (destinationNode?.type === TYPES.FOLDER) {
+        return updateDeep(state, toPath, {
+          nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
+        });
+      }
+      const neighborId = toPath.pop();
+      return updateDeep(afterRemoval, toPath, {
+        nodes: alter((key, value) => {
+          const neighborIndex = value.findIndex(({ id }) => id === neighborId);
+          let valueCopy = [...value];
+          valueCopy.splice(neighborIndex + 1, 0, moved);
+          return valueCopy.filter((item) => !!item);
+        }),
+      });
     default:
       return null;
   }

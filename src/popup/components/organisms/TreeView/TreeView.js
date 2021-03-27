@@ -23,6 +23,7 @@ const TreeView = ({
   addDomain,
   selectedId,
   currentDomain,
+  moveNode,
 }) => {
   const [isMinified, setMinified] = useState(false);
   const [selected, select] = useState();
@@ -96,6 +97,7 @@ const TreeView = ({
             select={doSelect}
             key={node.id}
             currentDomain={currentDomain}
+            moveNode={moveNode}
           />
         ))}
         <Button

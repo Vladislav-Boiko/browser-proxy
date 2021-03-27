@@ -21,7 +21,7 @@ export const getParentId = (id) => (store) => {
   const nodes = getAllNodes(store);
   const pathToItem = findPath(id, nodes);
   pathToItem.pop();
-  return pathToItem.pop();
+  return pathToItem.pop() || null;
 };
 
 const filterUnsavedNodesRecursively = (nodes = []) => {
@@ -45,4 +45,13 @@ export const getItemsToSerialize = (store) => {
   // filter out all unsaved nodes
   nodes = filterUnsavedNodesRecursively(nodes);
   return { nodes };
+};
+
+export const getNode = (state, path) => {
+  let current = { nodes: state };
+  do {
+    const id = path.shift();
+    current = current.nodes.find((item) => item.id === id);
+  } while (path && path.length);
+  return Object.assign({}, current);
 };
