@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import { updateNode } from 'store/nodes/actions';
@@ -9,20 +9,25 @@ const NodeName = ({ id, name, className, isUnsaved }) => {
   const [value, setValue] = useState(name);
   const dispatch = useDispatch();
   const updateValue = (value) => dispatch(updateNode({ id, name: value }));
-  let inputRef = null;
+  let inputRef = useRef(null);
   useEffect(() => {
     setValue(name);
-    inputRef && inputRef.focus();
-  }, [name, inputRef]);
+  }, [name]);
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current.focus();
+    }
+  }, [isEditing, inputRef]);
   if (isEditing) {
     return (
       <input
         className={'nodeName__input'}
         type="text"
-        value={value}
-        ref={(theInput) => (inputRef = theInput)}
+        value={name}
+        ref={inputRef}
         onChange={(e) => updateValue(e.target.value)}
         onBlur={() => setIsEditing(false)}
+        onKeyDown={({ key }) => key === 'Enter' && setIsEditing(false)}
         size={`${name.length}`}
       />
     );
@@ -32,7 +37,10 @@ const NodeName = ({ id, name, className, isUnsaved }) => {
       className={cn('nodeName__name ml1', className, {
         nodeName__name_unsaved: isUnsaved,
       })}
-      onDoubleClick={() => setIsEditing(true)}
+      onDoubleClick={() => {
+        setIsEditing(true);
+        // inputRef?.current && inputRef.current.focus();
+      }}
     >
       {name}
     </span>
