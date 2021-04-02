@@ -122,11 +122,16 @@ export const serializedReducer = (state = [], action) => {
       const destinationNode = getNode(state, [...toPath]);
       const afterRemoval = removeNode(removeOverride(moved.id), state);
       if (destinationNode?.type === TYPES.FOLDER) {
-        return updateDeep(state, toPath, {
+        return updateDeep(afterRemoval, toPath, {
           nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
         });
       }
       const neighborId = toPath.pop();
+      if (!toPath.length) {
+        return updateDeep(afterRemoval, [neighborId], {
+          nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
+        });
+      }
       return updateDeep(afterRemoval, toPath, {
         nodes: alter((key, value) => {
           const neighborIndex = value.findIndex(({ id }) => id === neighborId);

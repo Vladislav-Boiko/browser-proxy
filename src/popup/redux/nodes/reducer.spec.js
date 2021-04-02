@@ -10,6 +10,7 @@ import {
   removeDomain,
   moveNode,
 } from './actions';
+import { TYPES } from 'organisms/TreeView/Nodes/index';
 
 describe('updateDeep', () => {
   it('Shall update nodes on the first level', () => {
@@ -459,6 +460,23 @@ describe('removeOverride', () => {
     expect(updated[0].nodes.length).toEqual(2);
     expect(updated.find(({ id }) => id === 2)).toBeFalsy();
   });
+
+  it('can remove a nested override', () => {
+    const action = removeOverride(5);
+    const state = [
+      {
+        id: 1,
+        nodes: [
+          { id: 2 },
+          { id: 3, nodes: [{ id: 5, payload: 'abc' }] },
+          { id: 4 },
+        ],
+      },
+    ];
+    const updated = serializedReducer(state, action);
+    expect(updated[0].nodes[1].nodes.length).toEqual(0);
+    expect(updated.find(({ id }) => id === 2)).toBeFalsy();
+  });
 });
 
 describe('removeDomain', () => {
@@ -487,8 +505,144 @@ describe('moveNode', () => {
     const state = [{ id: 'a', nodes: [{ id: 1 }, { id: 2 }] }];
     const action = moveNode({ from: 1, to: 2 });
     const updated = serializedReducer(state, action);
-    console.log(updated[0].nodes);
     expect(updated[0].nodes[0].id).toBe(2);
     expect(updated[0].nodes[1].id).toBe(1);
+  });
+
+  it('can move a node from parent to a sub node', () => {
+    const state = [
+      {
+        id: 1,
+        nodes: [
+          { id: 2 },
+          { id: 3, nodes: [{ id: 5, payload: 'abc' }] },
+          { id: 4 },
+        ],
+      },
+    ];
+    const action = moveNode({ from: 2, to: 5 });
+    const updated = serializedReducer(state, action);
+    expect(updated).toStrictEqual([
+      {
+        id: 1,
+        nodes: [
+          { id: 3, nodes: [{ id: 5, payload: 'abc' }, { id: 2 }] },
+          { id: 4 },
+        ],
+      },
+    ]);
+  });
+
+  it('can move a node from parent to a sub folder', () => {
+    const state = [
+      {
+        id: 1,
+        nodes: [
+          { id: 2 },
+          { id: 3, type: TYPES.FOLDER, nodes: [{ id: 5, payload: 'abc' }] },
+          { id: 4 },
+        ],
+      },
+    ];
+    const action = moveNode({ from: 2, to: 3 });
+    const updated = serializedReducer(state, action);
+    expect(updated).toStrictEqual([
+      {
+        id: 1,
+        nodes: [
+          {
+            id: 3,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 2 }, { id: 5, payload: 'abc' }],
+          },
+          { id: 4 },
+        ],
+      },
+    ]);
+  });
+
+  it('can move a node from a sub folder to parent', () => {
+    const state = [
+      {
+        id: 1,
+        nodes: [
+          {
+            id: 3,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 5, payload: 'abc' }, { id: 2 }],
+          },
+          { id: 4 },
+        ],
+      },
+    ];
+    const action = moveNode({ from: 2, to: 1 });
+    const updated = serializedReducer(state, action);
+    expect(updated).toStrictEqual([
+      {
+        id: 1,
+        nodes: [
+          { id: 2 },
+          {
+            id: 3,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 5, payload: 'abc' }],
+          },
+          { id: 4 },
+        ],
+      },
+    ]);
+  });
+
+  it('can move a node from one domain to another', () => {
+    const state = [
+      {
+        id: 11,
+        nodes: [
+          {
+            id: 13,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 15, payload: 'abc' }, { id: 12 }],
+          },
+          { id: 14 },
+        ],
+      },
+      {
+        id: 21,
+        nodes: [
+          {
+            id: 23,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 25, payload: 'abc' }, { id: 22 }],
+          },
+          { id: 24 },
+        ],
+      },
+    ];
+    const action = moveNode({ from: 12, to: 22 });
+    const updated = serializedReducer(state, action);
+    expect(updated).toStrictEqual([
+      {
+        id: 11,
+        nodes: [
+          {
+            id: 13,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 15, payload: 'abc' }],
+          },
+          { id: 14 },
+        ],
+      },
+      {
+        id: 21,
+        nodes: [
+          {
+            id: 23,
+            type: TYPES.FOLDER,
+            nodes: [{ id: 25, payload: 'abc' }, { id: 22 }, { id: 12 }],
+          },
+          { id: 24 },
+        ],
+      },
+    ]);
   });
 });
