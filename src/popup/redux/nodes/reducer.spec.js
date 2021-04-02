@@ -645,4 +645,17 @@ describe('moveNode', () => {
       },
     ]);
   });
+
+  it('cannot move overrides', () => {
+    const state = [
+      {
+        id: 1,
+      },
+      { id: 2 },
+      { id: 3 },
+    ];
+    const action = moveNode({ from: 3, to: 2 });
+    const updated = serializedReducer(state, action);
+    expect(updated).toStrictEqual(state);
+  });
 });

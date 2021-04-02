@@ -10,6 +10,7 @@ const Folder = ({
   className,
   addOverride,
   removeFolder,
+  addFolder,
   update,
   ...otherProps
 }) => {
@@ -24,14 +25,19 @@ const Folder = ({
           'node-body_disabled': !otherProps.isOn,
         })}
       >
-        <Button
-          primary
-          className="mt4 add-file"
-          Icon={Icons.AddFile}
-          onClick={addOverride}
-        >
-          Add Override
-        </Button>
+        <div className="button-row mt4">
+          <Button
+            primary
+            className="add-file"
+            Icon={Icons.AddFile}
+            onClick={addOverride}
+          >
+            Add Override
+          </Button>
+          <Button secondary Icon={Icons.AddFolder} onClick={addFolder}>
+            Add Folder
+          </Button>
+        </div>
         <Input
           label="Name"
           className="mt4 wmax"

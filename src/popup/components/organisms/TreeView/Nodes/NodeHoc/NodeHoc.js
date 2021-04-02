@@ -3,7 +3,9 @@ import cn from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from 'react-merge-refs';
 import { DND_TYPES } from '../../TreeViewDnD';
+import { TYPES } from 'organisms/TreeView/Nodes/index';
 
+import './NodeHoc.css';
 const TreeView = ({
   id,
   select,
@@ -31,13 +33,17 @@ const TreeView = ({
     }),
     [],
   );
+  let ref = drop;
+  if (otherProps.type !== TYPES.DOMAIN) {
+    ref = mergeRefs([drag, drop]);
+  }
   return (
     <button
-      ref={mergeRefs([drag, drop])}
-      className={cn(className, 'treeView__row', {
+      ref={ref}
+      className={cn(className, 'treeView__row node-hoc', {
         treeView__row_selected: selectedId === id,
-        node__row_dragged: isDragging,
-        node__row_dropping: isOver,
+        'node-hoc_dragged': isDragging,
+        'node-hoc_dropping': isOver,
       })}
       onClick={() => {
         select(id);

@@ -7,13 +7,15 @@ import { TYPES } from 'organisms/TreeView/TreeView.container';
 import { getDomainIdForActiveUrl } from 'store/activeWindows/selectors';
 
 export const hasUrlMatch = (url, activeUrls) =>
-  micromatch.isMatch(url, activeUrls);
+  activeUrls && micromatch.isMatch(url, activeUrls);
 
 export const createDefaultActiveUrl = (url) => {
   let origin = url;
   try {
-    const parsed = new URL(url);
-    origin = parsed.origin;
+    if (url) {
+      const parsed = new URL(url);
+      origin = parsed.origin;
+    }
   } catch (e) {
     // Do nothing.
   }

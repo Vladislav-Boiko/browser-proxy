@@ -1,0 +1,9 @@
+.node-hoc {
+  transition: all 0.1s;
+}
+
+.node-hoc.node-hoc_dropping {
+  transition: all 0.1s;
+  background-color: var(--c4);
+  margin-bottom: calc(var(--em) * 2.5);
+}

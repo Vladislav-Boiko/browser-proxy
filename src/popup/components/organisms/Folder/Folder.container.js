@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import {
   addOverride as addOverrideAction,
   removeFolder as removeFolderAction,
+  addFolder as addFolderAction,
 } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
 import { updateNode as updateNodeAction } from 'store/nodes/actions';
@@ -32,11 +33,25 @@ const FolderContainer = (props = {}) => {
   };
   const updateNode = (payload) =>
     dispatch(updateNodeAction(Object.assign({ id: props.id }, payload)));
+
+  const addFolder = () => {
+    const id = uuid();
+    dispatch(
+      addFolderAction({
+        parentId: props.id,
+        folder: {
+          id,
+        },
+      }),
+    );
+    dispatch(selectNodeAction(id));
+  };
   return (
     <Folder
       {...props}
       addOverride={addOverride}
       removeFolder={removeFolder}
+      addFolder={addFolder}
       update={updateNode}
     />
   );
