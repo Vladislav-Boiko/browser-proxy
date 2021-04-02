@@ -114,7 +114,12 @@ export const serializedReducer = (state = [], action) => {
       return state.filter(({ id }) => id !== action.payload);
     case MOVE_NODE:
       const fromPath = findPath(action.payload.from, state);
-      if (fromPath?.length <= 1) {
+      if (
+        fromPath?.length <= 1 ||
+        action.payload.from === action.payload.to ||
+        !action.payload.from ||
+        !action.payload.to
+      ) {
         return state;
       }
       let toPath = findPath(action.payload.to, state);

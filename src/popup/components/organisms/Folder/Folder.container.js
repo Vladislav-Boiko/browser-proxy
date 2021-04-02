@@ -52,7 +52,7 @@ const FolderContainer = (props = {}) => {
       addOverride={addOverride}
       removeFolder={removeFolder}
       addFolder={addFolder}
-      update={updateNode}
+      updateNode={updateNode}
     />
   );
 };
