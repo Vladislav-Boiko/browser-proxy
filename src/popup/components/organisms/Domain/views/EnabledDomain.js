@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Header from 'molecules/Header/Header';
@@ -38,7 +39,7 @@ const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
     );
   }, [isCurrent]);
   return (
-    <div className={className}>
+    <div className={cn('wmax', className)}>
       <Header
         options={getOptions(isCurrent)}
         initiallySelected={selectedMenuItem}

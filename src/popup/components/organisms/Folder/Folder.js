@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import cn from 'classnames';
 import Header from 'molecules/Header/Header';
 import Variables from 'organisms/Variables/Variables';
 import FolderSettings from './Settings/FolderSettings';
@@ -20,7 +21,7 @@ const Folder = ({ className, ...otherProps }) => {
     setVariables(otherProps.variables || []);
   }, [otherProps.variables]);
   return (
-    <div className={className}>
+    <div className={cn('wmax', className)}>
       <Header
         options={[
           { name: FOLDER_MENU_OPTIONS.SETTINGS },

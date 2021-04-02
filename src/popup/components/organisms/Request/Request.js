@@ -94,7 +94,7 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
             initialVariables={variables}
           />
         )}
-        <div className="button-row mt4 mx4">
+        <div className="button-row mb2 mx4">
           <Button
             Icon={Icons.Enable}
             primary
