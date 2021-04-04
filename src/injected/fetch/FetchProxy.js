@@ -40,6 +40,9 @@ const finishTracking = async (id, response) => {
   });
 };
 
+// TODO: such magic shall not appear at all
+const stripMs = (delay) => +(delay + '')?.split('ms')[0];
+
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
     async apply(target, thisArg, argumentsList) {
@@ -52,7 +55,9 @@ export default (window) => {
             headers.append(name, value);
           }
           for (let chunk of override.responseBody || []) {
-            await new Promise((resolve) => setTimeout(resolve, chunk.delay));
+            await new Promise((resolve) =>
+              setTimeout(resolve, stripMs(chunk.delay)),
+            );
           }
           resolve(
             new Response(getTotalResponse(override.responseBody), {
