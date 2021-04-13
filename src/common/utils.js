@@ -5,10 +5,8 @@ export const getResponseLength = (responseBody) => {
   return responseBody?.reduce((acc, { value }) => acc + value.length, 0) || 0;
 };
 
-export const getTotalResponse = (responseBody) => {
-  return responseBody?.reduce((acc, { value }) => acc + value, '') || '';
-};
-
+export const getTotalResponse = (responseBody) =>
+  responseBody?.reduce((acc, { value }) => acc + (value || ''), '') || '';
 export const changeTabIcon = (tab) => {
   if (tab?.url) {
     serializer.loadStore().then((store) => {
