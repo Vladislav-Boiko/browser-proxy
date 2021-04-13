@@ -482,7 +482,7 @@ describe('removeOverride', () => {
 
 describe('removeDomain', () => {
   it('can remove a domain', () => {
-    const action = removeDomain(2);
+    const action = removeDomain({ id: 2 });
     const state = [
       {
         id: 1,
@@ -687,6 +687,19 @@ describe('import data', () => {
   });
 
   it('can import data to a domain with existing nodes', () => {
+    const state = [
+      { id: 1 },
+      { id: 2, type: TYPES.DOMAIN, nodes: [{ id: 4 }] },
+      { id: 3 },
+    ];
+    const nodes = [{ id: 5 }, { id: 6 }];
+    const action = importData({ to: 2, data: nodes });
+    const updated = serializedReducer(state, action);
+    expect(updated[1].nodes[0].nodes.length).toStrictEqual(nodes.length);
+    expect(updated[1].nodes[0].name).toStrictEqual('Imported');
+  });
+
+  it('changes imported domain type to a folder type', () => {
     const state = [
       { id: 1 },
       { id: 2, type: TYPES.DOMAIN, nodes: [{ id: 4 }] },

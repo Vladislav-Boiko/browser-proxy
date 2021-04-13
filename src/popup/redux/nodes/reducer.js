@@ -103,8 +103,15 @@ const addFolder = (state, action) => {
   });
 };
 
-const removeDomain = (state, action) =>
-  state.filter(({ id }) => id !== action.payload);
+const removeDomain = (state, action) => {
+  const { id, isCurrent } = action.payload;
+  if (isCurrent) {
+    return updateDeep(state, [id], {
+      nodes: [],
+    });
+  }
+  return state.filter((domain) => domain.id !== id);
+};
 
 const moveNode = (state, action) => {
   const fromPath = findPath(action.payload.from, state);
