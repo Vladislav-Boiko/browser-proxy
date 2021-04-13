@@ -36,7 +36,7 @@ const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
         <Node
           {...selectedNode}
           toggle={() => toggleNode(selectedNode?.id)}
-          className="navigation-node mt1 pt1"
+          className="wmax navigation-node py2"
         />
       ) : (
         'TODO: not rendered'

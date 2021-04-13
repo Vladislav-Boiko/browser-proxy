@@ -11,6 +11,7 @@ import {
   MOVE_NODE,
   IMPORT_DATA,
   removeOverride,
+  updateNode as updateNodeAction,
 } from './actions';
 import { findPath, getItemsToSerialize, getNode } from './selectors';
 import { evolve, where, alter } from 'immutableql';
@@ -143,14 +144,19 @@ const moveNode = (state, action) => {
   });
 };
 
-const updateIdsInTree = (tree) => {
+const updateImportedNodes = (tree) => {
   if (!tree) {
     return tree;
   }
   for (let node of tree) {
     node.id = uuid();
+    node.isUnsaved = false;
+    if (node.type === TYPES.DOMAIN) {
+      node.type = TYPES.FOLDER;
+      delete node.activeUrls;
+    }
     if (node?.nodes) {
-      node.nodes = updateIdsInTree(node?.nodes);
+      node.nodes = updateImportedNodes(node?.nodes);
     }
   }
   return tree;
@@ -158,7 +164,7 @@ const updateIdsInTree = (tree) => {
 
 const importData = (state, action) => {
   const { to, data } = action.payload;
-  const dataToBeSet = updateIdsInTree(data);
+  const dataToBeSet = updateImportedNodes(data);
   let toPath = findPath(to, state);
   if (!toPath) {
     return state;
@@ -167,7 +173,17 @@ const importData = (state, action) => {
   if (toNode.type !== TYPES.FOLDER && toNode.type !== TYPES.DOMAIN) {
     return state;
   }
-  return updateDeep(state, toPath, {
+  let maybeWithUpdatedParent = state;
+  if (toNode.type === TYPES.DOMAIN) {
+    const parentUpdateAction = updateNodeAction({
+      id: to,
+      isFirstOpen: false,
+      isOpen: true,
+      isUnsaved: false,
+    });
+    maybeWithUpdatedParent = updateNode(state, parentUpdateAction);
+  }
+  return updateDeep(maybeWithUpdatedParent, toPath, {
     nodes: alter((key, value) => {
       if (!value?.length) {
         return dataToBeSet;
@@ -214,6 +230,7 @@ export default (state = [], action) => {
   const updated = serializedReducer(state, action);
   if (updated) {
     const nodes = getItemsToSerialize({ nodes: updated });
+    console.log('Saving nodes: ', { nodes, updated });
     serializer.saveStore(nodes);
     return updated;
   }
