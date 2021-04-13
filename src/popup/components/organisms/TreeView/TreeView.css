@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+.treeView ol,
+.treeView ul,
+.treeView li {
+  width: fit-content;
+}
+
 .treeView_md {
   padding-left: var(--em);
 }
@@ -183,7 +189,7 @@
 .treeView-container {
   position: relative;
   overflow-x: visible;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .treeView__resize-handler:hover {
