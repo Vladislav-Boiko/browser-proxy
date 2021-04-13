@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
+  width: fit-content;
 }
 
 .secondary {
@@ -61,6 +62,11 @@
   }
 
   .button-row .button + .button {
+    margin-top: calc(var(--em) * 3);
+    margin-left: 0;
+  }
+
+  .button-row .button + .file-input {
     margin-top: calc(var(--em) * 3);
     margin-left: 0;
   }

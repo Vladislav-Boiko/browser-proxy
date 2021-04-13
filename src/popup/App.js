@@ -13,7 +13,7 @@ function App() {
   return (
     <Provider store={store}>
       <div
-        className={cn({
+        className={cn('app-container', {
           popup: !browser.devtools,
         })}
       >

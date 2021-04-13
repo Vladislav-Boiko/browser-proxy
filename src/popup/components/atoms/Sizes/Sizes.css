@@ -382,8 +382,12 @@ body {
 
 .wmax {
   width: 100%;
-  max-width: calc(var(--em) * 90);
   box-sizing: border-box;
+  max-width: calc(var(--em) * 130);
+}
+
+.popup .wmax {
+  max-width: calc(var(--em) * 90);
 }
 
 .ffr {
