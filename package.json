@@ -31,6 +31,7 @@
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "^1.6.1",
     "file-loader": "4.3.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "^3.1.4",
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
@@ -165,9 +166,9 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.10",
-    "@storybook/addon-essentials": "^6.1.10",
+    "@storybook/addon-essentials": "^6.2.5",
     "@storybook/addon-links": "^6.1.10",
-    "@storybook/react": "^6.1.10",
+    "@storybook/react": "^6.2.5",
     "react-is": "^16.13.1"
   }
 }

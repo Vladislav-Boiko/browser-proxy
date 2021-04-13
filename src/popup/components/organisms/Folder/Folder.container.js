@@ -7,7 +7,12 @@ import {
   addFolder as addFolderAction,
 } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
-import { updateNode as updateNodeAction } from 'store/nodes/actions';
+import {
+  updateNode as updateNodeAction,
+  importData,
+} from 'store/nodes/actions';
+import { getNodeForExport } from 'store/nodes/selectors';
+import { exportAsFile } from 'utils/import-export';
 import { getParentId } from 'store/nodes/selectors';
 
 import Folder from './Folder';
@@ -46,6 +51,15 @@ const FolderContainer = (props = {}) => {
     );
     dispatch(selectNodeAction(id));
   };
+
+  const exported = useSelector(getNodeForExport(props.id), shallowEqual);
+  const doExport = () => {
+    exportAsFile(exported, props.name);
+  };
+  const doImport = (data) => {
+    dispatch(importData({ to: props.id, data }));
+  };
+
   return (
     <Folder
       {...props}
@@ -53,6 +67,8 @@ const FolderContainer = (props = {}) => {
       removeFolder={removeFolder}
       addFolder={addFolder}
       updateNode={updateNode}
+      doExport={doExport}
+      doImport={doImport}
     />
   );
 };

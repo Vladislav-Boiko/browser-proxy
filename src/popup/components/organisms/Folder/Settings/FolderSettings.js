@@ -3,6 +3,7 @@ import cn from 'classnames';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
+import FileInput from 'atoms/FileInput/FileInput';
 
 import './FolderSettings.css';
 const Folder = ({
@@ -54,10 +55,14 @@ const Folder = ({
           them for another domain, browser, or folder.
         </p>
         <div className="button-row mt4">
-          <Button secondary Icon={Icons.Import}>
+          <FileInput secondary onSubmit={otherProps.doImport} className="mr3">
             Import
-          </Button>
-          <Button secondary Icon={Icons.Export}>
+          </FileInput>
+          <Button
+            secondary
+            Icon={Icons.Export}
+            onClick={() => otherProps.doExport && otherProps.doExport()}
+          >
             Export
           </Button>
         </div>

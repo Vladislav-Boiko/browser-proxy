@@ -54,3 +54,9 @@ export const moveNode = (payload) => ({
   type: MOVE_NODE,
   payload,
 });
+
+export const IMPORT_DATA = 'IMPORT_DATA';
+export const importData = (payload) => ({
+  type: IMPORT_DATA,
+  payload,
+});

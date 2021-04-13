@@ -48,10 +48,26 @@ export const getItemsToSerialize = (store) => {
 };
 
 export const getNode = (state, path) => {
+  if (!path && !Array.isArray(path)) {
+    return null;
+  }
+  const pathCopy = [...path];
   let current = { nodes: state };
   do {
-    const id = path.shift();
+    const id = pathCopy.shift();
+    if (!id) {
+      return null;
+    }
     current = current.nodes.find((item) => item.id === id);
-  } while (path && path.length);
+    if (!current) {
+      return null;
+    }
+  } while (pathCopy && pathCopy.length);
   return Object.assign({}, current);
+};
+
+export const getNodeForExport = (id) => (store) => {
+  const nodes = getAllNodes(store);
+  const pathToItem = findPath(id, nodes);
+  return getNode(nodes, pathToItem);
 };

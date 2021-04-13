@@ -4,6 +4,7 @@ import { evolve } from 'immutableql';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
+import FileInput from 'atoms/FileInput/FileInput';
 
 import '../Domain.css';
 const DomainSettings = ({
@@ -67,13 +68,17 @@ const DomainSettings = ({
       <h3 className="mt6">Import and Export</h3>
       <p>
         You can export all the underlying overrides into a file and import them
-        for another domain or in another browser.
+        for another domain, browser, or folder.
       </p>
       <div className="wmax button-row mt4">
-        <Button secondary Icon={Icons.Import}>
+        <FileInput secondary onSubmit={otherProps.doImport} className="mr3">
           Import
-        </Button>
-        <Button secondary Icon={Icons.Export}>
+        </FileInput>
+        <Button
+          secondary
+          Icon={Icons.Export}
+          onClick={() => otherProps.doExport && otherProps.doExport()}
+        >
           Export
         </Button>
       </div>

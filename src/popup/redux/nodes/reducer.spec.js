@@ -9,6 +9,7 @@ import {
   removeOverride,
   removeDomain,
   moveNode,
+  importData,
 } from './actions';
 import { TYPES } from 'organisms/TreeView/Nodes/index';
 
@@ -657,5 +658,44 @@ describe('moveNode', () => {
     const action = moveNode({ from: 3, to: 2 });
     const updated = serializedReducer(state, action);
     expect(updated).toStrictEqual(state);
+  });
+});
+
+describe('import data', () => {
+  it('can import data to a domain', () => {
+    const state = [
+      { id: 1 },
+      { id: 2, type: TYPES.DOMAIN, nodes: [] },
+      { id: 3 },
+    ];
+    const nodes = [{ id: 4 }, { id: 5 }];
+    const action = importData({ to: 2, data: nodes });
+    const updated = serializedReducer(state, action);
+    expect(updated[1].nodes.length).toBe(nodes.length);
+  });
+
+  it('can import data to a folder', () => {
+    const state = [
+      { id: 1 },
+      { id: 2, type: TYPES.DOMAIN, nodes: [{ id: 4, type: TYPES.FOLDER }] },
+      { id: 3 },
+    ];
+    const nodes = [{ id: 6 }, { id: 7 }];
+    const action = importData({ to: 4, data: nodes });
+    const updated = serializedReducer(state, action);
+    expect(updated[1].nodes[0].nodes.length).toBe(nodes.length);
+  });
+
+  it('can import data to a domain with existing nodes', () => {
+    const state = [
+      { id: 1 },
+      { id: 2, type: TYPES.DOMAIN, nodes: [{ id: 4 }] },
+      { id: 3 },
+    ];
+    const nodes = [{ id: 5 }, { id: 6 }];
+    const action = importData({ to: 2, data: nodes });
+    const updated = serializedReducer(state, action);
+    expect(updated[1].nodes[0].nodes.length).toStrictEqual(nodes.length);
+    expect(updated[1].nodes[0].name).toStrictEqual('Imported');
   });
 });

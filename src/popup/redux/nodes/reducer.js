@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import {
   UPDATE_NODE,
   ADD_DOMAIN,
@@ -8,6 +9,7 @@ import {
   REMOVE_OVERRIDE,
   REMOVE_DOMAIN,
   MOVE_NODE,
+  IMPORT_DATA,
   removeOverride,
 } from './actions';
 import { findPath, getItemsToSerialize, getNode } from './selectors';
@@ -31,7 +33,7 @@ export const updateDeep = (state, path, payload) => {
   return evolve(state, update);
 };
 
-const removeNode = (action, state) => {
+const removeNode = (state, action) => {
   const itemPath = findPath(action.payload, state);
   if (!itemPath) {
     return state;
@@ -42,7 +44,7 @@ const removeNode = (action, state) => {
   });
 };
 
-const addOverride = (action, state) => {
+const addOverride = (state, action) => {
   let newOverride = Object.assign(
     {
       name: 'New Override',
@@ -75,79 +77,134 @@ const addOverride = (action, state) => {
   });
 };
 
+const addDomain = (state, action) => state.concat([action.payload]);
+
+const updateNode = (state, action) =>
+  updateDeep(state, findPath(action.payload.id, state), action.payload);
+
+const toggleNode = (state, action) =>
+  updateDeep(state, findPath(action.payload, state), {
+    isOn: alter((key, value) => !value),
+    isFirstOpen: false,
+  });
+
+const addFolder = (state, action) => {
+  const newFolder = Object.assign(
+    {
+      name: 'New Folder',
+      type: TYPES.FOLDER,
+      isOn: true,
+    },
+    action.payload.folder,
+  );
+  return updateDeep(state, findPath(action.payload.parentId, state), {
+    nodes: alter((key, value) => (value ? [...value, newFolder] : [newFolder])),
+  });
+};
+
+const removeDomain = (state, action) =>
+  state.filter(({ id }) => id !== action.payload);
+
+const moveNode = (state, action) => {
+  const fromPath = findPath(action.payload.from, state);
+  if (
+    fromPath?.length <= 1 ||
+    action.payload.from === action.payload.to ||
+    !action.payload.from ||
+    !action.payload.to
+  ) {
+    return state;
+  }
+  let toPath = findPath(action.payload.to, state);
+  if (!toPath || !fromPath) {
+    return state;
+  }
+  const moved = getNode(state, fromPath);
+  const destinationNode = getNode(state, [...toPath]);
+  const afterRemoval = removeNode(state, removeOverride(moved.id));
+  if (destinationNode?.type === TYPES.FOLDER) {
+    return updateDeep(afterRemoval, toPath, {
+      nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
+    });
+  }
+  const neighborId = toPath.pop();
+  if (!toPath.length) {
+    return updateDeep(afterRemoval, [neighborId], {
+      nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
+    });
+  }
+  return updateDeep(afterRemoval, toPath, {
+    nodes: alter((key, value) => {
+      const neighborIndex = value.findIndex(({ id }) => id === neighborId);
+      let valueCopy = [...value];
+      valueCopy.splice(neighborIndex + 1, 0, moved);
+      return valueCopy.filter((item) => !!item);
+    }),
+  });
+};
+
+const updateIdsInTree = (tree) => {
+  if (!tree) {
+    return tree;
+  }
+  for (let node of tree) {
+    node.id = uuid();
+    if (node?.nodes) {
+      node.nodes = updateIdsInTree(node?.nodes);
+    }
+  }
+  return tree;
+};
+
+const importData = (state, action) => {
+  const { to, data } = action.payload;
+  const dataToBeSet = updateIdsInTree(data);
+  let toPath = findPath(to, state);
+  if (!toPath) {
+    return state;
+  }
+  const toNode = getNode(state, toPath);
+  if (toNode.type !== TYPES.FOLDER && toNode.type !== TYPES.DOMAIN) {
+    return state;
+  }
+  return updateDeep(state, toPath, {
+    nodes: alter((key, value) => {
+      if (!value?.length) {
+        return dataToBeSet;
+      }
+      const additionalNode = {
+        type: TYPES.FOLDER,
+        name: 'Imported',
+        id: uuid(),
+        nodes: dataToBeSet,
+      };
+      return [additionalNode, ...value];
+    }),
+  });
+};
+
 // Returns null if the state shall not be serialized, and state if does.
 export const serializedReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_DOMAIN:
-      return state.concat([action.payload]);
+      return addDomain(state, action);
     case UPDATE_NODE:
-      return updateDeep(
-        state,
-        findPath(action.payload.id, state),
-        action.payload,
-      );
+      return updateNode(state, action);
     case TOGGLE_NODE:
-      return updateDeep(state, findPath(action.payload, state), {
-        isOn: alter((key, value) => !value),
-        isFirstOpen: false,
-      });
+      return toggleNode(state, action);
     case ADD_OVERRIDE:
-      return addOverride(action, state);
+      return addOverride(state, action);
     case ADD_FOLDER:
-      const newFolder = Object.assign(
-        {
-          name: 'New Folder',
-          type: TYPES.FOLDER,
-          isOn: true,
-        },
-        action.payload.folder,
-      );
-      return updateDeep(state, findPath(action.payload.parentId, state), {
-        nodes: alter((key, value) =>
-          value ? [...value, newFolder] : [newFolder],
-        ),
-      });
+      return addFolder(state, action);
     case REMOVE_FOLDER:
     case REMOVE_OVERRIDE:
-      return removeNode(action, state);
+      return removeNode(state, action);
     case REMOVE_DOMAIN:
-      return state.filter(({ id }) => id !== action.payload);
+      return removeDomain(state, action);
     case MOVE_NODE:
-      const fromPath = findPath(action.payload.from, state);
-      if (
-        fromPath?.length <= 1 ||
-        action.payload.from === action.payload.to ||
-        !action.payload.from ||
-        !action.payload.to
-      ) {
-        return state;
-      }
-      let toPath = findPath(action.payload.to, state);
-      if (!toPath || !fromPath) {
-        return state;
-      }
-      const moved = getNode(state, fromPath);
-      const destinationNode = getNode(state, [...toPath]);
-      const afterRemoval = removeNode(removeOverride(moved.id), state);
-      if (destinationNode?.type === TYPES.FOLDER) {
-        return updateDeep(afterRemoval, toPath, {
-          nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
-        });
-      }
-      const neighborId = toPath.pop();
-      if (!toPath.length) {
-        return updateDeep(afterRemoval, [neighborId], {
-          nodes: alter((key, value) => (value ? [moved, ...value] : [moved])),
-        });
-      }
-      return updateDeep(afterRemoval, toPath, {
-        nodes: alter((key, value) => {
-          const neighborIndex = value.findIndex(({ id }) => id === neighborId);
-          let valueCopy = [...value];
-          valueCopy.splice(neighborIndex + 1, 0, moved);
-          return valueCopy.filter((item) => !!item);
-        }),
-      });
+      return moveNode(state, action);
+    case IMPORT_DATA:
+      return importData(state, action);
     default:
       return null;
   }
