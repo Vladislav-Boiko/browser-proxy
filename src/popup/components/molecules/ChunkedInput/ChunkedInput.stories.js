@@ -7,7 +7,7 @@ export default {
   component: ChunkedInput,
 };
 
-const Template = (args) => <ChunkedInput {...args} />;
+const Template = (args) => <ChunkedInput {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {

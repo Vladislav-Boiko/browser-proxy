@@ -10,17 +10,16 @@ export default {
 const Template = (args) => {
   const [selected, setSelected] = useState(1);
   return (
-    <React.Fragment>
+    <div className="m4">
       <Tabs
         onSelect={setSelected}
-        className="m2"
         tabs={[
           { name: 'Response', id: 1 },
           { name: 'Request', id: 2 },
         ]}
         selectedTab={selected}
       />
-    </React.Fragment>
+    </div>
   );
 };
 

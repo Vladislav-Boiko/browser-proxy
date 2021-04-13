@@ -8,7 +8,7 @@ export default {
   component: RequestsList,
 };
 
-const Template = (args) => <RequestsList {...args} />;
+const Template = (args) => <RequestsList {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const requests = [

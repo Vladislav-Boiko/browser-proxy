@@ -10,14 +10,14 @@ export default {
 const Template = () => {
   const [selected, setSelected] = useState(2);
   return (
-    <React.Fragment>
+    <div className="m4">
       <Pagination
         totalPages={10}
         currentPage={selected}
         onChange={setSelected}
         className="my2"
       />
-    </React.Fragment>
+    </div>
   );
 };
 

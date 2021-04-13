@@ -7,7 +7,7 @@ export default {
   component: Header,
 };
 
-const Template = (args) => <Header {...args} />;
+const Template = (args) => <Header {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const props = {

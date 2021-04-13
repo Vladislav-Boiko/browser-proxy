@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { motion } from 'framer-motion';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import { v4 as uuid } from 'uuid';
@@ -49,95 +51,97 @@ const TreeView = ({
     setResizingKey(uuid());
   };
   return (
-    <div className="treeView-container">
-      <motion.ol
-        className={cn('treeView g7-bg px2 py3', {
-          treeView_minified: isMinified,
-          treeView_md: width < 165,
-        })}
-        animate={isMinified ? 'closed' : 'open'}
-        transition={{
-          duration: 0.8,
-          type: 'spring',
-        }}
-        variants={{
-          open: { width: `${width}px` },
-          closed: { width: `${WIDTH.closed}px` },
-        }}
-      >
-        <span
-          className={cn('treeView__header label_medium g2-color px2 mb2', {
-            treeView__header_md: width < 210,
-            treeView__header_sm: width < 180,
-            treeView__header_xs: width < 144,
+    <DndProvider backend={HTML5Backend}>
+      <div className="treeView-container">
+        <motion.ol
+          className={cn('treeView g7-bg px2 py3', {
+            treeView_minified: isMinified,
+            treeView_md: width < 165,
           })}
-        >
-          OVERRIDES
-        </span>
-        <Button
-          Icon={Icons.Collapse}
-          className={cn('treeView__show-hide', {
-            'treeView__show-hide_minified': isMinified,
-          })}
-          onClick={() => {
-            setMinified(!isMinified);
-            let newWidth = width;
-            if (!isMinified) {
-              newWidth = WIDTH.closed;
-            } else if (newWidth < WIDTH.open) {
-              newWidth = WIDTH.open;
-            }
-            resetResizing(newWidth);
+          animate={isMinified ? 'closed' : 'open'}
+          transition={{
+            duration: 0.8,
+            type: 'spring',
           }}
-        ></Button>
-        {nodes?.map((node) => (
-          <Node
-            {...node}
-            selectedId={selected}
-            select={doSelect}
-            key={node.id}
-            currentDomain={currentDomain}
-            moveNode={moveNode}
-          />
-        ))}
-        <Button
-          Icon={Icons.Add}
-          tretiary
-          className="treeView__add-domain g7-bg my2 px2"
-          onClick={addDomain}
+          variants={{
+            open: { width: `${width}px` },
+            closed: { width: `${WIDTH.closed}px` },
+          }}
         >
-          Add Domain
-        </Button>
-      </motion.ol>
-      <motion.button
-        key={resizingKeyForResetting}
-        className={cn('treeView__resize-handler', {
-          'treeView__resize-handler_dragged': isResizing,
-          'treeView__resize-handler_minified': isMinified,
-        })}
-        style={{ left: `${width}px` }}
-        drag="x"
-        dragMomentum={false}
-        dragElastic={0.2}
-        onDragStart={() => setIsResizing(true)}
-        onDragEnd={(e, info) => {
-          const newWidth = width + info.offset.x;
-          if (newWidth < 144) {
-            if (!isMinified) {
-              setMinified(true);
+          <span
+            className={cn('treeView__header label_medium g2-color px2 mb2', {
+              treeView__header_md: width < 210,
+              treeView__header_sm: width < 180,
+              treeView__header_xs: width < 144,
+            })}
+          >
+            OVERRIDES
+          </span>
+          <Button
+            Icon={Icons.Collapse}
+            className={cn('treeView__show-hide', {
+              'treeView__show-hide_minified': isMinified,
+            })}
+            onClick={() => {
+              setMinified(!isMinified);
+              let newWidth = width;
+              if (!isMinified) {
+                newWidth = WIDTH.closed;
+              } else if (newWidth < WIDTH.open) {
+                newWidth = WIDTH.open;
+              }
+              resetResizing(newWidth);
+            }}
+          ></Button>
+          {nodes?.map((node) => (
+            <Node
+              {...node}
+              selectedId={selected}
+              select={doSelect}
+              key={node.id}
+              currentDomain={currentDomain}
+              moveNode={moveNode}
+            />
+          ))}
+          <Button
+            Icon={Icons.Add}
+            tretiary
+            className="treeView__add-domain g7-bg my2 px2"
+            onClick={addDomain}
+          >
+            Add Domain
+          </Button>
+        </motion.ol>
+        <motion.button
+          key={resizingKeyForResetting}
+          className={cn('treeView__resize-handler', {
+            'treeView__resize-handler_dragged': isResizing,
+            'treeView__resize-handler_minified': isMinified,
+          })}
+          style={{ left: `${width}px` }}
+          drag="x"
+          dragMomentum={false}
+          dragElastic={0.2}
+          onDragStart={() => setIsResizing(true)}
+          onDragEnd={(e, info) => {
+            const newWidth = width + info.offset.x;
+            if (newWidth < 144) {
+              if (!isMinified) {
+                setMinified(true);
+              }
+              resetResizing(WIDTH.closed);
+              setWidth(WIDTH.closed);
+            } else {
+              if (isMinified) {
+                setMinified(false);
+              }
+              resetResizing(newWidth);
             }
-            resetResizing(WIDTH.closed);
-            setWidth(WIDTH.closed);
-          } else {
-            if (isMinified) {
-              setMinified(false);
-            }
-            resetResizing(newWidth);
-          }
-          setIsResizing(false);
-        }}
-      ></motion.button>
-    </div>
+            setIsResizing(false);
+          }}
+        ></motion.button>
+      </div>
+    </DndProvider>
   );
 };
 

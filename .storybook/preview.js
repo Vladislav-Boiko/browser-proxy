@@ -1,5 +1,6 @@
-import "../src/popup/index.css";
+import '../src/popup/index.css';
+import './storybook.css';
 
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
 };

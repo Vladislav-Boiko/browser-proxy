@@ -7,7 +7,7 @@ export default {
   component: Url,
 };
 
-const Template = (args) => <Url {...args} />;
+const Template = (args) => <Url {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = { url: 'test' };

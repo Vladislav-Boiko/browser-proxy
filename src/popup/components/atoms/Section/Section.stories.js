@@ -7,7 +7,7 @@ export default {
 };
 
 const Template = (args) => (
-  <React.Fragment>
+  <div className="m4">
     <Section
       className="my3"
       header={<h3>Request URL</h3>}
@@ -33,7 +33,7 @@ const Template = (args) => (
     >
       <div className="p1 c5-bg">Some text</div>
     </Section>
-  </React.Fragment>
+  </div>
 );
 
 export const Story = Template.bind({});

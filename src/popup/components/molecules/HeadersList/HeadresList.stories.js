@@ -7,7 +7,7 @@ export default {
   component: HeadersList,
 };
 
-const Template = (args) => <HeadersList {...args} />;
+const Template = (args) => <HeadersList {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {

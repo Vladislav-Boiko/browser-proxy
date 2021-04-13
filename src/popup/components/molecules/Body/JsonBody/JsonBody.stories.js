@@ -7,7 +7,7 @@ export default {
   component: JsonBody,
 };
 
-const Template = (args) => <JsonBody {...args} />;
+const Template = (args) => <JsonBody {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {};

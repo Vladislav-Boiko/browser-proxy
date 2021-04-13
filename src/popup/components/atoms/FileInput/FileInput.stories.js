@@ -12,7 +12,7 @@ const Template = (args) => {
   const onSubmit = (file) => setSelectedFile(file);
   console.log(selectedFile);
   return (
-    <React.Fragment>
+    <div className="m4">
       <h3>File Inputs</h3>
       <div className="my4">
         <FileInput {...args} secondary onSubmit={onSubmit}>
@@ -22,7 +22,7 @@ const Template = (args) => {
           Tretiary
         </FileInput>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

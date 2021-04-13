@@ -18,8 +18,8 @@ class Url extends React.Component {
     const { method, urlParams } = this.state;
     const { url, className, onChange, initialMethod, initialUrl } = this.props;
     return (
-      <React.Fragment>
-        <div className={cn('wmax ffr', className)}>
+      <div className={className}>
+        <div className={cn('wmax ffr')}>
           <Dropdown
             label="Type"
             initialState={method || METHODS.GET}
@@ -73,7 +73,7 @@ class Url extends React.Component {
             ))}
           </Section>
         </fieldset>
-      </React.Fragment>
+      </div>
     );
   }
 

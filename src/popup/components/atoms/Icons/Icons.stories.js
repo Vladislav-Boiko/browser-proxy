@@ -7,7 +7,7 @@ export default {
 };
 
 const Template = () => (
-  <div>
+  <div className="m4">
     <h4 className="my1">Small</h4>
     <Icons.Cross className="icon_sm ml1" />
     <Icons.Watch className="icon_sm ml1" />

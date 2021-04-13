@@ -13,7 +13,7 @@ const Template = () => {
   const [valueMultiline, setValueMultiline] = useState('{\n\n}');
   const [valueDelay, setValueDelay] = useState('200ms');
   return (
-    <div>
+    <div className="m4">
       <Input
         onChange={setValueInput}
         value={valueInput}

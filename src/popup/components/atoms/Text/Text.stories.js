@@ -7,7 +7,7 @@ export default {
 };
 
 const Template = (args) => (
-  <div>
+  <div className="m4">
     <h1 className="my1">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
     </h1>

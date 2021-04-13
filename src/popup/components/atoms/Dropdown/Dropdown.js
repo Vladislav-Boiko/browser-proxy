@@ -17,6 +17,7 @@ const Dropdown = ({
   label,
   onChange,
   initialState,
+  className,
   isUnsaved = false,
 }) => {
   const [value, setValue] = useState(options[0]);
@@ -25,7 +26,7 @@ const Dropdown = ({
   }, [initialState]);
   return (
     <label
-      className={cn('dropdown', {
+      className={cn('dropdown', className, {
         dropdown_unsaved: isUnsaved,
       })}
     >

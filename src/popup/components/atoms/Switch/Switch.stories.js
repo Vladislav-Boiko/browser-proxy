@@ -7,7 +7,7 @@ export default {
   component: Switch,
 };
 
-const Template = (args) => <Switch {...args} />;
+const Template = (args) => <Switch {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const props = {

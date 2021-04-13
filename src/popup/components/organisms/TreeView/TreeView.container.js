@@ -8,8 +8,6 @@ import {
   moveNode as moveNodeAction,
 } from 'store/nodes/actions';
 import { selectNode as selectNodeAction } from 'store/selected/actions';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import TreeView, {
   TYPES as TREE_TYPES,
@@ -36,16 +34,14 @@ const TreeViewContainer = (props) => {
   };
   const moveNode = (payload) => dispatch(moveNodeAction(payload));
   return (
-    <DndProvider backend={HTML5Backend}>
-      <TreeView
-        nodes={nodes}
-        {...props}
-        addDomain={addDomain}
-        moveNode={moveNode}
-        selectedId={selectedNodeId}
-        currentDomain={currentDomain}
-      />
-    </DndProvider>
+    <TreeView
+      nodes={nodes}
+      {...props}
+      addDomain={addDomain}
+      moveNode={moveNode}
+      selectedId={selectedNodeId}
+      currentDomain={currentDomain}
+    />
   );
 };
 

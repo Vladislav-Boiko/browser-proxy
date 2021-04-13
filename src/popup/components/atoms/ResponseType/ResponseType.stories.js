@@ -8,13 +8,13 @@ export default {
 };
 
 const Template = (args) => (
-  <React.Fragment>
+  <div className="m4">
     <ResponseType className="my1 mx1" type={TYPES.JSON} />
     <ResponseType className="my1 mx1" type={TYPES.BLOB} />
     <ResponseType className="my1 mx1" type={TYPES.ARRAY_BUFFER} />
     <ResponseType className="my1 mx1" type={TYPES.DOCUMENT} />
     <ResponseType className="my1 mx1" type={TYPES.TEXT} />
-  </React.Fragment>
+  </div>
 );
 
 export const Story = Template.bind({});

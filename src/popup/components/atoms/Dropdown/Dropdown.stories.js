@@ -7,7 +7,7 @@ export default {
   component: Dropdown,
 };
 
-const Template = (args) => <Dropdown {...args} />;
+const Template = (args) => <Dropdown {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const props = {

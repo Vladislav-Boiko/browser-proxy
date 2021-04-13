@@ -7,7 +7,7 @@ export default {
   component: ArrayBufferBody,
 };
 
-const Template = (args) => <ArrayBufferBody {...args} />;
+const Template = (args) => <ArrayBufferBody {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {};

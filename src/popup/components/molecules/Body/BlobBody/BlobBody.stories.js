@@ -7,7 +7,7 @@ export default {
   component: BlobBody,
 };
 
-const Template = (args) => <BlobBody {...args} />;
+const Template = (args) => <BlobBody {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {};

@@ -9,7 +9,7 @@ export default {
 };
 
 const Template = (args) => (
-  <React.Fragment>
+  <div className="p4">
     <h3>Regular buttons</h3>
     <div className="my4">
       <Button {...args} primary>
@@ -34,7 +34,7 @@ const Template = (args) => (
         Tretiary
       </Button>
     </div>
-  </React.Fragment>
+  </div>
 );
 
 export const Story = Template.bind({});

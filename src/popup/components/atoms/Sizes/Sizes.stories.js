@@ -7,7 +7,7 @@ export default {
 };
 
 const Template = () => (
-  <div className="m2">
+  <div className="m4">
     <span className="p1 m1 c4-bg" style={{ display: 'inline-block' }}></span>
     <span className="p2 m2 c4-bg" style={{ display: 'inline-block' }}></span>
     <span className="p3 m3 c4-bg" style={{ display: 'inline-block' }}></span>

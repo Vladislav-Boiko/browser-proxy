@@ -8,12 +8,12 @@ export default {
 };
 
 const Template = (args) => (
-  <React.Fragment>
+  <div className="m4">
     <Pill className="m2" text={200} />
     <Pill className="m2" text={500} />
     <Pill className="m2" text={404} />
     <Pill className="m2 pill_error" text={'FAILED'} />
-  </React.Fragment>
+  </div>
 );
 
 export const Story = Template.bind({});

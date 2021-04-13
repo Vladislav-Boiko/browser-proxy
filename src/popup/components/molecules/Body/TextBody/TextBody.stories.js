@@ -7,7 +7,7 @@ export default {
   component: TextBody,
 };
 
-const Template = (args) => <TextBody {...args} />;
+const Template = (args) => <TextBody {...args} className="m4" />;
 
 export const Story = Template.bind({});
 const tree = {};

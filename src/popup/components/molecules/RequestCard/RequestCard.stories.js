@@ -8,7 +8,7 @@ export default {
 };
 
 const Template = (args) => (
-  <React.Fragment>
+  <div className="m4">
     <RequestCard
       className="my1"
       {...args}
@@ -33,7 +33,7 @@ const Template = (args) => (
       responseType={TYPES.BLOB}
       url="profile"
     />
-  </React.Fragment>
+  </div>
 );
 
 export const Story = Template.bind({});
