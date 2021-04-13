@@ -45,13 +45,16 @@ const Domain = (props = {}) => {
     dispatch(selectNodeAction(id));
   };
 
-  const removeDomain = () =>
+  const removeDomain = () => {
     dispatch(
       removeDomainAction({
         id: props.id,
         isCurrent: currentDomain === props.id,
       }),
     );
+    dispatch(selectNodeAction(currentDomain));
+  };
+
   return (
     <EnabledDomain
       {...props}
