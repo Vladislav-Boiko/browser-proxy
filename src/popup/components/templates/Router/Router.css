@@ -1,4 +1,6 @@
 .navigation-node {
   flex: 1 1;
-  overflow-y: hidden;
+  overflow-y: auto;
+  height: 100vh;
+  box-sizing: border-box;
 }
