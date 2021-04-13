@@ -17,6 +17,7 @@ const requests = [
     url: 'http://yandex.ru',
     code: '200',
     responseType: TYPES.JSON,
+    isProxied: true,
   },
   {
     method: 'POST',

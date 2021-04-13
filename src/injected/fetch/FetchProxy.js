@@ -18,8 +18,7 @@ const getFetchTrack = (argumentsList) => {
   };
 };
 
-const startTracking = (fetchTrack) => {
-  const id = uuid();
+const startTracking = (fetchTrack, id = uuid()) => {
   messaging.emit(EVENTS.FETCH_SENT, {
     id,
     sentTimestamp: Date.now(),
@@ -48,6 +47,10 @@ export default (window) => {
     async apply(target, thisArg, argumentsList) {
       const fetchTrack = getFetchTrack(argumentsList);
       const override = await overridesStorage.findOverride(fetchTrack);
+      const id = startTracking(
+        { ...fetchTrack, isProxied: !!override },
+        override?.id,
+      );
       if (override) {
         return new Promise(async (resolve, reject) => {
           let headers = new Headers();
@@ -59,16 +62,18 @@ export default (window) => {
               setTimeout(resolve, stripMs(chunk.delay)),
             );
           }
-          resolve(
-            new Response(getTotalResponse(override.responseBody), {
+          const response = new Response(
+            getTotalResponse(override.responseBody),
+            {
               status: override.responseCode || 200,
               headers,
               url: override.responseURL,
-            }),
+            },
           );
+          finishTracking(id, response.clone());
+          resolve(response);
         });
       } else {
-        const id = startTracking(fetchTrack);
         const fetchResponse = Reflect.apply(target, window, argumentsList);
         return new Promise((resolve, reject) => {
           fetchResponse

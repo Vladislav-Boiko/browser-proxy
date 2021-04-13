@@ -1,4 +1,5 @@
 .request-card {
+  position: relative;
   border: 2px solid var(--c5);
   padding: var(--em) calc(var(--em) * 2);
   display: grid;
@@ -12,6 +13,10 @@
 
 .request-card_open {
   cursor: initial;
+}
+
+.request-card_proxied {
+  border: 2px solid var(--c4);
 }
 
 .request-card__pill,

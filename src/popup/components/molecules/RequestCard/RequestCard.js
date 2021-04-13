@@ -55,6 +55,7 @@ const RequestCard = ({
   readyState,
   className,
   onClick,
+  isProxied,
   ...otherProps
 }) => {
   let loadingState = LOADING_STATES.LOADING;
@@ -77,6 +78,7 @@ const RequestCard = ({
         method,
         responseType,
         readyState,
+        isProxied,
         ...otherProps,
       });
   };
@@ -84,6 +86,7 @@ const RequestCard = ({
     <div
       className={cn('request-card wmax', className, {
         'request-card_open': isOpen,
+        'request-card_proxied': isProxied,
       })}
       onClick={() => setIsOpen(true)}
     >
@@ -125,7 +128,7 @@ const RequestCard = ({
               iconLeft
               iconClass="override__icon"
             >
-              Override
+              {isProxied ? 'To override' : 'Override'}
             </Button>
           </div>
           <span className="label_weak">

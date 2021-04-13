@@ -55,11 +55,14 @@ const Domain = (props = {}) => {
     dispatch(selectNodeAction(currentDomain));
   };
 
+  const selectNode = (id) => dispatch(selectNodeAction(id));
+
   return (
     <EnabledDomain
       {...props}
       requests={requests}
       addOverride={addOverride}
+      selectNode={selectNode}
       addFolder={addFolder}
       removeDomain={removeDomain}
       isCurrent={currentDomain === props.id}
