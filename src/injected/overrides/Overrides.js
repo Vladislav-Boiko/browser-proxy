@@ -97,17 +97,18 @@ class Overrides {
   }
 
   replaceVariablesInOverride(override, matchedVariables) {
+    const overrideCopy = Object.assign({}, override);
     if (matchedVariables?.length) {
-      if (override?.responseBody) {
-        override.responseBody = override.responseBody.map(
+      if (overrideCopy?.responseBody) {
+        overrideCopy.responseBody = overrideCopy.responseBody.map(
           ({ value, ...other }) => ({
             value: this.replaceVariablesInAString(value, matchedVariables),
             ...other,
           }),
         );
       }
-      if (override?.responseHeaders) {
-        override.responseHeaders = override.responseHeaders.map(
+      if (overrideCopy?.responseHeaders) {
+        overrideCopy.responseHeaders = overrideCopy.responseHeaders.map(
           ({ name, value, ...other }) => ({
             name: this.replaceVariablesInAString(name, matchedVariables),
             value: this.replaceVariablesInAString(value, matchedVariables),
@@ -116,7 +117,7 @@ class Overrides {
         );
       }
     }
-    return override;
+    return overrideCopy;
   }
 
   // creates from a string an ordered list of parts and variables
