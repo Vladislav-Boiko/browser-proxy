@@ -22,7 +22,7 @@ const nodes = [
         id: '2',
         name: 'personal data',
         type: 'POST',
-        isOn: true,
+        isOn: false,
         isUnsaved: false,
       },
       {
@@ -43,14 +43,14 @@ const nodes = [
         id: '5',
         name: 'user',
         type: 'PUT',
-        isOn: true,
+        isOn: false,
         isUnsaved: true,
       },
       {
         id: 'f1',
         name: 'Folder',
         type: 'FOLDER',
-        isOn: true,
+        isOn: false,
         isUnsaved: false,
         nodes: [
           {

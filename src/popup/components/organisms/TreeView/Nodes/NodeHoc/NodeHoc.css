@@ -7,3 +7,14 @@
   background-color: var(--c4);
   margin-bottom: calc(var(--em) * 2.5);
 }
+
+.treeView__node-icon_disabled {
+  position: absolute;
+  left: calc(var(--em) * -1);
+  transition: all 0.2s;
+}
+
+.treeView__row:hover .treeView__node-icon_disabled,
+.treeView__row_selected .treeView__node-icon_disabled {
+  left: calc(var(--em) * -3);
+}

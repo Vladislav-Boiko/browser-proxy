@@ -4,6 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from 'react-merge-refs';
 import { DND_TYPES } from '../../TreeViewDnD';
 import { TYPES } from 'organisms/TreeView/Nodes/index';
+import Icons from 'atoms/Icons/Icons';
 
 import './NodeHoc.css';
 const TreeView = ({
@@ -50,6 +51,9 @@ const TreeView = ({
         onClick && onClick();
       }}
     >
+      {!otherProps.isOn && otherProps.type !== TYPES.DOMAIN && (
+        <Icons.Disabled className="icon_md treeView__node-icon_disabled" />
+      )}
       {children}
     </button>
   );
