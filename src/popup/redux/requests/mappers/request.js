@@ -76,7 +76,9 @@ const addRequest = (old, update) => {
   const combinedPreviousValue =
     old.responseBody?.map(({ value }) => value).join('') || '';
   const newChunkValue =
-    update.response?.replace(combinedPreviousValue, '') || '';
+    (typeof update.response === 'string' &&
+      update.response?.replace(combinedPreviousValue, '')) ||
+    '';
   let responseBody = old.responseBody || [];
   if (responseBody && responseBody.length > 0) {
     const lastElement = responseBody[responseBody.length - 1];

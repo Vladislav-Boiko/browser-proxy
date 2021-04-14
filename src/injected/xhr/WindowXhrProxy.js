@@ -3,7 +3,7 @@ import XhrProxy from './XhrProxy';
 // Wraps a real xhr with its proxy.
 const proxyXhr = (realXhr, xhrProxy) => {
   return new Proxy(realXhr, {
-    get(target, property) {
+    get(target, property, receiver) {
       // Only exposing actual xhr properties.
       if (!(property in realXhr)) {
         return undefined;
@@ -12,7 +12,7 @@ const proxyXhr = (realXhr, xhrProxy) => {
       let value = realValue;
       if (property in xhrProxy) {
         if (typeof xhrProxy[property] === 'function') {
-          value = xhrProxy[property](realValue);
+          value = xhrProxy[property](realValue, receiver);
         } else {
           value = xhrProxy[property];
         }

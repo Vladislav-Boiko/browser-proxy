@@ -40,7 +40,7 @@ export default class XhrProxy {
     });
   }
 
-  send(realSend) {
+  send(realSend, target) {
     return proxyFunction(realSend, async (args, applyReal) => {
       const body = args[0];
       const xhrTrack = {
@@ -48,14 +48,18 @@ export default class XhrProxy {
         requestHeaders: this.requestHeaders,
         requestBody: body,
       };
-      // TODO: track overriden xhrs as well.
-      trackXhr(xhrTrack, this.realXhr);
       let override = null;
       if (this.openArguments.async) {
         override = await overridesStorage.findOverride(xhrTrack);
       } else {
         override = overridesStorage.findOverrideSync(xhrTrack);
       }
+      // TODO: track overriden xhrs as well.
+      trackXhr(
+        { ...xhrTrack, isProxied: !!override },
+        override ? target : this.realXhr,
+        override?.id,
+      );
       if (override) {
         this.override = override;
         this.readyState = this.realXhr.readyState;

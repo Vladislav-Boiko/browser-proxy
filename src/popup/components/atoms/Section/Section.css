@@ -27,6 +27,7 @@
   transform-origin: top center;
   position: relative;
   box-sizing: border-box;
+  overflow-y: hidden;
 }
 
 .section__body > div:first-child {
