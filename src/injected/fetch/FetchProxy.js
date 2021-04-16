@@ -10,11 +10,27 @@ const getFetchTrack = (argumentsList) => {
     method: 'GET',
   };
   if (typeof argumentsList[1] === 'object') {
-    payload = argumentsList[1];
+    payload = Object.assign({}, argumentsList[1]);
+    let headers = [];
+    if (payload.headers) {
+      if (payload.headers instanceof Headers) {
+        for (let key of payload.headers.keys()) {
+          headers.push({ name: key, value: payload.headers.get(key) });
+        }
+      } else {
+        headers = Object.keys(payload.headers).map((key) => ({
+          name: key,
+          value: payload.headers[key],
+        }));
+      }
+      payload.headers = headers;
+    }
   }
   return {
     url,
+    method: payload.method,
     requestBody: payload.body || '',
+    requestHeaders: payload.headers || [],
   };
 };
 

@@ -72,7 +72,7 @@ class Overrides {
 
   findOverrideAmong(xhrData, overrides, variables = []) {
     let matchedVariables = null;
-    let override = overrides.find((override) => {
+    let foundOverride = overrides.find((override) => {
       if (override.isOn !== false) {
         const {
           isMatch,
@@ -90,10 +90,10 @@ class Overrides {
       }
       return false;
     });
-    if (override) {
-      return this.replaceVariablesInOverride(override, matchedVariables);
+    if (foundOverride) {
+      return this.replaceVariablesInOverride(foundOverride, matchedVariables);
     }
-    return override;
+    return foundOverride;
   }
 
   replaceVariablesInOverride(override, matchedVariables) {

@@ -237,7 +237,6 @@ export default (state = [], action) => {
   const updated = serializedReducer(state, action);
   if (updated) {
     const nodes = getItemsToSerialize({ nodes: updated });
-    console.log('Saving nodes: ', { nodes, updated });
     serializer.saveStore(nodes);
     return updated;
   }
