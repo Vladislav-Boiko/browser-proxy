@@ -1,7 +1,7 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
 import overridesStorage from '../overrides/Overrides';
-import { getTotalResponse } from '../../common/utils';
+import { getTotalResponse, stripMs } from '../../common/utils';
 import { v4 as uuid } from 'uuid';
 
 const getFetchTrack = (argumentsList) => {
@@ -54,9 +54,6 @@ const finishTracking = async (id, response) => {
     responseURL: response.url,
   });
 };
-
-// TODO: such magic shall not appear at all
-const stripMs = (delay) => +(delay + '')?.split('ms')[0];
 
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {

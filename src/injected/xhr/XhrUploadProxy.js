@@ -1,4 +1,4 @@
-import { getTotalResponse } from '../../common/utils';
+import { getTotalResponse, stripMs } from '../../common/utils';
 
 export default class XhrUploadProxy extends EventTarget {
   shallOverride = false;
@@ -22,7 +22,7 @@ export default class XhrUploadProxy extends EventTarget {
       if (isAborted()) {
         return;
       }
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, stripMs(delay)));
       progress += value.length;
       this.overrideProgressEvent('progress', progress || 0, total);
     }

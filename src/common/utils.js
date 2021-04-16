@@ -2,7 +2,9 @@ import serializer from '../common/storage/Serializer';
 import { hasUrlMatch } from 'utils/url';
 
 export const getResponseLength = (responseBody) => {
-  return responseBody?.reduce((acc, { value }) => acc + value.length, 0) || 0;
+  return (
+    responseBody?.reduce((acc, { value }) => acc + value?.length || 0, 0) || 0
+  );
 };
 
 export const getTotalResponse = (responseBody) =>
@@ -42,3 +44,6 @@ export const updateLoadedIcon = (tab) => {
     changeTabIcon(tab);
   }
 };
+
+// TODO: such magic shall not appear at all
+export const stripMs = (delay) => +(delay + '')?.split('ms')[0];

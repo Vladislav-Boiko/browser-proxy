@@ -1,4 +1,8 @@
-import { getResponseLength, getTotalResponse } from '../../common/utils';
+import {
+  getResponseLength,
+  getTotalResponse,
+  stripMs,
+} from '../../common/utils';
 import XhrUploadProxy from './XhrUploadProxy';
 
 // For more information on what is happening here, read https://xhr.spec.whatwg.org/
@@ -80,15 +84,15 @@ export default class OverrideXhr {
     return new Promise((resolve) => {
       setTimeout(() => {
         if (!this.proxy.isAborted) {
-          this.proxy.response += value;
+          this.proxy.response += value || '';
           this.dispatchProgressEvent(
             'progress',
-            progress + value.length,
+            progress + value?.length || 0,
             total,
           );
-          resolve(value.length);
+          resolve(value?.length || 0);
         }
-      }, delay);
+      }, stripMs(delay));
     });
   }
 
