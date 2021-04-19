@@ -14,7 +14,18 @@
   transition: all 0.2s;
 }
 
+.treeView_minified .treeView__node-icon_disabled {
+  width: 10px;
+  height: 10px;
+  left: calc(var(--em) * -0.75);
+}
+
 .treeView__row:hover .treeView__node-icon_disabled,
 .treeView__row_selected .treeView__node-icon_disabled {
   left: calc(var(--em) * -3);
+}
+
+.treeView_minified .treeView__row:hover .treeView__node-icon_disabled,
+.treeView_minified .treeView__row_selected .treeView__node-icon_disabled {
+  left: calc(var(--em) * -0.75);
 }
