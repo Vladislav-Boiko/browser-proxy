@@ -54,10 +54,10 @@ const RequestsList = ({ requests, className, onSelect }) => {
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
         />
-        <Button className="ml3 requests-list__filter-button" secondary>
+        {/* <Button className="ml3 requests-list__filter-button" secondary>
           <Icons.Filter className="mr1 icon_md" />
           Filter
-        </Button>
+        </Button> */}
       </div>
       <div className="requests-list__filters"></div>
       <div className="requests-list__reqeusts mt6">

@@ -193,3 +193,7 @@
   fill: white;
   transform: rotate(-135deg);
 }
+
+.input__revert_disabled {
+  display: none;
+}

@@ -62,6 +62,7 @@ const Input = ({
           input__revert_enabled: isUnsaved,
           'input__revert_with-label': !!label,
           input__revert_active: !!reset,
+          input__revert_disabled: !reset,
         })}
         disabled={!reset}
       >

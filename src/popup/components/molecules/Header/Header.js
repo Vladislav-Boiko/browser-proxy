@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import cn from 'classnames';
 import Switch from 'atoms/Switch/Switch';
+import Button from 'atoms/Button/Button';
+import Icons from 'atoms/Icons/Icons';
 
 import './Header.css';
 const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
+  const [isMinified, setMinified] = useState(true);
   const [selectedId, setSelectedId] = useState(initiallySelected);
   const [isDisabled, setIsDisabled] = useState(false);
   useEffect(() => {
@@ -25,7 +28,13 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
     updateOnBreakpointChange: true,
   });
   return (
-    <nav className={cn('navigation', currentBreakpoint)} ref={observe}>
+    <nav
+      className={cn('navigation', currentBreakpoint, {
+        'navigation_column-minified':
+          currentBreakpoint === 'column' && isMinified,
+      })}
+      ref={observe}
+    >
       <div className="navigation__actions wmax px4">
         {options.map(({ name }) => (
           <a
@@ -55,6 +64,19 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
             }}
           />
         </div>
+        {currentBreakpoint === 'column' && (
+          <Button
+            Icon={Icons.Collapse}
+            className={cn('menu__show-hide', {
+              'menu__show-hide_minified': isMinified,
+            })}
+            onClick={() => {
+              setMinified(!isMinified);
+            }}
+          >
+            {isMinified && 'menu'}
+          </Button>
+        )}
       </div>
     </nav>
   );

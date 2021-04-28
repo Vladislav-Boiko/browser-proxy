@@ -9,6 +9,9 @@
 .navigation__actions {
   display: flex;
   flex-flow: row;
+  overflow: visible;
+  position: relative;
+  min-width: calc(var(--em) * 30);
 }
 
 .navigation__item {
@@ -19,6 +22,7 @@
   text-decoration: none;
   position: relative;
   transition: all 0.3s;
+  transition: border;
 }
 
 .navigation__item + .navigation__item {
@@ -62,7 +66,7 @@
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 
 .column .switch-with-label__label {
@@ -71,6 +75,66 @@
   width: 0px;
   height: 0px;
   overflow: hidden;
+}
+
+.column .menu__show-hide {
+  position: absolute;
+  bottom: 0;
+  right: calc(var(--em));
+  width: calc(var(--em) * 8);
+  height: calc(var(--em) * 5);
+  padding: 0;
+  filter: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  color: var(--primary);
+}
+
+.column .menu__show-hide svg {
+  fill: var(--g5);
+  transform: rotate(-90deg);
+}
+
+.column .menu__show-hide:hover {
+  background-color: var(--c5);
+}
+
+.column .menu__show-hide:hover svg {
+  fill: var(--primary);
+}
+
+.column .menu__show-hide svg {
+  transition: all 0.5s ease-out;
+}
+
+.column .menu__show-hide_minified {
+  width: calc(100% - var(--em) * 2);
+}
+
+.column .menu__show-hide_minified svg {
+  transform: rotate(90deg);
+}
+
+.navigation_column-minified .navigation__actions {
+  height: calc(var(--em) * 5);
+}
+
+.navigation_column-minified .navigation__item,
+.navigation_column-minified .switch-with-label {
+  height: 0;
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  color: transparent;
+  border: none;
+}
+
+.navigation_column-minified .navigation__item_selected::after {
+  display: none;
+}
+
+.navigation_column-minified .switch-with-label {
+  display: none;
 }
 
 @media only screen and (max-width: 900px) {

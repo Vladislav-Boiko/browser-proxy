@@ -384,6 +384,8 @@ body {
   width: 100%;
   box-sizing: border-box;
   max-width: calc(var(--em) * 130);
+  min-width: calc(var(--em) * 40);
+  overflow: scroll;
 }
 
 .popup .wmax {

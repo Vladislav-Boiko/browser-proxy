@@ -49,10 +49,9 @@
 .button-row {
   display: flex;
   flex-flow: row;
-}
-
-.button-row button + button {
-  margin-left: calc(var(--em) * 3);
+  flex-wrap: wrap;
+  row-gap: calc(var(--em) * 3);
+  column-gap: calc(var(--em) * 3);
 }
 
 @media only screen and (max-width: 750px) {
