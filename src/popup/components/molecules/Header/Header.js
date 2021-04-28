@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useDimensions from 'react-cool-dimensions';
 import cn from 'classnames';
 import Switch from 'atoms/Switch/Switch';
 
@@ -16,8 +17,15 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
   useEffect(() => {
     setSelectedId(initiallySelected);
   }, [initiallySelected]);
+  const { observe, currentBreakpoint } = useDimensions({
+    breakpoints: {
+      column: 0,
+      row: ((options?.length || 0) + 1.5) * 100,
+    },
+    updateOnBreakpointChange: true,
+  });
   return (
-    <nav className="navigation">
+    <nav className={cn('navigation', currentBreakpoint)} ref={observe}>
       <div className="navigation__actions wmax px4">
         {options.map(({ name }) => (
           <a
