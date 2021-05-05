@@ -30,7 +30,7 @@ const Template = (args) => (
       {...args}
       responseCode={404}
       method="DELETE"
-      responseType={TYPES.BLOB}
+      responseType={TYPES.ARRAY_BUFFER}
       url="profile"
     />
   </div>

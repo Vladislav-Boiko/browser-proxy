@@ -11,30 +11,30 @@ import './Body.css';
 
 const RESPONSE_TYPES = [
   {
-    name: 'JSON',
+    name: 'Text',
     value: 'JSON',
-    view: <ResponseType type={TYPES.JSON} />,
+    view: <ResponseType type={TYPES.JSON} name="Text" />,
   },
+  // {
+  //   name: 'TEXT',
+  //   value: 'TEXT',
+  //   view: <ResponseType type={TYPES.TEXT} />,
+  // },
+  // {
+  //   name: 'BLOB',
+  //   value: 'BLOB',
+  //   view: <ResponseType type={TYPES.BLOB} />,
+  // },
   {
-    name: 'TEXT',
-    value: 'TEXT',
-    view: <ResponseType type={TYPES.TEXT} />,
-  },
-  {
-    name: 'BLOB',
-    value: 'BLOB',
-    view: <ResponseType type={TYPES.BLOB} />,
-  },
-  {
-    name: 'ArrayBuffer',
+    name: 'File',
     value: 'ArrayBuffer',
-    view: <ResponseType type={TYPES.ARRAY_BUFFER} />,
+    view: <ResponseType type={TYPES.ARRAY_BUFFER} name="File" />,
   },
-  {
-    name: 'Document',
-    value: 'Document',
-    view: <ResponseType type={TYPES.DOCUMENT} />,
-  },
+  // {
+  //   name: 'Document',
+  //   value: 'Document',
+  //   view: <ResponseType type={TYPES.DOCUMENT} />,
+  // },
 ];
 
 // TODO: add document as a response body type

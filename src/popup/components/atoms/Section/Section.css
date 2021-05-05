@@ -28,6 +28,7 @@
   position: relative;
   box-sizing: border-box;
   overflow-y: hidden;
+  display: contents;
 }
 
 .section__body > div:first-child {
@@ -37,4 +38,8 @@
 .section__body_closed > div:first-child {
   margin: 0;
   padding: 0;
+}
+
+.section__body_closed {
+  display: block;
 }

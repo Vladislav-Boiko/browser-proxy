@@ -11,7 +11,7 @@ export const TYPES = {
   DOCUMENT: 'DOCUMENT',
 };
 
-const ResponseType = ({ type, className }) => {
+const ResponseType = ({ name, type, className }) => {
   let Icon = Icons.Domain;
   switch (type) {
     case TYPES.JSON:
@@ -33,7 +33,7 @@ const ResponseType = ({ type, className }) => {
   return (
     <span className={cn('response-type g2-color', className)}>
       <Icon className="icon_md mr1 response-type__icon" />
-      <span>{type || TYPES.TEXT}</span>
+      <span>{name || type || TYPES.TEXT}</span>
     </span>
   );
 };

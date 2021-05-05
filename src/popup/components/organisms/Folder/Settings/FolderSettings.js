@@ -19,6 +19,18 @@ const Folder = ({
   useEffect(() => {
     setName(name || '');
   }, [name]);
+  const [error, setError] = useState('');
+  const importToDomain = (importResult) => {
+    try {
+      let asJson = JSON.parse(importResult);
+      if (!Array.isArray(asJson)) {
+        asJson = [asJson];
+      }
+      importResult && otherProps.doImport && otherProps.doImport(asJson);
+    } catch (e) {
+      setError('File contents could not been parsed as json');
+    }
+  };
   return (
     <div className={className}>
       <div
@@ -55,7 +67,12 @@ const Folder = ({
           them for another domain, browser, or folder.
         </p>
         <div className="button-row mt4">
-          <FileInput secondary onSubmit={otherProps.doImport} className="mr3">
+          <FileInput
+            secondary
+            onSubmit={importToDomain}
+            error={error}
+            className="mr3"
+          >
             Import
           </FileInput>
           <Button

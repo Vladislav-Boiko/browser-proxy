@@ -23,7 +23,7 @@ const nodes = [
         type: 'POST',
         isOn: true,
         isUnsaved: false,
-        responseType: 'TEXT',
+        responseType: 'JSON',
         responseCode: '201',
         responseBody: [{ value: 'test value', delay: '300ms' }],
         url: 'https://github.com',

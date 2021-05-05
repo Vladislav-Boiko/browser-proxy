@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Icons from 'atoms/Icons/Icons';
 import cn from 'classnames';
 
@@ -10,25 +10,18 @@ const FileInput = ({
   primary,
   secondary,
   tretiary,
+  ...otherProps
 }) => {
   const ref = useRef();
-  const [error, setError] = useState('');
+  const [error, setError] = useState(otherProps.error || '');
+  useEffect(() => {
+    setError(error || '');
+  }, [otherProps.error]);
   const submit = (file) => {
-    if (file.type !== 'application/json') {
-      setError('Cannot import non json file.');
-    }
     if (onSubmit && file) {
       const fileReader = new FileReader();
       fileReader.onload = (e) => {
-        try {
-          let asJson = JSON.parse(fileReader.result);
-          if (!Array.isArray(asJson)) {
-            asJson = [asJson];
-          }
-          fileReader.result && onSubmit(asJson);
-        } catch (e) {
-          setError('File contents could not been parsed as json');
-        }
+        fileReader.result && onSubmit && onSubmit(fileReader.result);
       };
       fileReader.onerror = () => {
         setError(fileReader.error);
@@ -51,7 +44,10 @@ const FileInput = ({
           type="file"
           className="file-input"
           ref={ref}
-          onChange={(e) => submit(e.target.files[0])}
+          onChange={(e) => {
+            submit(e.target.files[0]);
+            e.target.value = '';
+          }}
         />
       </label>
       {error && <p className="file-input__error">{error}</p>}
