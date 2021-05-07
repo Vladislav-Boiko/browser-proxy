@@ -129,6 +129,10 @@ export default class XhrProxy {
     this.realXhr.dispatchEvent(event);
   }
 
+  get responseType() {
+    return this.realXhr.responseType;
+  }
+
   get responseText() {
     if (this.override) {
       return this.response;

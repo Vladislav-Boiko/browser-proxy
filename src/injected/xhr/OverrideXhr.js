@@ -56,7 +56,7 @@ export default class OverrideXhr {
 
   async doOverrideReceiveResponse(response) {
     if (response) {
-      this.proxy.response = '';
+      this.proxy.response = null;
       let progress = 0;
       const total = getResponseLength(response);
       for (let { value, delay } of response) {
@@ -64,6 +64,30 @@ export default class OverrideXhr {
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
+    }
+  }
+
+  addResponseValue(stringValueToAdd = '') {
+    switch (this.proxy.responseType) {
+      case 'arraybuffer':
+        const textEncoder = new TextEncoder();
+        if (!this.proxy.response) {
+          this.proxy.response = textEncoder.encode(stringValueToAdd).buffer;
+        } else {
+          const was = new Uint8Array(this.proxy.response);
+          const toAdd = textEncoder.encode(stringValueToAdd);
+          const concatenated = new Uint8Array(was.length + toAdd.length);
+          concatenated.set(was, 0);
+          concatenated.set(toAdd, was.length);
+          this.proxy.response = concatenated.buffer;
+        }
+        break;
+      case 'text':
+      default:
+        if (!this.proxy.response) {
+          this.proxy.response = '';
+        }
+        this.proxy.response += stringValueToAdd;
     }
   }
 
@@ -84,7 +108,7 @@ export default class OverrideXhr {
     return new Promise((resolve) => {
       setTimeout(() => {
         if (!this.proxy.isAborted) {
-          this.proxy.response += value || '';
+          this.addResponseValue(value || '');
           this.dispatchProgressEvent(
             'progress',
             progress + value?.length || 0,

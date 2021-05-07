@@ -66,10 +66,10 @@ const Body = ({
   noDelay,
 }) => {
   code = '' + code;
-  const [bodyType, setBodyType] = useState(type || 'JSON');
+  const [bodyType, setBodyType] = useState(type || TYPES.JSON);
   const [codeChanged, setResponseCode] = useState(code || 200);
   useEffect(() => {
-    setBodyType(type || 'JSON');
+    setBodyType(type || TYPES.JSON);
     setResponseCode(code || 200);
   }, [type, code]);
   return (
