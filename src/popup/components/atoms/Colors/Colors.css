@@ -136,3 +136,13 @@ body {
 .accent-color {
   color: var(--accent);
 }
+
+.color {
+  width: calc(var(--em) * 6);
+  height: calc(var(--em) * 6);
+  display: inline-block;
+}
+
+.color.white-bg {
+  border: 1px solid black;
+}

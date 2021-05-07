@@ -9,34 +9,34 @@ export default {
 const Template = (args) => (
   <div className="m4">
     <h1 className="my1">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
+      H1 Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
     </h1>
     <h2 className="my1">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
+      H2 Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
     </h2>
     <h3 className="my1">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
+      H3 Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
     </h3>
     <h4 className="my1">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
+      H4 Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam
     </h4>
     <p className="paragrap_lg my2">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Laoreet gravida
-      in dictum tincidunt elementum sed. Proin egestas mi nam et. Arcu purus
-      viverra accumsan elit. Tempus, consequat tellus et nunc, id. Faucibus quis
-      diam sed nunc. Venenatis aliquam et ipsum vitae. Nulla imperdiet purus
-      tempor vitae consectetur.
+      Large Lorem ipsum dolor sit amet, consectetur adipiscing elit. Laoreet
+      gravida in dictum tincidunt elementum sed. Proin egestas mi nam et. Arcu
+      purus viverra accumsan elit. Tempus, consequat tellus et nunc, id.
+      Faucibus quis diam sed nunc. Venenatis aliquam et ipsum vitae. Nulla
+      imperdiet purus tempor vitae consectetur.
     </p>
     <p className="paragraph_sm my2">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Laoreet gravida
-      in dictum tincidunt elementum sed. Proin egestas mi nam et. Arcu purus
-      viverra accumsan elit. Tempus, consequat tellus et nunc, id. Faucibus quis
-      diam sed nunc. Venenatis aliquam et ipsum vitae. Nulla imperdiet purus
-      tempor vitae consectetur.
+      Medium Lorem ipsum dolor sit amet, consectetur adipiscing elit. Laoreet
+      gravida in dictum tincidunt elementum sed. Proin egestas mi nam et. Arcu
+      purus viverra accumsan elit. Tempus, consequat tellus et nunc, id.
+      Faucibus quis diam sed nunc. Venenatis aliquam et ipsum vitae. Nulla
+      imperdiet purus tempor vitae consectetur.
     </p>
-    <span className="label_strong mr2">Label</span>
-    <span className="label_medium mr2">Label</span>
-    <span className="label_weak mr2">Label</span>
+    <span className="label_strong mr2">Label strong</span>
+    <span className="label_medium mr2">Label medium</span>
+    <span className="label_weak mr2">Label weak</span>
   </div>
 );
 
