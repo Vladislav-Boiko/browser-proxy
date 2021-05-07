@@ -1,0 +1,16 @@
+.test-case {
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.test-case_success {
+  background-color: yellowgreen;
+}
+
+.test-case_fail {
+  background-color: tomato;
+}

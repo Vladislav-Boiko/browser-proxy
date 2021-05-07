@@ -80,6 +80,7 @@
     "build": "./scripts/build.sh",
     "clean": "rm -rf dist/ build/",
     "test": "node scripts/test.js",
+    "e2e": "cd ./e2e && nodemon ./index.js",
     "storybook": "start-storybook -p 6006 -s ./src/popup/fonts",
     "build-storybook": "build-storybook"
   },
