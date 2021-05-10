@@ -272,6 +272,65 @@ describe('XHR Override with set response type', () => {
     xhr.send();
     await promise;
   });
+
+  it('Can return a BLOB', async () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/test1');
+    const promise = new Promise((resolve, reject) => {
+      xhr.onload = () => {
+        const response = xhr.response;
+        try {
+          assertTrue(response instanceof Blob);
+          resolve();
+        } catch (e) {
+          reject(e);
+        }
+      };
+    });
+    xhr.responseType = 'blob';
+    xhr.send();
+    await promise;
+  });
+
+  it('Can return plain text data that is passed as file', async () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/test10');
+    const promise = new Promise((resolve, reject) => {
+      xhr.onload = () => {
+        const response = xhr.response;
+        assertEquals(response, 'Hello this is a base64 encoded string');
+        try {
+          resolve();
+        } catch (e) {
+          console.log(e);
+          reject(e);
+        }
+      };
+    });
+    xhr.responseType = 'text';
+    xhr.send();
+    await promise;
+  });
+
+  it('Can return chunked plain text data that is passed as file', async () => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/test11');
+    const promise = new Promise((resolve, reject) => {
+      xhr.onload = () => {
+        const response = xhr.response;
+        assertEquals(response, 'Hello this is a base64 encoded string');
+        try {
+          resolve();
+        } catch (e) {
+          console.log(e);
+          reject(e);
+        }
+      };
+    });
+    xhr.responseType = 'text';
+    xhr.send();
+    await promise;
+  });
 });
 
 runTests();

@@ -6,7 +6,6 @@ const proxyXhr = (realXhr, xhrProxy) => {
     get(target, property, receiver) {
       // Only exposing actual xhr properties.
       if (!(property in realXhr)) {
-        console.warn("Property doesn't exist on real  xhr", property);
         return undefined;
       }
       const realValue = Reflect.get(target, property);

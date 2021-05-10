@@ -64,10 +64,39 @@ export default class OverrideXhr {
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
+      if (this.proxy.responseType === 'JSON') {
+        try {
+          const asJson = JSON.parse(this.proxy.response);
+          this.proxy.response = asJson;
+        } catch (e) {
+          // Thats correct according to the specification:
+          // https://xhr.spec.whatwg.org/#the-response-attribute
+          this.proxy.response = null;
+        }
+      }
     }
   }
 
-  addResponseValue(stringValueToAdd = '') {
+  convertOverrideChunkValueToString(stringValue = '') {
+    if (this.mock.responseType?.toUpperCase() === 'ARRAYBUFFER') {
+      try {
+        return atob(stringValue);
+      } catch (e) {
+        // skip
+      }
+    }
+    return stringValue;
+  }
+
+  concatenateArrayBuffers(was, toAdd) {
+    const concatenated = new Uint8Array(was.length + toAdd.length);
+    concatenated.set(was, 0);
+    concatenated.set(toAdd, was.length);
+    return concatenated;
+  }
+
+  async addResponseValue(stringValueToAdd = '') {
+    stringValueToAdd = this.convertOverrideChunkValueToString(stringValueToAdd);
     switch (this.proxy.responseType) {
       case 'arraybuffer':
         const textEncoder = new TextEncoder();
@@ -76,10 +105,22 @@ export default class OverrideXhr {
         } else {
           const was = new Uint8Array(this.proxy.response);
           const toAdd = textEncoder.encode(stringValueToAdd);
-          const concatenated = new Uint8Array(was.length + toAdd.length);
-          concatenated.set(was, 0);
-          concatenated.set(toAdd, was.length);
+          const concatenated = this.concatenateArrayBuffers(was, toAdd);
           this.proxy.response = concatenated.buffer;
+        }
+        break;
+      case 'blob':
+        const mimetype =
+          this.proxy.realXhr.getResponseHeader('content-type') || 'text/plain';
+        if (!this.proxy.response) {
+          const asBlob = new Blob([stringValueToAdd], { type: mimetype });
+          this.proxy.response = asBlob;
+        } else {
+          const was = await this.proxy.response.arrayBuffer();
+          const toAdd = textEncoder.encode(stringValueToAdd);
+          const concatenated = this.concatenateArrayBuffers(was, toAdd);
+          const asBlob = new Blob([concatenated], { type: mimetype });
+          this.proxy.response = asBlob;
         }
         break;
       case 'text':
@@ -106,9 +147,9 @@ export default class OverrideXhr {
 
   async updateResponse(value, delay, progress, total) {
     return new Promise((resolve) => {
-      setTimeout(() => {
+      setTimeout(async () => {
         if (!this.proxy.isAborted) {
-          this.addResponseValue(value || '');
+          await this.addResponseValue(value || '');
           this.dispatchProgressEvent(
             'progress',
             progress + value?.length || 0,
