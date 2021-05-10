@@ -15,7 +15,7 @@ const FileInput = ({
   const ref = useRef();
   const [error, setError] = useState(otherProps.error || '');
   useEffect(() => {
-    setError(error || '');
+    setError(otherProps.error || '');
   }, [otherProps.error]);
   const submit = (file) => {
     if (onSubmit && file) {

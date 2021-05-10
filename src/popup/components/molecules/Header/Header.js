@@ -42,7 +42,7 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
             className={cn('navigation__item label_medium', {
               navigation__item_selected: selectedId === name,
             })}
-            href="#"
+            href={`#${name}`}
             onClick={(e) => {
               e.preventDefault();
               select(name);

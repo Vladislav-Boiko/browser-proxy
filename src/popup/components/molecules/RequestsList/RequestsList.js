@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import RequestCard from 'molecules/RequestCard/RequestCard';
 import Input from 'atoms/Input/Input';
-import Button from 'atoms/Button/Button';
-import Icons from 'atoms/Icons/Icons';
 import Pagination from 'atoms/Pagination/Pagination';
 import './RequestsList.css';
 

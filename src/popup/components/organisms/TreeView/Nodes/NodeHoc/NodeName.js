@@ -6,13 +6,9 @@ import { updateNode } from 'store/nodes/actions';
 import './NodeName.css';
 const NodeName = ({ id, name, className, isUnsaved }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState(name);
   const dispatch = useDispatch();
   const updateValue = (value) => dispatch(updateNode({ id, name: value }));
   let inputRef = useRef(null);
-  useEffect(() => {
-    setValue(name);
-  }, [name]);
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();

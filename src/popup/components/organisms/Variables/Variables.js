@@ -42,7 +42,7 @@ const Variables = ({ onVariablesChange, initialVariables }) => {
       <p className="mb6 mt3">
         You can capture parts of a Request with regular expressions, and then
         use them as part of a Response. Find out examples and more on the{' '}
-        <a href="">documentation</a> page
+        <a href="#">documentation</a> page
       </p>
       {variables.map(({ name, value, id }, index) => (
         <div className="ffr mt3 variables__row" key={id}>
