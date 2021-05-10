@@ -12,8 +12,8 @@
 }
 
 .switch:focus-within {
-  outline-color: var(--c4);
-  outline-width: 1px;
+  outline-color: var(--focus);
+  outline-width: 2px;
   outline-style: solid;
   outline-offset: 0px;
 }

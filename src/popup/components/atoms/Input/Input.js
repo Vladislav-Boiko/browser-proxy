@@ -70,7 +70,9 @@ const Input = ({
           Undo changes in {label} input
         </span>
         <Icons.Reset className="icon_sm" />
-        <button onClick={() => reset && reset()}>Revert</button>
+        <button tabIndex={isUnsaved ? 0 : -1} onClick={() => reset && reset()}>
+          Revert
+        </button>
       </label>
       <InputType
         className={cn('input label_weak c5-bg px2 py1', {

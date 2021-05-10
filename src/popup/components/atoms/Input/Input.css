@@ -183,7 +183,7 @@
 }
 
 .input__revert_enabled.input__revert_active:focus-within {
-  outline-color: var(--c5);
+  outline-color: var(--focus);
   outline-width: 1px;
   outline-style: solid;
   outline-offset: 2px;

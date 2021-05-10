@@ -27,6 +27,7 @@ const Template = () => (
     <div className="color p2 m1 g7-bg"></div>
     <br />
     <div className="color p2 m1 accent-bg"></div>
+    <div className="color p2 m1 focus"></div>
     {/* text */}
     <div className="p2 primary-color">Lorem ipsum dolor sit amet</div>
     <div className="p2 c2-color">Lorem ipsum dolor sit amet</div>

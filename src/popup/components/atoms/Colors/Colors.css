@@ -15,6 +15,8 @@ body {
   --g6: #dee0e6;
   --g7: #f3f5fb;
   --accent: #d73229;
+  /* --focus: #d4afcd; */
+  --focus: #83a0a0;
 }
 
 .primary-bg {

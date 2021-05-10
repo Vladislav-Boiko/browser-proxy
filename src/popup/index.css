@@ -31,11 +31,12 @@ li {
   padding: 0;
 }
 
-*:focus {
-  outline-color: var(--c4);
-  outline-width: 1px;
+*:focus,
+.focus {
+  outline-color: var(--focus);
+  outline-width: 2px;
   outline-style: solid;
-  outline-offset: 0px;
+  outline-offset: -2px;
 }
 
 a {
