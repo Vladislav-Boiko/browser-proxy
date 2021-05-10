@@ -2,6 +2,18 @@ import messaging from '../../common/communication/injected/ProxyMessaging';
 import { v4 as uuid } from 'uuid';
 import EVENTS from '../../common/communication/injected/events';
 import { DOMAIN } from '../../content/constants';
+import { arrayBufferToBase64, blobToBase64 } from '../../common/utils';
+
+const serializeResponse = async (xhr) => {
+  switch (xhr.responseType?.toUpperCase()) {
+    case 'ARRAYBUFFER':
+      return arrayBufferToBase64(xhr.response);
+    case 'BLOB':
+      return await blobToBase64(xhr.response);
+    default:
+      return xhr.response;
+  }
+};
 
 export const trackXhr = (requestPayload, xhr, id = uuid()) => {
   const timestamp = Date.now();
@@ -13,13 +25,13 @@ export const trackXhr = (requestPayload, xhr, id = uuid()) => {
     domain: DOMAIN,
   });
 
-  const readystatechange = () => {
+  const readystatechange = async () => {
     if (xhr.readyState !== 0 && xhr.status !== 0) {
       let update = {
         id,
         readyState: xhr.readyState,
         status: xhr.status,
-        response: xhr.response,
+        response: await serializeResponse(xhr),
         responseType: xhr.responseType,
         chunkTimestamp: Date.now(),
       };

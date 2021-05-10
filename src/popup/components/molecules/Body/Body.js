@@ -53,6 +53,19 @@ const BodyBasedOnType = ({ type, blobType, ...props }) => {
   }
 };
 
+const determineBodyType = (type) => {
+  switch (type?.toUpperCase()) {
+    case 'ARRAYBUFFER':
+    case 'BLOB':
+      return 'ArrayBuffer';
+    case 'DOCUMENT':
+    case 'TEXT':
+    case 'JSON':
+    default:
+      return 'JSON';
+  }
+};
+
 const Body = ({
   body,
   initialBody,
@@ -66,10 +79,10 @@ const Body = ({
   noDelay,
 }) => {
   code = '' + code;
-  const [bodyType, setBodyType] = useState(type || TYPES.JSON);
+  const [bodyType, setBodyType] = useState(determineBodyType(type));
   const [codeChanged, setResponseCode] = useState(code || 200);
   useEffect(() => {
-    setBodyType(type || TYPES.JSON);
+    setBodyType(determineBodyType(type));
     setResponseCode(code || 200);
   }, [type, code]);
   return (
@@ -83,7 +96,7 @@ const Body = ({
             setBodyType(newType);
             onChange && onChange({ type: newType });
           }}
-          isUnsaved={type !== bodyType}
+          isUnsaved={type?.toUpperCase() !== bodyType?.toUpperCase()}
         />
         {!hideCode ? (
           <Dropdown

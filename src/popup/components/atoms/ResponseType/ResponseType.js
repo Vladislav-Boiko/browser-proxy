@@ -7,7 +7,7 @@ export const TYPES = {
   JSON: 'JSON',
   ARRAY_BUFFER: 'ARRAYBUFFER',
   BLOB: 'BLOB',
-  TEXT: 'JSON',
+  TEXT: 'TEXT',
   DOCUMENT: 'DOCUMENT',
 };
 

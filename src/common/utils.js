@@ -47,3 +47,21 @@ export const updateLoadedIcon = (tab) => {
 
 // TODO: such magic shall not appear at all
 export const stripMs = (delay) => +(delay + '')?.split('ms')[0];
+
+export const arrayBufferToBase64 = (buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const length = bytes.byteLength;
+  for (let i = 0; i < length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+
+export const blobToBase64 = async (blob) => {
+  if (blob && blob instanceof Blob) {
+    const buffer = await blob.arrayBuffer();
+    return arrayBufferToBase64(buffer);
+  }
+  return '';
+};
