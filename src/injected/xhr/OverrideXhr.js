@@ -99,29 +99,10 @@ export default class OverrideXhr {
     stringValueToAdd = this.convertOverrideChunkValueToString(stringValueToAdd);
     switch (this.proxy.responseType) {
       case 'arraybuffer':
-        const textEncoder = new TextEncoder();
-        if (!this.proxy.response) {
-          this.proxy.response = textEncoder.encode(stringValueToAdd).buffer;
-        } else {
-          const was = new Uint8Array(this.proxy.response);
-          const toAdd = textEncoder.encode(stringValueToAdd);
-          const concatenated = this.concatenateArrayBuffers(was, toAdd);
-          this.proxy.response = concatenated.buffer;
-        }
+        this.addArrayBufferResponseValue(stringValueToAdd);
         break;
       case 'blob':
-        const mimetype =
-          this.proxy.realXhr.getResponseHeader('content-type') || 'text/plain';
-        if (!this.proxy.response) {
-          const asBlob = new Blob([stringValueToAdd], { type: mimetype });
-          this.proxy.response = asBlob;
-        } else {
-          const was = await this.proxy.response.arrayBuffer();
-          const toAdd = textEncoder.encode(stringValueToAdd);
-          const concatenated = this.concatenateArrayBuffers(was, toAdd);
-          const asBlob = new Blob([concatenated], { type: mimetype });
-          this.proxy.response = asBlob;
-        }
+        await this.addBlobResponseValue(stringValueToAdd);
         break;
       case 'text':
       default:
@@ -129,6 +110,38 @@ export default class OverrideXhr {
           this.proxy.response = '';
         }
         this.proxy.response += stringValueToAdd;
+    }
+    if (!this.proxy._responseText) {
+      this.proxy._responseText = '';
+    }
+    this.proxy._responseText += stringValueToAdd;
+  }
+
+  addArrayBufferResponseValue(stringValueToAdd) {
+    const textEncoder = new TextEncoder();
+    if (!this.proxy.response) {
+      this.proxy.response = textEncoder.encode(stringValueToAdd).buffer;
+    } else {
+      const was = new Uint8Array(this.proxy.response);
+      const toAdd = textEncoder.encode(stringValueToAdd);
+      const concatenated = this.concatenateArrayBuffers(was, toAdd);
+      this.proxy.response = concatenated.buffer;
+    }
+  }
+
+  async addBlobResponseValue(stringValueToAdd) {
+    const textEncoder = new TextEncoder();
+    const mimetype =
+      this.proxy.realXhr.getResponseHeader('content-type') || 'text/plain';
+    if (!this.proxy.response) {
+      const asBlob = new Blob([stringValueToAdd], { type: mimetype });
+      this.proxy.response = asBlob;
+    } else {
+      const was = await this.proxy.response.arrayBuffer();
+      const toAdd = textEncoder.encode(stringValueToAdd);
+      const concatenated = this.concatenateArrayBuffers(was, toAdd);
+      const asBlob = new Blob([concatenated], { type: mimetype });
+      this.proxy.response = asBlob;
     }
   }
 

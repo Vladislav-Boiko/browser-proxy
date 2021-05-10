@@ -119,6 +119,7 @@ export default class XhrProxy {
         this.isAborted = true;
         this.readyState = 0;
         this.response = '';
+        this._responseText = '';
       } else {
         return applyReal();
       }
@@ -135,7 +136,7 @@ export default class XhrProxy {
 
   get responseText() {
     if (this.override) {
-      return this.response;
+      return this._responseText;
     }
     return this.realXhr.responseText;
   }

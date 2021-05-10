@@ -53,7 +53,6 @@ const mapRequestFields = ({
 };
 
 const createNewRequest = (requestData) => {
-  console.log(requestData);
   let mapped = mapRequestFields(requestData);
   let responseBody = '';
   let delay = 0;
