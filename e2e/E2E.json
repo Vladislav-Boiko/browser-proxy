@@ -1,0 +1,298 @@
+{
+  "activeUrls": [
+    "http://localhost:3000/**"
+  ],
+  "id": "4b6d78b5-df80-44da-8d63-b667b4807710",
+  "isFirstOpen": false,
+  "isOn": true,
+  "isOpen": true,
+  "isUnsaved": false,
+  "name": "E2E",
+  "nodes": [
+    {
+      "id": "208ef756-b2c6-4170-95a8-1dce0a96ff92",
+      "isFirstOpen": false,
+      "isOn": true,
+      "isUnsaved": false,
+      "name": "tests",
+      "nodes": [
+        {
+          "id": "e344c8e2-1492-46b6-ab73-a00a4c92d304",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 11 base64 chunked",
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "SGVsbG8gdGhpcyBpcyBh"
+            },
+            {
+              "delay": "1ms",
+              "value": "IGJhc2U2NCBlbmNvZGVkIHN0cmluZw=="
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "ArrayBuffer",
+          "type": "GET",
+          "url": "/test11",
+          "variables": []
+        },
+        {
+          "id": "029cab6d-6b36-43c1-bf8c-aa3139ea2364",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 10 base 64",
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "SGVsbG8gdGhpcyBpcyBhIGJhc2U2NCBlbmNvZGVkIHN0cmluZw=="
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "ArrayBuffer",
+          "type": "GET",
+          "url": "/test10",
+          "variables": []
+        },
+        {
+          "id": "9e17f171-321d-4303-90d8-553a0ed5a67c",
+          "isFirstOpen": false,
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "RQH1 custom request header",
+          "requestHeaders": [
+            {
+              "id": 0,
+              "name": "X-TEST",
+              "value": "A"
+            }
+          ],
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "mock result"
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/request-header-1",
+          "variables": []
+        },
+        {
+          "id": "7b6223c3-ef20-4b5d-b64f-a2c53f77d984",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 9 custom response header",
+          "responseBody": [
+            {
+              "delay": "1ms"
+            }
+          ],
+          "responseCode": "200",
+          "responseHeaders": [
+            {
+              "id": 0,
+              "name": "Am_I_a_teapot",
+              "value": "no!"
+            }
+          ],
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test9",
+          "variables": []
+        },
+        {
+          "id": "94254e5b-b852-4fd4-8118-34bc96da7d5d",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 8 custom response code",
+          "responseBody": [
+            {
+              "delay": "1ms"
+            }
+          ],
+          "responseCode": "418",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test8",
+          "variables": []
+        },
+        {
+          "id": "31aaf2c1-3f5e-4898-b96a-fa903ac95122",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 7 chunked json",
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "{ \"a\""
+            },
+            {
+              "delay": "1ms",
+              "value": ": \"123\""
+            },
+            {
+              "delay": "1ms",
+              "value": "}"
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test7",
+          "variables": []
+        },
+        {
+          "id": "fbcaf323-cde1-4f5f-b4d7-63876f21eded",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 6 chunked response",
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "ABC"
+            },
+            {
+              "delay": "1ms",
+              "value": "DEF"
+            },
+            {
+              "delay": "1ms",
+              "value": "GHI"
+            },
+            {
+              "delay": "1ms",
+              "value": "JKLM"
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test6",
+          "variables": []
+        },
+        {
+          "id": "e0187797-877c-45be-9ec0-f464ead85a2e",
+          "isFirstOpen": false,
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 5 custom delay",
+          "responseBody": [
+            {
+              "delay": "1000ms",
+              "value": "Sample output"
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test5",
+          "variables": []
+        },
+        {
+          "id": "e74313f9-9336-4aaa-b241-8f497e960b06",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "test 4 json response",
+          "responseBody": [
+            {
+              "delay": "1ms",
+              "value": "{ \"a\": \"123\" }"
+            }
+          ],
+          "responseCode": "200",
+          "responseType": "JSON",
+          "type": "GET",
+          "url": "/test4",
+          "variables": []
+        },
+        {
+          "id": "a1431692-a2c8-418e-8f85-7ba206285a42",
+          "isFirstOpen": false,
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "folder with var",
+          "nodes": [
+            {
+              "id": "ad91cf92-359b-463d-b475-c7939a9e7278",
+              "isOn": true,
+              "isUnsaved": false,
+              "name": "test 3 var in folder",
+              "responseBody": [
+                {
+                  "delay": "1ms",
+                  "value": "Some $test text"
+                }
+              ],
+              "responseCode": "200",
+              "responseType": "JSON",
+              "type": "GET",
+              "url": "/$test",
+              "variables": []
+            }
+          ],
+          "type": "FOLDER",
+          "variables": [
+            {
+              "id": "fe882f58-e0a8-4576-989d-d4006e5317cb",
+              "name": "$test",
+              "value": "test3"
+            }
+          ]
+        },
+        {
+          "id": "4e5e31bd-f0ff-4754-a159-a6eb9517c277",
+          "isOn": true,
+          "isUnsaved": false,
+          "name": "very basic text tests",
+          "nodes": [
+            {
+              "id": "0a5a3dc3-91b2-4254-955e-d7f35f0e63e2",
+              "isOn": true,
+              "isUnsaved": false,
+              "name": "test 2 full override",
+              "responseBody": [
+                {
+                  "delay": "1ms",
+                  "value": "Some new text"
+                }
+              ],
+              "responseCode": "200",
+              "responseType": "JSON",
+              "type": "GET",
+              "url": "/test2",
+              "variables": []
+            },
+            {
+              "id": "002a3fb8-b0b9-4d9c-9d06-b1c58136d2c6",
+              "isOn": true,
+              "isUnsaved": false,
+              "name": "test 1 var in request",
+              "responseBody": [
+                {
+                  "delay": "1ms",
+                  "value": "Hello World! $var"
+                }
+              ],
+              "responseCode": "200",
+              "responseType": "JSON",
+              "type": "GET",
+              "url": "/test$var",
+              "variables": [
+                {
+                  "id": "1381a661-644b-4f4f-b678-c04f090f5d40",
+                  "name": "$var",
+                  "value": "\\d+"
+                }
+              ]
+            }
+          ],
+          "type": "FOLDER"
+        }
+      ],
+      "type": "FOLDER"
+    }
+  ],
+  "type": "DOMAIN"
+}
