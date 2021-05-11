@@ -9,6 +9,7 @@ export const getResponseLength = (responseBody) => {
 
 export const getTotalResponse = (responseBody) =>
   responseBody?.reduce((acc, { value }) => acc + (value || ''), '') || '';
+
 export const changeTabIcon = (tab) => {
   if (tab?.url) {
     serializer.loadStore().then((store) => {

@@ -55,6 +55,18 @@ const finishTracking = async (id, response) => {
   });
 };
 
+const getOverrideResponse = (override) => {
+  const totalResponse = getTotalResponse(override.responseBody);
+  if (override?.responseType.toUpperCase() === 'ARRAYBUFFER') {
+    try {
+      return atob(totalResponse);
+    } catch (e) {
+      // skip
+    }
+  }
+  return totalResponse;
+};
+
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
     async apply(target, thisArg, argumentsList) {
@@ -75,14 +87,11 @@ export default (window) => {
               setTimeout(resolve, stripMs(chunk.delay)),
             );
           }
-          const response = new Response(
-            getTotalResponse(override.responseBody),
-            {
-              status: override.responseCode || 200,
-              headers,
-              url: override.responseURL,
-            },
-          );
+          const response = new Response(getOverrideResponse(override), {
+            status: override.responseCode || 200,
+            headers,
+            url: override.responseURL,
+          });
           finishTracking(id, response.clone());
           resolve(response);
         });

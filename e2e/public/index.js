@@ -333,4 +333,38 @@ describe('XHR Override with set response type', () => {
   });
 });
 
+describe('Fetch Override with set response type', () => {
+  it('Can return an array Buffer', async () => {
+    const result = await fetch('/test1');
+    const arraybuffer = await result.arrayBuffer();
+    assertTrue(arraybuffer instanceof ArrayBuffer);
+  });
+
+  it('Will return correct data as array Buffer data from a request', async () => {
+    const result = await fetch('/test1');
+    const arraybuffer = await result.arrayBuffer();
+    const encoder = new TextDecoder('utf-8');
+    const asString = encoder.decode(arraybuffer);
+    assertEquals(asString, 'Hello World! 1');
+  });
+
+  it('Can return a BLOB', async () => {
+    const result = await fetch('/test1');
+    const blob = await result.blob();
+    assertTrue(blob instanceof Blob);
+  });
+
+  it('Can return plain text data that is passed as file', async () => {
+    const result = await fetch('/test10');
+    const text = await result.text();
+    assertEquals(text, 'Hello this is a base64 encoded string');
+  });
+
+  it('Can return chunked plain text data that is passed as file', async () => {
+    const result = await fetch('/test11');
+    const text = await result.text();
+    assertEquals(text, 'Hello this is a base64 encoded string');
+  });
+});
+
 runTests();
