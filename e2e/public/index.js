@@ -132,11 +132,15 @@ describe('xhr text data', () => {
   it('Can change the response code', async () => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', '/test8');
-    const promise = new Promise((resolve) => {
-      xhr.onload = () => {
-        assertEquals(xhr.status, '418');
-        resolve();
-      };
+    const promise = new Promise((resolve, reject) => {
+      try {
+        xhr.onload = () => {
+          assertEquals(xhr.status, 418);
+          resolve();
+        };
+      } catch (e) {
+        reject(e.msg);
+      }
     });
     xhr.send();
     await promise;

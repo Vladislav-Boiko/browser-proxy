@@ -47,7 +47,7 @@ const finishTracking = async (id, response) => {
   const text = await response.text();
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
-    status: response.status,
+    status: +response.status,
     response: text,
     chunkTimestamp: Date.now(),
     loadendTimestamp: Date.now(),

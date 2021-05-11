@@ -1,6 +1,7 @@
 import { trackXhr } from './TrackXhr';
 import overridesStorage from '../overrides/Overrides';
 import OverrideXhr from './OverrideXhr';
+import { HTTP_STATUS_CODES } from 'utils/constants';
 
 const proxyFunction = (func, replacement) =>
   new Proxy(func, {
@@ -146,5 +147,19 @@ export default class XhrProxy {
       return this.response;
     }
     return this.realXhr.responseXml;
+  }
+
+  get statusText() {
+    if (this.override) {
+      const responseCode = this.status;
+      if (responseCode) {
+        return (
+          HTTP_STATUS_CODES.find(({ code }) => code === responseCode)?.status ||
+          ''
+        );
+      }
+      return '';
+    }
+    return this.realXhr.statusText;
   }
 }

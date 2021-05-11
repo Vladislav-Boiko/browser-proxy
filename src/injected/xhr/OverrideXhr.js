@@ -50,7 +50,7 @@ export default class OverrideXhr {
       this.proxy.responseURL = this.mock.responseURL || '';
       this.proxy.response = getTotalResponse(responseBody);
       this.proxy.readyState = 4;
-      this.proxy.status = this.mock.responseCode || 200;
+      this.proxy.status = +this.mock.responseCode || 200;
     }
   }
 
@@ -60,7 +60,7 @@ export default class OverrideXhr {
       let progress = 0;
       const total = getResponseLength(response);
       for (let { value, delay } of response) {
-        this.proxy.status = this.mock.responseCode || 200;
+        this.proxy.status = +this.mock.responseCode || 200;
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
