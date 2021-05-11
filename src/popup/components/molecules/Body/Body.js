@@ -78,12 +78,12 @@ const Body = ({
   noChunks,
   noDelay,
 }) => {
-  code = '' + code;
+  code = code ? '' + code : '';
   const [bodyType, setBodyType] = useState(determineBodyType(type));
-  const [codeChanged, setResponseCode] = useState(code || 200);
+  const [codeChanged, setResponseCode] = useState(code || '200');
   useEffect(() => {
     setBodyType(determineBodyType(type));
-    setResponseCode(code || 200);
+    setResponseCode(code || '200');
   }, [type, code]);
   return (
     <div className={cn(className)}>

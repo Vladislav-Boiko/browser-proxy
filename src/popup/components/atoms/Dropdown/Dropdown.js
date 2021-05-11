@@ -20,10 +20,10 @@ const Dropdown = ({
   className,
   isUnsaved = false,
 }) => {
-  const [value, setValue] = useState(options[0]);
+  const [value, setValue] = useState(initialState || options[0]?.value);
   useEffect(() => {
-    setValue(initialState);
-  }, [initialState]);
+    setValue(initialState || options[0]?.value);
+  }, [initialState, options]);
   return (
     <label
       className={cn('dropdown', className, {

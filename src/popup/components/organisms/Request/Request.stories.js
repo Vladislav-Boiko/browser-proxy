@@ -9,5 +9,7 @@ export default {
 const Template = (args) => <Request {...args} />;
 
 export const Story = Template.bind({});
-const props = {};
+const props = {
+  isOn: true,
+};
 Story.args = props;

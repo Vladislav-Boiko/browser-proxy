@@ -254,7 +254,7 @@ class Overrides {
     return { isMatch, variableMatches };
   }
 
-  // checks if the given xhr matches to the override, returns boolean.
+  // Checks if the given xhr matches to the override, returns boolean.
   compareXhrWithOverride(xhrData, override, variables = []) {
     let variableMatches = [];
     const urlMatch = this.compareUrlMatch(xhrData, override, variables);

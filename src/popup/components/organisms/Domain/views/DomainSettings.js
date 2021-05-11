@@ -83,12 +83,7 @@ const DomainSettings = ({
         for another domain, browser, or folder.
       </p>
       <div className="wmax button-row mt4">
-        <FileInput
-          secondary
-          onSubmit={importToDomain}
-          error={error}
-          className="mr3"
-        >
+        <FileInput secondary onSubmit={importToDomain} error={error}>
           Import
         </FileInput>
         <Button

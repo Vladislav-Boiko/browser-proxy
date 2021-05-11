@@ -7,7 +7,7 @@ import './Input.css';
 
 const InputType = ({ multiline, ...otherProps }) =>
   !multiline ? (
-    <input {...otherProps} />
+    <input {...otherProps} value={otherProps.value || ''} />
   ) : (
     <TextareaAutosize minRows="3" maxRows="12" {...otherProps} />
   );

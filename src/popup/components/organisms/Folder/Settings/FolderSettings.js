@@ -67,12 +67,7 @@ const Folder = ({
           them for another domain, browser, or folder.
         </p>
         <div className="button-row mt4">
-          <FileInput
-            secondary
-            onSubmit={importToDomain}
-            error={error}
-            className="mr3"
-          >
+          <FileInput secondary onSubmit={importToDomain} error={error}>
             Import
           </FileInput>
           <Button
