@@ -69,7 +69,7 @@ export default class OverrideXhr {
           const asJson = JSON.parse(this.proxy.response);
           this.proxy.response = asJson;
         } catch (e) {
-          // Thats correct according to the specification:
+          // That is correct according to the specification:
           // https://xhr.spec.whatwg.org/#the-response-attribute
           this.proxy.response = null;
         }

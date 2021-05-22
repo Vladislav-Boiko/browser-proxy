@@ -1,0 +1,23 @@
+# Very simple sample schema only for mock purposes
+
+type Query {
+  employee: Employee
+}
+
+type Mutation {
+  addEmployee(name: String!, jobTitle: String!): Employee
+}
+
+type Employee {
+  id: ID!
+  name: String!
+  jobTitle: String!
+  skills(limit: Int): [Skill]
+  location: String!
+}
+
+type Skill {
+  id: ID!
+  name: String!
+  description: String
+}

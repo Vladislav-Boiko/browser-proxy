@@ -1,5 +1,6 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
+import { getTotalResponse } from 'src/common/utils';
 
 // ms
 const WAIT_OVERRIDES_LOADED_DELAY = 5;
@@ -254,31 +255,40 @@ class Overrides {
     return { isMatch, variableMatches };
   }
 
+  compareRequestBodyMatch(xhrData, override, variables = []) {
+    const xhrBodyAsString = JSON.stringify(xhrData.requestBody || '');
+    const overrideBodyAsString = JSON.stringify(
+      getTotalResponse(override.requestBody) || '',
+    );
+    return this.matchStringWithVariables(
+      xhrBodyAsString,
+      overrideBodyAsString,
+      variables,
+    );
+  }
+
   // Checks if the given xhr matches to the override, returns boolean.
   compareXhrWithOverride(xhrData, override, variables = []) {
-    let variableMatches = [];
-    const urlMatch = this.compareUrlMatch(xhrData, override, variables);
-    if (!urlMatch.isMatch) {
-      return { isMatch: false };
+    let totalVariableMatches = [];
+    for (let matcher of [
+      this.compareUrlMatch,
+      this.compareMethodMatch,
+      this.compareHeadersMatch,
+      this.compareRequestBodyMatch,
+    ]) {
+      const { isMatch, variableMatches } = matcher.bind(this)(
+        xhrData,
+        override,
+        variables,
+      );
+      if (!isMatch) {
+        return { isMatch: false };
+      }
+      totalVariableMatches = totalVariableMatches.concat(
+        ...(variableMatches || []),
+      );
     }
-    variableMatches = variableMatches.concat(
-      ...(urlMatch.variableMatches || []),
-    );
-    const methodMatch = this.compareMethodMatch(xhrData, override, variables);
-    if (!methodMatch.isMatch) {
-      return { isMatch: false };
-    }
-    variableMatches = variableMatches.concat(
-      ...(methodMatch.variableMatches || []),
-    );
-    const headersMatch = this.compareHeadersMatch(xhrData, override, variables);
-    if (!headersMatch.isMatch) {
-      return { isMatch: false };
-    }
-    variableMatches = variableMatches.concat(
-      ...(headersMatch.variableMatches || []),
-    );
-    return { isMatch: true, variableMatches };
+    return { isMatch: true, variableMatches: totalVariableMatches };
   }
 }
 

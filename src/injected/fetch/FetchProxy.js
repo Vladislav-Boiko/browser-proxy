@@ -57,7 +57,7 @@ const finishTracking = async (id, response) => {
 
 const getOverrideResponse = (override) => {
   const totalResponse = getTotalResponse(override.responseBody);
-  if (override?.responseType.toUpperCase() === 'ARRAYBUFFER') {
+  if (override?.responseType?.toUpperCase() === 'ARRAYBUFFER') {
     try {
       return atob(totalResponse);
     } catch (e) {

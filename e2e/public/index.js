@@ -63,6 +63,15 @@ const runTests = async () => {
   }
 };
 
+const makeGqlCall = async (gqlQuery) => {
+  const data = await fetch('http://localhost:9000', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: gqlQuery }),
+  });
+  return data;
+};
+
 describe('xhr text data', () => {
   it('Can override part of the response body using a variable', async () => {
     const xhr = new XMLHttpRequest();
@@ -368,6 +377,22 @@ describe('Fetch Override with set response type', () => {
     const result = await fetch('/test11');
     const text = await result.text();
     assertEquals(text, 'Hello this is a base64 encoded string');
+  });
+});
+
+describe('GraphQL', () => {
+  it('Can proxy grapqh request', async () => {
+    const result = await makeGqlCall(
+      '{\n  employee {\n    name\n    jobTitle\n  }\n}\n',
+    );
+    const text = await result.text();
+    assertEquals(text, 'Proxied gql response!');
+  });
+
+  it('Recognizes different GQL queries', async () => {
+    const result = await makeGqlCall('Somethig else');
+    const text = await result.text();
+    assertEquals(text, 'Another proxied gql response!');
   });
 });
 
