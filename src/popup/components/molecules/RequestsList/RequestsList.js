@@ -36,7 +36,9 @@ const getPageSlice = (requests, currentPage) =>
 const RequestsList = ({ requests, className, onSelect }) => {
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredItems = filterRequests(searchValue, requests);
+  const filteredItems = filterRequests(searchValue, requests).sort(
+    (a, b) => b?.sentTimestamp - a?.sentTimestamp,
+  );
   const totalPages = Math.ceil(
     filteredItems?.length ? filteredItems?.length / ITEMS_PER_PAGE : 0,
   );

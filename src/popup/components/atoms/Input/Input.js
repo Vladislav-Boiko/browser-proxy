@@ -4,6 +4,7 @@ import Icons from '../Icons/Icons';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import './Input.css';
+import { ResetButton } from 'atoms/Button/ResetButton';
 
 const InputType = ({ multiline, ...otherProps }) =>
   !multiline ? (
@@ -25,6 +26,8 @@ const Input = ({
   reset,
   ...otherProps
 }) => {
+  // const [value, setValue, isUnsaved, reset] = useInitialState(otherProps.value);
+  delete otherProps.isUnsaved;
   const [validationError, setValidationError] = useState(
     validate && value ? validate(value) : '',
   );
@@ -56,24 +59,12 @@ const Input = ({
           </span>
         )}
       </span>
-      <label
-        title="Undo changes"
-        className={cn('input__revert', {
-          input__revert_enabled: isUnsaved,
-          'input__revert_with-label': !!label,
-          input__revert_active: !!reset,
-          input__revert_disabled: !reset,
-        })}
-        disabled={!reset}
-      >
-        <span className="input__revert_label-text">
-          Undo changes in {label} input
-        </span>
-        <Icons.Reset className="icon_sm" />
-        <button tabIndex={isUnsaved ? 0 : -1} onClick={() => reset && reset()}>
-          Revert
-        </button>
-      </label>
+      <ResetButton
+        isUnsaved={isUnsaved}
+        reset={reset}
+        label={`Undo changes in ${label} chunk`}
+        isShifted={!!label}
+      />
       <InputType
         className={cn('input label_weak c5-bg px2 py1', {
           input_invalid: !!validationError,

@@ -1,0 +1,73 @@
+.reset {
+  position: absolute;
+  width: calc(var(--em) * 2);
+  height: calc(var(--em) * 2);
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid transparent;
+  right: calc(var(--em) * -1);
+  transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s;
+  top: calc(var(--em) * -1);
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.reset_enabled {
+  border: 2px solid white;
+  background-color: var(--accent);
+}
+
+.reset_enabled.reset_active {
+  cursor: pointer;
+}
+
+.reset button,
+.reset_label-text {
+  font-size: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.reset .icon_sm {
+  position: absolute;
+  top: 2px;
+  left: 1.5px;
+  width: 8px;
+  height: 8px;
+  fill: var(--c5);
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+.reset_with-label {
+  top: calc(var(--em) * 2);
+}
+
+.reset_enabled.reset_active:hover,
+.reset_enabled.reset_active:active,
+.reset_enabled.reset_active:focus-within {
+  transform: scale(2.5);
+}
+
+.reset_enabled.reset_active:hover .icon_sm,
+.reset_enabled.reset_active:active .icon_sm,
+.reset_enabled.reset_active:focus-within .icon_sm {
+  opacity: 1;
+}
+
+.reset_enabled.reset_active:focus-within {
+  outline-color: var(--focus);
+  outline-width: 1px;
+  outline-style: solid;
+  outline-offset: 2px;
+}
+
+.reset_enabled.reset_active:active .icon_sm {
+  fill: white;
+  transform: rotate(-135deg);
+}
+
+.reset_disabled {
+  display: none;
+}

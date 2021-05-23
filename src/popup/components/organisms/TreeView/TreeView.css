@@ -2,7 +2,7 @@
   min-height: 480px;
   height: 100%;
   display: inline-block;
-  overflow: scroll;
+  overflow-x: scroll;
   position: relative;
   z-index: 10;
   box-sizing: border-box;

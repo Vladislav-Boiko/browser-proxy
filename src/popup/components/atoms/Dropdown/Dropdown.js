@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import Icons from '../Icons/Icons';
 
 import './Dropdown.css';
+import { useInitialState } from 'app/hooks/useInitialState';
+import { ResetButton } from 'atoms/Button/ResetButton';
 
 const viewForValue = (options, value) => {
   const selectedOption = options.find((option) => option.value === value);
@@ -12,24 +14,21 @@ const viewForValue = (options, value) => {
   return '';
 };
 
-const Dropdown = ({
-  options,
-  label,
-  onChange,
-  initialState,
-  className,
-  isUnsaved = false,
-}) => {
-  const [value, setValue] = useState(initialState || options[0]?.value);
-  useEffect(() => {
-    setValue(initialState || options[0]?.value);
-  }, [initialState, options]);
+const Dropdown = ({ options, label, onChange, initialState, className }) => {
+  const { value, onChange: setValue, isUnsaved, reset } = useInitialState(
+    initialState || options[0]?.value,
+  );
   return (
-    <label
-      className={cn('dropdown', className, {
-        dropdown_unsaved: isUnsaved,
-      })}
-    >
+    <label className={cn('dropdown', className)}>
+      <ResetButton
+        isUnsaved={isUnsaved}
+        reset={() => {
+          const initialValue = reset();
+          onChange && onChange(initialValue);
+        }}
+        label={`Undo changes in dropdown`}
+        isShifted={true}
+      />
       <span className="dropdown__label label_weak g1-color">{label}</span>
       <div className="dropdown__view c5-bg label_weak">
         {viewForValue(options, value)}
