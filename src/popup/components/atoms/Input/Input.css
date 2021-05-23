@@ -4,7 +4,7 @@
   border-radius: var(--em);
   max-width: 100%;
   transition: all 0.1s;
-  height: calc(var(--em) * 5);
+  min-height: calc(var(--em) * 5);
   box-sizing: border-box;
   padding-right: calc(var(--em) * 6);
 }

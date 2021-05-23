@@ -44,7 +44,7 @@ describe('updateWindowRequests', () => {
       { id, chunkTimestamp: 250, response: 'abc' },
     ]);
     expect(result[0].responseBody).toStrictEqual([
-      { value: '', delay: 150, value: 'abc' },
+      { delay: 150, value: 'abc' },
     ]);
   });
 
@@ -58,8 +58,8 @@ describe('updateWindowRequests', () => {
       { id, chunkTimestamp: 200, response: 'abcdef' },
     ]);
     expect(result[0].responseBody).toStrictEqual([
-      { value: '', delay: 45, value: 'abc' },
-      { value: '', delay: 55, value: 'def' },
+      { delay: 45, value: 'abc' },
+      { delay: 55, value: 'def' },
     ]);
   });
 

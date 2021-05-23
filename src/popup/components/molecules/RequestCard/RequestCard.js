@@ -7,9 +7,10 @@ import Icons from 'atoms/Icons/Icons';
 import Input from 'atoms/Input/Input';
 import Tabs from 'atoms/Tabs/Tabs';
 import { getTotalResponse } from '../../../../common/utils';
+import highlight from 'atoms/Text/TextWithHighlight';
 import './RequestCard.css';
 
-const SplitBy = ({ text, delimiter }) => {
+const SplitBy = ({ text, delimiter, searchRegexp }) => {
   if (!text) {
     return '';
   }
@@ -17,14 +18,22 @@ const SplitBy = ({ text, delimiter }) => {
   return splitted.map((part, i) => (
     <p key={`url-param-${i}`}>
       {i === 0 ? (
-        <b className="url-param__base">{part}</b>
+        <b className="url-param__base">{highlight(part, searchRegexp)}</b>
       ) : (
         <React.Fragment>
-          <span className="url-param__key">{part.split('=')[0]}</span> ={' '}
-          <span className="url-param__value">{part.split('=')[1]}</span>
+          <span className="url-param__key">
+            {highlight(part.split('=')[0], searchRegexp)}
+          </span>{' '}
+          ={' '}
+          <span className="url-param__value">
+            {highlight(part.split('=')[1], searchRegexp)}
+          </span>
         </React.Fragment>
       )}
-      {i !== splitted.length - 1 && (i === 0 ? '?' : ' &')}
+      {highlight(
+        i !== splitted.length - 1 && (i === 0 ? '?' : ' &'),
+        searchRegexp,
+      )}
     </p>
   ));
 };
@@ -56,6 +65,7 @@ const RequestCard = ({
   className,
   onClick,
   isProxied,
+  searchRegexp,
   ...otherProps
 }) => {
   let loadingState = LOADING_STATES.LOADING;
@@ -90,7 +100,9 @@ const RequestCard = ({
       })}
       onClick={() => setIsOpen(true)}
     >
-      <h3 className="request-card__url">{stripURL(url)}</h3>
+      <h3 className="request-card__url">
+        {highlight(stripURL(url), searchRegexp)}
+      </h3>
       {loadingState === LOADING_STATES.LOADED && (
         <Pill text={responseCode} className="request-card__pill" />
       )}
@@ -101,7 +113,7 @@ const RequestCard = ({
         <Pill text={'...'} className="request-card__pill" />
       )}
       <span className="request-card__method g2-color label_strong">
-        {method ? method.toUpperCase() : 'GET'}
+        {highlight(method ? method.toUpperCase() : 'GET', searchRegexp)}
       </span>
       <ResponseType
         type={responseType}
@@ -132,7 +144,11 @@ const RequestCard = ({
             </Button>
           </div>
           <span className="label_weak">
-            <SplitBy text={url} delimiter={/\?|&/g} />
+            <SplitBy
+              text={url}
+              delimiter={/\?|&/g}
+              searchRegexp={searchRegexp}
+            />
           </span>
           <Tabs
             onSelect={setSelectedTab}

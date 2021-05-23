@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import Icons from '../Icons/Icons';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -6,12 +6,13 @@ import TextareaAutosize from 'react-textarea-autosize';
 import './Input.css';
 import { ResetButton } from 'atoms/Button/ResetButton';
 
-const InputType = ({ multiline, ...otherProps }) =>
-  !multiline ? (
+const InputType = ({ multiline, ...otherProps }) => {
+  return !multiline ? (
     <input {...otherProps} value={otherProps.value || ''} />
   ) : (
     <TextareaAutosize minRows="3" maxRows="12" {...otherProps} />
   );
+};
 
 const Input = ({
   value,
@@ -21,31 +22,13 @@ const Input = ({
   label,
   icon,
   validate,
-  multiline,
+  multiline = false,
   isUnsaved,
   reset,
   ...otherProps
 }) => {
-  // const [value, setValue, isUnsaved, reset] = useInitialState(otherProps.value);
   delete otherProps.isUnsaved;
-  const [validationError, setValidationError] = useState(
-    validate && value ? validate(value) : '',
-  );
-  useEffect(() => {
-    setValidationError(validate && value ? validate(value) : '');
-  }, [value, validate]);
-  const doChange = (newValue, delay = 300) => {
-    if (validate) {
-      clearTimeout(validationTimeout);
-      const newTimeout = setTimeout(
-        () => setValidationError(validate(newValue)),
-        delay,
-      );
-      setValidationTimeout(newTimeout);
-    }
-    onChange && onChange(newValue);
-  };
-  const [validationTimeout, setValidationTimeout] = useState(null);
+  const validationError = value && validate ? validate(value) : '';
   return (
     <label className={cn('input-label', className)}>
       <span
@@ -74,7 +57,7 @@ const Input = ({
         type="text"
         {...otherProps}
         value={value}
-        onChange={(e) => doChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         size="1"
       />
       <label
@@ -86,7 +69,7 @@ const Input = ({
       >
         <span className="label__text_hidden">Clear input {label}</span>
         {!otherProps.disabled && (
-          <button className="input__cross px2" onClick={() => doChange('', 0)}>
+          <button className="input__cross px2" onClick={() => onChange('')}>
             <Icons.Cross className="icon_sm" />
           </button>
         )}

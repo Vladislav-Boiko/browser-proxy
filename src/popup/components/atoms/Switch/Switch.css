@@ -13,7 +13,7 @@
 
 .switch:focus-within {
   outline-color: var(--focus);
-  outline-width: 2px;
+  outline-width: 1px;
   outline-style: solid;
   outline-offset: 0px;
 }

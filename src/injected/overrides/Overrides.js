@@ -1,6 +1,6 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
-import { getTotalResponse } from 'src/common/utils';
+import { getTotalResponse } from '../../common/utils';
 
 // ms
 const WAIT_OVERRIDES_LOADED_DELAY = 5;

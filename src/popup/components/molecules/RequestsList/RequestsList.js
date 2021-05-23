@@ -14,15 +14,20 @@ const filterRequests = (searchValue, requests) => {
   if (!searchValue) {
     return requests;
   }
-  const searchRegExp = new RegExp(searchValue);
-  return requests.filter((item) => {
-    for (let key of Object.keys(item)) {
-      if (!(key in KEY_SEARCH_BLOCK_LIST) && searchRegExp.test(item[key])) {
-        return true;
+  try {
+    const searchRegExp = new RegExp(searchValue);
+    return requests.filter((item) => {
+      for (let key of Object.keys(item)) {
+        if (!(key in KEY_SEARCH_BLOCK_LIST) && searchRegExp.test(item[key])) {
+          return true;
+        }
       }
-    }
-    return false;
-  });
+      return false;
+    });
+  } catch (e) {
+    // handled in validation
+  }
+  return [];
 };
 
 const ITEMS_PER_PAGE = 20;
@@ -43,6 +48,13 @@ const RequestsList = ({ requests, className, onSelect }) => {
     filteredItems?.length ? filteredItems?.length / ITEMS_PER_PAGE : 0,
   );
   const displayedPage = Math.min(totalPages, Math.max(0, currentPage));
+  let hasValidSearch = true;
+  let searchRegexp = null;
+  try {
+    searchRegexp = new RegExp(searchValue);
+  } catch (e) {
+    hasValidSearch = false;
+  }
   return (
     <div className={cn('wmax', className)}>
       <h3 className="mb2">Requests</h3>
@@ -53,6 +65,7 @@ const RequestsList = ({ requests, className, onSelect }) => {
           className="requests-list__search-input"
           value={searchValue}
           onChange={(newValue) => setSearchValue(newValue)}
+          validate={() => (!hasValidSearch ? 'Is not a valid regexp' : null)}
         />
         {/* <Button className="ml3 requests-list__filter-button" secondary>
           <Icons.Filter className="mr1 icon_md" />
@@ -70,6 +83,7 @@ const RequestsList = ({ requests, className, onSelect }) => {
                 className="mb2"
                 key={request.id}
                 onClick={onSelect}
+                searchRegexp={searchRegexp}
               />
             ))}
         <Pagination

@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import './Switch.css';
 const Switch = ({ className, initialState, onChange }) => {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(initialState);
   useEffect(() => {
     setIsActive(initialState);
   }, [initialState]);

@@ -8,7 +8,7 @@ export default {
 };
 
 const Template = (args) => {
-  const onSubmit = (file) => setSelectedFile(file);
+  const onSubmit = () => {};
   return (
     <div className="m4">
       <h3>File Inputs</h3>

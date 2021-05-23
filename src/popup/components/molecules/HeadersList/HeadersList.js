@@ -6,12 +6,18 @@ import Input from 'atoms/Input/Input';
 import './HeadersList.css';
 
 const filterHeaders = (searchValue, headers) => {
-  const searchRegexp = new RegExp(searchValue);
-  return searchValue !== ''
-    ? headers.filter(
-        (item) => searchRegexp.test(item.name) || searchRegexp.test(item.value),
-      )
-    : headers;
+  try {
+    const searchRegexp = new RegExp(searchValue);
+    return searchValue !== ''
+      ? headers.filter(
+          (item) =>
+            searchRegexp.test(item.name) || searchRegexp.test(item.value),
+        )
+      : headers;
+  } catch (e) {
+    // handled in validation
+  }
+  return headers;
 };
 
 const isUnsaved = (headers, itemId, value, valueName) => {
@@ -70,6 +76,14 @@ const HeadersList = ({ headers, onChange, className }) => {
         value={searchValue}
         onChange={setSearchValue}
         className="headers-list__search"
+        validate={() => {
+          try {
+            new RegExp(searchValue);
+          } catch (e) {
+            return 'Is not a valid regexp';
+          }
+          return null;
+        }}
       />
       <ul>
         {!filteredHeaders.length && headerValuesWithId.length && (
