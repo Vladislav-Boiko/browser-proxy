@@ -5,6 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import './Input.css';
 import { ResetButton } from 'atoms/Button/ResetButton';
+import SuccessButton from 'atoms/Button/SuccessButton';
 
 const InputType = ({ multiline, ...otherProps }) => {
   return !multiline ? (
@@ -27,7 +28,6 @@ const Input = ({
   reset,
   ...otherProps
 }) => {
-  delete otherProps.isUnsaved;
   const validationError = value && validate ? validate(value) : '';
   return (
     <label className={cn('input-label', className)}>
@@ -68,6 +68,29 @@ const Input = ({
           </button>
         )}
       </label>
+      {multiline && (
+        <label
+          className={cn('copy-button input-icon', {
+            'copy-button_label': !!validationError,
+          })}
+        >
+          <span className="label__text_hidden">Copy value {label}</span>
+          {!otherProps.disabled && (
+            <SuccessButton
+              className="copy-value px2"
+              tretiary
+              onClick={() => {
+                navigator.clipboard.writeText(value);
+                return true;
+              }}
+              Icon={Icons.Duplicate}
+              iconLeft={true}
+            >
+              copy
+            </SuccessButton>
+          )}
+        </label>
+      )}
       {icon && <div className="input-icon px2">{icon}</div>}
       <span
         className={cn('label_weak g1-color input-label__label', labelClassName)}

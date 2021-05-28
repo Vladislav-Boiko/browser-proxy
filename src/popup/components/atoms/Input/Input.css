@@ -123,3 +123,38 @@
   white-space: nowrap;
   position: relative;
 }
+
+.copy-button {
+  color: var(--primary);
+  top: auto;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
+.copy-button_label {
+  bottom: calc(var(--em) * 3 + 2px);
+}
+
+.copy-button button {
+  color: var(--primary);
+  box-sizing: border-box;
+}
+
+.button.copy-value {
+  background: transparent;
+  padding: 0 calc(var(--em) * 2);
+  text-transform: none;
+  font-weight: 400;
+  color: var(--g3);
+  box-sizing: border-box;
+}
+
+.button.copy-value:hover {
+  background: transparent;
+  color: var(--primary);
+  outline: 1px solid var(--c4);
+}
+
+.button.copy-value:hover .icon_md {
+  transform: none;
+}

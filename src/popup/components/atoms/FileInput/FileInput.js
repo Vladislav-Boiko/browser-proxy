@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Icons from 'atoms/Icons/Icons';
 import cn from 'classnames';
+import SuccessButtonHoc from 'atoms/Button/SuccessButtonHoc';
 
 import './FileInput.css';
 const FileInput = ({
@@ -10,6 +11,8 @@ const FileInput = ({
   primary,
   secondary,
   tretiary,
+  onClick,
+  showSuccess,
   ...otherProps
 }) => {
   const ref = useRef();
@@ -22,11 +25,13 @@ const FileInput = ({
       const fileReader = new FileReader();
       fileReader.onload = (e) => {
         fileReader.result && onSubmit && onSubmit(fileReader.result);
+        showSuccess && showSuccess();
       };
       fileReader.onerror = () => {
         setError(fileReader.error);
       };
       fileReader.readAsText(file);
+      return true;
     }
   };
   return (
@@ -38,7 +43,9 @@ const FileInput = ({
           'tretiary white-bg primary-color': tretiary,
         })}
       >
-        <Icons.Import className={cn('icon_md mr1')}></Icons.Import>
+        <Icons.Import
+          className={cn('icon_md mr1', otherProps.iconClass)}
+        ></Icons.Import>
         {children}
         <input
           type="file"
@@ -55,4 +62,4 @@ const FileInput = ({
   );
 };
 
-export default FileInput;
+export default SuccessButtonHoc(FileInput);

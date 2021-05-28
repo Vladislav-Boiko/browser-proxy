@@ -10,6 +10,24 @@ export const getResponseLength = (responseBody) => {
 export const getTotalResponse = (responseBody) =>
   responseBody?.reduce((acc, { value }) => acc + (value || ''), '') || '';
 
+export const tryStringifyRequestBody = (value) => {
+  let result = null;
+  let requestBody = value;
+  if (value instanceof URLSearchParams) {
+    requestBody = value.toString();
+  }
+  try {
+    const parsed = JSON.parse(requestBody);
+    result = JSON.stringify(parsed || '');
+  } catch (e) {
+    // do nothing
+  }
+  if (!result) {
+    result = requestBody;
+  }
+  return result;
+};
+
 export const changeTabIcon = (tab) => {
   if (tab?.url) {
     serializer.loadStore().then((store) => {

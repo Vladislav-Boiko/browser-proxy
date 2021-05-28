@@ -10,13 +10,18 @@ export const ResetButton = ({ isUnsaved, reset, label, isShifted }) => (
       reset_enabled: isUnsaved,
       'reset_with-label': !!isShifted,
       reset_active: !!reset,
-      reset_disabled: !reset,
     })}
     disabled={!reset}
   >
     <span className="reset_label-text">{label}</span>
     <Icons.Reset className="icon_sm" />
-    <button tabIndex={isUnsaved ? 0 : -1} onClick={() => reset && reset()}>
+    <button
+      className={cn({
+        reset_disabled: !reset,
+      })}
+      tabIndex={isUnsaved ? 0 : -1}
+      onClick={() => reset && reset()}
+    >
       Revert
     </button>
   </label>

@@ -1,0 +1,16 @@
+.icon-success {
+  position: absolute;
+  left: calc(50% - var(--em) * 0.75);
+  transform: translate(-50%);
+  fill: var(--primary);
+}
+
+.success-button,
+.success-button label {
+  color: transparent !important;
+}
+
+.additional-icon {
+  transition: all 0s !important;
+  visibility: hidden;
+}

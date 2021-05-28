@@ -19,6 +19,9 @@ import { ReactComponent as Danger } from './svg/danger.svg';
 import { ReactComponent as Collapse } from './svg/collapse.svg';
 import { ReactComponent as Reset } from './svg/reset.svg';
 import { ReactComponent as Disabled } from './svg/disabled.svg';
+import { ReactComponent as Success } from './svg/success.svg';
+//import Success from './SuccessIcon';
+import { ReactComponent as Duplicate } from './svg/duplicate.svg';
 
 import './Icons.css';
 export default {
@@ -43,4 +46,6 @@ export default {
   Collapse,
   Reset,
   Disabled,
+  Success,
+  Duplicate,
 };

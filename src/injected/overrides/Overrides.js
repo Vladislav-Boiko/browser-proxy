@@ -1,6 +1,6 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
-import { getTotalResponse } from '../../common/utils';
+import { getTotalResponse, tryStringifyRequestBody } from '../../common/utils';
 
 // ms
 const WAIT_OVERRIDES_LOADED_DELAY = 5;
@@ -259,23 +259,9 @@ class Overrides {
     return { isMatch, variableMatches };
   }
 
-  tryStringify(value) {
-    let result = null;
-
-    try {
-      const parsed = JSON.parse(value);
-      result = JSON.stringify(parsed || '');
-    } catch (e) {
-      // do nothing
-    }
-    if (!result) {
-      result = value;
-    }
-  }
-
   compareRequestBodyMatch(xhrData, override, variables = []) {
-    const xhrBodyAsString = this.tryStringify(xhrData.requestBody || '');
-    const overrideBodyAsString = this.tryStringify(
+    const xhrBodyAsString = tryStringifyRequestBody(xhrData.requestBody || '');
+    const overrideBodyAsString = tryStringifyRequestBody(
       getTotalResponse(override.requestBody) || '',
     );
     return this.matchStringWithVariables(

@@ -9,6 +9,7 @@
   align-items: center;
   white-space: nowrap;
   width: fit-content;
+  position: relative;
 }
 
 .secondary {

@@ -52,6 +52,16 @@ const Template = () => {
         value={valueMultiline}
         className="my2"
         multiline
+        label="Unsaved"
+        isUnsaved={true}
+      />
+      <Input
+        onChange={setValueMultiline}
+        value={valueMultiline}
+        className="my2"
+        label="Invalid and unsaved"
+        validate={() => 'Cannot be empty'}
+        multiline
         isUnsaved={true}
       />
       <DelayInput

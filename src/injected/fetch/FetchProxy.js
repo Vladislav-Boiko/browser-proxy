@@ -1,9 +1,17 @@
 import messaging from '../../common/communication/injected/ProxyMessaging';
 import EVENTS from '../../common/communication/injected/events';
 import overridesStorage from '../overrides/Overrides';
-import { getTotalResponse, stripMs } from '../../common/utils';
+import {
+  getTotalResponse,
+  stripMs,
+  tryStringifyRequestBody,
+} from '../../common/utils';
 import { v4 as uuid } from 'uuid';
 
+/**
+ * Based on the arguments provided to the fetch function by caller,
+ * builds an object to represent this call in the browser-proxy tracking.
+ */
 const getFetchTrack = (argumentsList) => {
   const url = argumentsList[0];
   let payload = {
@@ -30,11 +38,14 @@ const getFetchTrack = (argumentsList) => {
     url,
     type: payload.method?.toUpperCase(),
     method: payload.method?.toUpperCase(),
-    requestBody: payload.body || '',
+    requestBody: payload.body ? tryStringifyRequestBody(payload.body) : '',
     requestHeaders: payload.headers || [],
   };
 };
 
+/**
+ * Notifies the extension to track this call, and possibly override later.
+ */
 const startTracking = (fetchTrack) => {
   const id = uuid();
   messaging.emit(EVENTS.FETCH_SENT, {
@@ -45,6 +56,10 @@ const startTracking = (fetchTrack) => {
   return id;
 };
 
+/**
+ * After the call finished, we as well finish its tracking by notifying
+ * the extension about it.
+ */
 const finishTracking = async (id, response) => {
   let text = '';
   try {
@@ -75,6 +90,46 @@ const getOverrideResponse = (override) => {
   return totalResponse;
 };
 
+const overrideFetch = (id, override) => {
+  // TODO: give the user possibility to reject overriden fetch requests
+  return new Promise(async (resolve, reject) => {
+    let headers = new Headers();
+    for (let { name, value } of override?.responseHeaders || []) {
+      headers.append(name, value);
+    }
+    for (let chunk of override.responseBody || []) {
+      await new Promise((resolve) => setTimeout(resolve, stripMs(chunk.delay)));
+    }
+    const response = new Response(getOverrideResponse(override), {
+      status: override.responseCode || 200,
+      headers,
+      url: override.responseURL,
+    });
+    await finishTracking(id, response.clone());
+    resolve(response);
+  });
+};
+
+const passFetchTrough = (id, target, thisArg, argumentsList) => {
+  const fetchResponse = Reflect.apply(target, thisArg, argumentsList);
+  return new Promise((resolve, reject) => {
+    fetchResponse
+      .then(async (response) => {
+        // We need to await until tracking is finished, as if the user aborts a request
+        // right after hee received it, we will be not able to track data for it
+        await finishTracking(id, response.clone());
+        return resolve(response);
+      })
+      .catch(async (error) => {
+        await finishTracking(id, {
+          status: 0,
+          text: () => error?.message || '',
+        });
+        reject(error);
+      });
+  });
+};
+
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
     async apply(target, thisArg, argumentsList) {
@@ -86,42 +141,9 @@ export default (window) => {
         ...(!!override && { override }),
       });
       if (override) {
-        return new Promise(async (resolve, reject) => {
-          let headers = new Headers();
-          for (let { name, value } of override?.responseHeaders || []) {
-            headers.append(name, value);
-          }
-          for (let chunk of override.responseBody || []) {
-            await new Promise((resolve) =>
-              setTimeout(resolve, stripMs(chunk.delay)),
-            );
-          }
-          const response = new Response(getOverrideResponse(override), {
-            status: override.responseCode || 200,
-            headers,
-            url: override.responseURL,
-          });
-          await finishTracking(id, response.clone());
-          resolve(response);
-        });
+        return overrideFetch(id, override);
       } else {
-        const fetchResponse = Reflect.apply(target, thisArg, argumentsList);
-        return new Promise((resolve, reject) => {
-          fetchResponse
-            .then(async (response) => {
-              // We need to await until tracking is finished, as if the user aborts a request
-              // right after hee received it, we will be not able to track data for it
-              await finishTracking(id, response.clone());
-              return resolve(response);
-            })
-            .catch(async (error) => {
-              await finishTracking(id, {
-                status: 0,
-                text: () => error?.message || '',
-              });
-              reject(error);
-            });
-        });
+        return passFetchTrough(id, target, thisArg, argumentsList);
       }
     },
   });

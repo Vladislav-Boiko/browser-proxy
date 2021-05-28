@@ -2,6 +2,7 @@ import React from 'react';
 
 import Button from './Button';
 import Icons from '../Icons/Icons';
+import SuccessButton from './SuccessButtonHoc';
 
 export default {
   title: 'Atoms/Button',
@@ -33,6 +34,30 @@ const Template = (args) => (
       <Button {...args} tretiary className="mt6" Icon={Icons.Add}>
         Tretiary
       </Button>
+    </div>
+    <h3>Success Buttons</h3>
+    <div className="my4">
+      <SuccessButton {...args} primary Icon={Icons.Enable} onClick={() => true}>
+        Primary
+      </SuccessButton>
+      <SuccessButton
+        {...args}
+        secondary
+        className="mt6"
+        Icon={Icons.AddFolder}
+        onClick={() => true}
+      >
+        Secondary
+      </SuccessButton>
+      <SuccessButton
+        {...args}
+        tretiary
+        className="mt6"
+        Icon={Icons.Add}
+        onClick={() => true}
+      >
+        Tretiary
+      </SuccessButton>
     </div>
   </div>
 );

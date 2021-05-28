@@ -2,18 +2,21 @@
   fill: var(--primary);
   width: 10px;
   height: 10px;
+  overflow: visible;
 }
 
 .icon_md {
   fill: var(--primary);
   width: 16px;
   height: 16px;
+  overflow: visible;
 }
 
 .icon_lg {
   fill: var(--primary);
   width: 20px;
   height: 20px;
+  overflow: visible;
 }
 
 .animate_watch {
@@ -67,6 +70,68 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+.success_svg__text {
+  transform: translateX(-68px);
+  opacity: 0;
+}
+
+.success_svg__circle {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.disappear {
+  animation: disappear 0.5s linear forwards;
+  animation-delay: 2.3s;
+}
+
+.animate .success_svg__circle {
+  animation: circle_appear 0.75s linear forwards;
+}
+.animate .success_svg__text {
+  animation: text_appear 0.25s linear forwards;
+  animation-delay: 0.45s;
+}
+
+.animate .success_svg__circle-with-arrow {
+  animation: circle-with-arrow_move 0.5s linear forwards;
+  animation-delay: 0.25s;
+}
+
+@keyframes text_appear {
+  from {
+    transform: translateY(15px) translateX(-68px);
+  }
+  to {
+    transform: translateY(0) translateX(-68px);
+    opacity: 1;
+  }
+}
+
+@keyframes circle_appear {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes circle-with-arrow_move {
+  50% {
+    transform: translateX(68px);
+  }
+  to {
+    transform: translateX(68px);
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
