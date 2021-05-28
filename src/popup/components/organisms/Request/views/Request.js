@@ -5,6 +5,7 @@ import Url from 'molecules/Url/Url';
 import HeadersList from 'molecules/HeadersList/HeadersList';
 import Body from 'molecules/Body/Body';
 import { renameKeys } from 'utils/utils';
+import { METHODS } from 'app/utils/constants';
 
 const Request = (props) => {
   const [name, setName] = useState('');
@@ -32,7 +33,7 @@ const Request = (props) => {
           className="mt2"
           initialMethod={props.initialMethod}
           initialUrl={props.initialUrl}
-          method={props.type}
+          method={(props.method || props.type || METHODS[0]).toUpperCase()}
           url={props.url || ''}
           onChange={(change) => {
             change = renameKeys(change, [{ from: 'method', to: 'type' }]);

@@ -55,11 +55,13 @@ export default class XhrProxy {
       } else {
         override = overridesStorage.findOverrideSync(xhrTrack);
       }
-      // TODO: track overriden xhrs as well.
       trackXhr(
-        { ...xhrTrack, isProxied: !!override },
+        {
+          ...xhrTrack,
+          isProxied: !!override,
+          ...(!!override && { override }),
+        },
         override ? target : this.realXhr,
-        override?.id,
       );
       if (override) {
         this.override = override;

@@ -1,7 +1,15 @@
 import React from 'react';
 import Icons from 'atoms/Icons/Icons';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import './Pagination.css';
+
+const arrowsPresenceAnimation = {
+  initial: { width: 0 },
+  animate: { width: 'auto' },
+  exit: { width: 0, opacity: 0 },
+};
+
 const Pagination = ({ totalPages, currentPage, onChange }) => {
   if (totalPages === 0 || totalPages === 1) {
     return '';
@@ -9,32 +17,45 @@ const Pagination = ({ totalPages, currentPage, onChange }) => {
   let current = Math.min(Math.max(1, currentPage), totalPages);
   return (
     <ul className="pagination">
-      {current > 1 && (
-        <li className="pagination__page">
-          <button
-            className="pagination__navigation pagination__navigation_to-start"
-            onClick={() => onChange && onChange(1)}
-          >
-            <Icons.Collapse className="icon_md" />
-          </button>
-        </li>
-      )}
-      {current > 1 && (
-        <li className="pagination__page">
-          <button
-            className="pagination__navigation pagination__navigation_backward"
-            onClick={() => onChange && onChange(current - 1)}
-          >
-            <Icons.Chevron className="icon_md" />
-          </button>
-        </li>
-      )}
+      <AnimatePresence>
+        {current > 1 && (
+          <motion.li className="pagination__page" {...arrowsPresenceAnimation}>
+            <button
+              className="pagination__navigation pagination__navigation_to-start"
+              onClick={() => onChange && onChange(1)}
+            >
+              <Icons.Collapse className="icon_md" />
+            </button>
+          </motion.li>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {current > 1 && (
+          <motion.li className="pagination__page" {...arrowsPresenceAnimation}>
+            <button
+              className="pagination__navigation pagination__navigation_backward"
+              onClick={() => onChange && onChange(current - 1)}
+            >
+              <Icons.Chevron className="icon_md" />
+            </button>
+          </motion.li>
+        )}
+      </AnimatePresence>
       {current !== 1 && (
         <li className="pagination__page">
           <button onClick={() => onChange && onChange(1)}>1</button>
         </li>
       )}
-      {current > 3 && <li className="pagination__ellipsis">..</li>}
+      <AnimatePresence>
+        {current > 3 && (
+          <motion.li
+            className="pagination__ellipsis"
+            {...arrowsPresenceAnimation}
+          >
+            ..
+          </motion.li>
+        )}
+      </AnimatePresence>
       {current - 1 > 1 && (
         <li className="pagination__page">
           <button onClick={() => onChange && onChange(current - 1)}>
@@ -52,9 +73,16 @@ const Pagination = ({ totalPages, currentPage, onChange }) => {
           </button>
         </li>
       )}
-      {totalPages - current - 1 > 0 && (
-        <li className="pagination__page pagination__ellipsis">...</li>
-      )}
+      <AnimatePresence>
+        {totalPages - current - 1 > 0 && (
+          <motion.li
+            {...arrowsPresenceAnimation}
+            className="pagination__page pagination__ellipsis"
+          >
+            ...
+          </motion.li>
+        )}
+      </AnimatePresence>
       {current !== totalPages && (
         <li className="pagination__page">
           <button onClick={() => onChange && onChange(totalPages)}>

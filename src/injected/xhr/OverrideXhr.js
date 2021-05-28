@@ -55,12 +55,12 @@ export default class OverrideXhr {
   }
 
   async doOverrideReceiveResponse(response) {
+    this.proxy.response = null;
+    this.proxy.status = +this.mock.responseCode || 200;
     if (response) {
-      this.proxy.response = null;
       let progress = 0;
       const total = getResponseLength(response);
       for (let { value, delay } of response) {
-        this.proxy.status = +this.mock.responseCode || 200;
         this.changeState(READY_STATES.LOADING);
         progress += await this.updateResponse(value, delay, progress, total);
       }
@@ -74,6 +74,8 @@ export default class OverrideXhr {
           this.proxy.response = null;
         }
       }
+    } else {
+      this.changeState(READY_STATES.LOADING);
     }
   }
 

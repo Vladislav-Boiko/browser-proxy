@@ -162,13 +162,17 @@ class Overrides {
         }
         processedString = processedString.slice(part.length);
       } else if (typeof part === 'object') {
-        const regexp = new RegExp(part.value);
-        const result = regexp.exec(processedString);
-        if (!result || result.index !== 0) {
+        try {
+          const regexp = new RegExp(part.value);
+          const result = regexp.exec(processedString);
+          if (!result || result.index !== 0) {
+            return { isMatch: false };
+          }
+          processedString = processedString.slice(result[0].length);
+          variableMatches.push({ ...part, match: result[0] });
+        } catch (e) {
           return { isMatch: false };
         }
-        processedString = processedString.slice(result[0].length);
-        variableMatches.push({ ...part, match: result[0] });
       }
     }
     return { isMatch: !processedString, variableMatches };
@@ -255,9 +259,23 @@ class Overrides {
     return { isMatch, variableMatches };
   }
 
+  tryStringify(value) {
+    let result = null;
+
+    try {
+      const parsed = JSON.parse(value);
+      result = JSON.stringify(parsed || '');
+    } catch (e) {
+      // do nothing
+    }
+    if (!result) {
+      result = value;
+    }
+  }
+
   compareRequestBodyMatch(xhrData, override, variables = []) {
-    const xhrBodyAsString = JSON.stringify(xhrData.requestBody || '');
-    const overrideBodyAsString = JSON.stringify(
+    const xhrBodyAsString = this.tryStringify(xhrData.requestBody || '');
+    const overrideBodyAsString = this.tryStringify(
       getTotalResponse(override.requestBody) || '',
     );
     return this.matchStringWithVariables(

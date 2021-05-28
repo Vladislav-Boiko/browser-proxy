@@ -6,11 +6,15 @@ import './Variables.css';
 const DEFAULT_VARIABLES = [{ name: '', value: '', id: uuid() }];
 const Variables = ({ onVariablesChange, initialVariables }) => {
   const [variables, setVariables] = useState(
-    initialVariables?.length ? initialVariables : DEFAULT_VARIABLES,
+    initialVariables?.length
+      ? [...initialVariables, DEFAULT_VARIABLES]
+      : DEFAULT_VARIABLES,
   );
   useEffect(() => {
     setVariables(
-      initialVariables?.length ? initialVariables : DEFAULT_VARIABLES,
+      initialVariables?.length
+        ? [...initialVariables, DEFAULT_VARIABLES]
+        : DEFAULT_VARIABLES,
     );
   }, [initialVariables]);
   const updateVariables = (newVariables) => {
@@ -18,7 +22,7 @@ const Variables = ({ onVariablesChange, initialVariables }) => {
     onVariablesChange &&
       onVariablesChange(
         // TODO: filter out invalid regexps
-        newVariables.filter(({ name, value }) => !!name && !!value),
+        newVariables.filter(({ name, value }) => !!name || !!value),
       );
   };
   const setVariable = (index, toSet) => {
@@ -49,15 +53,26 @@ const Variables = ({ onVariablesChange, initialVariables }) => {
           <Input
             label={index === 0 && 'Name'}
             value={name}
-            onChange={(newName) => setVariable(index, { name: newName })}
+            onChange={(newName) => setVariable(index, { name: newName, value })}
             validate={(value) => value === '' && 'Cannot be empty'}
             className="w100 mr3"
           />
           <Input
             label={index === 0 && 'Regular Expression'}
             value={value}
-            onChange={(newValue) => setVariable(index, { value: newValue })}
-            validate={(value) => value === '' && 'Cannot be empty'}
+            onChange={(newValue) =>
+              setVariable(index, { name, value: newValue })
+            }
+            validate={(value) => {
+              if (value === '') {
+                return 'Cannot be empty';
+              }
+              try {
+                new RegExp(value);
+              } catch (e) {
+                return 'Shall be a valid regexp';
+              }
+            }}
             className="w100 regular-expression__input"
           />
         </div>

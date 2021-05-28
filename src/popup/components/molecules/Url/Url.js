@@ -22,7 +22,7 @@ class Url extends React.Component {
         <div className={cn('wmax ffr')}>
           <Dropdown
             label="Type"
-            initialState={method || METHODS.GET}
+            initialState={method || METHODS[0]}
             options={METHODS.map((name) => ({ name, value: name }))}
             onChange={(newMethod) => {
               this.setState({ method: newMethod });

@@ -28,13 +28,15 @@ const getFetchTrack = (argumentsList) => {
   }
   return {
     url,
-    method: payload.method,
+    type: payload.method?.toUpperCase(),
+    method: payload.method?.toUpperCase(),
     requestBody: payload.body || '',
     requestHeaders: payload.headers || [],
   };
 };
 
-const startTracking = (fetchTrack, id = uuid()) => {
+const startTracking = (fetchTrack) => {
+  const id = uuid();
   messaging.emit(EVENTS.FETCH_SENT, {
     id,
     sentTimestamp: Date.now(),
@@ -44,14 +46,20 @@ const startTracking = (fetchTrack, id = uuid()) => {
 };
 
 const finishTracking = async (id, response) => {
-  const text = await response.text();
+  let text = '';
+  try {
+    text = response.text ? await response.text() : '';
+  } catch (e) {
+    text = e?.message || '';
+  }
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
-    status: +response.status,
+    status: response.status === 0 ? response.status : +response.status || 200,
     response: text,
     chunkTimestamp: Date.now(),
     loadendTimestamp: Date.now(),
     responseURL: response.url,
+    readyState: 4,
   });
 };
 
@@ -72,10 +80,11 @@ export default (window) => {
     async apply(target, thisArg, argumentsList) {
       const fetchTrack = getFetchTrack(argumentsList);
       const override = await overridesStorage.findOverride(fetchTrack);
-      const id = startTracking(
-        { ...fetchTrack, isProxied: !!override },
-        override?.id,
-      );
+      const id = startTracking({
+        ...fetchTrack,
+        isProxied: !!override,
+        ...(!!override && { override }),
+      });
       if (override) {
         return new Promise(async (resolve, reject) => {
           let headers = new Headers();
@@ -92,18 +101,26 @@ export default (window) => {
             headers,
             url: override.responseURL,
           });
-          finishTracking(id, response.clone());
+          await finishTracking(id, response.clone());
           resolve(response);
         });
       } else {
-        const fetchResponse = Reflect.apply(target, window, argumentsList);
+        const fetchResponse = Reflect.apply(target, thisArg, argumentsList);
         return new Promise((resolve, reject) => {
           fetchResponse
-            .then((response) => {
-              finishTracking(id, response.clone());
+            .then(async (response) => {
+              // We need to await until tracking is finished, as if the user aborts a request
+              // right after hee received it, we will be not able to track data for it
+              await finishTracking(id, response.clone());
               return resolve(response);
             })
-            .catch((error) => reject(error));
+            .catch(async (error) => {
+              await finishTracking(id, {
+                status: 0,
+                text: () => error?.message || '',
+              });
+              reject(error);
+            });
         });
       }
     },

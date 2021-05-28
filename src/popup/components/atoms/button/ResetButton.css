@@ -44,6 +44,10 @@
   top: calc(var(--em) * 2);
 }
 
+.reset_with-double-label {
+  top: calc(var(--em) * 4);
+}
+
 .reset_enabled.reset_active:hover,
 .reset_enabled.reset_active:active,
 .reset_enabled.reset_active:focus-within {

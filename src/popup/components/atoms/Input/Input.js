@@ -35,12 +35,6 @@ const Input = ({
         className={cn('label_weak g1-color input-label__label', labelClassName)}
       >
         {label}
-        {validationError && (
-          <span className="input-label__validation accent-color">
-            <Icons.Danger className="input-label__validation-icon icon_md mr1" />
-            {validationError}
-          </span>
-        )}
       </span>
       <ResetButton
         isUnsaved={isUnsaved}
@@ -75,6 +69,16 @@ const Input = ({
         )}
       </label>
       {icon && <div className="input-icon px2">{icon}</div>}
+      <span
+        className={cn('label_weak g1-color input-label__label', labelClassName)}
+      >
+        {validationError && (
+          <span className="input-label__validation accent-color">
+            <Icons.Danger className="input-label__validation-icon icon_md mr1" />
+            {validationError}
+          </span>
+        )}
+      </span>
     </label>
   );
 };

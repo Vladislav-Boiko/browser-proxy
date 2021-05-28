@@ -9,6 +9,13 @@ import './ChunkedInput.css';
 
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
+const isUnsaved = (initial, current) => {
+  if (!initial && !current) {
+    return false;
+  }
+  return initial != current;
+};
+
 const ChunkedInput = ({
   body,
   initialBody,
@@ -32,6 +39,23 @@ const ChunkedInput = ({
   };
   return (
     <div className={cn('chunked-input', className)}>
+      <Button
+        tretiary
+        onClick={() => {
+          const totalBody = chunksValue.reduce(
+            (acc, { value }) => acc + value,
+            '',
+          );
+          const totalDelay = chunksValue.reduce(
+            (acc, { delay }) => acc + delay,
+            0,
+          );
+          updateBodyValue([{ value: totalBody, delay: totalDelay }]);
+        }}
+        className="mr3"
+      >
+        Join chunks
+      </Button>
       {chunksValue?.map((chunkValue, index) => (
         <React.Fragment key={`chunk_${index}`}>
           <Input
@@ -49,21 +73,14 @@ const ChunkedInput = ({
               });
               updateBodyValue(updatedBody);
             }}
-            isUnsaved={
-              !(
-                initialBody &&
-                initialBody[index] &&
-                initialBody[index].value === chunkValue.value
-              )
-            }
+            isUnsaved={isUnsaved(
+              initialBody && initialBody[index]?.value,
+              chunkValue?.value,
+            )}
             reset={() => {
               const updatedBody = evolve(chunksValue, {
                 [index]: Object.assign({}, chunkValue, {
-                  value:
-                    (initialBody &&
-                      initialBody[index] &&
-                      initialBody[index].value) ||
-                    '',
+                  value: (initialBody && initialBody[index]?.value) || '',
                 }),
               });
               updateBodyValue(updatedBody);

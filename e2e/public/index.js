@@ -55,7 +55,11 @@ const runTests = async () => {
     const header = document.createElement('h4');
     header.innerHTML = name;
     document.body.appendChild(header);
-    await call();
+    try {
+      await call();
+    } catch (e) {
+      console.error(e);
+    }
     while (tests.length) {
       const test = tests.pop();
       await runtATest(test);
@@ -158,9 +162,13 @@ describe('xhr text data', () => {
   it('Can fetch chunked data', async () => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', '/test9');
-    const promise = new Promise((resolve) => {
+    const promise = new Promise((resolve, reject) => {
       xhr.onload = () => {
-        assertEquals(xhr.getResponseHeader('Am_I_a_teapot'), 'no!');
+        try {
+          assertEquals(xhr.getResponseHeader('Am_I_a_teapot'), 'no!');
+        } catch (e) {
+          reject(e);
+        }
         resolve();
       };
     });

@@ -15,7 +15,8 @@ const serializeResponse = async (xhr) => {
   }
 };
 
-export const trackXhr = (requestPayload, xhr, id = uuid()) => {
+export const trackXhr = (requestPayload, xhr) => {
+  const id = uuid();
   const timestamp = Date.now();
 
   messaging.emit(EVENTS.XHR_SENT, {

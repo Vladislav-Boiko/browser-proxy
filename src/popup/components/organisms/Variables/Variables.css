@@ -1,5 +1,5 @@
 .variables__row {
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .regular-expression__input {
