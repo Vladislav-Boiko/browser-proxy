@@ -77,6 +77,7 @@ const Input = ({
           <span className="label__text_hidden">Copy value {label}</span>
           {!otherProps.disabled && (
             <SuccessButton
+              key={value || 'copy'}
               className="copy-value px2"
               tretiary
               onClick={() => {

@@ -5,9 +5,12 @@ import Icons from '../Icons/Icons';
 import './SuccessButton.css';
 export default (Button) => ({ children, ...otherProps }) => {
   const [showingSuccess, setShowingSuccess] = useState(false);
-  const showSuccess = () => {
-    setShowingSuccess(true);
-    setTimeout(() => setShowingSuccess(false), 2800);
+  const showSuccess = (value = true) => {
+    setShowingSuccess(value);
+    if (value) {
+      const timeout = setTimeout(() => setShowingSuccess(false), 2800);
+      return () => clearInterval(timeout);
+    }
   };
   const onClick = (e) => {
     const result = otherProps.onClick && otherProps.onClick(e);
