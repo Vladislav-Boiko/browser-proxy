@@ -3,42 +3,27 @@ import Input from 'atoms/Input/Input';
 import { v4 as uuid } from 'uuid';
 
 import './Variables.css';
-const DEFAULT_VARIABLES = [{ name: '', value: '', id: uuid() }];
+const DEFAULT_VARIABLES = () => [{ name: '', value: '', id: uuid() }];
 const Variables = ({ onVariablesChange, initialVariables }) => {
   const [variables, setVariables] = useState(
-    initialVariables?.length
-      ? [...initialVariables, DEFAULT_VARIABLES]
-      : DEFAULT_VARIABLES,
+    initialVariables?.length ? initialVariables : DEFAULT_VARIABLES(),
   );
+  // We always  want to have an empty line for variables setting at the end
+  // in case we don't yet have one.
   useEffect(() => {
-    setVariables(
-      initialVariables?.length
-        ? [...initialVariables, DEFAULT_VARIABLES]
-        : DEFAULT_VARIABLES,
-    );
-  }, [initialVariables]);
-  const updateVariables = (newVariables) => {
-    setVariables(newVariables);
-    onVariablesChange &&
-      onVariablesChange(
-        // TODO: filter out invalid regexps
-        newVariables.filter(({ name, value }) => !!name || !!value),
-      );
-  };
+    const lastItem = variables && variables[variables.length - 1];
+    if (lastItem && (lastItem?.name || lastItem?.value)) {
+      setVariables([...variables, DEFAULT_VARIABLES()]);
+    }
+  }, [variables]);
   const setVariable = (index, toSet) => {
     let variablesCopy = [...variables];
     variablesCopy[index] = Object.assign(variablesCopy[index], toSet);
-    if (index === variablesCopy.length - 1 && (!!toSet.name || !!toSet.value)) {
-      variablesCopy.push({ name: '', value: '', id: uuid() });
-    }
-    if (
-      !variablesCopy[index].name &&
-      !variablesCopy[index].value &&
-      variablesCopy.length > 1
-    ) {
-      variablesCopy.splice(index, 1);
-    }
-    updateVariables(variablesCopy);
+    variablesCopy = variablesCopy.filter(
+      ({ name, value }) => !!name || !!value,
+    );
+    setVariables(variablesCopy);
+    onVariablesChange && onVariablesChange(variablesCopy);
   };
   return (
     <div className="p4 wmax">
