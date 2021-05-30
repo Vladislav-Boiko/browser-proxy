@@ -24,12 +24,14 @@
   animation: 600ms ease-out 0s 1 wholeWatch;
 }
 
-.animate_watch .watch_svg__top {
+.animate_watch .watch_svg__top,
+.animate_watch .top {
   transform-origin: center center;
   animation: 600ms ease-out 0s 1 watchTop;
 }
 
-.animate_watch .watch_svg__arrow {
+.animate_watch .watch_svg__arrow,
+.animate_watch .arrow {
   transform-origin: center 55%;
   animation: 600ms ease-out 0s 1 watchArrow;
 }
@@ -73,12 +75,14 @@
   }
 }
 
-.success_svg__text {
+.success_svg__text,
+.text {
   transform: translateX(-68px);
   opacity: 0;
 }
 
-.success_svg__circle {
+.success_svg__circle,
+.circle {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
 }
@@ -88,17 +92,36 @@
   animation-delay: 2.3s;
 }
 
-.animate .success_svg__circle {
+svg.animate {
+  overflow: visible;
+}
+
+.animate .success_svg__circle,
+.animate .circle {
   animation: circle_appear 0.75s linear forwards;
 }
-.animate .success_svg__text {
+.animate .success_svg__text,
+.animate .text {
   animation: text_appear 0.25s linear forwards;
   animation-delay: 0.45s;
 }
 
-.animate .success_svg__circle-with-arrow {
+.animate .success_svg__circle-with-arrow,
+.animate .circle-with-arrow {
   animation: circle-with-arrow_move 0.5s linear forwards;
   animation-delay: 0.25s;
+}
+
+.enable_svg {
+  margin-left: -4px;
+}
+
+.animate_add {
+  transition: all 0.3s;
+}
+
+.animate_add:hover .icon_md {
+  transform: scale(1.3) rotate(-90deg);
 }
 
 @keyframes text_appear {
@@ -133,16 +156,4 @@
   to {
     opacity: 0;
   }
-}
-
-.enable_svg {
-  margin-left: -4px;
-}
-
-.animate_add {
-  transition: all 0.3s;
-}
-
-.animate_add:hover .icon_md {
-  transform: scale(1.3) rotate(-90deg);
 }

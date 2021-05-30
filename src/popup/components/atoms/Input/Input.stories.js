@@ -11,7 +11,7 @@ const Template = () => {
   const [valueInput, setValueInput] = useState('Connection');
   const [valueInvalid, setValueInvalid] = useState('Github.com');
   const [valueMultiline, setValueMultiline] = useState('{\n\n}');
-  const [valueDelay, setValueDelay] = useState('200ms');
+  const [valueDelay, setValueDelay] = useState(0);
   return (
     <div className="m4">
       <Input

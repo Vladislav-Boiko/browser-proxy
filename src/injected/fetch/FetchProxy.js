@@ -69,7 +69,7 @@ const finishTracking = async (id, response) => {
   }
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
-    status: response.status === 0 ? response.status : +response.status || 200,
+    status: +response.status ?? 200,
     response: text,
     chunkTimestamp: Date.now(),
     loadendTimestamp: Date.now(),
@@ -101,7 +101,7 @@ const overrideFetch = (id, override) => {
       await new Promise((resolve) => setTimeout(resolve, stripMs(chunk.delay)));
     }
     const response = new Response(getOverrideResponse(override), {
-      status: override.responseCode || 200,
+      status: override.responseCode ?? 200,
       headers,
       url: override.responseURL,
     });

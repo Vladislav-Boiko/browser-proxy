@@ -8,7 +8,7 @@ export const getResponseLength = (responseBody) => {
 };
 
 export const getTotalResponse = (responseBody) =>
-  responseBody?.reduce((acc, { value }) => acc + (value || ''), '') || '';
+  responseBody?.reduce((acc, { value }) => acc + (value ?? ''), '') ?? '';
 
 export const tryStringifyRequestBody = (value) => {
   let result = null;
@@ -18,7 +18,7 @@ export const tryStringifyRequestBody = (value) => {
   }
   try {
     const parsed = JSON.parse(requestBody);
-    result = JSON.stringify(parsed || '');
+    result = JSON.stringify(parsed ?? '');
   } catch (e) {
     // do nothing
   }

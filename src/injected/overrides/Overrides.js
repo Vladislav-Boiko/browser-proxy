@@ -260,7 +260,7 @@ class Overrides {
   }
 
   compareRequestBodyMatch(xhrData, override, variables = []) {
-    const xhrBodyAsString = tryStringifyRequestBody(xhrData.requestBody || '');
+    const xhrBodyAsString = tryStringifyRequestBody(xhrData.requestBody ?? '');
     const overrideBodyAsString = tryStringifyRequestBody(
       getTotalResponse(override.requestBody) || '',
     );

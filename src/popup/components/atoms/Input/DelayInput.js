@@ -9,16 +9,9 @@ const fromMsString = (value) =>
 const isValid = (value) => /\d*$/.test(value);
 
 const DelayInput = ({ onChange, ...otherProps }) => {
-  let value = '0ms';
+  let value = otherProps.value;
   if (otherProps.value === undefined) {
     value = '200ms';
-  }
-  if (otherProps.value) {
-    if (isNaN(otherProps.value)) {
-      value = otherProps.value;
-    } else {
-      value = otherProps.value + 'ms';
-    }
   }
   const [valueOnFocus, setValueOnFocus] = useState(value);
   const [isAnimate, setAnimate] = useState(false);

@@ -9,7 +9,7 @@ import SuccessButton from 'atoms/Button/SuccessButton';
 
 const InputType = ({ multiline, ...otherProps }) => {
   return !multiline ? (
-    <input {...otherProps} value={otherProps.value || ''} />
+    <input {...otherProps} value={otherProps.value ?? ''} />
   ) : (
     <TextareaAutosize minRows="3" maxRows="12" {...otherProps} />
   );

@@ -7,7 +7,7 @@ export default (Button) => ({ children, ...otherProps }) => {
   const [showingSuccess, setShowingSuccess] = useState(false);
   const showSuccess = () => {
     setShowingSuccess(true);
-    setTimeout(() => setShowingSuccess(false), 3000);
+    setTimeout(() => setShowingSuccess(false), 2800);
   };
   const onClick = (e) => {
     const result = otherProps.onClick && otherProps.onClick(e);
