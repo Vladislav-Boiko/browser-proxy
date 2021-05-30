@@ -13,8 +13,14 @@ export const getTotalResponse = (responseBody) =>
 export const tryStringifyRequestBody = (value) => {
   let result = null;
   let requestBody = value;
-  if (value instanceof URLSearchParams) {
-    requestBody = value.toString();
+  if (value instanceof URLSearchParams || value instanceof FormData) {
+    const entries = value?.entries();
+    if (entries) {
+      requestBody = [...entries]
+        .map((entry) => decodeURIComponent(`${entry[0]}=${entry[1]}`))
+        .join('&\n');
+      // requestBody = value.toString();
+    }
   }
   try {
     const parsed = JSON.parse(requestBody);
