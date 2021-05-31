@@ -75,13 +75,19 @@ const Input = ({
           })}
         >
           <span className="label__text_hidden">Copy value {label}</span>
-          {!otherProps.disabled && (
+          {!(window.browser || window.chrome)?.devtools && (
             <SuccessButton
               key={value || 'copy'}
               className="copy-value px2"
               tretiary
               onClick={() => {
-                navigator.clipboard.writeText(value);
+                navigator.permissions
+                  .query({ name: 'clipboard-write' })
+                  .then((result) => {
+                    result.state === 'granted' ||
+                      (result.state === 'prompt' &&
+                        navigator.clipboard.writeText(value));
+                  });
                 return true;
               }}
               Icon={Icons.Duplicate}
