@@ -61,6 +61,7 @@ export const trackXhr = (requestPayload, xhr) => {
       status: xhr.status,
       loadendTimestamp: Date.now(),
       responseURL: xhr.responseURL,
+      readyState: xhr.readyState,
     });
     xhr.removeEventListener('readystatechange', readystatechange);
     xhr.removeEventListener('loadend', loadend);
