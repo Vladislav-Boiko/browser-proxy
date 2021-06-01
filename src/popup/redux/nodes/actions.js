@@ -55,6 +55,12 @@ export const moveNode = (payload) => ({
   payload,
 });
 
+export const DUPLICATE_NODE = 'DUPLICATE_NODE';
+export const duplicateNode = (payload) => ({
+  type: DUPLICATE_NODE,
+  payload,
+});
+
 export const IMPORT_DATA = 'IMPORT_DATA';
 export const importData = (payload) => ({
   type: IMPORT_DATA,

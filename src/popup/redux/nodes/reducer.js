@@ -11,6 +11,7 @@ import {
   MOVE_NODE,
   IMPORT_DATA,
   removeOverride,
+  DUPLICATE_NODE,
   updateNode as updateNodeAction,
 } from './actions';
 import { findPath, getItemsToSerialize, getNode } from './selectors';
@@ -151,6 +152,25 @@ const moveNode = (state, action) => {
   });
 };
 
+const duplicateNode = (state, action) => {
+  const { id } = action.payload;
+  if (id) {
+    let nodePath = findPath(id, state);
+    const toCopy = getNode(state, nodePath);
+    const nodeCopy = { ...toCopy, id: uuid() };
+    nodePath.pop();
+    return updateDeep(state, nodePath, {
+      nodes: alter((key, value) => {
+        const neighborIndex = value.findIndex((node) => node.id === id);
+        let valueCopy = [...value];
+        valueCopy.splice(neighborIndex + 1, 0, nodeCopy);
+        return valueCopy.filter((item) => !!item);
+      }),
+    });
+  }
+  return state;
+};
+
 const updateImportedNodes = (tree) => {
   if (!tree) {
     return tree;
@@ -226,6 +246,8 @@ export const serializedReducer = (state = [], action) => {
       return removeDomain(state, action);
     case MOVE_NODE:
       return moveNode(state, action);
+    case DUPLICATE_NODE:
+      return duplicateNode(state, action);
     case IMPORT_DATA:
       return importData(state, action);
     default:

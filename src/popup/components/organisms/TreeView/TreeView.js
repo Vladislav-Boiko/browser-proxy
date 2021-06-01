@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Button from 'atoms/Button/Button';
+import ConfirmationButton from 'atoms/Button/ConfirmationButton';
 import Icons from 'atoms/Icons/Icons';
 import { v4 as uuid } from 'uuid';
 import Node, {
@@ -19,13 +20,22 @@ const WIDTH = {
   open: 272,
 };
 
+const contextMenuAnimation = {
+  initial: { height: 0 },
+  animate: { height: 'auto' },
+  exit: { height: 0 },
+};
+
 const TreeView = ({
   nodes,
   onChange,
   addDomain,
   selectedId,
   currentDomain,
+  selectedNode,
   moveNode,
+  duplicateNode,
+  removeNode,
 }) => {
   const [isMinified, setMinified] = useState(false);
   const [selected, select] = useState();
@@ -50,17 +60,18 @@ const TreeView = ({
     setWidth(newWidth);
     setResizingKey(uuid());
   };
+  const isSelectedOverride = selectedNode?.type in XHR_TYPES;
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="treeView-container">
         <motion.ol
-          className={cn('treeView g7-bg px2 py3', {
+          className={cn('treeView g7-bg px1 py3', {
             treeView_minified: isMinified,
             treeView_md: width < 165,
           })}
           animate={isMinified ? 'closed' : 'open'}
           transition={{
-            duration: 0.8,
+            duration: 0.4,
             type: 'spring',
           }}
           variants={{
@@ -111,6 +122,31 @@ const TreeView = ({
           >
             Add Domain
           </Button>
+          <AnimatePresence>
+            {isSelectedOverride && (
+              <motion.ul className="tree-actions" {...contextMenuAnimation}>
+                <li>
+                  <Button
+                    tretiary
+                    Icon={Icons.Duplicate}
+                    onClick={() => duplicateNode({ id: selectedNode?.id })}
+                  >
+                    {!isMinified && 'Duplicate'}
+                  </Button>
+                </li>
+                <li>
+                  <ConfirmationButton
+                    tretiary
+                    Icon={Icons.Trash}
+                    onClick={() => removeNode(selectedNode?.id)}
+                    confirmationMessage={isMinified ? '?' : 'Sure?'}
+                  >
+                    {!isMinified && 'Delete'}
+                  </ConfirmationButton>
+                </li>
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </motion.ol>
         <motion.button
           key={resizingKeyForResetting}
