@@ -6,6 +6,7 @@ import Input from 'atoms/Input/Input';
 import FileInput from 'atoms/FileInput/FileInput';
 
 import './FolderSettings.css';
+import ConfirmationButton from 'atoms/Button/ConfirmationButton';
 const Folder = ({
   name,
   className,
@@ -87,9 +88,13 @@ const Folder = ({
           <Button secondary Icon={Icons.TurnOff} onClick={otherProps.toggle}>
             {otherProps.isOn ? 'Turn OFF' : 'Turn On'}
           </Button>
-          <Button secondary Icon={Icons.Trash} onClick={removeFolder}>
+          <ConfirmationButton
+            secondary
+            Icon={Icons.Trash}
+            onClick={removeFolder}
+          >
             Remove
-          </Button>
+          </ConfirmationButton>
         </div>
       </div>
     </div>

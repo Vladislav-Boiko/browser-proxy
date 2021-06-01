@@ -6,6 +6,7 @@ import DelayInput from 'atoms/Input/DelayInput';
 import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import './ChunkedInput.css';
+import ConfirmationButton from 'atoms/Button/ConfirmationButton';
 
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
@@ -120,7 +121,7 @@ const ChunkedInput = ({
             )}
             <div className="chunk-footer__actions ffr">
               {index > 0 ? (
-                <Button
+                <ConfirmationButton
                   Icon={Icons.Trash}
                   tretiary
                   onClick={() => {
@@ -132,7 +133,7 @@ const ChunkedInput = ({
                   className="mr3"
                 >
                   Remove chunk
-                </Button>
+                </ConfirmationButton>
               ) : (
                 ''
               )}

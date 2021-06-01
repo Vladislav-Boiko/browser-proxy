@@ -7,6 +7,7 @@ import Input from 'atoms/Input/Input';
 import FileInput from 'atoms/FileInput/FileInput';
 
 import '../Domain.css';
+import ConfirmationButton from 'atoms/Button/ConfirmationButton';
 const DomainSettings = ({
   id,
   activeUrls,
@@ -103,9 +104,9 @@ const DomainSettings = ({
         <Button secondary Icon={Icons.TurnOff} onClick={otherProps.toggle}>
           {otherProps.isOn ? 'Disable' : 'Enable'}
         </Button>
-        <Button secondary Icon={Icons.Trash} onClick={removeDomain}>
+        <ConfirmationButton secondary Icon={Icons.Trash} onClick={removeDomain}>
           Remove
-        </Button>
+        </ConfirmationButton>
       </div>
     </div>
   );

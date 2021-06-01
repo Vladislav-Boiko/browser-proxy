@@ -9,6 +9,7 @@ import { renameKeys } from 'utils/utils';
 import ResponseView from './views/Response';
 import RequestView from './views/Request';
 import './Request.css';
+import ConfirmationButton from 'atoms/Button/ConfirmationButton';
 
 const MENU_OPTIONS = {
   RESPONSE: 'RESPONSE',
@@ -118,13 +119,13 @@ const Request = ({ className, removeOverride, ...otherProps }) => {
           >
             Save
           </Button>
-          <Button
+          <ConfirmationButton
             Icon={otherProps.isUnsaved ? null : Icons.Trash}
             secondary
             onClick={removeOverride}
           >
             {otherProps.isUnsaved ? 'Cancel' : 'Remove'}
-          </Button>
+          </ConfirmationButton>
         </div>
       </div>
     </div>
