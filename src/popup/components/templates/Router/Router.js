@@ -8,6 +8,7 @@ import Domain from 'organisms/Domain/Domain';
 import Folder from 'organisms/Folder/Folder.container';
 
 import './Router.css';
+import Image404 from 'atoms/404/Image404';
 const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
   let Node = null;
   if (selectedNode) {
@@ -39,7 +40,7 @@ const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
           className="wmax navigation-node py2"
         />
       ) : (
-        'TODO: not rendered'
+        <Image404 />
       )}
     </div>
   );
