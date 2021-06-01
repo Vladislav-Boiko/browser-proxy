@@ -2,7 +2,8 @@ import React from 'react';
 
 import Button from './Button';
 import Icons from '../Icons/Icons';
-import SuccessButton from './SuccessButtonHoc';
+import ConfirmationButton from './ConfirmationButton';
+import SuccessButton from './SuccessButton';
 
 export default {
   title: 'Atoms/Button',
@@ -58,6 +59,35 @@ const Template = (args) => (
       >
         Tretiary
       </SuccessButton>
+    </div>
+    <h3>Confirmation Buttons</h3>
+    <div className="my4">
+      <ConfirmationButton
+        {...args}
+        primary
+        Icon={Icons.Enable}
+        onClick={() => true}
+      >
+        Primary
+      </ConfirmationButton>
+      <ConfirmationButton
+        {...args}
+        secondary
+        className="mt6"
+        Icon={Icons.AddFolder}
+        onClick={() => true}
+      >
+        Secondary
+      </ConfirmationButton>
+      <ConfirmationButton
+        {...args}
+        tretiary
+        className="mt6"
+        Icon={Icons.Add}
+        onClick={() => true}
+      >
+        Tretiary
+      </ConfirmationButton>
     </div>
   </div>
 );

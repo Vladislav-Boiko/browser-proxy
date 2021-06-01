@@ -16,6 +16,7 @@ export default (Button) => ({ children, ...otherProps }) => {
     const result = otherProps.onClick && otherProps.onClick(e);
     if (result) {
       showSuccess();
+      return result;
     }
   };
   return showingSuccess ? (

@@ -1,0 +1,10 @@
+.button.button_confirming {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.button.button_confirming.tretiary {
+  padding-left: calc(var(--em) * 2);
+  padding-right: calc(var(--em) * 2);
+}
