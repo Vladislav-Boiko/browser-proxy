@@ -4,6 +4,15 @@
 @import './components/atoms/Text/Text.css';
 @import './components/atoms/Sizes/Sizes.css';
 
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
