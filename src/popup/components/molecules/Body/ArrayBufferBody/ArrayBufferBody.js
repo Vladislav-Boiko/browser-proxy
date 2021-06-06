@@ -37,6 +37,7 @@ const ArrayBufferBody = ({ body, onChange, className, ...otherProps }) => {
         label="base64 content"
         className="mt3"
         onChange={updateContent}
+        type="ArrayBuffer"
         validate={(value) =>
           isValidBase64(value) ? '' : 'Is not a valid base64'
         }

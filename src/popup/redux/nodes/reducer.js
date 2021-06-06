@@ -17,7 +17,9 @@ import {
 import { findPath, getItemsToSerialize, getNode } from './selectors';
 import { evolve, where, alter } from 'immutableql';
 import { TYPES } from 'organisms/TreeView/Nodes/index';
+import messaging from '../../communication/PluginMessaging';
 import serializer from '../../../common/storage/Serializer';
+import EVENTS from '../../../common/communication/plugin/events';
 
 export const updateDeep = (state, path, payload) => {
   if (!path) {
@@ -259,6 +261,7 @@ export default (state = [], action) => {
   const updated = serializedReducer(state, action);
   if (updated) {
     const nodes = getItemsToSerialize({ nodes: updated });
+    messaging.emit(EVENTS.OVERRIDES_UPDATED, nodes);
     serializer.saveStore(nodes);
     return updated;
   }

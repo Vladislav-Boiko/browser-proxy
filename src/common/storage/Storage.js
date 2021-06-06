@@ -1,9 +1,9 @@
 const APPLICATION_NAME = 'browser-proxy';
 
+const browser = window.browser || window.chrome;
 class Storage {
   save(value) {
     return new Promise((resolve) => {
-      const browser = window.browser || window.chrome;
       browser.storage &&
         browser.storage.local.get(APPLICATION_NAME, (result) => {
           result[APPLICATION_NAME] = value;
@@ -13,7 +13,6 @@ class Storage {
   }
 
   load(index, initialState) {
-    const browser = window.browser || window.chrome;
     return new Promise((resolve) => {
       browser.storage &&
         browser.storage.local.get(APPLICATION_NAME, (result) =>

@@ -17,27 +17,29 @@ const SplitBy = ({ text, delimiter, searchRegexp }) => {
     return '';
   }
   const splitted = text.split(delimiter);
-  return splitted.map((part, i) => (
-    <p key={`url-param-${i}`}>
-      {i === 0 ? (
-        <b className="url-param__base">{highlight(part, searchRegexp)}</b>
-      ) : (
-        <React.Fragment>
-          <span className="url-param__key">
-            {highlight(part.split('=')[0], searchRegexp)}
-          </span>{' '}
-          ={' '}
-          <span className="url-param__value">
-            {highlight(part.split('=')[1], searchRegexp)}
-          </span>
-        </React.Fragment>
-      )}
-      {highlight(
-        i !== splitted.length - 1 && (i === 0 ? '?' : ' &'),
-        searchRegexp,
-      )}
-    </p>
-  ));
+  return splitted
+    .map((part) => decodeURIComponent(part))
+    .map((part, i) => (
+      <p key={`url-param-${i}`}>
+        {i === 0 ? (
+          <b className="url-param__base">{highlight(part, searchRegexp)}</b>
+        ) : (
+          <React.Fragment>
+            <span className="url-param__key">
+              {highlight(part.split('=')[0], searchRegexp)}
+            </span>{' '}
+            ={' '}
+            <span className="url-param__value">
+              {highlight(part.split('=')[1], searchRegexp)}
+            </span>
+          </React.Fragment>
+        )}
+        {highlight(
+          i !== splitted.length - 1 && (i === 0 ? '?' : ' &'),
+          searchRegexp,
+        )}
+      </p>
+    ));
 };
 
 const stripURL = (url = '') => {
@@ -58,6 +60,7 @@ const LOADING_STATES = {
   FAIL: 'fail',
 };
 
+let wasLogged = false;
 const RequestCard = ({
   url,
   responseCode,
@@ -96,6 +99,24 @@ const RequestCard = ({
         id,
       });
   };
+  if (/videoplayback/.test(url) && !wasLogged) {
+    wasLogged = true;
+    console.log({
+      url,
+      responseCode,
+      method,
+      responseType,
+      readyState,
+      className,
+      onClick,
+      isProxied,
+      searchRegexp,
+      shallAnimate: false,
+      ...otherProps,
+    });
+  }
+  const canShowTextPreview =
+    ['TEXT', 'JSON', 'DOCUMENT'].indexOf(responseType?.toUpperCase()) >= 0;
   return (
     <AnimatePresence
       initial={shallAnimate && loadingState === LOADING_STATES.LOADING}
@@ -172,21 +193,25 @@ const RequestCard = ({
                 searchRegexp={searchRegexp}
               />
             </span>
-            <Tabs
-              onSelect={setSelectedTab}
-              className="mt2"
-              tabs={[
-                { name: 'Response', id: 'responseBody' },
-                { name: 'Request', id: 'requestBody' },
-              ]}
-              selectedTab={selectedTab}
-            />
-            <Input
-              className="tabbed__input"
-              disabled
-              value={getTotalResponse(otherProps[selectedTab])}
-              multiline
-            />
+            {canShowTextPreview && (
+              <>
+                <Tabs
+                  onSelect={setSelectedTab}
+                  className="mt2"
+                  tabs={[
+                    { name: 'Response', id: 'responseBody' },
+                    { name: 'Request', id: 'requestBody' },
+                  ]}
+                  selectedTab={selectedTab}
+                />
+                <Input
+                  className="tabbed__input"
+                  disabled
+                  value={getTotalResponse(otherProps[selectedTab])}
+                  multiline
+                />
+              </>
+            )}
           </div>
         )}
       </motion.div>

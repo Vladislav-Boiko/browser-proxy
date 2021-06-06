@@ -12,15 +12,18 @@ const Button = ({
   tretiary,
   iconLeft,
   iconClass,
+  ...otherProps
 }) => {
   return (
     <button
+      {...otherProps}
       className={cn(
         'button label_medium py1 px3',
         {
           'primary white-color primary-bg': primary,
           'secondary white-bg primary-color': secondary,
           'tretiary white-bg primary-color': tretiary,
+          button_disabled: otherProps.disabled,
         },
         className,
       )}

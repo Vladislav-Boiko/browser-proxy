@@ -3,7 +3,7 @@
   "name": "Browser Proxy",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "TODO: add a description",
+  "description": "Replace AJAX requests' responses on the fly!",
   "browser_action": {
     "default_icon": "logo-disabled64.png",
     "default_popup": "popup.html"
@@ -16,14 +16,14 @@
    "192": "logo192.png",
    "512": "logo512.png"
   },
-  "permissions": ["activeTab", "storage", "tabs", "clipboardWrite"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "devtools_page": "popup.html",
   "content_scripts": [
     {
       "run_at": "document_start",
       "all_frames": true,
       "match_about_blank": true,
-      "matches": ["<all_urls>"],
+      "matches": ["http://*/*", "https://*/*"],
       "js": ["src/content.js"]
     }
   ],

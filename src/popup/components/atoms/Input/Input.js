@@ -7,6 +7,8 @@ import './Input.css';
 import { ResetButton } from 'atoms/Button/ResetButton';
 import SuccessButton from 'atoms/Button/SuccessButton';
 
+const browser = window.browser || window.chrome;
+
 const InputType = ({ multiline, ...otherProps }) => {
   return !multiline ? (
     <input {...otherProps} value={otherProps.value ?? ''} />
@@ -75,7 +77,7 @@ const Input = ({
           })}
         >
           <span className="label__text_hidden">Copy value {label}</span>
-          {!(window.browser || window.chrome)?.devtools && (
+          {!browser?.devtools && (
             <SuccessButton
               key={value || 'copy'}
               className="copy-value px2"

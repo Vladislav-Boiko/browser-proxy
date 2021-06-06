@@ -13,7 +13,7 @@ export const TYPES = {
 
 const ResponseType = ({ name, type, className }) => {
   let Icon = Icons.Domain;
-  switch (type) {
+  switch (type?.toUpperCase()) {
     case TYPES.JSON:
       Icon = () => (
         <span className="mr1 response-type__icon label_weak">{'{;}'}</span>

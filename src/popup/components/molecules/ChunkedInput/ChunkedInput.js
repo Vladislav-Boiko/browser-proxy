@@ -7,6 +7,7 @@ import Button from 'atoms/Button/Button';
 import Icons from 'atoms/Icons/Icons';
 import './ChunkedInput.css';
 import ConfirmationButton from 'atoms/Button/ConfirmationButton';
+import { getTotalResponse, stripMs } from '../../../../../src/common/utils';
 
 const DEFAULT_CHUNK = { value: '', delay: 200 };
 
@@ -25,6 +26,7 @@ const ChunkedInput = ({
   label,
   noChunks,
   noDelay,
+  type,
   ...otherProps
 }) => {
   const passedLabel = label || '';
@@ -38,28 +40,42 @@ const ChunkedInput = ({
     setChunksValue(newValue);
     onChange && onChange(newValue);
   };
+  const isValid = otherProps?.validate
+    ? chunksValue.reduce(
+        (acc, { value }) => acc && !otherProps?.validate(value),
+        true,
+      )
+    : true;
   return (
     <div className={cn('chunked-input', className)}>
-      <Button
-        tretiary
-        onClick={() => {
-          const totalBody = chunksValue.reduce(
-            (acc, { value }) => acc + value,
-            '',
-          );
-          const totalDelay = chunksValue.reduce(
-            (acc, { delay }) => acc + delay,
-            0,
-          );
-          updateBodyValue([{ value: totalBody, delay: totalDelay }]);
-        }}
-        className="mr3"
-      >
-        Join chunks
-      </Button>
+      {chunksValue?.length > 1 && (
+        <Button
+          tretiary
+          onClick={() => {
+            const totalBody = getTotalResponse(chunksValue, type);
+            const totalDelay = chunksValue.reduce(
+              (acc, { delay }) => acc + stripMs(delay),
+              0,
+            );
+            updateBodyValue([{ value: totalBody, delay: totalDelay }]);
+          }}
+          className="join-chunks"
+          disabled={!isValid}
+        >
+          {isValid ? 'Join chunks' : 'Cannot join invalid chunks'}
+        </Button>
+      )}
       {chunksValue?.map((chunkValue, index) => (
         <React.Fragment key={`chunk_${index}`}>
           <Input
+            // We are disabling all the textual properties for array buffers, as they are sometimes very slow,
+            // try a youtube video to see the performance difference.
+            {...(type?.toUpperCase() === 'ARRAYBUFFER' && {
+              spellcheck: 'false',
+              autocomplete: 'off',
+              autocorrect: 'off',
+              autocapitalize: 'off',
+            })}
             className={cn('chunked-input__input', { mt5: index > 0 })}
             label={[passedLabel, chunksValue.length > 1 ? `#${index + 1}` : '']
               .filter((e) => !!e)

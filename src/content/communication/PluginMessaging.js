@@ -1,9 +1,9 @@
 import Messaging from '../../common/communication/Messaging';
 
+const browser = window.browser || window.chrome;
 class PluginMessaging extends Messaging {
   constructor() {
     super();
-    const browser = window.browser || window.chrome;
     if (browser?.runtime?.onMessage) {
       browser.runtime.onMessage.addListener((message) => {
         this.onMessage(message);
@@ -12,7 +12,6 @@ class PluginMessaging extends Messaging {
   }
 
   sendMessage(message) {
-    const browser = window.browser || window.chrome;
     if (
       browser?.runtime &&
       browser?.app &&

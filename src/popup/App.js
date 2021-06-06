@@ -7,9 +7,10 @@ import bootstrap from './bootstrap.js';
 import Router from 'templates/Router/Router.container';
 import cn from 'classnames';
 
+const browser = window.browser || window.chrome;
+
 function App() {
   bootstrap();
-  const browser = window.browser || window.chrome;
   return (
     <Provider store={store}>
       <div

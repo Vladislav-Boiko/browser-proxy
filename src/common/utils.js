@@ -1,14 +1,26 @@
 import serializer from '../common/storage/Serializer';
 import { hasUrlMatch } from 'utils/url';
 
+const browser = window.browser || window.chrome;
+
 export const getResponseLength = (responseBody) => {
   return (
     responseBody?.reduce((acc, { value }) => acc + value?.length || 0, 0) || 0
   );
 };
 
-export const getTotalResponse = (responseBody) =>
-  responseBody?.reduce((acc, { value }) => acc + (value ?? ''), '') ?? '';
+export const getTotalResponse = (responseBody, type) => {
+  if (type === 'ArrayBuffer') {
+    const totalBuffer = responseBody?.reduce(
+      (acc, { value }) => addArrayBufferResponseValue(acc, atob(value ?? '')),
+      null,
+    );
+    return arrayBufferToBase64(totalBuffer);
+  }
+  return (
+    responseBody?.reduce((acc, { value }) => acc + (value ?? ''), '') ?? ''
+  );
+};
 
 export const tryStringifyRequestBody = (value) => {
   let result = null;
@@ -37,7 +49,6 @@ export const tryStringifyRequestBody = (value) => {
 export const changeTabIcon = (tab) => {
   if (tab?.url) {
     serializer.loadStore().then((store) => {
-      const browser = window.browser || window.chrome;
       const domain = store.nodes?.find(({ activeUrls }) =>
         hasUrlMatch(tab?.url, activeUrls),
       );
@@ -60,11 +71,12 @@ export const changeTabIcon = (tab) => {
 
 export const updateLoadedIcon = (tab) => {
   if (!tab) {
-    const browser = window.browser || window.chrome;
-    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const tab = tabs[0];
-      changeTabIcon(tab);
-    });
+    if (browser?.tabs?.query) {
+      browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+        changeTabIcon(tab);
+      });
+    }
   } else {
     changeTabIcon(tab);
   }
@@ -73,14 +85,37 @@ export const updateLoadedIcon = (tab) => {
 // TODO: such magic shall not appear at all
 export const stripMs = (delay) => +(delay + '')?.split('ms')[0];
 
-export const arrayBufferToBase64 = (buffer) => {
+export const concatenateArrayBuffers = (was, toAdd) => {
+  const concatenated = new Uint8Array(was.length + toAdd.length);
+  concatenated.set(was, 0);
+  concatenated.set(toAdd, was.length);
+  return concatenated;
+};
+
+export const addArrayBufferResponseValue = (whereToAdd, stringValueToAdd) => {
+  const textEncoder = new TextEncoder();
+  if (!whereToAdd) {
+    return textEncoder.encode(stringValueToAdd).buffer;
+  } else {
+    const was = new Uint8Array(whereToAdd);
+    const toAdd = textEncoder.encode(stringValueToAdd);
+    const concatenated = concatenateArrayBuffers(was, toAdd);
+    return concatenated.buffer;
+  }
+};
+
+export const unit8ArrayToBase64 = (bytes) => {
   let binary = '';
-  const bytes = new Uint8Array(buffer);
   const length = bytes.byteLength;
   for (let i = 0; i < length; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
   return btoa(binary);
+};
+
+export const arrayBufferToBase64 = (buffer) => {
+  const bytes = new Uint8Array(buffer);
+  return unit8ArrayToBase64(bytes);
 };
 
 export const blobToBase64 = async (blob) => {

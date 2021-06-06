@@ -56,6 +56,10 @@
   column-gap: calc(var(--em) * 3);
 }
 
+.button_disabled {
+  color: var(--g5);
+}
+
 @media only screen and (max-width: 750px) {
   .button-row {
     max-width: 200px;

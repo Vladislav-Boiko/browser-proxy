@@ -3,19 +3,21 @@ import serializer from '../common/storage/Serializer';
 import { selectInitialDomain } from 'utils/url';
 import store, { setState } from './redux/store';
 
+const browser = window.browser || window.chrome;
+
 const bootstrapTabData = async () => {
-  const browser = window.browser || window.chrome;
-  browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const tab = tabs[0];
-    if (tab?.url) {
-      selectInitialDomain(tab?.url);
-    }
-  });
+  if (browser?.tabs?.query) {
+    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      if (tab?.url) {
+        selectInitialDomain(tab?.url);
+      }
+    });
+  }
 };
 
 const bootstrapDevtoolsTab = () => {
-  const browser = window.browser || window.chrome;
-  if (browser.devtools) {
+  if (browser.devtools && browser.devtools.panels) {
     browser.devtools.panels.create(
       'Browser-Proxy',
       '',

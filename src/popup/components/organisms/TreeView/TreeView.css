@@ -262,7 +262,7 @@ ul.tree-actions li {
 
 .tree-actions button {
   background-color: transparent;
-  font-size: 16px;
+  font-size: 12px;
   color: var(--g2);
   position: relative;
   padding: var(--em);

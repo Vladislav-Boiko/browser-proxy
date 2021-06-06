@@ -9,3 +9,8 @@
 .add-chunk.tretiary:hover .icon_md {
   transform: scale(1.3) rotate(-90deg);
 }
+
+.join-chunks {
+  margin-left: auto;
+  margin-right: 0;
+}

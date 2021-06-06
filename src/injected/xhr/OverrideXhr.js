@@ -2,6 +2,8 @@ import {
   getResponseLength,
   getTotalResponse,
   stripMs,
+  concatenateArrayBuffers,
+  addArrayBufferResponseValue,
 } from '../../common/utils';
 import XhrUploadProxy from './XhrUploadProxy';
 
@@ -90,13 +92,6 @@ export default class OverrideXhr {
     return stringValue;
   }
 
-  concatenateArrayBuffers(was, toAdd) {
-    const concatenated = new Uint8Array(was.length + toAdd.length);
-    concatenated.set(was, 0);
-    concatenated.set(toAdd, was.length);
-    return concatenated;
-  }
-
   async addResponseValue(stringValueToAdd = '') {
     stringValueToAdd = this.convertOverrideChunkValueToString(stringValueToAdd);
     switch (this.proxy.responseType) {
@@ -120,15 +115,10 @@ export default class OverrideXhr {
   }
 
   addArrayBufferResponseValue(stringValueToAdd) {
-    const textEncoder = new TextEncoder();
-    if (!this.proxy.response) {
-      this.proxy.response = textEncoder.encode(stringValueToAdd).buffer;
-    } else {
-      const was = new Uint8Array(this.proxy.response);
-      const toAdd = textEncoder.encode(stringValueToAdd);
-      const concatenated = this.concatenateArrayBuffers(was, toAdd);
-      this.proxy.response = concatenated.buffer;
-    }
+    this.proxy.response = addArrayBufferResponseValue(
+      this.proxy.response,
+      stringValueToAdd,
+    );
   }
 
   async addBlobResponseValue(stringValueToAdd) {
@@ -141,7 +131,7 @@ export default class OverrideXhr {
     } else {
       const was = await this.proxy.response.arrayBuffer();
       const toAdd = textEncoder.encode(stringValueToAdd);
-      const concatenated = this.concatenateArrayBuffers(was, toAdd);
+      const concatenated = concatenateArrayBuffers(was, toAdd);
       const asBlob = new Blob([concatenated], { type: mimetype });
       this.proxy.response = asBlob;
     }

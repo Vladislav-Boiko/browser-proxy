@@ -10,10 +10,6 @@ const Domain = ({ domainName, enable, className }) => {
     <div className={cn('disabled-domain', className)}>
       <DomainTeaser className="disabled-domain__teaser" />
       <div className="disabled-domain__content ffc">
-        <h2 className="disabled-domain__header">{domainName}</h2>
-        <p className="disabled-domain__text g1-color">
-          Enable browser proxy for this domain.
-        </p>
         <Button
           className="disabled-domain__button mt3"
           primary
@@ -22,6 +18,10 @@ const Domain = ({ domainName, enable, className }) => {
         >
           Enable
         </Button>
+        <h2 className="disabled-domain__header">{domainName}</h2>
+        <p className="disabled-domain__text g1-color">
+          Enable browser proxy for this domain.
+        </p>
       </div>
     </div>
   );

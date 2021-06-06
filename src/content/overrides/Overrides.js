@@ -11,16 +11,16 @@ class Overrides {
 
   startTracking() {
     this.updateOverrides();
-    pluginMessaging.subscribe(PLUGIN_EVENTS.OVERRIDES_UPDATED, () =>
-      this.updateOverrides(),
+    pluginMessaging.subscribe(PLUGIN_EVENTS.OVERRIDES_UPDATED, (update) =>
+      this.updateOverrides(update),
     );
     pluginMessaging.subscribe(PROXY_EVENTS.REQUEST_OVERRIDES_UPDATE, () => {
       proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
     });
   }
 
-  async updateOverrides() {
-    const store = await serializer.loadStore();
+  async updateOverrides(update) {
+    const store = update || (await serializer.loadStore());
     this.overrides = getDomainForActiveUrl(DOMAIN)(store) || {};
     proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
   }

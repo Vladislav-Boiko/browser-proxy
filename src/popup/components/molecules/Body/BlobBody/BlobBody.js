@@ -47,6 +47,7 @@ const BlobBody = ({ blobType, body, onChange, className, ...otherProps }) => {
         {...otherProps}
         label="base64 content"
         className="mt3"
+        type="ArrayBuffer"
         onChange={(value) =>
           updateContent({ body: value, blobType: blobTypeValue })
         }
