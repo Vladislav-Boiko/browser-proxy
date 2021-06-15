@@ -88,22 +88,27 @@ const TreeView = ({
           >
             OVERRIDES
           </span>
-          <Button
-            Icon={Icons.Collapse}
-            className={cn('treeView__show-hide', {
-              'treeView__show-hide_minified': isMinified,
-            })}
-            onClick={() => {
-              setMinified(!isMinified);
-              let newWidth = width;
-              if (!isMinified) {
-                newWidth = WIDTH.closed;
-              } else if (newWidth < WIDTH.open) {
-                newWidth = WIDTH.open;
-              }
-              resetResizing(newWidth);
-            }}
-          ></Button>
+          <label>
+            <span className="label__text_hidden">
+              {isMinified ? 'Expand' : 'Collapse'}
+            </span>
+            <Button
+              Icon={Icons.Collapse}
+              className={cn('treeView__show-hide', {
+                'treeView__show-hide_minified': isMinified,
+              })}
+              onClick={() => {
+                setMinified(!isMinified);
+                let newWidth = width;
+                if (!isMinified) {
+                  newWidth = WIDTH.closed;
+                } else if (newWidth < WIDTH.open) {
+                  newWidth = WIDTH.open;
+                }
+                resetResizing(newWidth);
+              }}
+            ></Button>
+          </label>
           {nodes?.map((node) => (
             <Node
               {...node}
@@ -148,34 +153,37 @@ const TreeView = ({
             )}
           </AnimatePresence>
         </motion.ol>
-        <motion.button
-          key={resizingKeyForResetting}
-          className={cn('treeView__resize-handler', {
-            'treeView__resize-handler_dragged': isResizing,
-            'treeView__resize-handler_minified': isMinified,
-          })}
-          style={{ left: `${width}px` }}
-          drag="x"
-          dragMomentum={false}
-          dragElastic={0.2}
-          onDragStart={() => setIsResizing(true)}
-          onDragEnd={(e, info) => {
-            const newWidth = width + info.offset.x;
-            if (newWidth < 144) {
-              if (!isMinified) {
-                setMinified(true);
+        <label>
+          <span className="label__text_hidden">Resize</span>
+          <motion.button
+            key={resizingKeyForResetting}
+            className={cn('treeView__resize-handler', {
+              'treeView__resize-handler_dragged': isResizing,
+              'treeView__resize-handler_minified': isMinified,
+            })}
+            style={{ left: `${width}px` }}
+            drag="x"
+            dragMomentum={false}
+            dragElastic={0.2}
+            onDragStart={() => setIsResizing(true)}
+            onDragEnd={(e, info) => {
+              const newWidth = width + info.offset.x;
+              if (newWidth < 144) {
+                if (!isMinified) {
+                  setMinified(true);
+                }
+                resetResizing(WIDTH.closed);
+                setWidth(WIDTH.closed);
+              } else {
+                if (isMinified) {
+                  setMinified(false);
+                }
+                resetResizing(newWidth);
               }
-              resetResizing(WIDTH.closed);
-              setWidth(WIDTH.closed);
-            } else {
-              if (isMinified) {
-                setMinified(false);
-              }
-              resetResizing(newWidth);
-            }
-            setIsResizing(false);
-          }}
-        ></motion.button>
+              setIsResizing(false);
+            }}
+          ></motion.button>
+        </label>
       </div>
     </DndProvider>
   );

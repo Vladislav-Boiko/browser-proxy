@@ -1,3 +1,13 @@
+/* .treeView {
+  width: 272px;
+  height: 100vh;
+  display: inline-block;
+  overflow: auto;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+} */
+
 .treeView {
   min-height: 480px;
   width: 272px;
@@ -172,7 +182,8 @@
 
 .treeView__resize-handler {
   width: calc(var(--em) * 0.25);
-  height: 100%;
+  height: 100vh;
+  /* min-height: 480px; */
   border: none;
   background: transparent;
   cursor: ew-resize;
@@ -188,7 +199,8 @@
   position: absolute;
   width: calc(var(--em) * 1.5);
   opacity: 0.8;
-  height: 100%;
+  height: 100vh;
+  /* min-height: 480px; */
   top: 0;
   right: 0;
 }
@@ -197,6 +209,7 @@
   position: relative;
   overflow-x: visible;
   height: 100vh;
+  /* min-height: 480px; */
 }
 
 .treeView__resize-handler:hover {

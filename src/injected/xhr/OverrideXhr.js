@@ -52,13 +52,17 @@ export default class OverrideXhr {
       this.proxy.responseURL = this.mock.responseURL || '';
       this.proxy.response = getTotalResponse(responseBody);
       this.proxy.readyState = 4;
-      this.proxy.status = +this.mock.responseCode ?? 200;
+      this.proxy.status = isNaN(+this.mock.responseCode)
+        ? 200
+        : +this.mock.responseCode;
     }
   }
 
   async doOverrideReceiveResponse(response) {
     this.proxy.response = null;
-    this.proxy.status = +this.mock.responseCode ?? 200;
+    this.proxy.status = isNaN(+this.mock.responseCode)
+      ? 200
+      : +this.mock.responseCode;
     if (response) {
       let progress = 0;
       const total = getResponseLength(response);

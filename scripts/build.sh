@@ -15,6 +15,12 @@ build() {
     node scripts/replaceContent.js
 
     mv dist/index.html dist/popup.html
+
+    # TODO: remove the unnecessary build steps from webpack build
+    prettier --write dist/popup.html
+    sed -i '' '/injected/d' dist/popup.html
+    sed -i '' '/content\_template/d' dist/popup.html
+    sed -i '' '/background/d' dist/popup.html
 }
 
 build

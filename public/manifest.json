@@ -16,7 +16,7 @@
    "192": "logo192.png",
    "512": "logo512.png"
   },
-  "permissions": ["activeTab", "storage", "tabs"],
+  "permissions": ["activeTab", "storage", "tabs", "clipboardWrite"],
   "devtools_page": "popup.html",
   "content_scripts": [
     {

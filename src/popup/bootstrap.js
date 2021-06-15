@@ -34,8 +34,8 @@ const bootstrapStore = async () => {
   await bootstrapTabData();
 };
 
-export default () => {
-  startMessaging();
-  bootstrapDevtoolsTab();
-  bootstrapStore();
+export default async () => {
+  await startMessaging();
+  await bootstrapStore();
+  await bootstrapDevtoolsTab();
 };

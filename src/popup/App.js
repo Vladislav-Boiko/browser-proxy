@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 import './App.css';
 import { Provider } from 'react-redux';
@@ -10,7 +10,9 @@ import cn from 'classnames';
 const browser = window.browser || window.chrome;
 
 function App() {
-  bootstrap();
+  useEffect(() => {
+    bootstrap();
+  }, []);
   return (
     <Provider store={store}>
       <div

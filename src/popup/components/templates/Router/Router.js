@@ -39,8 +39,10 @@ const Router = ({ nodes, selectedNode, setSelectedId, toggleNode }) => {
           toggle={() => toggleNode(selectedNode?.id)}
           className="wmax navigation-node py2"
         />
-      ) : (
+      ) : nodes?.length ? (
         <Image404 />
+      ) : (
+        ''
       )}
     </div>
   );

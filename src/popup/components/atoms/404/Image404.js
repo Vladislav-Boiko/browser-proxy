@@ -14,7 +14,7 @@ export default () => (
   <AnimatePresence>
     <motion.div className="image_404 p4" {...imagePresenceAnimation}>
       <Image404 className="image_404__image" />
-      <p className="image_404__text">404</p>
+      <h1 className="image_404__text">404</h1>
     </motion.div>
   </AnimatePresence>
 );

@@ -5,6 +5,7 @@
   position: relative;
   min-height: 300px;
   overflow-x: hidden;
+  padding: 0;
 }
 
 .disabled-domain__teaser,

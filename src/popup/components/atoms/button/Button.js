@@ -14,6 +14,7 @@ const Button = ({
   iconClass,
   ...otherProps
 }) => {
+  delete otherProps.showSuccess;
   return (
     <button
       {...otherProps}
