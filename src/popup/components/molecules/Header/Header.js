@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useDimensions from 'react-cool-dimensions';
+import mergeRefs from 'react-merge-refs';
 import cn from 'classnames';
 import Switch from 'atoms/Switch/Switch';
 import Button from 'atoms/Button/Button';
@@ -27,21 +28,38 @@ const Header = ({ options, initiallySelected, isOn, onChange, onToggle }) => {
     },
     updateOnBreakpointChange: true,
   });
+  const {
+    observe: observeFont,
+    currentBreakpoint: currentFontBreakpoint,
+  } = useDimensions({
+    breakpoints: {
+      XS: 0,
+      S: 300,
+      M: 400,
+      L: 500,
+      XL: 600,
+    },
+    updateOnBreakpointChange: true,
+  });
   return (
     <nav
       className={cn('navigation', currentBreakpoint, {
         'navigation_column-minified':
           currentBreakpoint === 'column' && isMinified,
       })}
-      ref={observe}
+      ref={mergeRefs([observe, observeFont])}
     >
       <div className="navigation__actions wmax px4">
         {options.map(({ name }) => (
           <a
             key={name}
-            className={cn('navigation__item label_medium', {
-              navigation__item_selected: selectedId === name,
-            })}
+            className={cn(
+              'navigation__item label_medium',
+              currentFontBreakpoint,
+              {
+                navigation__item_selected: selectedId === name,
+              },
+            )}
             href={`#${name}`}
             onClick={(e) => {
               e.preventDefault();

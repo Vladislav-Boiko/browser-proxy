@@ -48,35 +48,18 @@
   color: var(--c1);
 }
 
-.button-row {
-  display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
-  row-gap: calc(var(--em) * 3);
-  column-gap: calc(var(--em) * 3);
-}
-
 .button_disabled {
   color: var(--g5);
 }
 
-@media only screen and (max-width: 750px) {
-  .button-row {
-    max-width: 200px;
-    flex-flow: column;
-  }
+.button-row {
+  display: flex;
+  row-gap: calc(var(--em) * 3);
+  column-gap: calc(var(--em) * 3);
+  flex-flow: row;
+  flex-wrap: wrap;
+}
 
-  .button-row .button + .button {
-    margin-top: calc(var(--em) * 3);
-    margin-left: 0;
-  }
-
-  .button-row .button + .file-input {
-    margin-top: calc(var(--em) * 3);
-    margin-left: 0;
-  }
-
-  .button {
-    font-size: 15px;
-  }
+.button {
+  font-size: 15px;
 }
