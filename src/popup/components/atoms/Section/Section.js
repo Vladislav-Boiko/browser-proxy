@@ -6,7 +6,8 @@ import { animateHeight } from 'atoms/animations/animations';
 
 import './Section.css';
 
-const Section = ({ header, children, isInitiallyOpen, className }) => {
+const Section = ({ header, children, isInitiallyOpen, className, Icon }) => {
+  let DisplayedIcon = Icon || Icons.Chevron;
   const [isOpen, setIsOpen] = useState(isInitiallyOpen);
   return (
     <div className={cn('section', className)}>
@@ -16,7 +17,8 @@ const Section = ({ header, children, isInitiallyOpen, className }) => {
         })}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Icons.Chevron
+        <DisplayedIcon
+          isOpen={isOpen}
           className={cn('icon_sm section__chevron mr1', {
             section__chevron_closed: !isOpen,
           })}

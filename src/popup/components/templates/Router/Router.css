@@ -4,3 +4,15 @@
   height: 100vh;
   box-sizing: border-box;
 }
+
+.back-button {
+  z-index: 1000;
+}
+
+.back-button__icon {
+  transform: rotate(90deg);
+}
+
+.tretiary:hover .back-button__icon {
+  transform: rotate(90deg);
+}

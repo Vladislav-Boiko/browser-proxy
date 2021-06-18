@@ -73,7 +73,7 @@ const ChunkedInput = ({
             {...(type?.toUpperCase() === 'ARRAYBUFFER' && {
               spellcheck: 'false',
               autocomplete: 'off',
-              autocorrect: 'off',
+              autoCorrect: 'off',
               autocapitalize: 'off',
             })}
             className={cn('chunked-input__input', { mt5: index > 0 })}

@@ -1,0 +1,11 @@
+.analyser-node__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr);
+  grid-gap: calc(var(--em) * 2);
+  line-height: calc(var(--em) * 3);
+  box-sizing: border-box;
+}
+
+.analyser-node__row span {
+  word-break: break-all;
+}

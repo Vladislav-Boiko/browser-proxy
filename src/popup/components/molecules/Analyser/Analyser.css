@@ -1,0 +1,11 @@
+.analyser__404 {
+  margin-top: calc(var(--em) * -12);
+}
+
+.analyser__404-text {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.analyser__404-text_strong {
+  font-weight: 300;
+}

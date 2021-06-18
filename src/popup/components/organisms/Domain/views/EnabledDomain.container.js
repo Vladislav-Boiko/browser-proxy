@@ -6,8 +6,12 @@ import {
   addOverride as addOverrideAction,
   addFolder as addFolderAction,
   removeDomain as removeDomainAction,
+  updateNode as updateNodeAction,
 } from 'store/nodes/actions';
-import { selectNode as selectNodeAction } from 'store/selected/actions';
+import {
+  selectNode as selectNodeAction,
+  analyseNode as analyseNodeAction,
+} from 'store/selected/actions';
 import { getCurrentDomain } from 'store/selected/selectors';
 import { getRequestsForActiveUrls } from 'store/requests/selectors';
 
@@ -17,6 +21,8 @@ const Domain = (props = {}) => {
     getRequestsForActiveUrls(props.activeUrls),
     shallowEqual,
   );
+  const updateNode = (payload) =>
+    dispatch(updateNodeAction(Object.assign({ id: props.id }, payload)));
   const currentDomain = useSelector(getCurrentDomain, shallowEqual);
   const addOverride = (overrideProps = {}) => {
     const id = uuid();
@@ -57,6 +63,8 @@ const Domain = (props = {}) => {
 
   const selectNode = (id) => dispatch(selectNodeAction(id));
 
+  const onAnalyse = (request) => dispatch(analyseNodeAction(request));
+
   return (
     <EnabledDomain
       {...props}
@@ -65,6 +73,8 @@ const Domain = (props = {}) => {
       selectNode={selectNode}
       addFolder={addFolder}
       removeDomain={removeDomain}
+      onAnalyse={onAnalyse}
+      updateNode={updateNode}
       isCurrent={currentDomain === props.id}
     />
   );

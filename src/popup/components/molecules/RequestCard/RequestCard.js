@@ -60,7 +60,6 @@ const LOADING_STATES = {
   FAIL: 'fail',
 };
 
-let wasLogged = false;
 const RequestCard = ({
   url,
   responseCode,
@@ -69,6 +68,7 @@ const RequestCard = ({
   readyState,
   className,
   onClick,
+  onAnalyse,
   isProxied,
   searchRegexp,
   shallAnimate = false,
@@ -99,22 +99,7 @@ const RequestCard = ({
         id,
       });
   };
-  if (/videoplayback/.test(url) && !wasLogged) {
-    wasLogged = true;
-    console.log({
-      url,
-      responseCode,
-      method,
-      responseType,
-      readyState,
-      className,
-      onClick,
-      isProxied,
-      searchRegexp,
-      shallAnimate: false,
-      ...otherProps,
-    });
-  }
+  const doAnalyse = () => onAnalyse && onAnalyse();
   const canShowTextPreview =
     ['TEXT', 'JSON', 'DOCUMENT'].indexOf(responseType?.toUpperCase()) >= 0;
   return (
@@ -160,7 +145,7 @@ const RequestCard = ({
         />
         {isOpen && (
           <div className="request-card__body mb1">
-            <div className="ffr card-body__header mt3 mb5">
+            <div className="ffr card-body__header mt3 mb1">
               <button
                 className="card-body__close py1"
                 onClick={(e) => {
@@ -184,6 +169,18 @@ const RequestCard = ({
                 iconClass="override__icon"
               >
                 {isProxied ? 'To override' : 'Override'}
+              </Button>
+            </div>
+            <div>
+              <Button
+                className="analyse mb2"
+                tretiary
+                Icon={Icons.Chevron}
+                iconLeft
+                iconClass="analyse__icon"
+                onClick={() => doAnalyse()}
+              >
+                Analyse match
               </Button>
             </div>
             <span className="label_weak">

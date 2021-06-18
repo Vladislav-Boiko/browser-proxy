@@ -79,10 +79,21 @@
   color: black;
 }
 
+.analyse {
+  margin-right: 5px;
+  margin-left: auto;
+}
+
+.tretiary .analyse__icon.icon_md {
+  transform: rotate(-90deg);
+  margin-right: calc(var(--em) * -1);
+  width: 14px;
+}
+
 .override__icon.icon_md {
   fill: white;
   transform: rotate(-90deg);
-  margin-right: -8px;
+  margin-right: calc(var(--em) * -1);
 }
 
 .request-card__body {

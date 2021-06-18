@@ -154,37 +154,69 @@ class Overrides {
 
   compareWithInflatedString(stringWithoutVariables, inflatedString) {
     let processedString = stringWithoutVariables;
+    let matches = [];
     let variableMatches = [];
     for (let part of inflatedString) {
       if (typeof part === 'string') {
-        if (processedString.slice(0, part.length) !== part) {
-          return { isMatch: false };
+        const toMatch = processedString.slice(0, part.length);
+        const isMatch = toMatch === part;
+        matches.push({
+          request: toMatch,
+          override: part,
+          isMatch,
+        });
+        if (!isMatch) {
+          return { isMatch, matches };
         }
         processedString = processedString.slice(part.length);
       } else if (typeof part === 'object') {
         try {
           const regexp = new RegExp(part.value);
           const result = regexp.exec(processedString);
-          if (!result || result.index !== 0) {
-            return { isMatch: false };
+          const isMatch = result && result.index === 0;
+          matches.push({
+            request: result[0],
+            override: part.name,
+            isMatch,
+            variable: part.value,
+          });
+          if (!isMatch) {
+            return { isMatch: false, matches };
           }
           processedString = processedString.slice(result[0].length);
           variableMatches.push({ ...part, match: result[0] });
         } catch (e) {
-          return { isMatch: false };
+          matches.push({
+            request: processedString,
+            override: part?.name,
+            isMatch: false,
+            variable: part?.value,
+          });
+          return { isMatch: false, matches };
         }
       }
     }
-    return { isMatch: !processedString, variableMatches };
+    if (processedString) {
+      matches.push({ isMatch: false, request: processedString, override: '' });
+    }
+    return { isMatch: !processedString, variableMatches, matches };
   }
 
   matchStringWithVariables(
-    stringWithoutVariables,
-    stringWithVariables,
+    stringWithoutVariables = '',
+    stringWithVariables = '',
     variables = [],
   ) {
+    let matches = [];
     if (!stringWithoutVariables && !stringWithVariables) {
-      return { isMatch: true };
+      matches = [
+        {
+          request: stringWithoutVariables,
+          override: stringWithVariables,
+          isMatch: true,
+        },
+      ];
+      return { isMatch: true, matches };
     }
     let inflated = [stringWithVariables];
     for (let variable of variables) {
@@ -202,28 +234,112 @@ class Overrides {
   }
 
   compareUrlMatch(xhrData, override, variables = []) {
-    return this.matchStringWithVariables(xhrData.url, override.url, variables);
+    const result = this.matchStringWithVariables(
+      xhrData.url,
+      override.url,
+      variables,
+    );
+    return result;
   }
 
   compareMethodMatch(xhrData, override, variables = []) {
-    const methodMatch = this.matchStringWithVariables(
-      xhrData.method,
-      override.method,
+    const overrideMethod = (
+      override.method ??
+      override.type ??
+      'GET'
+    ).toUpperCase();
+    const xhrMethod = (xhrData.method || 'GET').toUpperCase();
+    const result = this.matchStringWithVariables(
+      xhrMethod,
+      overrideMethod,
       variables,
     );
-    if (methodMatch.isMatch) {
-      return methodMatch;
-    }
-    return this.matchStringWithVariables(
-      xhrData.method,
-      override.type,
-      variables,
-    );
+    return result;
+  }
+
+  getHeadersDiff(xhrHeaders, ovrrideHeaders, variables) {
+    let variableMatches = [];
+    const been = [];
+    let matches = [];
+    xhrHeaders.forEach(({ name, value }) => {
+      been.push(name);
+      const overrideHeader = ovrrideHeaders.find((header) => {
+        const headerNameMatch = this.matchStringWithVariables(
+          name,
+          header.name,
+          variables,
+        );
+        if (headerNameMatch.isMatch) {
+          matches = matches.concat(headerNameMatch.matches);
+          variableMatches = variableMatches.concat(
+            ...(headerNameMatch.variableMatches || []),
+          );
+          return true;
+        }
+        return false;
+      });
+      if (!overrideHeader) {
+        matches.push({ isMatch: false, request: name, override: '' });
+        matches.push({ isMatch: false, request: value, override: '' });
+      } else {
+        const valueMatch = this.matchStringWithVariables(
+          value,
+          overrideHeader.value,
+          variables,
+        );
+        variableMatches = variableMatches.concat(
+          ...(valueMatch.variableMatches || []),
+        );
+        matches = matches.concat(valueMatch.matches);
+      }
+    });
+    ovrrideHeaders.forEach(({ name, value }) => {
+      if (been.find((beenName) => beenName === name)) {
+        return;
+      }
+      been.push(name);
+      const xhrHeader = xhrHeaders.find((header) => {
+        const headerNameMatch = this.matchStringWithVariables(
+          name,
+          header.name,
+          variables,
+        );
+        if (headerNameMatch.isMatch) {
+          matches = matches.concat(headerNameMatch.matches);
+          variableMatches = variableMatches.concat(
+            ...(headerNameMatch.variableMatches || []),
+          );
+          return true;
+        }
+        return false;
+      });
+      if (!xhrHeader) {
+        matches.push({ isMatch: false, request: name, override: '' });
+        matches.push({ isMatch: false, request: value, override: '' });
+      } else {
+        const valueMatch = this.matchStringWithVariables(
+          value,
+          xhrHeader.value,
+          variables,
+        );
+        variableMatches = variableMatches.concat(
+          ...(valueMatch.variableMatches || []),
+        );
+        matches = matches.concat(valueMatch.matches);
+      }
+    });
+    return { matches, variableMatches };
   }
 
   compareHeadersMatch(xhrData, override, variables = []) {
     let isMatch = true;
-    let variableMatches = [];
+    const xhrHeaders = xhrData.requestHeaders ?? [];
+    const ovrrideHeaders = override.requestHeaders ?? [];
+    const { matches, variableMatches } = this.getHeadersDiff(
+      xhrHeaders,
+      ovrrideHeaders,
+      variables,
+    );
     if (
       (xhrData.requestHeaders &&
         xhrData.requestHeaders?.length &&
@@ -232,31 +348,11 @@ class Overrides {
         override.requestHeaders &&
         override.requestHeaders?.length)
     ) {
-      return { isMatch: false };
+      isMatch = false;
+    } else {
+      isMatch = !matches.find((match) => !match.isMatch);
     }
-    if (xhrData.requestHeaders && override.requestHeaders) {
-      isMatch &= xhrData.requestHeaders.reduce((acc, header) => {
-        return (
-          acc &&
-          !!override.requestHeaders.find((overrideHeader) => {
-            const headerNameMatch = this.matchStringWithVariables(
-              header.name,
-              overrideHeader.name,
-              variables,
-            );
-            const headerValueMatch = this.matchStringWithVariables(
-              header.value,
-              overrideHeader.value,
-              variables,
-            );
-            variableMatches.concat(...(headerNameMatch.variableMatches || []));
-            variableMatches.concat(...(headerValueMatch.variableMatches || []));
-            return headerNameMatch.isMatch && headerValueMatch.isMatch;
-          })
-        );
-      }, true);
-    }
-    return { isMatch, variableMatches };
+    return { isMatch, variableMatches, matches };
   }
 
   compareRequestBodyMatch(xhrData, override, variables = []) {
@@ -264,11 +360,12 @@ class Overrides {
     const overrideBodyAsString = tryStringifyRequestBody(
       getTotalResponse(override.requestBody) || '',
     );
-    return this.matchStringWithVariables(
+    const result = this.matchStringWithVariables(
       xhrBodyAsString,
       overrideBodyAsString,
       variables,
     );
+    return result;
   }
 
   // Checks if the given xhr matches to the override, returns boolean.

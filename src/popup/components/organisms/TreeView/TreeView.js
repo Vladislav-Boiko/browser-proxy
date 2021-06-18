@@ -55,6 +55,7 @@ const TreeView = ({
   };
   const [width, setWidth] = useState(WIDTH.open);
   const [isResizing, setIsResizing] = useState(false);
+  const [isMinifying, setIsMinifying] = useState(false);
   const [resizingKeyForResetting, setResizingKey] = useState(width);
   const resetResizing = (newWidth) => {
     setWidth(newWidth);
@@ -78,6 +79,9 @@ const TreeView = ({
             open: { width: `${width}px` },
             closed: { width: `${WIDTH.closed}px` },
           }}
+          onAnimationStart={() => setIsMinifying(true)}
+          onAnimationComplete={() => setIsMinifying(false)}
+          layout
         >
           <span
             className={cn('treeView__header label_medium g2-color px2 mb2', {
@@ -129,7 +133,12 @@ const TreeView = ({
           </Button>
           <AnimatePresence>
             {isSelectedOverride && (
-              <motion.ul className="tree-actions" {...contextMenuAnimation}>
+              <motion.ul
+                className={cn('tree-actions', {
+                  'tree-actions_minifying': isMinifying || isMinified,
+                })}
+                {...contextMenuAnimation}
+              >
                 <li>
                   <Button
                     tretiary

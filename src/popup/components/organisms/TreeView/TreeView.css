@@ -248,6 +248,12 @@ ul.tree-actions {
   overflow: hidden;
 }
 
+ul.tree-actions.tree-actions_minifying {
+  /* we need important as framer motion sets inline styles that override everything */
+  height: calc(var(--em) * 5) !important;
+  flex-wrap: nowrap !important;
+}
+
 ul.tree-actions li {
   position: relative;
   flex: 1 1;

@@ -314,7 +314,7 @@ body {
   margin-bottom: calc(var(--em) * 6);
 }
 
-/* Maring X */
+/* Margin X */
 .mx1 {
   margin-left: var(--em);
   margin-right: var(--em);
@@ -345,7 +345,7 @@ body {
   margin-right: calc(var(--em) * 6);
 }
 
-/* Maring Y */
+/* Margin Y */
 .my1 {
   margin-top: var(--em);
   margin-bottom: var(--em);
@@ -399,4 +399,8 @@ body {
 .ffc {
   display: flex;
   flex-flow: column;
+}
+
+.absolute {
+  position: absolute;
 }

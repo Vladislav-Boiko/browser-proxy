@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.css';
 import './App.css';
 import { Provider } from 'react-redux';
@@ -10,8 +10,13 @@ import cn from 'classnames';
 const browser = window.browser || window.chrome;
 
 function App() {
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    bootstrap();
+    const load = async () => {
+      await bootstrap();
+      setLoading(false);
+    };
+    load();
   }, []);
   return (
     <Provider store={store}>
@@ -20,7 +25,7 @@ function App() {
           popup: !browser.devtools,
         })}
       >
-        <Router />
+        {!loading ? <Router /> : ''}
       </div>
       {/* {!browser.devtools && <Footer className="app-footer" />} */}
     </Provider>

@@ -40,11 +40,12 @@ const getPageSlice = (requests, currentPage) =>
       )
     : [];
 
-const RequestsList = ({ className, onSelect, ...otherProps }) => {
+const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
   const requests = otherProps.requests ? [...otherProps.requests] : [];
   const [searchValue, setSearchValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   let searchRegexp = null;
+  let hasValidSearch = true;
   try {
     searchRegexp = new RegExp(searchValue);
   } catch (e) {
@@ -63,7 +64,6 @@ const RequestsList = ({ className, onSelect, ...otherProps }) => {
     filteredItems?.length ? filteredItems?.length / ITEMS_PER_PAGE : 0,
   );
   const displayedPage = Math.min(totalPages, Math.max(0, currentPage));
-  let hasValidSearch = true;
   return (
     <div className={cn('wmax', className)}>
       <h3 className="mb2">Requests</h3>
@@ -82,7 +82,7 @@ const RequestsList = ({ className, onSelect, ...otherProps }) => {
         </Button> */}
       </div>
       <div className="requests-list__filters"></div>
-      <div className="requests-list__reqeusts mt6">
+      <div className="requests-list__requests mt6">
         {requests &&
           getPageSlice(filteredItems, displayedPage)
             .map((request, id) => (request.id ? request : { ...request, id }))
@@ -92,6 +92,7 @@ const RequestsList = ({ className, onSelect, ...otherProps }) => {
                 className="mb2"
                 key={request.id}
                 onClick={onSelect}
+                onAnalyse={() => onAnalyse(request)}
                 searchRegexp={searchRegexp}
                 shallAnimate={
                   shallAnimateFirstItem && request.id === currentFirstItem

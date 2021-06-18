@@ -3,7 +3,7 @@
   "name": "Browser Proxy",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Replace AJAX requests' responses on the fly!",
+  "description": "Replace fetch, XMLHttpRequest, AJAX responses on the fly!",
   "browser_action": {
     "default_icon": "logo-disabled64.png",
     "default_popup": "popup.html"

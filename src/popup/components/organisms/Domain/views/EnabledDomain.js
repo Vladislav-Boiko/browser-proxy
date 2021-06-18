@@ -28,7 +28,14 @@ const getOptions = (isCurrent) => {
   ];
 };
 
-const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
+const Domain = ({
+  className,
+  addOverride,
+  addFolder,
+  isCurrent,
+  onAnalyse,
+  ...props
+}) => {
   // TODO: if the domain is current domain, show the list of requests first.
   const [selectedMenuItem, setSelectedMenuItem] = useState(
     isCurrent ? DOMAIN_MENU_OPTIONS.REQUESTS : DOMAIN_MENU_OPTIONS.SETTINGS,
@@ -38,6 +45,10 @@ const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
       isCurrent ? DOMAIN_MENU_OPTIONS.REQUESTS : DOMAIN_MENU_OPTIONS.SETTINGS,
     );
   }, [isCurrent]);
+  const [variables, setVariables] = useState(props.variables || []);
+  useEffect(() => {
+    setVariables(props.variables || []);
+  }, [props.variables]);
   return (
     <div className={cn('wmax', className)}>
       <Header
@@ -62,7 +73,11 @@ const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
       </div>
       {selectedMenuItem === DOMAIN_MENU_OPTIONS.REQUESTS && (
         <div className="ffr mt3 mx4">
-          <DomainRequests {...props} addOverride={addOverride} />
+          <DomainRequests
+            {...props}
+            addOverride={addOverride}
+            onAnalyse={onAnalyse}
+          />
         </div>
       )}
       {selectedMenuItem === DOMAIN_MENU_OPTIONS.SETTINGS && (
@@ -72,7 +87,21 @@ const Domain = ({ className, addOverride, addFolder, isCurrent, ...props }) => {
       )}
       {selectedMenuItem === DOMAIN_MENU_OPTIONS.VARIABLES && (
         <div className="mt2">
-          <Variables {...props} />
+          <Variables
+            onVariablesChange={setVariables}
+            initialVariables={variables}
+          />
+          <div className="mx4">
+            <Button
+              Icon={Icons.Enable}
+              primary
+              onClick={() => {
+                props.updateNode({ variables });
+              }}
+            >
+              Save
+            </Button>
+          </div>
         </div>
       )}
     </div>

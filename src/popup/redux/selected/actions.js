@@ -9,3 +9,9 @@ export const selectCurrentDomain = (payload) => ({
   type: SELECT_CURRENT_DOMAIN,
   payload,
 });
+
+export const ANALYSE_NODE = 'ANALYSE_NODE';
+export const analyseNode = (payload) => ({
+  type: ANALYSE_NODE,
+  payload,
+});

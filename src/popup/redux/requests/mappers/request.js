@@ -68,9 +68,12 @@ const createNewRequest = (requestData) => {
 };
 
 const addRequest = (old, update) => {
+  if (!update) {
+    return;
+  }
   let delay = 0;
-  const previousChunkMoment = old.chunkTimestamp || old.sentTimestamp;
-  if (previousChunkMoment && update.chunkTimestamp) {
+  const previousChunkMoment = old?.chunkTimestamp || old?.sentTimestamp;
+  if (previousChunkMoment && update?.chunkTimestamp) {
     delay = update.chunkTimestamp - previousChunkMoment;
   }
   const combinedPreviousValue =
