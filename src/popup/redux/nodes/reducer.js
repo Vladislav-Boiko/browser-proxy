@@ -20,6 +20,10 @@ import { TYPES } from 'organisms/TreeView/Nodes/index';
 import messaging from '../../communication/PluginMessaging';
 import serializer from '../../../common/storage/Serializer';
 import EVENTS from '../../../common/communication/plugin/events';
+import {
+  getTotalResponse,
+  tryStringifyRequestBody,
+} from '../../../common/utils';
 
 export const updateDeep = (state, path, payload) => {
   if (!path) {
@@ -61,19 +65,18 @@ const addOverride = (state, action) => {
     },
     action.payload.override,
   );
-  try {
-    if (
-      newOverride.responseBody?.length === 1 &&
-      newOverride.responseBody[0].value
-    ) {
-      const asJson = JSON.parse(newOverride.responseBody[0].value);
-      newOverride.responseBody[0] = Object.assign(
-        {},
-        newOverride.responseBody[0],
-        { value: JSON.stringify(asJson, null, 2) },
-      );
-    }
-  } catch (e) {}
+  if (Array.isArray(newOverride.responseBody)) {
+    newOverride.responseBody = newOverride.responseBody.map((chunk) => {
+      try {
+        const asJson = JSON.parse(chunk.value || '');
+        return Object.assign({}, newOverride.responseBody[0], {
+          value: JSON.stringify(asJson, null, 2),
+        });
+      } catch (e) {
+        return chunk;
+      }
+    });
+  }
   return updateDeep(state, findPath(action.payload.parentId, state), {
     nodes: alter((key, value) =>
       value ? [newOverride, ...value] : [newOverride],

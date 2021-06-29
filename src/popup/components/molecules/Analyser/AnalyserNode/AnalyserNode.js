@@ -25,11 +25,7 @@ const AnalyserSection = ({ name, matches }) => (
     Icon={IconForPill}
   >
     {matches?.map(({ request, override, isMatch, variable }) => (
-      <div
-        className={cn('analyser-node__row mt1 label_medium', {
-          'accent-color': !isMatch && variable,
-        })}
-      >
+      <div className={cn('analyser-node__row mt1 label_medium')}>
         <span className={cn({ label_strong: !!variable, ml2: !!variable })}>
           {variable ? <span className="c2-color">{`/${variable}/`}</span> : ''}
         </span>
@@ -75,7 +71,11 @@ const AnalyserNode = ({ name, url, method, headers, body }) => {
       header={
         <h3 className="label_medium">
           {name}
-          {noMatch ? <span className="ml2 g4-color">differs</span> : ''}
+          {noMatch ? (
+            <span className="ml2 g4-color">differs</span>
+          ) : (
+            <span className="ml2 primary-color">matches</span>
+          )}
         </h3>
       }
       isInitiallyOpen={!noMatch}

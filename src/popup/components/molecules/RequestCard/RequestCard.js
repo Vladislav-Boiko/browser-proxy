@@ -102,6 +102,14 @@ const RequestCard = ({
   const doAnalyse = () => onAnalyse && onAnalyse();
   const canShowTextPreview =
     ['TEXT', 'JSON', 'DOCUMENT'].indexOf(responseType?.toUpperCase()) >= 0;
+  let preview = '';
+  if (canShowTextPreview && isOpen) {
+    preview = getTotalResponse(otherProps[selectedTab]);
+    try {
+      const asJson = JSON.parse(preview);
+      preview = JSON.stringify(asJson, null, 2);
+    } catch (e) {}
+  }
   return (
     <AnimatePresence
       initial={shallAnimate && loadingState === LOADING_STATES.LOADING}
@@ -204,7 +212,7 @@ const RequestCard = ({
                 <Input
                   className="tabbed__input"
                   disabled
-                  value={getTotalResponse(otherProps[selectedTab])}
+                  value={preview}
                   multiline
                 />
               </>

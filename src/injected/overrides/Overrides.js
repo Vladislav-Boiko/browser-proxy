@@ -156,50 +156,48 @@ class Overrides {
     let processedString = stringWithoutVariables;
     let matches = [];
     let variableMatches = [];
+    let isMatch = true;
     for (let part of inflatedString) {
       if (typeof part === 'string') {
         const toMatch = processedString.slice(0, part.length);
-        const isMatch = toMatch === part;
+        isMatch = toMatch === part;
         matches.push({
           request: toMatch,
           override: part,
           isMatch,
         });
-        if (!isMatch) {
-          return { isMatch, matches };
-        }
         processedString = processedString.slice(part.length);
       } else if (typeof part === 'object') {
         try {
           const regexp = new RegExp(part.value);
           const result = regexp.exec(processedString);
-          const isMatch = result && result.index === 0;
+          isMatch = result && result.index === 0;
           matches.push({
-            request: result[0],
+            request: isMatch ? result[0] : '',
             override: part.name,
             isMatch,
             variable: part.value,
           });
-          if (!isMatch) {
-            return { isMatch: false, matches };
-          }
-          processedString = processedString.slice(result[0].length);
+          processedString = isMatch
+            ? processedString.slice(result[0].length)
+            : processedString;
           variableMatches.push({ ...part, match: result[0] });
         } catch (e) {
+          isMatch = false;
           matches.push({
             request: processedString,
             override: part?.name,
             isMatch: false,
             variable: part?.value,
           });
-          return { isMatch: false, matches };
         }
       }
     }
     if (processedString) {
+      isMatch = false;
       matches.push({ isMatch: false, request: processedString, override: '' });
     }
-    return { isMatch: !processedString, variableMatches, matches };
+    return { isMatch, variableMatches, matches };
   }
 
   matchStringWithVariables(

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './StringDiff.css';
-const StringDiff = ({ left, right }) => {
+const StringDiff = ({ left = '', right = '' }) => {
   const toRenderChunks = [];
   let currentChunk = { value: '', isSame: true };
   left.split('').map((key, position) => {

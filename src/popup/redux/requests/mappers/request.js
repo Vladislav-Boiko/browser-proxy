@@ -107,6 +107,7 @@ const addRequest = (old, update) => {
 
 // See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders
 export const parseXhrHeaders = (headersString = '') => {
+  // eslint-disable-next-line
   const regExp = new RegExp('[\r\n]+');
   const splitted = headersString.trim().split(regExp);
   return splitted.map((line) => {

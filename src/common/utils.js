@@ -24,7 +24,10 @@ export const getTotalResponse = (responseBody, type) => {
 
 export const tryStringifyRequestBody = (value) => {
   let result = null;
-  let requestBody = value;
+  let requestBody = value || '';
+  if (Array.isArray(requestBody)) {
+    requestBody = getTotalResponse(value);
+  }
   if (value instanceof URLSearchParams || value instanceof FormData) {
     const entries = value?.entries();
     if (entries) {
@@ -36,7 +39,7 @@ export const tryStringifyRequestBody = (value) => {
   }
   try {
     const parsed = JSON.parse(requestBody);
-    result = JSON.stringify(parsed ?? '');
+    result = JSON.stringify(parsed ?? '', null, 2);
   } catch (e) {
     // do nothing
   }

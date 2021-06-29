@@ -15,6 +15,7 @@ const isUnsaved = (initial, current) => {
   if (!initial && !current) {
     return false;
   }
+  // eslint-disable-next-line
   return initial != current;
 };
 

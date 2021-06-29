@@ -9,13 +9,19 @@ import './Section.css';
 const Section = ({ header, children, isInitiallyOpen, className, Icon }) => {
   let DisplayedIcon = Icon || Icons.Chevron;
   const [isOpen, setIsOpen] = useState(isInitiallyOpen);
+  const [isAnimating, setIsAnimating] = useState(false);
   return (
     <div className={cn('section', className)}>
       <button
         className={cn('section__header', {
           section__header_closed: !isOpen,
         })}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsAnimating(true);
+          setTimeout(() => {
+            setIsOpen(!isOpen);
+          }, 0);
+        }}
       >
         <DisplayedIcon
           isOpen={isOpen}
@@ -30,8 +36,10 @@ const Section = ({ header, children, isInitiallyOpen, className, Icon }) => {
           section__body_closed: !isOpen,
         })}
         {...animateHeight(isOpen)}
+        onAnimationStart={() => setIsAnimating(true)}
+        onAnimationComplete={() => setIsAnimating(false)}
       >
-        {children}
+        {(isAnimating || isOpen) && children}
       </motion.section>
     </div>
   );

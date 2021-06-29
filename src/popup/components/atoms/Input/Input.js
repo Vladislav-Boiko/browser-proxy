@@ -86,9 +86,8 @@ const Input = ({
                 navigator.permissions
                   .query({ name: 'clipboard-write' })
                   .then((result) => {
-                    result.state === 'granted' ||
-                      (result.state === 'prompt' &&
-                        navigator.clipboard.writeText(value));
+                    (result.state === 'granted' || result.state === 'prompt') &&
+                      navigator.clipboard.writeText(value);
                   });
                 return true;
               }}

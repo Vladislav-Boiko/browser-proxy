@@ -26,6 +26,26 @@ const Template = (args) => (
     <br />
     <span className="mr2">GET - ABCGETDEF</span>
     <StringDiff className="m2" right="ABCGETDEF" left="GET" />
+    <br />
+    <span className="mr2">
+      {'{ "query": "{\n employee {\n name\n jobTitle\n }\n}\n" }'} -
+      {'{ "query": "Somethig else" }'}
+    </span>
+    <StringDiff
+      className="m2"
+      right={'{ "query": "{\n employee {\n name\n jobTitle\n }\n}\n" }'}
+      left={'{ "query": "Somethig else" }'}
+    />
+    <br />
+    <span className="mr2">
+      {'{ "query": "Somethig else" }'} -
+      {'{ "query": "{\n employee {\n name\n jobTitle\n }\n}\n" }'}
+    </span>
+    <StringDiff
+      className="m2"
+      left={'{ "query": "{\n employee {\n name\n jobTitle\n }\n}\n" }'}
+      right={'{ "query": "Somethig else" }'}
+    />
   </div>
 );
 

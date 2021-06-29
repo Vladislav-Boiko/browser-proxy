@@ -1,5 +1,6 @@
 import React from 'react';
 import AnalyserNode from './AnalyserNode/AnalyserNode';
+import cn from 'classnames';
 import overridesStorage from '../../../../injected/overrides/Overrides';
 import { TYPES, XHR_TYPES } from 'organisms/TreeView/Nodes/index';
 import Icons from 'atoms/Icons/Icons';
@@ -34,7 +35,7 @@ const getMatchers = (request, node, variables) => {
 const Analyser = ({ overrides, request, variables = [], level = 0 }) => {
   overridesStorage.overrides = overrides;
   return (
-    <div className="analyser">
+    <div className={cn('analyser', { ml1: level })}>
       {!overrides && level === 1 && (
         <Image404 className="analyser__404">
           <span>404</span>
@@ -48,7 +49,7 @@ const Analyser = ({ overrides, request, variables = [], level = 0 }) => {
         if (node.type === TYPES.FOLDER || node.type === TYPES.DOMAIN) {
           return (
             <div>
-              <h3 className="g2-color mx2 label_medium">
+              <h3 className="g2-color mx2 label_medium my2">
                 {node.type === TYPES.FOLDER && (
                   <Icons.Folder className="icon_md mr1" />
                 )}

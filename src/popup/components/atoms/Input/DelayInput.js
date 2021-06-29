@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Icons from '../Icons/Icons';
 import Input from './Input';
 import cn from 'classnames';
