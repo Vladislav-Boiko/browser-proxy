@@ -2,9 +2,9 @@
   "short_name": "Browser proxy",
   "name": "Browser Proxy",
   "version": "1.0.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "description": "Replace fetch, XMLHttpRequest, AJAX responses on the fly!",
-  "browser_action": {
+  "action": {
     "default_icon": "logo-disabled64.png",
     "default_popup": "popup.html"
   },
@@ -16,7 +16,7 @@
    "192": "logo192.png",
    "512": "logo512.png"
   },
-  "permissions": ["activeTab", "storage", "tabs", "clipboardWrite"],
+  "permissions": ["activeTab", "storage", "tabs", "clipboardWrite", "scripting"],
   "devtools_page": "popup.html",
   "content_scripts": [
     {
@@ -28,7 +28,6 @@
     }
   ],
   "background": {
-    "scripts": ["src/background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   }
 }

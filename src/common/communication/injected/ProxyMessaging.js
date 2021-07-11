@@ -1,3 +1,4 @@
+import browser from 'src/common/browser';
 import Messaging from '../Messaging';
 
 // The injected js on the page, that has access to the wnidow xhr objects, has no
@@ -5,11 +6,11 @@ import Messaging from '../Messaging';
 class ProxyMessaging extends Messaging {
   constructor() {
     super();
-    window.addEventListener(
+    browser.addEventListener(
       'message',
       (event) => {
         if (
-          event.origin === window.location.origin &&
+          event.origin === browser.location.origin &&
           event?.data?.sender &&
           event?.data?.sender === 'browser-proxy-web-script'
         ) {
@@ -22,11 +23,11 @@ class ProxyMessaging extends Messaging {
 
   // TODO: a better way to distinguish messages
   sendMessage(message) {
-    const destination = window.location.origin;
+    const destination = browser.location.origin;
     // TODO: test it works with file:// protocol
     if (destination) {
       try {
-        window.postMessage(
+        browser.postMessage(
           { ...message, sender: 'browser-proxy-web-script' },
           destination,
         );

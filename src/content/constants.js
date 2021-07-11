@@ -1,3 +1,4 @@
+import browser from 'src/common/browser';
 import { v4 as uuid } from 'uuid';
 
 const stripTrailingSlash = (str) =>
@@ -5,7 +6,7 @@ const stripTrailingSlash = (str) =>
 
 export const WINDOW_UUID = uuid();
 export const DOMAIN = stripTrailingSlash(
-  window.location !== window.parent.location
+  browser.location !== browser.parent.location
     ? document.location.ancestorOrigins[0]
-    : window.location.origin,
+    : browser.location.origin,
 );

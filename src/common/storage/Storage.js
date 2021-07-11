@@ -1,6 +1,6 @@
-const APPLICATION_NAME = 'browser-proxy';
+import browser from '../browser';
 
-const browser = window.browser || window.chrome;
+const APPLICATION_NAME = 'browser-proxy';
 class Storage {
   save(value) {
     return new Promise((resolve) => {

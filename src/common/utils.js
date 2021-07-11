@@ -1,7 +1,6 @@
 import serializer from '../common/storage/Serializer';
 import { hasUrlMatch } from 'utils/url';
-
-const browser = window.browser || window.chrome;
+import browser from './browser';
 
 export const getResponseLength = (responseBody) => {
   return (

@@ -2,8 +2,7 @@ import { startMessaging } from './communication/withPage';
 import serializer from '../common/storage/Serializer';
 import { selectInitialDomain } from 'utils/url';
 import store, { setState } from './redux/store';
-
-const browser = window.browser || window.chrome;
+import browser from 'src/common/browser';
 
 const bootstrapTabData = async () => {
   if (browser?.tabs?.query) {

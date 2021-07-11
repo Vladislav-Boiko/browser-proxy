@@ -15,6 +15,7 @@ build() {
     node scripts/replaceContent.js
 
     mv dist/index.html dist/popup.html
+    mv dist/src/background.js dist/background.js
 
     # TODO: remove the unnecessary build steps from webpack build
     prettier --write dist/popup.html
