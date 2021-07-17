@@ -28,9 +28,11 @@ class RequestsCommunication {
     this.registerWindowToItsDomainMapping(windowId, domain);
   }
 
-  // A single domain (webpage) may have several windows, for instance in iframes. We want to track all
-  // requests of a webpage, thus all requests of all its windows. To keep a track of all domain windows
-  // we register windowId<->domain mappings on a window load.
+  /**
+   * A single domain (webpage) may have several windows, for instance in iframes. We want to track all
+   * requests of a webpage, thus all requests of all its windows. To keep a track of all domain windows
+   * we register windowId<->domain mappings on a window load.
+   */
   registerWindowToItsDomainMapping(windowId, domain) {
     pluginMessaging.emit(WINDOW_LOAD, {
       windowId,
@@ -38,8 +40,10 @@ class RequestsCommunication {
     });
   }
 
-  // When the user opens the popup or the plugin tab in the browser dev tools, it fires a request event.
-  // This might happen at any time, as one can open and close the popup back and forth.
+  /**
+   * When the user opens the popup or the plugin tab in the browser dev tools, the popup fires a request event.
+   * This might happen at any time, as one can open and close the popup back and forth.
+   */
   listenOnPluginLoad() {
     pluginMessaging.subscribe(PLUGIN_LOAD, () => {
       pluginMessaging.emit(REQUESTS_UPDATED, {

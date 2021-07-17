@@ -20,10 +20,6 @@ import { TYPES } from 'organisms/TreeView/Nodes/index';
 import messaging from '../../communication/PluginMessaging';
 import serializer from '../../../common/storage/Serializer';
 import EVENTS from '../../../common/communication/plugin/events';
-import {
-  getTotalResponse,
-  tryStringifyRequestBody,
-} from '../../../common/utils';
 
 export const updateDeep = (state, path, payload) => {
   if (!path) {

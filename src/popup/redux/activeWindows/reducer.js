@@ -8,13 +8,14 @@ export default (state = {}, action) => {
   switch (action.type) {
     // We register all web-site windows with their domain name: { [domain_name]: [ ...listOfWindowIds ]}
     case WINDOW_LOAD:
-      return {
+      const result = {
         ...state,
         [payload.domain]: unique([
           ...(state[payload.domain] ? state[payload.domain] : []),
           payload.windowId,
         ]),
       };
+      return result;
     case WINDOW_UNLOAD:
       return Object.keys(state)
         .map((key) => ({

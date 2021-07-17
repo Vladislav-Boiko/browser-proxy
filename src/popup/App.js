@@ -12,7 +12,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const load = async () => {
-      await bootstrap();
+      try {
+        await bootstrap();
+      } catch (e) {
+        console.warn(e);
+      }
       setLoading(false);
     };
     load();

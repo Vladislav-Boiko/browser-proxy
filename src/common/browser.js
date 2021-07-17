@@ -1,13 +1,23 @@
 // is never undefined
-const browser =
-  window?.browser ||
-  window?.chrome ||
-  /* eslint-disable-next-line no-restricted-globals */
-  self?.browser ||
-  /* eslint-disable-next-line no-restricted-globals */
-  self?.chrome ||
-  this?.browser ||
-  this?.chrome ||
-  {};
+let browser;
 
-export default browser;
+try {
+  if (!browser) {
+    browser =
+      window?.browser ||
+      window?.chrome ||
+      this?.browser ||
+      this?.chrome;
+  }
+} catch (e) {
+  // maybe we are a service worker
+}
+/* eslint-disable-next-line no-restricted-globals */
+if (self && !browser) {
+  /* eslint-disable-next-line no-restricted-globals */
+  browser = self?.browser ||
+    /* eslint-disable-next-line no-restricted-globals */
+    self?.chrome;
+}
+
+export default browser ?? {};

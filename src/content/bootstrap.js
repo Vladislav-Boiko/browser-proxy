@@ -18,7 +18,7 @@ export default () => {
     if (domain?.isOn) {
       overrides.startTracking();
     }
-    browser.onbeforeunload = () => {
+    window.onbeforeunload = () => {
       pluginMessaging.emit(WINDOW_UNLOAD, WINDOW_UUID);
     };
     resolve(!!domain?.isOn);
