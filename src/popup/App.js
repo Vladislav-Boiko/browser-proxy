@@ -6,14 +6,17 @@ import store from './redux/store';
 import bootstrap from './bootstrap.js';
 import Router from 'templates/Router/Router.container';
 import cn from 'classnames';
-
-const browser = window.browser || window.chrome;
+import browser from 'src/common/browser';
 
 function App() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const load = async () => {
-      await bootstrap();
+      try {
+        await bootstrap();
+      } catch (e) {
+        console.warn(e);
+      }
       setLoading(false);
     };
     load();

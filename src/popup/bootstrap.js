@@ -2,12 +2,12 @@ import { startMessaging } from './communication/withPage';
 import serializer from '../common/storage/Serializer';
 import { selectInitialDomain } from 'utils/url';
 import store, { setState } from './redux/store';
-
-const browser = window.browser || window.chrome;
+import browser from 'src/common/browser';
 
 const bootstrapTabData = async () => {
-  if (browser?.tabs?.query) {
-    browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  const tabs = browser?.tabs || browser?.browser?.tabs || browser?.chrome?.tabs;
+  if (tabs?.query) {
+    tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0];
       if (tab?.url) {
         selectInitialDomain(tab?.url);
@@ -17,21 +17,26 @@ const bootstrapTabData = async () => {
 };
 
 const bootstrapDevtoolsTab = () => {
-  if (browser.devtools && browser.devtools.panels) {
-    browser.devtools.panels.create(
+  const devtools = browser?.devtools || browser?.browser?.devtools || browser?.chrome?.devtools;
+  if (devtools?.panels) {
+    devtools.panels.create(
       'Browser-Proxy',
       '',
       'popup.html',
-      (panel) => {},
+      (panel) => { },
     );
   }
 };
 
 const bootstrapStore = async () => {
-  const storeFromLocalStorage = await serializer.loadStore();
-  store.dispatch(setState(storeFromLocalStorage));
-  // We shall first load the saved store to know if current domain has rules or is a new domain
-  await bootstrapTabData();
+  try {
+    const storeFromLocalStorage = await serializer.loadStore();
+    store.dispatch(setState(storeFromLocalStorage));
+    // We shall first load the saved store to know if current domain has rules or is a new domain
+    await bootstrapTabData();
+  } catch (e) {
+    console.warn(e);
+  }
 };
 
 export default async () => {

@@ -20,10 +20,6 @@ import { TYPES } from 'organisms/TreeView/Nodes/index';
 import messaging from '../../communication/PluginMessaging';
 import serializer from '../../../common/storage/Serializer';
 import EVENTS from '../../../common/communication/plugin/events';
-import {
-  getTotalResponse,
-  tryStringifyRequestBody,
-} from '../../../common/utils';
 
 export const updateDeep = (state, path, payload) => {
   if (!path) {
@@ -239,6 +235,13 @@ export const serializedReducer = (state = [], action) => {
     case UPDATE_NODE:
       return updateNode(state, action);
     case TOGGLE_NODE:
+      setTimeout(() => {
+        try {
+          messaging.emit(EVENTS.NODE_TOGGLED);
+        } catch (e) {
+          console.error(e);
+        }
+      }, 1000);
       return toggleNode(state, action);
     case ADD_OVERRIDE:
       return addOverride(state, action);

@@ -6,8 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import './Input.css';
 import { ResetButton } from 'atoms/Button/ResetButton';
 import SuccessButton from 'atoms/Button/SuccessButton';
-
-const browser = window.browser || window.chrome;
+import browser from 'src/common/browser';
 
 const InputType = ({ multiline, ...otherProps }) => {
   return !multiline ? (

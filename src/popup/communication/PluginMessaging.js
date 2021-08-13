@@ -1,6 +1,14 @@
 import Messaging from '../../common/communication/Messaging';
+// import browser from 'src/common/browser';
+let browser = null;
+try {
+  browser = window.browser || window.chrome;
+} catch (e) {
+  // probably within service worker, we do not have window there.
+  // eslint-disable-next-line no-restricted-globals
+  browser = self;
+}
 
-const browser = window.browser || window.chrome;
 
 class PluginMessaging extends Messaging {
   constructor() {

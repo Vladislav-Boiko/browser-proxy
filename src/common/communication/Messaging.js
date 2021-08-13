@@ -1,4 +1,6 @@
-// Abstract, needs sendMessage method to be implemented.
+/**
+ * Abstract, needs sendMessage method to be implemented.
+ */
 export default class Messaging {
   listeners = {};
 

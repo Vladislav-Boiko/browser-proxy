@@ -24,6 +24,5 @@ export const startMessaging = () => {
     const overrides = store?.nodes;
     messaging.emit(EVENTS.OVERRIDES_UPDATED, overrides);
   });
-
   messaging.emit(EVENTS.PLUGIN_LOAD);
 };
