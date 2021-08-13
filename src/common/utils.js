@@ -1,6 +1,5 @@
 import serializer from '../common/storage/Serializer';
 import { hasUrlMatch } from 'utils/url';
-import browser from './browser';
 
 export const getResponseLength = (responseBody) => {
   return (
@@ -48,6 +47,26 @@ export const tryStringifyRequestBody = (value) => {
   return result;
 };
 
+let browser = null;
+try {
+  if (window.browser) {
+    browser = window.browser;
+  }
+} catch (e) { }
+try {
+  if (!browser && chrome) {
+    browser = chrome;
+  }
+} catch (e) { }
+try {
+  // eslint-disable-next-line no-restricted-globals
+  if (!browser && self) {
+    // probably within service worker, we do not have window there.
+    // eslint-disable-next-line no-restricted-globals
+    browser = self;
+  }
+} catch (e) { }
+
 export const changeTabIcon = (tab) => {
   if (tab?.url) {
     serializer.loadStore().then((store) => {
@@ -55,14 +74,14 @@ export const changeTabIcon = (tab) => {
         hasUrlMatch(tab?.url, activeUrls),
       );
       if (domain?.isOn) {
-        browser?.browserAction &&
-          browser.browserAction.setIcon({
+        browser?.action &&
+          browser.action.setIcon({
             tabId: tab?.id,
             path: '/logo64.png',
           });
       } else {
-        browser?.browserAction &&
-          browser.browserAction.setIcon({
+        browser?.action &&
+          browser.action.setIcon({
             tabId: tab?.id,
             path: '/logo-disabled64.png',
           });

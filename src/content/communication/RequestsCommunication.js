@@ -1,6 +1,7 @@
 import PROXY_EVENTS from '../../common/communication/injected/events';
 import PLUGIN_EVENTS from '../../common/communication/plugin/events';
 import proxyMessaging from '../../common/communication/injected/ProxyMessaging';
+import { updateLoadedIcon } from '../../common/utils';
 import pluginMessaging from './PluginMessaging';
 
 const {
@@ -12,7 +13,7 @@ const {
   FETCH_STATE_CHANGED,
   XHR_UPLOAD_PROGRESS,
 } = PROXY_EVENTS;
-const { REQUESTS_UPDATED, PLUGIN_LOAD, WINDOW_LOAD } = PLUGIN_EVENTS;
+const { REQUESTS_UPDATED, PLUGIN_LOAD, WINDOW_LOAD, NODE_TOGGLED } = PLUGIN_EVENTS;
 
 class RequestsCommunication {
   requests = [];
@@ -25,6 +26,7 @@ class RequestsCommunication {
     this.listenOnPluginLoad();
     this.listenOnRequestSent();
     this.listenRequestStateChanged();
+    this.listenOnDomainDisabled();
     this.registerWindowToItsDomainMapping(windowId, domain);
   }
 
@@ -81,6 +83,12 @@ class RequestsCommunication {
         });
       },
     );
+  }
+
+  listenOnDomainDisabled() {
+    pluginMessaging.subscribe([NODE_TOGGLED], () => {
+      updateLoadedIcon();
+    });
   }
 }
 

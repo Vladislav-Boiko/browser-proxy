@@ -235,6 +235,13 @@ export const serializedReducer = (state = [], action) => {
     case UPDATE_NODE:
       return updateNode(state, action);
     case TOGGLE_NODE:
+      setTimeout(() => {
+        try {
+          messaging.emit(EVENTS.NODE_TOGGLED);
+        } catch (e) {
+          console.error(e);
+        }
+      }, 1000);
       return toggleNode(state, action);
     case ADD_OVERRIDE:
       return addOverride(state, action);

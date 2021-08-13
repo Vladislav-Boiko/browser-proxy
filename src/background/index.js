@@ -9,7 +9,7 @@ try {
     updateLoadedIcon(tab);
   });
 
-  pluginMessaging.subscribe(EVENTS.NODE_TOGGLED, () => {
+  pluginMessaging.subscribe([EVENTS.NODE_TOGGLED, EVENTS.OVERRIDES_UPDATED], () => {
     updateLoadedIcon();
   });
 } catch (e) {

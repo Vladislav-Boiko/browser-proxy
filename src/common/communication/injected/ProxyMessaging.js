@@ -1,11 +1,11 @@
-import browser from 'src/common/browser';
-import { DOMAIN } from 'src/content/constants';
+import browser from '../../browser';
+import { DOMAIN } from '../../../content/constants';
 import Messaging from '../Messaging';
 import { v4 as uuid } from 'uuid';
 
 let messagingBrowser = null;
 try {
-  messagingBrowser = typeof window?.postMessage === 'function' && window
+  messagingBrowser = typeof window?.postMessage === 'function' && window;
 } catch (e) {
   // maybe we are another browser.
 }
@@ -31,7 +31,7 @@ class ProxyMessaging extends Messaging {
             message?.data?.sender === 'browser-proxy-web-script'
           ) {
             if (message?.data?.selfId !== this.selfId) {
-              this.onMessage({ ...message.data, selfId: this.selfId })
+              this.onMessage({ ...message.data, selfId: this.selfId });
             }
           }
         },
@@ -47,13 +47,17 @@ class ProxyMessaging extends Messaging {
 
   // TODO: a better way to distinguish messages
   sendMessage(message) {
-    const destination = (messagingBrowser?.location?.origin || DOMAIN);
+    const destination = messagingBrowser?.location?.origin || DOMAIN;
     // TODO: test it works with file:// protocol
     if (destination) {
       try {
         if (typeof messagingBrowser?.postMessage === 'function') {
           messagingBrowser.postMessage(
-            { ...message, sender: 'browser-proxy-web-script', selfId: this.selfId },
+            {
+              ...message,
+              sender: 'browser-proxy-web-script',
+              selfId: this.selfId,
+            },
             destination,
           );
         }
@@ -62,7 +66,6 @@ class ProxyMessaging extends Messaging {
         //     { ...message, sender: 'browser-proxy-web-script' },
         //   );
         // }
-
       } catch (e) {
         // do nothing, we cannot override what we cannot track
       }
