@@ -9,9 +9,12 @@ try {
     updateLoadedIcon(tab);
   });
 
-  pluginMessaging.subscribe([EVENTS.NODE_TOGGLED, EVENTS.OVERRIDES_UPDATED], () => {
-    updateLoadedIcon();
-  });
+  pluginMessaging.subscribe(
+    [EVENTS.NODE_TOGGLED, EVENTS.OVERRIDES_UPDATED],
+    () => {
+      updateLoadedIcon();
+    },
+  );
 } catch (e) {
   console.warn('Browser-proxy extension: ', e);
 }

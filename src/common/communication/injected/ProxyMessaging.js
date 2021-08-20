@@ -38,11 +38,6 @@ class ProxyMessaging extends Messaging {
         false,
       );
     }
-    // if (typeof messagingBrowser?.runtime?.onMessage?.addListener === 'function') {
-    //   messagingBrowser.runtime.onMessage.addListener((message) => {
-    //     this.onMessage(message);
-    //   });
-    // }
   }
 
   // TODO: a better way to distinguish messages
@@ -61,11 +56,6 @@ class ProxyMessaging extends Messaging {
             destination,
           );
         }
-        // if (typeof messagingBrowser?.runtime?.sendMessage === 'function') {
-        //   messagingBrowser.runtime.sendMessage(
-        //     { ...message, sender: 'browser-proxy-web-script' },
-        //   );
-        // }
       } catch (e) {
         // do nothing, we cannot override what we cannot track
       }

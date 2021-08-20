@@ -17,6 +17,9 @@ class Overrides {
     pluginMessaging.subscribe(PROXY_EVENTS.REQUEST_OVERRIDES_UPDATE, () => {
       proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
     });
+    proxyMessaging.subscribe(PROXY_EVENTS.REQUEST_OVERRIDES_UPDATE, () => {
+      proxyMessaging.emit(PROXY_EVENTS.OVERRIDES_UPDATED, this.overrides);
+    });
   }
 
   async updateOverrides(update) {

@@ -12,8 +12,14 @@ const {
   FETCH_SENT,
   FETCH_STATE_CHANGED,
   XHR_UPLOAD_PROGRESS,
+  REQUEST_OVERRIDES_UPDATE,
 } = PROXY_EVENTS;
-const { REQUESTS_UPDATED, PLUGIN_LOAD, WINDOW_LOAD, NODE_TOGGLED } = PLUGIN_EVENTS;
+const {
+  REQUESTS_UPDATED,
+  PLUGIN_LOAD,
+  WINDOW_LOAD,
+  NODE_TOGGLED,
+} = PLUGIN_EVENTS;
 
 class RequestsCommunication {
   requests = [];
@@ -28,6 +34,7 @@ class RequestsCommunication {
     this.listenRequestStateChanged();
     this.listenOnDomainDisabled();
     this.registerWindowToItsDomainMapping(windowId, domain);
+    this.listenOnOverridesUpdated();
   }
 
   /**
@@ -88,6 +95,14 @@ class RequestsCommunication {
   listenOnDomainDisabled() {
     pluginMessaging.subscribe([NODE_TOGGLED], () => {
       updateLoadedIcon();
+    });
+  }
+
+  listenOnOverridesUpdated() {
+    proxyMessaging.subscribe([REQUEST_OVERRIDES_UPDATE], () => {
+      pluginMessaging.emit(REQUEST_OVERRIDES_UPDATE, {
+        [this.windowId]: this.requests,
+      });
     });
   }
 }

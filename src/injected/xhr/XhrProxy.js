@@ -130,7 +130,11 @@ export default class XhrProxy {
   }
 
   dispatchEvent(event) {
-    this.realXhr.dispatchEvent(event);
+    if (typeof event === 'function') {
+      return proxyFunction(event, (args, applyReal) => applyReal());
+    } else {
+      this.realXhr.dispatchEvent(event);
+    }
   }
 
   get responseType() {

@@ -55,9 +55,10 @@ class Overrides {
       let step = 1;
       while (!this.hasLoaded && step < MAX_WAITING_STEPS) {
         step++;
-        await new Promise((resolve) =>
-          setTimeout(resolve, WAIT_OVERRIDES_LOADED_DELAY),
-        );
+        await new Promise((resolve) => {
+          messaging.emit(EVENTS.REQUEST_OVERRIDES_UPDATE, {});
+          setTimeout(resolve, WAIT_OVERRIDES_LOADED_DELAY);
+        });
       }
       return this.recursivelySearchOverrides(xhrData, this.overrides);
     }

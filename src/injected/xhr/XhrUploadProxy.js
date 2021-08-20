@@ -33,7 +33,7 @@ export default class XhrUploadProxy extends EventTarget {
   overrideProgressEvent(name, loaded, total) {
     const payload = this.getProgressPayload(loaded, total);
     const event = new ProgressEvent('on' + name, payload);
-    this.realXhrUpload.dispatchEvent(event);
+    this.realXhrUpload.x(event);
     if (
       this.realXhrUpload[name] &&
       typeof this.realXhrUpload[name] === 'function'
