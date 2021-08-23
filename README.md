@@ -12,7 +12,7 @@ Table of contents:
     - [Changing the response of a request](#Changing-the-response-of-a-request)
 - [Using variables for RegExp matching](#Using-variables-for-RegExp-matching)
 - [Overrides priority](#Overrides-priority)
-- [Import/Export and sharing overrides](#Import/Export-and-sharing-overrides)
+- [Import/Export and sharing overrides](#ImportExport-and-sharing-overrides)
 - [Troubleshooting](#Troubleshooting)
 - [Manual extension installation](#Manual-extension-installation)
 
