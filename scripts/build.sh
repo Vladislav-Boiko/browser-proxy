@@ -22,6 +22,7 @@ build() {
     sed -i '' '/injected/d' dist/popup.html
     sed -i '' '/content\_template/d' dist/popup.html
     sed -i '' '/background/d' dist/popup.html
+    rm -f dist/src/*LICENSE.txt
 }
 
 build
