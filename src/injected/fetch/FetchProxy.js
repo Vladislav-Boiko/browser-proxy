@@ -8,11 +8,29 @@ import {
 } from '../../common/utils';
 import { v4 as uuid } from 'uuid';
 
+const convertHeadersToArray = (headers) => {
+  let result = [];
+  for (let key of headers.keys()) {
+    result.push({ name: key, value: headers.get(key) });
+  }
+  return result;
+};
+
 /**
  * Based on the arguments provided to the fetch function by caller,
  * builds an object to represent this call in the browser-proxy tracking.
  */
-const getFetchTrack = (argumentsList) => {
+const getFetchTrack = async (argumentsList) => {
+  if (argumentsList[0] && argumentsList[0] instanceof Request) {
+    const request = argumentsList[0].clone();
+    return {
+      url: request?.url,
+      type: (request?.method || 'GET').toUpperCase(),
+      method: (request?.method || 'GET').toUpperCase(),
+      requestBody: await request.text(),
+      requestHeaders: convertHeadersToArray(request.headers) || [],
+    };
+  }
   const url = argumentsList[0];
   let payload = {
     method: 'GET',
@@ -22,9 +40,7 @@ const getFetchTrack = (argumentsList) => {
     let headers = [];
     if (payload.headers) {
       if (payload.headers instanceof Headers) {
-        for (let key of payload.headers.keys()) {
-          headers.push({ name: key, value: payload.headers.get(key) });
-        }
+        headers = convertHeadersToArray(payload.headers);
       } else {
         headers = Object.keys(payload.headers).map((key) => ({
           name: key,
@@ -67,6 +83,16 @@ const finishTracking = async (id, response) => {
   } catch (e) {
     text = e?.message || '';
   }
+  let responseHeaders = [];
+  if (response?.headers) {
+    responseHeaders =
+      response.headers instanceof Headers
+        ? convertHeadersToArray(response.headers)
+        : Object.keys(response.headers).map((key) => ({
+            name: key,
+            value: response.headers[key],
+          }));
+  }
   messaging.emit(EVENTS.FETCH_STATE_CHANGED, {
     id,
     status: isNaN(+response.status) ? 200 : +response.status,
@@ -74,6 +100,7 @@ const finishTracking = async (id, response) => {
     chunkTimestamp: Date.now(),
     loadendTimestamp: Date.now(),
     responseURL: response.url,
+    responseHeaders,
     readyState: 4,
   });
 };
@@ -93,20 +120,24 @@ const getOverrideResponse = (override) => {
 const overrideFetch = (id, override) => {
   // TODO: give the user possibility to reject overriden fetch requests
   return new Promise(async (resolve, reject) => {
-    let headers = new Headers();
-    for (let { name, value } of override?.responseHeaders || []) {
-      headers.append(name, value);
-    }
-    for (let chunk of override.responseBody || []) {
-      await new Promise((resolve) => setTimeout(resolve, stripMs(chunk.delay)));
-    }
-    const response = new Response(getOverrideResponse(override), {
-      status: isNaN(+override.responseCode) ? 200 : +override.responseCode,
-      headers,
-      url: override.responseURL,
-    });
-    await finishTracking(id, response.clone());
-    resolve(response);
+    try {
+      let headers = new Headers();
+      for (let { name, value } of override?.responseHeaders || []) {
+        headers.append(name, value);
+      }
+      for (let chunk of override.responseBody || []) {
+        await new Promise((timeoutResolve) =>
+          setTimeout(timeoutResolve, stripMs(chunk.delay)),
+        );
+      }
+      const response = new Response(getOverrideResponse(override), {
+        status: isNaN(+override.responseCode) ? 200 : +override.responseCode,
+        headers,
+        url: override.responseURL,
+      });
+      await finishTracking(id, response.clone());
+      resolve(response);
+    } catch (e) {}
   });
 };
 
@@ -133,17 +164,23 @@ const passFetchTrough = (id, target, thisArg, argumentsList) => {
 export default (window) => {
   window.fetch = new Proxy(window.fetch, {
     async apply(target, thisArg, argumentsList) {
-      const fetchTrack = getFetchTrack(argumentsList);
-      const override = await overridesStorage.findOverride(fetchTrack);
-      const id = startTracking({
-        ...fetchTrack,
-        isProxied: !!override,
-        ...(!!override && { override }),
-      });
-      if (override) {
-        return overrideFetch(id, override);
-      } else {
-        return passFetchTrough(id, target, thisArg, argumentsList);
+      try {
+        const fetchTrack = await getFetchTrack(argumentsList);
+        const override = await overridesStorage.findOverride(fetchTrack);
+        const id = startTracking({
+          ...fetchTrack,
+          isProxied: !!override,
+          ...(!!override && { override }),
+        });
+        if (override) {
+          return overrideFetch(id, override);
+        } else {
+          return passFetchTrough(id, target, thisArg, argumentsList);
+        }
+      } catch (e) {
+        // Otherwise we have a completely silent fetch fail.
+        console.warn(e);
+        return passFetchTrough(uuid(), target, thisArg, argumentsList);
       }
     },
   });

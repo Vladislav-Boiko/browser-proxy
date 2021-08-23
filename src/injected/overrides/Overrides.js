@@ -154,7 +154,7 @@ class Overrides {
   }
 
   compareWithInflatedString(stringWithoutVariables, inflatedString) {
-    let processedString = stringWithoutVariables;
+    let processedString = stringWithoutVariables || '';
     let matches = [];
     let variableMatches = [];
     let isMatch = true;
