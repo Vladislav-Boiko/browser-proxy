@@ -8,27 +8,34 @@ Table of contents:
 - [Overriding responses](#Overriding-responses)
   - [Overriding an existing request](#Overriding-an-existing-request)
   - [Creating a new Override](#Creating-a-new-Override)
+    - [Matching the request to be overriden](#Matching-the-request-to-be-overriden)
+    - [Changing the response of a request](#Changing-the-response-of-a-request)
+- [Using variables for RegExp matching](#Using-variables-for-RegExp-matching)
+- [Overrides priority](#Overrides-priority)
+- [Import/Export and sharing overrides](#Import/Export-and-sharing-overrides)
+- [Troubleshooting](#Troubleshooting)
+- [Manual extension installation](#Manual-extension-installation)
 
 ## 🚀 Quick start
 
 First activate the extension on your desired web page:
 
-1. Install the browser-proxy chrome extension from chrome web-store. (for [manual extension installation check this section](#Manual-extension-installation))
-2. Go to a web page where you want to override a response.
-3. Click on the browser-proxy-chrome extension icon in the browser upper right corner:
+1.  ~~Install the browser-proxy chrome extension from chrome web-store.~~ Browser-proxy is not yet availible in the chrome web-store (coming soon) [you have install in manually if you want to use it before that](#Manual-extension-installation).
+2.  Go to a web page where you want to override a response.
+3.  Click on the browser-proxy-chrome extension icon in the browser upper right corner:
 
-   \
-    ![Extension icon](/docs/img/extension_icon.png)
+    \
+     ![Extension icon](/docs/img/extension_icon.png)
 
-4. Click on the Enable button:
+4.  Click on the Enable button:
 
-   \
-   ![Enable extension](/docs/img/enable_extension.png)
+    \
+    ![Enable extension](/docs/img/enable_extension.png)
 
-5. Reload the page. The extension icon shall now be blue, indicating it is enabled on this page:
+5.  Reload the page. The extension icon shall now be blue, indicating it is enabled on this page:
 
-   \
-    ![Enable extension](/docs/img/extension_enabled_icon.png)
+    \
+     ![Enable extension](/docs/img/extension_enabled_icon.png)
 
 🥳 You are all set, if the icon of the extension is blue, it is active on this web page. You can always turn it off for a certain page, buy toggling the "disable" toggle in it.
 
@@ -237,10 +244,11 @@ Will be captured by this override, and will return the `id` in the response json
 > All variables are matched by their name exactly, you can choose anything, but to avoid some collisions with content in your regular requests, it is recommended to prefix all your variables with something that is unlikely to appear in them. In our examples we use `$` sign before the name of all variables.
 
 ## Overrides priority
+
 In the overrides tree view you can see all the overrides you have within a tree view:
 
-   \
-    ![Requests tree view](/docs/img/tree_view.png)
+\
+ ![Requests tree view](/docs/img/tree_view.png)
 
 At the topmost level of the tree-view are always certain web-sites. The websites are identified by a url, including, if necessary port. Thus different localhost ports can be separated.
 
@@ -252,7 +260,7 @@ Every folder as well as every request can be enabled and disabled separately. Sa
 
 It might be that the same request can be matched by two overrides. The overrides are prioritized from top to bottom on every hierarchy level. It means that first all the overrides in the upper-most folder will be checked from top to bottom, then in the first subfolder and so on.
 
-You can move the overrides or folders with drag and drop within the tree view. As well as copy and delete them. 
+You can move the overrides or folders with drag and drop within the tree view. As well as copy and delete them.
 
 Variables in the parent folder are shared by all overrides underneath, but can be overriden by a subfolder or an override own variable with the same name.
 
@@ -260,36 +268,36 @@ Variables in the parent folder are shared by all overrides underneath, but can b
 
 Overrides on a certain web-site or a certain folder, can be imported and exported into a json file. This file can then be shared or placed in some VCS (git/svn etc.)
 
-   \
-    ![Import and export](/docs/img/import_export.png)
+\
+ ![Import and export](/docs/img/import_export.png)
 
 Hit the export button, and you will have a json file being downloaded containing all the overrides in this folder. You can then import them into some other, or same folder.
 
 ## Troubleshooting
 
-* I have created an override but it is not changing the response of my request.
+- I have created an override but it is not changing the response of my request.
 
 First find the request in the list of captured requests:
 
-   \
-    ![Import and export](/docs/img/request_in_list.png)
+\
+ ![Request in list](/docs/img/request_in_list.png)
 
 Select it and click on the `Analyse match` button:
 
-   \
-    ![Import and export](/docs/img/analyse_match.png)
+\
+ ![Analyse match](/docs/img/analyse_match.png)
 
 There you will have all the overrides listed side by side which this request compared, in the order in which they were compared. There will be shown diffs as the matcher understands them, indicating the difference with certain override.
 
 Find your override there, and see what differs in the request and the override. Then adjust the override in such a way that there will be no difference.
 
-   \
-    ![Matches](/docs/img/matches.png)
+\
+ ![Matches](/docs/img/matches.png)
 
 > 💡 **Hint** \
->If your request sends hashes or timestamps that differ from request to a request, it makes sense to create a variable catching these hashes, for instance with `.*` so that these often changing parts will always match. 
+> If your request sends hashes or timestamps that differ from request to a request, it makes sense to create a variable catching these hashes, for instance with `.*` so that these often changing parts will always match.
 
-* I cannot see my request in the list of the requests.
+- I cannot see my request in the list of the requests.
 
 The extension supports only ajax/fetch/axios/XmlHttp requests. If you are sending some websocket, or static resource, such as image/css request, it will not be captured.
 
@@ -297,8 +305,27 @@ The extension also requires some fraction of time to load on the page when the p
 
 Also the extension requires significantly more time to load on pages with CSP enabled, so turning CSP off in your test environment might help.
 
-* The override was matching but is not matching anymore
+- The override was matching but is not matching anymore
 
 It is most likely that either the request changed - for instance some of the request headers changed. Or some other override has now higher priority than this one. If the request changed, it might make sense to write a more generic override request matcher with use of variables. If the priority changed, you can drag and drop the override in the overrides-tree-view to give it a higher or lower priority than other overrides.
 
 ## Manual extension installation
+
+1. Pull the project from this repository
+2. Execute `yarn install` or `npm` install in the pulled folder.
+3. Execute `yarn build` or `npm run build`. You shall have a `dist` folder created if the operation was successful.
+4. Go to google-chrome and open url `chrome://extensions/`
+5. In the upper right corner enable the developer mode:
+
+   \
+    ![Developer mode](/docs/img/dev_mode.png)
+
+6. Click load unpacked in the top-left corner:
+
+   \
+    ![Load unpacked](/docs/img/load_unpacked.png)
+
+7. Select the dist folder that was created in step 3. and enable the extension.
+
+   \
+    ![Enable extension](/docs/img/enable.png)
