@@ -1,13 +1,13 @@
 {
   "name": "browser-proxy-integration",
   "version": "1.0.0",
-  "description": "",
+  "description": "E2E tests for browser proxy",
   "main": "index.js",
   "scripts": {
     "watch": "nodemon index.js",
     "run": "node index.js"
   },
-  "author": "",
+  "author": "Vladislav Boiko",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.24.0",
