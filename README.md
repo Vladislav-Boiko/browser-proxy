@@ -64,8 +64,8 @@ For example we will override an item in the user-menu on github. It is loaded vi
     <td><b>To this</b></td>
  </tr>
  <tr>
-    <td><img alt="Github menu" src="./docs/img/github_menu.png" max-height="450px"/></td>
-    <td><img alt="Github menu overriden" src="./docs/img/gihub_menu_overriden.png" max-height="450px"/></td>
+    <td><img alt="Github menu" src="./docs/img/github_menu.png" style="max-height: 450px"/></td>
+    <td><img alt="Github menu overriden" src="./docs/img/gihub_menu_overriden.png" style="max-height: 450px""/></td>
  </tr>
 </table>
 
