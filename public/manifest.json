@@ -1,7 +1,7 @@
 {
   "short_name": "Browser proxy",
   "name": "Browser Proxy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "description": "Replace fetch, XMLHttpRequest, AJAX responses on the fly!",
   "action": {
@@ -16,7 +16,7 @@
     "192": "logo192.png",
     "512": "logo512.png"
   },
-  "permissions": ["activeTab", "storage", "tabs", "clipboardWrite"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "devtools_page": "popup.html",
   "content_scripts": [
     {
