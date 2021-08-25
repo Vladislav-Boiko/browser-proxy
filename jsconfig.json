@@ -4,6 +4,7 @@
     "allowSyntheticDefaultImports": false,
     "baseUrl": "./",
     "paths": {
+      "src/*": ["./src/*"],
       "atoms/*": ["./src/popup/components/atoms/*"],
       "molecules/*": ["./src/popup/components/molecules/*"],
       "organisms/*": ["./src/popup/components/organisms/*"],
