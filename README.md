@@ -20,7 +20,7 @@ Table of contents:
 
 First activate the extension on your desired web page:
 
-1.  ~~Install the browser-proxy chrome extension from chrome web-store.~~ Browser-proxy is not yet available in the chrome web-store (coming soon, is undergoing the review process now) [you can install it manually if you want to use it before that](#Manual-extension-installation).
+1.  Install the browser-proxy chrome extension from chrome web-store [Link](https://chrome.google.com/webstore/detail/browser-proxy/hkcmldhlcecbmbofhpnfdpfengmccjgc). Or you can install it [manually](#Manual-extension-installation) if you want to use it before that.
 2.  Go to a web page where you want to override a response.
 3.  Click on the browser-proxy-chrome extension icon in the browser upper right corner:
 
