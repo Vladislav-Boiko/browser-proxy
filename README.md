@@ -1,5 +1,7 @@
 # Browser-proxy
 
+[![Availible in chrome web store](/docs/img/web_store.png)](https://chrome.google.com/webstore/detail/browser-proxy/hkcmldhlcecbmbofhpnfdpfengmccjgc)
+
 Replace fetch, XMLHttpRequest, AJAX responses of any website on the fly without leaving the browser!
 
 Table of contents:
