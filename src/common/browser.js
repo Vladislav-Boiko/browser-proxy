@@ -3,19 +3,21 @@ let browser;
 
 try {
   if (!browser) {
-    browser =
-      window?.browser ||
-      window?.chrome ||
-      this?.browser ||
-      this?.chrome;
+    if (typeof window !== 'undefined') {
+      browser = window?.browser || window?.chrome;
+    }
+    if (!browser) {
+      browser = this?.browser || this?.chrome;
+    }
   }
 } catch (e) {
   // maybe we are a service worker
 }
 /* eslint-disable-next-line no-restricted-globals */
-if (self && !browser) {
-  /* eslint-disable-next-line no-restricted-globals */
-  browser = self?.browser ||
+if (!browser && typeof self !== 'undefined' && self) {
+  browser =
+    /* eslint-disable-next-line no-restricted-globals */
+    self?.browser ||
     /* eslint-disable-next-line no-restricted-globals */
     self?.chrome;
 }

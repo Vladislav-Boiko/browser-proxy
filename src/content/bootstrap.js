@@ -18,9 +18,11 @@ export default () => {
     if (domain?.isOn) {
       overrides.startTracking();
     }
-    window.onbeforeunload = () => {
-      pluginMessaging.emit(WINDOW_UNLOAD, WINDOW_UUID);
-    };
+    if (typeof window !== 'undefined') {
+      window.onbeforeunload = () => {
+        pluginMessaging.emit(WINDOW_UNLOAD, WINDOW_UUID);
+      };
+    }
     resolve(!!domain?.isOn);
   });
 };

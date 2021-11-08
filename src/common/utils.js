@@ -49,15 +49,15 @@ export const tryStringifyRequestBody = (value) => {
 
 let browser = null;
 try {
-  if (window.browser) {
+  if (typeof window !== 'undefined' && window.browser) {
     browser = window.browser;
   }
-} catch (e) { }
+} catch (e) {}
 try {
   if (!browser && chrome) {
     browser = chrome;
   }
-} catch (e) { }
+} catch (e) {}
 try {
   // eslint-disable-next-line no-restricted-globals
   if (!browser && self) {
@@ -65,7 +65,7 @@ try {
     // eslint-disable-next-line no-restricted-globals
     browser = self;
   }
-} catch (e) { }
+} catch (e) {}
 
 export const changeTabIcon = (tab) => {
   if (tab?.url) {

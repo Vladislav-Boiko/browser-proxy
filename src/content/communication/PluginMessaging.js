@@ -1,7 +1,12 @@
 import Messaging from '../../common/communication/Messaging';
 let browser = null;
 try {
-  browser = window.browser || window.chrome;
+  if (typeof window !== 'undefined') {
+    browser = window.browser || window.chrome;
+  } else {
+    // eslint-disable-next-line no-restricted-globals
+    browser = self;
+  }
 } catch (e) {
   // probably within service worker, we do not have window there.
   // eslint-disable-next-line no-restricted-globals
@@ -13,17 +18,13 @@ class PluginMessaging extends Messaging {
     super();
     if (browser?.runtime?.onMessage) {
       browser.runtime.onMessage.addListener((message) => {
-        this.onMessage(message)
+        this.onMessage(message);
       });
     }
   }
 
   sendMessage(message) {
-    if (
-      browser?.runtime &&
-      browser?.app &&
-      typeof browser.app.isInstalled !== 'undefined'
-    ) {
+    if (browser?.runtime && browser.runtime.sendMessage) {
       browser.runtime.sendMessage(message);
     }
   }

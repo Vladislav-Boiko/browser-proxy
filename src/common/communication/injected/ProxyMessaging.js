@@ -5,7 +5,10 @@ import { v4 as uuid } from 'uuid';
 
 let messagingBrowser = null;
 try {
-  messagingBrowser = typeof window?.postMessage === 'function' && window;
+  messagingBrowser =
+    typeof window !== 'undefined' &&
+    typeof window?.postMessage === 'function' &&
+    window;
 } catch (e) {
   // maybe we are another browser.
 }
@@ -42,7 +45,14 @@ class ProxyMessaging extends Messaging {
 
   // TODO: a better way to distinguish messages
   sendMessage(message) {
-    const destination = messagingBrowser?.location?.origin || DOMAIN;
+    let destination = messagingBrowser?.location?.origin;
+    if (!destination || destination?.trim() === 'null') {
+      // Chrome 95 made the iframes origins stored in ancestorOrigins
+      destination = messagingBrowser?.location?.ancestorOrigins?.[0];
+    }
+    if (!destination || destination?.trim() === 'null') {
+      destination = DOMAIN;
+    }
     // TODO: test it works with file:// protocol
     if (destination) {
       try {
