@@ -58,6 +58,11 @@
   text-transform: initial;
 }
 
+.request-card__url_small {
+  font-size: smaller;
+  font-weight: lighter;
+}
+
 .card-body__header {
   justify-content: space-between;
   align-items: center;

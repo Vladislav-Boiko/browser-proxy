@@ -16,42 +16,42 @@ const SplitBy = ({ text, delimiter, searchRegexp }) => {
   if (!text) {
     return '';
   }
-  const splitted = text.split(delimiter);
-  return splitted
-    .map((part) => decodeURIComponent(part))
-    .map((part, i) => (
-      <p key={`url-param-${i}`}>
-        {i === 0 ? (
-          <b className="url-param__base">{highlight(part, searchRegexp)}</b>
-        ) : (
-          <React.Fragment>
-            <span className="url-param__key">
-              {highlight(part.split('=')[0], searchRegexp)}
-            </span>{' '}
-            ={' '}
-            <span className="url-param__value">
-              {highlight(part.split('=')[1], searchRegexp)}
-            </span>
-          </React.Fragment>
-        )}
-        {highlight(
-          i !== splitted.length - 1 && (i === 0 ? '?' : ' &'),
-          searchRegexp,
-        )}
-      </p>
-    ));
+  const splitted = decodeURIComponent(text).split(delimiter);
+  return splitted.map((part, i) => (
+    <p key={`url-param-${i}`}>
+      {i === 0 ? (
+        <b className="url-param__base">{highlight(part, searchRegexp)}</b>
+      ) : (
+        <React.Fragment>
+          <span className="url-param__key">
+            {highlight(part.split('=')[0], searchRegexp)}
+          </span>{' '}
+          ={' '}
+          <span className="url-param__value">
+            {highlight(part.split('=')[1], searchRegexp)}
+          </span>
+        </React.Fragment>
+      )}
+      {highlight(
+        i !== splitted.length - 1 && (i === 0 ? '?' : ' &'),
+        searchRegexp,
+      )}
+    </p>
+  ));
 };
 
 const stripURL = (url = '') => {
   const chunks = url.split('?')[0].split('/');
-  let lastPart = chunks[chunks.length - 1];
   if (chunks.length > 1 && chunks[chunks.length - 2]) {
-    lastPart = chunks[chunks.length - 2] + '/' + lastPart;
+    const lastPart = [chunks.pop()];
+    lastPart.push(chunks.pop());
+    return { firstPart: chunks.join('/') + '/', lastPart: lastPart.join('/') };
   }
-  if (lastPart.length > 20) {
-    lastPart = lastPart.slice(-20);
-  }
-  return lastPart;
+  const lastPart = chunks.pop();
+  return {
+    firstPart: chunks.join('/') + '/',
+    lastPart,
+  };
 };
 
 const LOADING_STATES = {
@@ -87,7 +87,7 @@ const RequestCard = ({
   const doOverride = (id) => {
     onClick &&
       onClick({
-        name: stripURL(url),
+        name: stripURL(decodeURIComponent(url)).lastPart,
         url,
         responseCode,
         method,
@@ -128,7 +128,20 @@ const RequestCard = ({
         onClick={() => setIsOpen(true)}
       >
         <h3 className="request-card__url">
-          {highlight(stripURL(url), searchRegexp)}
+          {stripURL(decodeURIComponent(url)).firstPart && (
+            <span className="request-card__url_small">
+              {highlight(
+                stripURL(decodeURIComponent(url)).firstPart,
+                searchRegexp,
+              )}
+            </span>
+          )}
+          <b>
+            {highlight(
+              stripURL(decodeURIComponent(url)).lastPart,
+              searchRegexp,
+            )}
+          </b>
         </h3>
         {loadingState === LOADING_STATES.LOADED && (
           <Pill
