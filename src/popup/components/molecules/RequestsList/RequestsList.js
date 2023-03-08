@@ -6,29 +6,35 @@ import Pagination from 'atoms/Pagination/Pagination';
 import './RequestsList.css';
 import { usePrevious } from 'app/hooks/usePrevious';
 import AggregatedRequestCard from '../AggregatedRequestCard/AggregatedRequestCard';
+import Pill from '../../atoms/Pill/Pill';
+import Icons from '../../atoms/Icons/Icons';
+import Switch from '../../atoms/Switch/Switch';
 
 // TODO: refactor to Allow list
 const KEY_SEARCH_BLOCK_LIST = {
   responseType: 'responseType',
 };
 
-const filterRequests = (searchRegexp, requests) => {
-  if (!searchRegexp) {
-    return [];
-  }
-  try {
-    return requests.filter((item) => {
+const filterRequests = (tokens, requests) => {
+  let filteredRequests = requests;
+  for (let token of tokens.filter((t) => !!t && !!t.value)) {
+    const isNegation = token.negation;
+    let searchRegexp = null;
+    try {
+      searchRegexp = new RegExp(token.value);
+    } catch (e) {
+      // // handled in validation
+    }
+    filteredRequests = filteredRequests.filter((item) => {
       for (let key of Object.keys(item)) {
         if (!(key in KEY_SEARCH_BLOCK_LIST) && searchRegexp.test(item[key])) {
-          return true;
+          return !isNegation;
         }
       }
-      return false;
+      return isNegation;
     });
-  } catch (e) {
-    // handled in validation
   }
-  return [];
+  return filteredRequests;
 };
 
 const ITEMS_PER_PAGE = 40;
@@ -44,11 +50,18 @@ const getPageSlice = (requests, currentPage) =>
 const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
   const requests = otherProps.requests ? [...otherProps.requests] : [];
   const [searchValue, setSearchValue] = useState('');
+  const [searchTokens, setSearchTokens] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  let searchRegexp = null;
+  const [negateFilter, setNegateFilter] = useState(false);
   let hasValidSearch = true;
+  let searchRegexp = null;
   try {
-    searchRegexp = new RegExp(searchValue);
+    searchRegexp = new RegExp(
+      searchTokens
+        .filter(({ negation }) => !negation)
+        .map(({ value }) => value)
+        .join('|'),
+    );
   } catch (e) {
     hasValidSearch = false;
   }
@@ -60,7 +73,7 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
   );
   const currentFirstItem = sortedRequests?.length && sortedRequests[0]?.id;
   const shallAnimateFirstItem = lastFirstItem !== currentFirstItem;
-  const filteredItems = filterRequests(searchRegexp, sortedRequests);
+  const filteredItems = filterRequests(searchTokens, sortedRequests);
   const aggregated = aggregateFiltered(filteredItems);
   const totalPages = Math.ceil(
     aggregated?.length ? aggregated?.length / ITEMS_PER_PAGE : 0,
@@ -75,7 +88,21 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
           label="Search"
           className="requests-list__search-input"
           value={searchValue}
-          onChange={(newValue) => setSearchValue(newValue)}
+          onChange={(newValue) => {
+            const copy = [...searchTokens];
+            copy.pop();
+            setSearchValue(newValue);
+            setSearchTokens([
+              ...copy,
+              { value: newValue, negation: negateFilter },
+            ]);
+          }}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              setSearchTokens([...searchTokens, '']);
+              setSearchValue('');
+            }
+          }}
           validate={() => (!hasValidSearch ? 'Is not a valid regexp' : null)}
         />
         {/* <Button className="ml3 requests-list__filter-button" secondary>
@@ -83,7 +110,43 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
           Filter
         </Button> */}
       </div>
-      <div className="requests-list__filters"></div>
+      <div className="filter-switch mt1 mb1">
+        <Switch
+          onChange={() => {
+            const copy = [...searchTokens];
+            const old = copy.pop();
+            const newValue = old?.newValue ?? searchValue;
+            setNegateFilter(!negateFilter);
+            setSearchTokens([
+              ...copy,
+              { value: newValue, negation: !negateFilter },
+            ]);
+          }}
+        />
+        Negate filter
+      </div>
+      <div className="requests-list__filters mt2">
+        {searchTokens.map(
+          (token, index) =>
+            token.value && (
+              <Pill
+                key={index}
+                onClick={() => {
+                  const copy = [...searchTokens];
+                  copy.splice(index, 1);
+                  setSearchTokens(copy);
+                }}
+                text={
+                  <>
+                    {token.negation && 'NOT: '}
+                    {token.value}
+                    <Icons.Cross className="icon_sm ml1" />
+                  </>
+                }
+              />
+            ),
+        )}
+      </div>
       <div className="requests-list__requests mt6">
         {aggregated &&
           getPageSlice(aggregated, displayedPage).map((request, id) =>

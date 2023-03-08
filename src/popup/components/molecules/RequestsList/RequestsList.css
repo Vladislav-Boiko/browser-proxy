@@ -7,3 +7,17 @@
   display: flex;
   align-items: center;
 }
+
+.filter-switch {
+  display: flex;
+  flex-flow: row;
+  column-gap: var(--em);
+  align-items: center;
+}
+
+.requests-list__filters {
+  display: flex;
+  flex-flow: row;
+  column-gap: var(--em);
+  row-gap: var(--em);
+}

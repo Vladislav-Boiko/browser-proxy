@@ -8,6 +8,17 @@
   padding-left: calc(var(--em) * 2);
   padding-right: calc(var(--em) * 2);
   box-sizing: border-box;
+  border: none;
+}
+
+.pill.pill_button {
+  cursor: pointer;
+  height: 28px;
+}
+
+.pill.pill_button:hover {
+  background-color: var(--g5);
+  color: var(--accent);
 }
 
 .pill_error {
