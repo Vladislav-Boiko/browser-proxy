@@ -5,6 +5,7 @@ import Input from 'atoms/Input/Input';
 import Pagination from 'atoms/Pagination/Pagination';
 import './RequestsList.css';
 import { usePrevious } from 'app/hooks/usePrevious';
+import AggregatedRequestCard from '../AggregatedRequestCard/AggregatedRequestCard';
 
 // TODO: refactor to Allow list
 const KEY_SEARCH_BLOCK_LIST = {
@@ -30,7 +31,7 @@ const filterRequests = (searchRegexp, requests) => {
   return [];
 };
 
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 40;
 
 const getPageSlice = (requests, currentPage) =>
   requests
@@ -60,8 +61,9 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
   const currentFirstItem = sortedRequests?.length && sortedRequests[0]?.id;
   const shallAnimateFirstItem = lastFirstItem !== currentFirstItem;
   const filteredItems = filterRequests(searchRegexp, sortedRequests);
+  const aggregated = aggregateFiltered(filteredItems);
   const totalPages = Math.ceil(
-    filteredItems?.length ? filteredItems?.length / ITEMS_PER_PAGE : 0,
+    aggregated?.length ? aggregated?.length / ITEMS_PER_PAGE : 0,
   );
   const displayedPage = Math.min(totalPages, Math.max(0, currentPage));
   return (
@@ -83,12 +85,21 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
       </div>
       <div className="requests-list__filters"></div>
       <div className="requests-list__requests mt6">
-        {requests &&
-          getPageSlice(filteredItems, displayedPage)
-            .map((request, id) => (request.id ? request : { ...request, id }))
-            .map((request) => (
+        {aggregated &&
+          getPageSlice(aggregated, displayedPage).map((request, id) =>
+            Array.isArray(request) ? (
+              <AggregatedRequestCard
+                requests={request}
+                onSelect={onSelect}
+                onAnalyse={onAnalyse}
+                shallAnimateFirstItem={shallAnimateFirstItem}
+                searchRegexp={searchRegexp}
+                currentFirstItem={currentFirstItem}
+              />
+            ) : (
               <RequestCard
                 {...request}
+                id={request.id ?? id}
                 className="mb2"
                 key={request.id}
                 onClick={onSelect}
@@ -98,7 +109,8 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
                   shallAnimateFirstItem && request.id === currentFirstItem
                 }
               />
-            ))}
+            ),
+          )}
         <Pagination
           totalPages={totalPages}
           currentPage={displayedPage}
@@ -107,6 +119,32 @@ const RequestsList = ({ className, onSelect, onAnalyse, ...otherProps }) => {
       </div>
     </div>
   );
+};
+
+const aggregateFiltered = (filteredItems) => {
+  let result = [];
+  for (let item of filteredItems) {
+    const prev = result.pop();
+    if (Array.isArray(prev)) {
+      if (prev[0]?.url === item?.url) {
+        prev.push(item);
+        result.push(prev);
+        continue;
+      }
+      result.push(prev);
+      result.push(item);
+    } else {
+      if (prev?.url === item?.url) {
+        result.push([prev, item]);
+      } else {
+        if (prev) {
+          result.push(prev);
+        }
+        result.push(item);
+      }
+    }
+  }
+  return result;
 };
 
 export default RequestsList;

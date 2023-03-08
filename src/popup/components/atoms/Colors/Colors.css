@@ -5,6 +5,7 @@ body {
   --c4: #b4bff4;
   --c5: #e7eaf7;
   --c6: #d3daf7;
+  --c7: #f2f3f6;
   --white: white;
   --black: black;
   --g1: #242530;
@@ -37,6 +38,10 @@ body {
 
 .c5-bg {
   background-color: var(--c5);
+}
+
+.c6-bg {
+  background-color: var(--c7);
 }
 
 .white-bg {

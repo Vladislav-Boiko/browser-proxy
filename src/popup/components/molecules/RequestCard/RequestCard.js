@@ -41,17 +41,34 @@ const SplitBy = ({ text, delimiter, searchRegexp }) => {
 };
 
 const stripURL = (url = '') => {
-  const chunks = url.split('?')[0].split('/');
-  if (chunks.length > 1 && chunks[chunks.length - 2]) {
-    const lastPart = [chunks.pop()];
-    lastPart.push(chunks.pop());
-    return { firstPart: chunks.join('/') + '/', lastPart: lastPart.join('/') };
+  if (url.length < 30) {
+    return { firstPart: '', lastPart: url };
   }
-  const lastPart = chunks.pop();
-  return {
-    firstPart: chunks.join('/') + '/',
-    lastPart,
-  };
+  try {
+    const parsed = URL(url);
+    return {
+      firstPart: parsed.origin + ' ',
+      lastPart:
+        parsed.pathname?.substring(0, 20) + parsed.pathname?.length > 20
+          ? '...'
+          : '',
+    };
+  } catch (e) {
+    const chunks = url.split('?')[0].split('=')[0].split('/');
+    if (chunks.length > 1 && chunks[chunks.length - 2]) {
+      const lastPart = [chunks.pop()];
+      lastPart.push(chunks.pop());
+      return {
+        firstPart: chunks.join('/') + '/',
+        lastPart: lastPart.join('/'),
+      };
+    }
+    const lastPart = chunks.pop();
+    return {
+      firstPart: chunks.join('/') + '/',
+      lastPart,
+    };
+  }
 };
 
 const LOADING_STATES = {
@@ -127,22 +144,7 @@ const RequestCard = ({
         })}
         onClick={() => setIsOpen(true)}
       >
-        <h3 className="request-card__url">
-          {stripURL(decodeURIComponent(url)).firstPart && (
-            <span className="request-card__url_small">
-              {highlight(
-                stripURL(decodeURIComponent(url)).firstPart,
-                searchRegexp,
-              )}
-            </span>
-          )}
-          <b>
-            {highlight(
-              stripURL(decodeURIComponent(url)).lastPart,
-              searchRegexp,
-            )}
-          </b>
-        </h3>
+        <RequestCardUrl url={url} searchRegexp={searchRegexp}></RequestCardUrl>
         {loadingState === LOADING_STATES.LOADED && (
           <Pill
             text={responseCode}
@@ -236,5 +238,16 @@ const RequestCard = ({
     </AnimatePresence>
   );
 };
+
+export const RequestCardUrl = ({ url, searchRegexp, className }) => (
+  <h3 className={cn(className, 'request-card__url')}>
+    {stripURL(decodeURIComponent(url)).firstPart && (
+      <span className="request-card__url_small">
+        {highlight(stripURL(decodeURIComponent(url)).firstPart, searchRegexp)}
+      </span>
+    )}
+    <b>{highlight(stripURL(decodeURIComponent(url)).lastPart, searchRegexp)}</b>
+  </h3>
+);
 
 export default RequestCard;

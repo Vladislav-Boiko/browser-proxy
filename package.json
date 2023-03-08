@@ -11,6 +11,7 @@
     "identity-obj-proxy": "3.0.0",
     "immutableql": "^1.1.1",
     "micromatch": "^4.0.4",
+    "prismjs": "^1.29.0",
     "react": "^16.14.0",
     "react-app-polyfill": "^1.0.6",
     "react-cool-dimensions": "^2.0.3",
@@ -21,6 +22,7 @@
     "react-highlight-words": "^0.17.0",
     "react-merge-refs": "^1.1.0",
     "react-redux": "^7.2.3",
+    "react-simple-code-editor": "^0.13.1",
     "react-textarea-autosize": "^8.3.2",
     "redux": "^4.0.5",
     "uuid": "^8.3.2"

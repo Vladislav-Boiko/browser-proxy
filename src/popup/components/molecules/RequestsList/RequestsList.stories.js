@@ -21,6 +21,22 @@ const requests = [
     id: 'test',
   },
   {
+    method: 'GET',
+    url: 'http://yandex.ru',
+    responseCode: '200',
+    responseType: TYPES.JSON,
+    isProxied: true,
+    id: 'test',
+  },
+  {
+    method: 'GET',
+    url: 'http://yandex.ru',
+    responseCode: '300',
+    responseType: TYPES.JSON,
+    isProxied: true,
+    id: 'test',
+  },
+  {
     method: 'POST',
     url: 'http://google.com',
     responseCode: '500',

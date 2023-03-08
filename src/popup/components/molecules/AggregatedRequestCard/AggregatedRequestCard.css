@@ -1,0 +1,22 @@
+.aggregated-requests {
+  position: relative;
+  border: 2px solid var(--c5);
+  padding: var(--em) calc(var(--em) * 2);
+  display: flex;
+  flex-flow: column;
+  border-radius: var(--em);
+  background-color: white;
+  cursor: pointer;
+  word-break: break-all;
+  margin-bottom: calc(var(--em) * 2);
+}
+
+.aggregated-requests__header{
+  margin-bottom: calc(var(--em) * 2);
+}
+
+.aggregated-requests__top {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}

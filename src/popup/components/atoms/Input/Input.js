@@ -7,12 +7,36 @@ import './Input.css';
 import { ResetButton } from 'atoms/Button/ResetButton';
 import SuccessButton from 'atoms/Button/SuccessButton';
 import browser from 'src/common/browser';
+import PrismInput from '../../molecules/Body/PrismInput/PrismInput';
 
-const InputType = ({ multiline, ...otherProps }) => {
-  return !multiline ? (
-    <input {...otherProps} value={otherProps.value ?? ''} />
-  ) : (
-    <TextareaAutosize minRows="3" maxRows="12" {...otherProps} />
+const InputType = ({ multiline, className, ...otherProps }) => {
+  if (!multiline) {
+    return (
+      <input
+        {...otherProps}
+        value={otherProps.value ?? ''}
+        className={cn(className, 'c5-bg')}
+      />
+    );
+  }
+  if (otherProps.language) {
+    return (
+      <div {...otherProps} className={cn(className, 'c6-bg')}>
+        <PrismInput
+          language={otherProps.language}
+          code={otherProps.value ?? ''}
+          onChange={otherProps.onChange}
+        />
+      </div>
+    );
+  }
+  return (
+    <TextareaAutosize
+      minRows="3"
+      maxRows="12"
+      {...otherProps}
+      className={cn(className, 'c5-bg')}
+    />
   );
 };
 
@@ -44,7 +68,7 @@ const Input = ({
         isShifted={!!label}
       />
       <InputType
-        className={cn('input label_weak c5-bg px2 py1', {
+        className={cn('input label_weak px2 py1', {
           input_invalid: !!validationError,
           input_multiline: multiline,
         })}
