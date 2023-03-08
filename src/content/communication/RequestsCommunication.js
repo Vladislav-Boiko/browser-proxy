@@ -62,7 +62,7 @@ class RequestsCommunication {
     proxyMessaging.subscribe([XHR_SENT, FETCH_SENT], (message) => {
       this.requests.push(message);
       pluginMessaging.emit(REQUESTS_UPDATED, {
-        [this.windowId]: this.requests,
+        [this.windowId]: [message],
       });
     });
   }
@@ -82,7 +82,7 @@ class RequestsCommunication {
           Object.assign(request, message);
         }
         pluginMessaging.emit(REQUESTS_UPDATED, {
-          [this.windowId]: this.requests,
+          [this.windowId]: [request],
         });
       },
     );
