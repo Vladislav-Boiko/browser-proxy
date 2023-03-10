@@ -48,7 +48,7 @@ const AggregatedRequestCard = ({
         Icon={isExpanded ? Icons.Cross : Icons.Add}
         onClick={() => setExpanded(!isExpanded)}
       >
-        {`${requests.length} Subsequent Requests `}
+        {`${requests.length} Requests `}
       </Button>
       {isExpanded &&
         requests.map((request, id) => (

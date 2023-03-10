@@ -57,7 +57,7 @@ const stripURL = (url = '') => {
     const chunks = url.split('?')[0].split('=')[0].split('/');
     if (chunks.length > 1 && chunks[chunks.length - 2]) {
       const lastPart = [chunks.pop()];
-      lastPart.push(chunks.pop());
+      lastPart.unshift(chunks.pop());
       return {
         firstPart: chunks.join('/') + '/',
         lastPart: lastPart.join('/'),

@@ -15,7 +15,7 @@ const PrismInput = ({ code, language, onChange }) => {
       value={code}
       onValueChange={(code) => onChange(code)}
       highlight={(code) => hightlightWithLineNumbers(code, language)}
-      padding={10}
+      padding={20}
       style={{
         fontFamily: '"Fira code", "Fira Mono", monospace',
         // fontSize: 16,
