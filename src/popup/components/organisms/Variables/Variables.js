@@ -22,6 +22,9 @@ const Variables = ({ onVariablesChange, initialVariables }) => {
     variablesCopy = variablesCopy.filter(
       ({ name, value }) => !!name || !!value,
     );
+    if (!variablesCopy.length) {
+      variablesCopy = DEFAULT_VARIABLES();
+    }
     setVariables(variablesCopy);
     onVariablesChange && onVariablesChange(variablesCopy);
   };
