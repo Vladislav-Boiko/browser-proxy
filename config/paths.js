@@ -6,7 +6,7 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
-const appDirectory = fs.realpathSync(process.cwd());
+const appDirectory = fs.realpathSync(process?.cwd() ?? './');
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 const resolvePopup = (relativePath) =>
   path.resolve(appDirectory, 'src', 'popup', relativePath);
@@ -24,9 +24,9 @@ const resolveBackground = (relativePath) =>
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
-  process.env.NODE_ENV === 'development',
+  process?.env.NODE_ENV === 'development',
   require(resolveApp('package.json')).homepage,
-  process.env.PUBLIC_URL,
+  process?.env.PUBLIC_URL,
 );
 
 const moduleFileExtensions = [

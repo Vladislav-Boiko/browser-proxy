@@ -158,3 +158,8 @@
 .button.copy-value:hover .icon_md {
   transform: none;
 }
+
+.prism-input {
+  max-height: 80vw;
+  overflow-y: scroll;
+}

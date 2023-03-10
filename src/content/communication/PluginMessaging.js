@@ -3,6 +3,9 @@ let browser = null;
 try {
   if (typeof window !== 'undefined') {
     browser = window.browser || window.chrome;
+    if (!('process' in window)) {
+      window.process = {};
+    }
   } else {
     // eslint-disable-next-line no-restricted-globals
     browser = self;

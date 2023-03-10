@@ -4,6 +4,9 @@ let browser = null;
 try {
   if (typeof window !== 'undefined') {
     browser = window.browser || window.chrome;
+    if (!('process' in window)) {
+      window.process = {};
+    }
   }
 } catch (e) {
   // probably within service worker, we do not have window there.

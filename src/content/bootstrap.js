@@ -22,6 +22,9 @@ export default () => {
       window.onbeforeunload = () => {
         pluginMessaging.emit(WINDOW_UNLOAD, WINDOW_UUID);
       };
+      if (!('process' in window)) {
+        window.process = {};
+      }
     }
     resolve(!!domain?.isOn);
   });

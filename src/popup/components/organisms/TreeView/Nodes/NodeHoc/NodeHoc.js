@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
-import mergeRefs from 'react-merge-refs';
+import { mergeRefs } from 'react-merge-refs';
 import { DND_TYPES } from '../../TreeViewDnD';
 import { TYPES } from 'organisms/TreeView/Nodes/index';
 import Icons from 'atoms/Icons/Icons';

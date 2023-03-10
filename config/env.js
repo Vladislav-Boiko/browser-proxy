@@ -10,18 +10,18 @@ delete require.cache[require.resolve('./paths')];
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error(
-    'The NODE_ENV environment variable is required but was not specified.'
+    'The NODE_ENV environment variable is required but was not specified.',
   );
 }
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
-  `${paths.dotenv}.${NODE_ENV}`,
   // Don't include `.env.local` for `test` environment
   // since normally you expect tests to produce the same
   // results for everyone
   NODE_ENV !== 'test' && `${paths.dotenv}.local`,
+  `${paths.dotenv}.${NODE_ENV}`,
   paths.dotenv,
 ].filter(Boolean);
 
@@ -30,12 +30,12 @@ const dotenvFiles = [
 // that have already been set.  Variable expansion is supported in .env files.
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
-dotenvFiles.forEach(dotenvFile => {
+dotenvFiles.forEach((dotenvFile) => {
   if (fs.existsSync(dotenvFile)) {
     require('dotenv-expand')(
       require('dotenv').config({
         path: dotenvFile,
-      })
+      }),
     );
   }
 });
@@ -49,11 +49,11 @@ dotenvFiles.forEach(dotenvFile => {
 // Otherwise, we risk importing Node.js core modules into an app instead of webpack shims.
 // https://github.com/facebook/create-react-app/issues/1023#issuecomment-265344421
 // We also resolve them to make sure all tools using them work consistently.
-const appDirectory = fs.realpathSync(process.cwd());
-process.env.NODE_PATH = (process.env.NODE_PATH || '')
+const appDirectory = fs.realpathSync(process?.cwd() ?? './');
+process.env.NODE_PATH = (process?.env.NODE_PATH || '')
   .split(path.delimiter)
-  .filter(folder => folder && !path.isAbsolute(folder))
-  .map(folder => path.resolve(appDirectory, folder))
+  .filter((folder) => folder && !path.isAbsolute(folder))
+  .map((folder) => path.resolve(appDirectory, folder))
   .join(path.delimiter);
 
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
@@ -61,17 +61,17 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
 const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
-  const raw = Object.keys(process.env)
-    .filter(key => REACT_APP.test(key))
+  const raw = Object.keys(process?.env)
+    .filter((key) => REACT_APP.test(key))
     .reduce(
       (env, key) => {
-        env[key] = process.env[key];
+        env[key] = process?.env[key];
         return env;
       },
       {
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
-        NODE_ENV: process.env.NODE_ENV || 'development',
+        NODE_ENV: process?.env.NODE_ENV || 'development',
         // Useful for resolving the correct path to static assets in `public`.
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put
@@ -82,10 +82,13 @@ function getClientEnvironment(publicUrl) {
         // They are used as the connection `hostname`, `pathname` and `port`
         // in webpackHotDevClient. They are used as the `sockHost`, `sockPath`
         // and `sockPort` options in webpack-dev-server.
-        WDS_SOCKET_HOST: process.env.WDS_SOCKET_HOST,
-        WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
-        WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
-      }
+        WDS_SOCKET_HOST: process?.env.WDS_SOCKET_HOST,
+        WDS_SOCKET_PATH: process?.env.WDS_SOCKET_PATH,
+        WDS_SOCKET_PORT: process?.env.WDS_SOCKET_PORT,
+        // Whether or not react-refresh is enabled.
+        // It is defined here so it is available in the webpackHotDevClient.
+        FAST_REFRESH: process?.env.FAST_REFRESH !== 'false',
+      },
     );
   // Stringify all values so we can feed into webpack DefinePlugin
   const stringified = {

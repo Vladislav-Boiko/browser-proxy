@@ -5,6 +5,9 @@ try {
   if (!browser) {
     if (typeof window !== 'undefined') {
       browser = window?.browser || window?.chrome;
+      if (!('process' in window)) {
+        window.process = {};
+      }
     }
     if (!browser) {
       browser = this?.browser || this?.chrome;
@@ -22,4 +25,8 @@ if (!browser && typeof self !== 'undefined' && self) {
     self?.chrome;
 }
 
-export default browser ?? {};
+if (!('process' in browser)) {
+  browser.process = {};
+}
+
+export default browser ?? { process: {} };

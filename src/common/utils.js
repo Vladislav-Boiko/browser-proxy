@@ -51,6 +51,9 @@ let browser = null;
 try {
   if (typeof window !== 'undefined' && window.browser) {
     browser = window.browser;
+    if (!('process' in window)) {
+      window.process = {};
+    }
   }
 } catch (e) {}
 try {
@@ -64,6 +67,9 @@ try {
     // probably within service worker, we do not have window there.
     // eslint-disable-next-line no-restricted-globals
     browser = self;
+  }
+  if (!('process' in browser)) {
+    browser.process = {};
   }
 } catch (e) {}
 

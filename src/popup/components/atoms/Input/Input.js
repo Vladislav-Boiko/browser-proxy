@@ -21,7 +21,7 @@ const InputType = ({ multiline, className, ...otherProps }) => {
   }
   if (otherProps.language) {
     return (
-      <div {...otherProps} className={cn(className, 'g7-bg')}>
+      <div {...otherProps} className={cn(className, 'g7-bg prism-input')}>
         <PrismInput
           language={otherProps.language}
           code={otherProps.value ?? ''}
