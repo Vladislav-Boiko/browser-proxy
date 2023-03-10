@@ -20,3 +20,7 @@
   flex-flow: row;
   justify-content: space-between;
 }
+
+.request-card__pill_aggregated {
+  flex: none;
+}

@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-const stripTrailingSlash = (str) =>
+const stripTrailingSlash = (str = '') =>
   str.endsWith('/') ? str.slice(0, -1) : str;
 
 export const WINDOW_UUID = uuid();

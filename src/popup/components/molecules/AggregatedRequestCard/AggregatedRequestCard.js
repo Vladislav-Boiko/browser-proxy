@@ -36,7 +36,7 @@ const AggregatedRequestCard = ({
           searchRegexp={searchRegexp}
         />
         <Pill
-          className={cn('request-card__pill', {
+          className={cn('request-card__pill request-card__pill_aggregated', {
             pill_error: hasError,
           })}
           text={responseCode}
