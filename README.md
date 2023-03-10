@@ -6,17 +6,18 @@ Replace fetch, XMLHttpRequest, AJAX responses of any website on the fly without 
 
 Table of contents:
 
-- [Quick start](#Quick-start)
-- [Overriding responses](#Overriding-responses)
-  - [Overriding an existing request](#Overriding-an-existing-request)
-  - [Creating a new Override](#Creating-a-new-Override)
-    - [Matching the request to be overriden](#Matching-the-request-to-be-overriden)
-    - [Changing the response of a request](#Changing-the-response-of-a-request)
-- [Using variables for RegExp matching](#Using-variables-for-RegExp-matching)
-- [Overrides priority](#Overrides-priority)
-- [Import/Export and sharing overrides](#ImportExport-and-sharing-overrides)
-- [Troubleshooting](#Troubleshooting)
-- [Manual extension installation](#Manual-extension-installation)
+- [Browser-proxy](#browser-proxy)
+  - [🚀 Quick start](#-quick-start)
+  - [Overriding responses](#overriding-responses)
+    - [Overriding an existing request](#overriding-an-existing-request)
+    - [Creating a new Override](#creating-a-new-override)
+      - [**Matching the request to be overriden**](#matching-the-request-to-be-overriden)
+      - [**Changing the response of a request**](#changing-the-response-of-a-request)
+  - [Using variables for RegExp matching](#using-variables-for-regexp-matching)
+  - [Overrides priority](#overrides-priority)
+  - [Import/Export and sharing overrides](#importexport-and-sharing-overrides)
+  - [Troubleshooting](#troubleshooting)
+  - [Manual extension installation](#manual-extension-installation)
 
 ## 🚀 Quick start
 
@@ -24,10 +25,10 @@ First activate the extension on your desired web page:
 
 1.  Install the browser-proxy chrome extension from chrome web-store [Link](https://chrome.google.com/webstore/detail/browser-proxy/hkcmldhlcecbmbofhpnfdpfengmccjgc). Or you can install it [manually](#Manual-extension-installation) if you want to use it before that.
 2.  Go to a web page where you want to override a response.
-3.  Click on the browser-proxy-chrome extension icon in the browser upper right corner:
+3.  Go to the dev-tools and there select the "browser-proxy tab" (in case you don't see it, check the three dots and the end of the tabs):
 
     \
-     ![Extension icon](/docs/img/extension_icon.png)
+     ![Extension in dev-tools](/docs/img/dev_tools.png)
 
 4.  Click on the Enable button:
 
@@ -50,7 +51,7 @@ You can either change a response of an existing request, or mock a completely ne
 First open the the extension on the desired site ([how?](#Quick-start))
 
 > 💡 **Hint** \
-> Instead of always opening browser-proxy through the extension icon, you can open it in the developer tools. To open it open the Chrome Menu in the upper-right-hand corner of the browser window and select More Tools > Developer Tools, or use Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux). There you shall be a tab 'browser-proxy', where you can access the extension.
+> Browser-proxy might not always work through the extension icon in the extensions section, you can open it in the developer tools. To open it open the Chrome Menu in the upper-right-hand corner of the browser window and select More Tools > Developer Tools, or use Option + ⌘ + J (on macOS), or Shift + CTRL + J (on Windows/Linux). There you shall be a tab 'browser-proxy', where you can access the extension.
 >
 > ![Extension in dev-tools](/docs/img/dev_tools.png)
 
